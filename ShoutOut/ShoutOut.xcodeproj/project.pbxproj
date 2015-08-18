@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC0423911B8388B700AE6755 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC0423901B8388B700AE6755 /* Parse.framework */; };
+		DC0423931B8388DA00AE6755 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC0423921B8388DA00AE6755 /* ParseUI.framework */; };
+		DC0423951B838BC800AE6755 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC0423941B838BC800AE6755 /* Bolts.framework */; };
+		DC649CA21B837B5000F49717 /* DefaultSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC649CA11B837B5000F49717 /* DefaultSettingsViewController.m */; };
+		DC649CA51B837B6F00F49717 /* PropertyConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC649CA41B837B6F00F49717 /* PropertyConfigViewController.m */; };
 		DC9357101B7D2EF50096AA26 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC93570F1B7D2EF50096AA26 /* main.m */; };
 		DC9357131B7D2EF50096AA26 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9357121B7D2EF50096AA26 /* AppDelegate.m */; };
 		DC9357161B7D2EF50096AA26 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9357151B7D2EF50096AA26 /* ViewController.m */; };
@@ -15,8 +20,6 @@
 		DC93571E1B7D2EF50096AA26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC93571C1B7D2EF50096AA26 /* LaunchScreen.storyboard */; };
 		DC9357291B7D2EF50096AA26 /* ShoutOutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9357281B7D2EF50096AA26 /* ShoutOutTests.m */; };
 		DC9357341B7D2EF50096AA26 /* ShoutOutUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9357331B7D2EF50096AA26 /* ShoutOutUITests.m */; };
-		DCA23A9D1B81141800C3E784 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA23A9B1B81141800C3E784 /* Bolts.framework */; };
-		DCA23A9E1B81141800C3E784 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA23A9C1B81141800C3E784 /* Parse.framework */; };
 		DCA23AA21B81147700C3E784 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA23AA11B81147700C3E784 /* AudioToolbox.framework */; };
 		DCA23AA41B81148100C3E784 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA23AA31B81148100C3E784 /* CFNetwork.framework */; };
 		DCA23AA61B81148B00C3E784 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA23AA51B81148B00C3E784 /* CoreGraphics.framework */; };
@@ -49,6 +52,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC0423901B8388B700AE6755 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		DC0423921B8388DA00AE6755 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		DC0423941B838BC800AE6755 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		DC649CA01B837B5000F49717 /* DefaultSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultSettingsViewController.h; path = ../../../../../../../Documents/DefaultSettingsViewController.h; sourceTree = "<group>"; };
+		DC649CA11B837B5000F49717 /* DefaultSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultSettingsViewController.m; path = ../../../../../../../Documents/DefaultSettingsViewController.m; sourceTree = "<group>"; };
+		DC649CA31B837B6F00F49717 /* PropertyConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyConfigViewController.h; sourceTree = "<group>"; };
+		DC649CA41B837B6F00F49717 /* PropertyConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyConfigViewController.m; sourceTree = "<group>"; };
 		DC93570B1B7D2EF50096AA26 /* ShoutOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoutOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC93570F1B7D2EF50096AA26 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DC9357111B7D2EF50096AA26 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -65,8 +75,6 @@
 		DC93572F1B7D2EF50096AA26 /* ShoutOutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShoutOutUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC9357331B7D2EF50096AA26 /* ShoutOutUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoutOutUITests.m; sourceTree = "<group>"; };
 		DC9357351B7D2EF50096AA26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DCA23A9B1B81141800C3E784 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		DCA23A9C1B81141800C3E784 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		DCA23AA11B81147700C3E784 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DCA23AA31B81148100C3E784 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		DCA23AA51B81148B00C3E784 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -86,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC0423951B838BC800AE6755 /* Bolts.framework in Frameworks */,
 				DCA23AB81B81150900C3E784 /* Social.framework in Frameworks */,
 				DCA23AB61B81150200C3E784 /* Accounts.framework in Frameworks */,
 				DCA23AB41B8114EC00C3E784 /* libsqlite3.dylib in Frameworks */,
@@ -96,10 +105,10 @@
 				DCA23AAA1B81149D00C3E784 /* QuartzCore.framework in Frameworks */,
 				DCA23AA81B81149400C3E784 /* CoreLocation.framework in Frameworks */,
 				DCA23AA61B81148B00C3E784 /* CoreGraphics.framework in Frameworks */,
+				DC0423911B8388B700AE6755 /* Parse.framework in Frameworks */,
 				DCA23AA41B81148100C3E784 /* CFNetwork.framework in Frameworks */,
+				DC0423931B8388DA00AE6755 /* ParseUI.framework in Frameworks */,
 				DCA23AA21B81147700C3E784 /* AudioToolbox.framework in Frameworks */,
-				DCA23A9E1B81141800C3E784 /* Parse.framework in Frameworks */,
-				DCA23A9D1B81141800C3E784 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +129,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DC649C9D1B837AF700F49717 /* Property Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				DC649CA31B837B6F00F49717 /* PropertyConfigViewController.h */,
+				DC649CA41B837B6F00F49717 /* PropertyConfigViewController.m */,
+			);
+			name = "Property Configuration";
+			sourceTree = "<group>";
+		};
+		DC649C9F1B837B1500F49717 /* Default Settings */ = {
+			isa = PBXGroup;
+			children = (
+				DC649CA01B837B5000F49717 /* DefaultSettingsViewController.h */,
+				DC649CA11B837B5000F49717 /* DefaultSettingsViewController.m */,
+			);
+			name = "Default Settings";
+			sourceTree = "<group>";
+		};
 		DC9357021B7D2EF50096AA26 = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +175,8 @@
 				DC9357121B7D2EF50096AA26 /* AppDelegate.m */,
 				DC9357141B7D2EF50096AA26 /* ViewController.h */,
 				DC9357151B7D2EF50096AA26 /* ViewController.m */,
+				DC649C9F1B837B1500F49717 /* Default Settings */,
+				DC649C9D1B837AF700F49717 /* Property Configuration */,
 				DC9357171B7D2EF50096AA26 /* Main.storyboard */,
 				DC93571A1B7D2EF50096AA26 /* Assets.xcassets */,
 				DC93571C1B7D2EF50096AA26 /* LaunchScreen.storyboard */,
@@ -186,6 +215,9 @@
 		DCA23AA01B81143200C3E784 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC0423941B838BC800AE6755 /* Bolts.framework */,
+				DC0423921B8388DA00AE6755 /* ParseUI.framework */,
+				DC0423901B8388B700AE6755 /* Parse.framework */,
 				DCA23AB71B81150900C3E784 /* Social.framework */,
 				DCA23AB51B81150200C3E784 /* Accounts.framework */,
 				DCA23AB31B8114EC00C3E784 /* libsqlite3.dylib */,
@@ -198,8 +230,6 @@
 				DCA23AA51B81148B00C3E784 /* CoreGraphics.framework */,
 				DCA23AA31B81148100C3E784 /* CFNetwork.framework */,
 				DCA23AA11B81147700C3E784 /* AudioToolbox.framework */,
-				DCA23A9B1B81141800C3E784 /* Bolts.framework */,
-				DCA23A9C1B81141800C3E784 /* Parse.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -337,6 +367,8 @@
 				DC9357161B7D2EF50096AA26 /* ViewController.m in Sources */,
 				DC9357131B7D2EF50096AA26 /* AppDelegate.m in Sources */,
 				DC9357101B7D2EF50096AA26 /* main.m in Sources */,
+				DC649CA51B837B6F00F49717 /* PropertyConfigViewController.m in Sources */,
+				DC649CA21B837B5000F49717 /* DefaultSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
