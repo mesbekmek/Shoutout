@@ -31,17 +31,15 @@
 
 - (IBAction)logOutButton:(UIButton *)sender{
     [PFUser logOut];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"NewViewController"];
-    
-    //[self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self showLogInPage];
+
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"NewViewController"];
+// [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    
+-(void)showLogInPage{
     if (![PFUser currentUser]) { // No user logged in
         // Create the log in view controller
         PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
@@ -54,9 +52,18 @@
         // Assign our sign up controller to be displayed from the login controller
         [logInViewController setSignUpController:signUpViewController];
         
+        [logInViewController setFacebookPermissions:[NSArray arrayWithObjects:@"friends_about_me", nil]];
+        [logInViewController setFields: PFLogInFieldsTwitter | PFLogInFieldsFacebook | PFLogInFieldsDismissButton];
+        
         // Present the log in view controller
         [self presentViewController:logInViewController animated:YES completion:NULL];
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
+    [self showLogInPage];
 }
 #pragma mark - PFLogInViewControllerDelegate
 

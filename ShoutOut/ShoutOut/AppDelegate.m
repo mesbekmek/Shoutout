@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 @interface AppDelegate ()
 
@@ -24,7 +25,7 @@
 -(void)setupParse{
     // [Optional] Power your app with Local Datastore. For more info, go to
     // https://parse.com/docs/ios_guide#localdatastore/iOS
-//    [Parse enableLocalDatastore];
+    [Parse enableLocalDatastore];
     
     // Initialize Parse.
     [Parse setApplicationId:@"HVJDr6eL60nLIGbWyaDx0SMuPMy7v9log827rduj"
