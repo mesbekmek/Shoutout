@@ -6,22 +6,18 @@
 
 ## The Problem 
 
-Our project aims to build an accessible, low-cost experimentation platform that introduces programming and robotics to kids in a way that inspires confidence, creativity and continued self-learning.
+Our project aims to build an application that will allow its' users to create, edit, compile and send videos.
 
-Existing products in this sphere are complicated by three major limitations: cost, complexity, and platform availability. 
+Existing products in this sphere fall short on the last feature above, namely 'sending'. The apps we have researched so far only perform one or two of the features we plan to implement. 
 
-Android apps that teach kids to program exist, but none in combination with hardware or robotics. In surveying the Google Play store, we could find no such combination. Popular existing resources include:
+ In surveying the App store, we could not an application that currently implements all the features above. However, popular resources in the realm of video editing and merging include:
 
-* [Scratch] (https://scratch.mit.edu/) - open-source graphical programming language (free, web + desktop only).
-* [Tynker.com] (https://www.tynker.com/) - Scratch-based online programming courses for kids ($50 single course - $250 learning pathway).
+* [Video Meger] (https://itunes.apple.com/us/app/video-merger-free-combine/id880953154?mt=8) -  Easily merge videos on your device.  (free, iPhone and iPad).
+* [Glide] (https://itunes.apple.com/us/app/glide-live-video-messenger/id588199307?mt=8) - Glide is the live video messaging app for people who want more personality and expression when communicating with those who know them best.
+ 
+* [Tribute] (https://www.tribute.co/) - A “Tribute” is the perfect gift for any important occasion. It is a video montage created by a group ("The Tribe”) that comes together to share their appreciation, admiration and encouragement for a person they all care for.
 
-Hardware experimentation, in particular, has a high barrier to entry. Popular existing hardware products:
-
-* [Little Bits] (http://littlebits.cc) (starter kits $99-199). 
-* [Lego Mindstorms] (http://www.lego.com/en-us/mindstorms) robotics kit ($349.99).
-* [Boe-Bot] (https://www.parallax.com/product/boe-bot-robot) - robot kit commonly used in schools ($159.99).
-
-We envision our primary users to be kids as young as 5 and as old as teens (realizing that we'll need a UI/UX that can appeal to this full age range). Our app would be engaging to a child while also being able to interest adults in helper roles (parents, teachers). Users would range from a child learning independently, parent(s) with a child, or a teacher with a classroom full of students.
+Shoutout is a social collaboration platform as such we envision our primary users to be kids as young as teenagers and adults as old as grandparents (realizing that we'll need a UI/UX that can appeal to this full age range). Our app aims to have a simplistic design, one that doesn't bombard the user with features or ads, but displays only the crutial elements they need to create videos, merge videos or invite friends.
 
 ## The Solution 
 
