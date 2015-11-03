@@ -1,7 +1,7 @@
 # Access Code 2.2 Final Project Proposal
 
 **Project Name: Shoutout**  
-**Team Name: Access Robot**  
+**Team Name: Team Shoutout**  
 **Team Members: Jason Wang, Mesfin Mekonnen, Diana Elezaj,Varindra Hart**  
 
 ## The Problem 
