@@ -10,7 +10,7 @@ Our project aims to build an application that will allow its' users to create, e
 
 Existing products in this sphere fall short on the last feature above, namely 'sending'. The apps we have researched so far only perform one or two of the features we plan to implement. 
 
- In surveying the App store, we could not an application that currently implements all the features above. However, popular resources in the realm of video editing and merging include:
+ In surveying the App store, we could not find an application that currently implements all the features above. However, popular resources in the realm of video editing and merging include:
 
 * [Video Meger] (https://itunes.apple.com/us/app/video-merger-free-combine/id880953154?mt=8) -  Easily merge videos on your device.  (free, iPhone and iPad).
 * [Glide] (https://itunes.apple.com/us/app/glide-live-video-messenger/id588199307?mt=8) - Glide is the live video messaging app for people who want more personality and expression when communicating with those who know them best.
