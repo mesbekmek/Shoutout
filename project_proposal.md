@@ -17,7 +17,7 @@ Existing products in this sphere fall short on the last feature above, namely 's
  
 * [Tribute] (https://www.tribute.co/) - A “Tribute” is the perfect gift for any important occasion. It is a video montage created by a group ("The Tribe”) that comes together to share their appreciation, admiration and encouragement for a person they all care for.
 
-Shoutout is a social collaboration platform as such we envision our primary users to be kids as young as teenagers and adults as old as grandparents (realizing that we'll need a UI/UX that can appeal to this full age range). Our app aims to have a simplistic design, one that doesn't bombard the user with features or ads, but displays only the crutial elements they need to create videos, merge videos or invite friends.
+Shoutout is a social collaboration platform, as such we envision our primary users to be kids as young as teenagers and adults as old as grandparents (realizing that we'll need a UI/UX that can appeal to this full age range). Our app aims to have a simplistic design, one that doesn't bombard the user with features or ads, but displays only the crutial elements they need to create videos, merge videos, send videos or invite friends.
 
 ## The Solution 
 
@@ -48,7 +48,7 @@ The robot:
  * Simple and flexible design encourages user modifications: paint it, decorate it, add hardware mods.
  
 The app:
- * Android-based programming environment.
+ * Objective-C based iOS application.
  * Simple, graphical programming language/interface (think [Scratch](https://scratch.mit.edu/)) with native methods for controlling the robot.
   * [Google Blockly](https://developers.google.com/blockly/?hl=en) provides a 100% client-side, customizable library with tons of functionality built-in.
   * Wrapping series of long, potentially complex Arduino commands in one GUI element for the user.
@@ -74,16 +74,12 @@ Please review wireframes [here](https://github.com/jaellysbales/access-robot/blo
 
 | Week | Date | Sprint | 
 |----|----|---|
-| Week 1 | Aug 7 - 9 | Research: Submit project proposal (8/9). Create wireframes. Research robot design and consolidate resources. Order hardware components for experimentation. |
-| Week 2 | Aug 9 - 11 | Research II: Submit revised proposal (8/11). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. |
-| Week 2 | Aug 11 - 16 | Development I: Build Android-Hardware interface. Experiment with programming environment. Prototype graphical language. Experiment with robot design.|
-| Week 3 | Aug 17 - 23 | Development II: Build out programming environment. Wrap code to interface with the robot in graphical language commands. Finalize robot design. |
-| Week 4 | Aug 24 - 31 | Development III: Enrich UI/UX. Build robot assembly walkthrough activity. Finalize app. |
-| Week 5 | Sep 1, 7pm | First Release + Demo |
-| Week 5 | Sep 2 - 8 | Testing I: Write tests and debug. Polish features for the second release. Implement bonuses. |
-| Week 6 | Sep 9, 7pm | Second Release + Demo |
-| Week 6 | Sep 10 - 14 | Testing II: Final round of testing and debugging. |
-| Week 7 | Sep 15, 7pm | Final Demo Day |
+| Week 1 | Nov 3 - 8 | Research: Submit project proposal (8/9). Create wireframes. Research robot design and consolidate resources. Order hardware components for experimentation. |
+| Week 2 | Nov 9 - 15 | Research II: Submit revised proposal (8/11). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. |
+| Week 3 | Nov 16 - 22 | Development I: Build Android-Hardware interface. Experiment with programming environment. Prototype graphical language. Experiment with robot design.|
+| Week 4 | Nov 23 - 29 | Development III: Enrich UI/UX. Build robot assembly walkthrough activity. Finalize app. |
+| Week 5 | Nov 30 - Dec 6 | Testing I: Write tests and debug. Polish features for the second release. Implement bonuses. |
+| Week 6 | Dec 8, 5pm | Final Demo Day at Google |
 
 #### Team Member Responsibilities
 
