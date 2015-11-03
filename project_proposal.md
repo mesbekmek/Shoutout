@@ -75,7 +75,7 @@ Please review wireframes [here](https://github.com/jaellysbales/access-robot/blo
 | Week | Date | Sprint | 
 |----|----|---|
 | Week 1 |Nov 3-8| Research: Submit project proposal (11/3). Create wireframes. Research about competitors. Do tutorials on AVFoundation. |
-| Week 2 |Nov 9-15| Research II: Submit revised proposal (11/5). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. |
+| Week 2 |Nov 9-15| Research II: Submit revised proposal (11/10). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. |
 | Week 3 | Nov 16-22| Development I: Build Android-Hardware interface. Experiment with programming environment. Prototype graphical language. Experiment with robot design.|
 | Week 4 | Nov 23-29| Development III: Enrich UI/UX. Build robot assembly walkthrough activity. Finalize app. |
 | Week 5 | Nov 30-Dec 6| Testing I: Write tests and debug. Polish features for the second release. Implement bonuses. |
