@@ -25,21 +25,21 @@ This project will focus on allowing the user to create a shoutout - a video comp
 
 The two categories this project aims to expand on are:
 
-#Video Compilation
-*editing, reordering, and compiling of multiple video tracks
+####Video Compilation
+* editing, reordering, and compiling of multiple video tracks
 
-#Social Incorporation
-*allows the creator to receive and compile video feed from friends who were invited to collaborate. 
+#####Social Incorporation
+* allows the creator to receive and compile video feed from friends who were invited to collaborate. 
 
 The app should be fun and easy to use, with a clear user flow and intuitive design. 
 
 
 ##Bonus Features
 
-*Advanced sharing features allowing the user to share via twitter, FB, Instagram..
-*Video filters and interactive tool/screen additions
-*The use of an interconnected website will allow the app to more accessible to non-iOS users and iOS carriers interested in the app
-*Addition of branch.io for deep link attributes (makes for better on boarding)
+* Advanced sharing features allowing the user to share via twitter, FB, Instagram..
+* Video filters and interactive tool/screen additions
+* The use of an interconnected website will allow the app to more accessible to non-iOS users and iOS carriers interested in the app
+* Addition of branch.io for deep link attributes (makes for better on boarding)
 
 #### Baseline features
 
