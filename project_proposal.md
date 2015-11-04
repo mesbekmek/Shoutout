@@ -26,10 +26,10 @@ This project will focus on allowing the user to create a shoutout - a video comp
 The two categories this project aims to expand on are:
 
 ####Video Compilation
-* editing, reordering, and compiling of multiple video tracks
+* Editing, reordering, and compiling of multiple video tracks
 
 ####Social Incorporation
-* allows the creator to receive and compile video feed from friends who were invited to collaborate. 
+* Allows the creator to receive and compile video feed from friends who were invited to collaborate. 
 
 The app should be fun and easy to use, with a clear user flow and intuitive design. 
 
