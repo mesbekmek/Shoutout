@@ -21,22 +21,25 @@ Shoutout is a social collaboration platform, as such we envision our primary use
 
 ## The Solution 
 
-The project consists of two parts: hardware (the robot) and software (an Android-based environment to control robot movement with a graphical programming language, introducing the principles of programming to kids as they play).
+This project will focus on allowing the user to create a shoutout - a video compilation designed to be collaborative and sharable. 
 
- * Low-cost DIY robot (less than $40) that functions well and looks good. Built from open-source, easily acquired components with a simple, proven design.
- * Basic enough for a kid to put together in a weekend. The app will include an assembly walkthrough.
- * Both graphical + text-based programming interfaces to control the robot with an Android device. 
- * Designed for learning and growth. No upper limit for 'hackability'.
+The two categories this project aims to expand on are:
 
-By building on Android, our project becomes accessible to the more than 1 billion Android users worldwide -- especially in markets where cost places existing robotics experimentation kits out of reach. Our experience at Access Code (and subsequent alignment with C4Q's mission and values) strongly informs our belief that lowering the financial barrier to hardware experimentation by 60% has significant, impactful value for the following groups:
-- A child saving to purchase his/her own components
-- Parent(s) with multiple children
-- Teacher/school purchasing for students (electronics sold in bulk would actually reduce the cost per "kit" in this use case)
-- Low-income families, whether they be American or in developing nations
+#Video Compilation
+*editing, reordering, and compiling of multiple video tracks
 
-Building the project around a physical object (the robot) captures the excitement and possibility of programming and blends "screen time" into a creative, hands-on activity with limitless possiblity.
+#Social Incorporation
+*allows the creator to receive and compile video feed from friends who were invited to collaborate. 
 
-Ultimately, we want to inspire the learning skills and confidence for kids to engage with the project -- and with all technology in their lives -- not just as users but as collaborators and creators.
+The app should be fun and easy to use, with a clear user flow and intuitive design. 
+
+
+##Bonus Features
+
+*Advanced sharing features allowing the user to share via twitter, FB, Instagram..
+*Video filters and interactive tool/screen additions
+*The use of an interconnected website will allow the app to more accessible to non-iOS users and iOS carriers interested in the app
+*Addition of branch.io for deep link attributes (makes for better on boarding)
 
 #### Baseline features
 
