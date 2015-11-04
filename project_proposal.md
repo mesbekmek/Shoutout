@@ -28,45 +28,18 @@ The two categories this project aims to expand on are:
 ####Video Compilation
 * editing, reordering, and compiling of multiple video tracks
 
-#####Social Incorporation
+####Social Incorporation
 * allows the creator to receive and compile video feed from friends who were invited to collaborate. 
 
 The app should be fun and easy to use, with a clear user flow and intuitive design. 
 
 
-##Bonus Features
+###Bonus Features
 
 * Advanced sharing features allowing the user to share via twitter, FB, Instagram..
 * Video filters and interactive tool/screen additions
 * The use of an interconnected website will allow the app to more accessible to non-iOS users and iOS carriers interested in the app
 * Addition of branch.io for deep link attributes (makes for better on boarding)
-
-#### Baseline features
-
-The robot:
- * Built around a widely available open-source microcontroller ([Arduino](https://www.arduino.cc/)).
- * Forward, backward and rotational movement (2x [continuous rotation servos](https://learn.adafruit.com/adafruit-motor-selection-guide/continuous-rotation-servos)).
- * Chassis constructed from low-cost and/or recycled materials (e.g. cardboard - [example design we will use as our starting point](http://www.foxytronics.com/learn/robots/how-to-make-your-first-arduino-robot/parts)).
- * Battery powered and controlled via Bluetooth with an Android device ([existing library for Android <--> Arduino via Bluetooth](https://github.com/aron-bordin/Android-with-Arduino-Bluetooth)).
- * Simple and flexible design encourages user modifications: paint it, decorate it, add hardware mods.
- 
-The app:
- * Objective-C based iOS application.
- * Simple, graphical programming language/interface (think [Scratch](https://scratch.mit.edu/)) with native methods for controlling the robot.
-  * [Google Blockly](https://developers.google.com/blockly/?hl=en) provides a 100% client-side, customizable library with tons of functionality built-in.
-  * Wrapping series of long, potentially complex Arduino commands in one GUI element for the user.
-  * 10 basic commands (move forward/backward/left/right, rotate n degrees, blink x color y times, etc.) to start, with flexibility to modify and expand the language/interface by creating new methods (see [Custom Blocks with Blockly](https://developers.google.com/blockly/custom-blocks/overview)).
- * Option for advanced users to move to a text-based environment.
- * Elegant, enjoyable + easy to use UI/UX.
- * On first launch, the user is presented with a guide on sourcing and building the robot. Features illustration, text and/or video instructions.
-
-**[Project Resources](https://github.com/jaellysbales/access-robot/blob/master/resources.md)**
-
-#### Bonus features
-
- * Simple web platform for sharing robot patterns + programs (Google Blockly enables this via [cloud storage](https://developers.google.com/blockly/installation/cloud-storage)).
- * Robot add-ons: lights, sensors, internet connectivity.
- * Translation to other spoken languages (e.g. Spanish).
 
 ### Wireframe
 Please review wireframes [here](https://github.com/jaellysbales/access-robot/blob/master/wireframes/wireframes.md).
