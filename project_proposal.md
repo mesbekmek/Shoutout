@@ -61,7 +61,7 @@ Please review wireframes [here]().
 
 **Mesfin:**
 
-Anytime / Anyday
+Anytime
 
 **Varindra:**
 
