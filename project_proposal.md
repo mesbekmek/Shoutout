@@ -22,7 +22,7 @@ Shoutout is a social collaboration platform, as such we envision our primary use
 ## The Solution 
 
 This project will focus on allowing the user to create a shoutout - a video compilation designed to be collaborative and sharable. 
-
+The three components will be: 1. The creator 2. The collaborator 3. The recepient.
 The two categories this project aims to expand on are:
 
 ####Video Compilation
