@@ -42,7 +42,7 @@ The app should be fun and easy to use, with a clear user flow and intuitive desi
 * Addition of branch.io for deep link attributes (makes for better on boarding)
 
 ### Wireframe
-Please review wireframes [here](https://github.com/jaellysbales/access-robot/blob/master/wireframes/wireframes.md).
+Please review wireframes [here]().
 
 ## Execution
 
@@ -50,27 +50,29 @@ Please review wireframes [here](https://github.com/jaellysbales/access-robot/blo
 
 | Week | Date | Sprint | 
 |----|----|---|
-| Week 1 |Nov 3-8| Research: Submit project proposal (11/3). Create wireframes. Research about competitors. Do tutorials on AVFoundation. |
-| Week 2 |Nov 9-15| Research II: Submit revised proposal (11/10). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. |
-| Week 3 | Nov 16-22| Development I: Build Android-Hardware interface. Experiment with programming environment. Prototype graphical language. Experiment with robot design.|
-| Week 4 | Nov 23-29| Development III: Enrich UI/UX. Build robot assembly walkthrough activity. Finalize app. |
-| Week 5 | Nov 30-Dec 6| Testing I: Write tests and debug. Polish features for the second release. Implement bonuses. |
+| Week 1 |Nov 3-8| Research: Submit project proposal (11/3). Create wireframes. Research about competitors. Do tutorials on AVFoundation. Prototyping. Sprint for MVP|
+| Week 2 |Nov 9-15| Research II: Submit revised proposal (11/10). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. Sprint for MVP and get it working.|
+| Week 3 | Nov 16-22| 
+Nov 17 - First Demo
+||
+| Week 4 | Nov 23-29| ------ |
+| Week 5 | Nov 30-Dec 6| | ------  Implement bonuses. |
 | Week 6 | Dec 8, 5pm | Final Demo Day at Google |
 
 #### Team Member Responsibilities
 
 **Mesfin:**
 
-UI/UX - Wireframes of screens, storyboards of new user experience, sitemap to show activities that users have access to from each activity, maintaining consistent design feel through the app, working with programming language to decide how the interface is setup.
+Anytime / Anyday
 
 **Varindra:**
 
-Creating a programming language to control the robot's movements - creating Scratch-like programming language that is an engaging but easy to understand, drag-and-drop interface on Android. Ensuring language is inline with robot's capabilities.
+Monday/Wednesday, Tuesday & Thursday after 3:30pm. 
 
 **Jason:**
 
-Communication between Android and Arduino/robot - communication between Arduino and Android device through serial port, ensuring our programming language commands are properly transferred between hardware, possibly use a translator.
+Anytime
 
 **Diana:**
 
-Manages the team to ensure work is on track with timeline, rotates between jobs to help where needed, design of robot, will help with the communication between Arduino and Android, will help with programming language, parts are already ordered and should be here between Monday and Tuesday ([project hardware inventory](https://github.com/jaellysbales/access-robot/blob/master/hardware-list.md)).
+Everyday after 6pm.
