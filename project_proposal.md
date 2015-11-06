@@ -54,7 +54,7 @@ Please review wireframes [here]().
 | Week 2 |Nov 9-15| Research II: Submit revised proposal (11/10). Begin experimenting with hardware and writing code to interface Android with hardware. Research programming environments for children. Sprint for MVP and get it working.|
 | Week 3 | Nov 16-22|  Nov 17 - First Demo|
 | Week 4 | Nov 23-29| ------ |
-| Week 5 | Nov 30-Dec 6| | ------  Implement bonuses. |
+| Week 5 | Nov 30-Dec 6| ------  Implement bonuses. |
 | Week 6 | Dec 8, 5pm | Final Demo Day at Google |
 
 #### Team Member Responsibilities
