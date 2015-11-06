@@ -57,7 +57,7 @@ Please review wireframes [here]().
 | Week 5 | Nov 30-Dec 6| Implement bonuses! |
 | Week 6 | Dec 8, 5pm | Final Demo Day at Google |
 
-#### Team Member Responsibilities
+#### Team Member Schedules
 
 **Mesfin:**
 
