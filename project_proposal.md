@@ -69,7 +69,7 @@ Monday/Wednesday anytime; Tuesday & Thursday after 3:30pm.
 
 **Jason:**
 
-Anytime
+Schedule is Flexiable
 
 **Diana:**
 
