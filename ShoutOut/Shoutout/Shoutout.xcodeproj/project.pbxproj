@@ -18,7 +18,6 @@
 		DC386D821BEFEBA900562543 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D811BEFEBA900562543 /* main.m */; };
 		DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D841BEFEBA900562543 /* AppDelegate.m */; };
 		DC386D881BEFEBA900562543 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D871BEFEBA900562543 /* ViewController.m */; };
-		DC386D8B1BEFEBA900562543 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386D891BEFEBA900562543 /* Main.storyboard */; };
 		DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC386D8C1BEFEBA900562543 /* Shoutout.xcdatamodeld */; };
 		DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC386D8F1BEFEBA900562543 /* Assets.xcassets */; };
 		DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */; };
@@ -26,6 +25,7 @@
 		DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D9E1BEFF89500562543 /* ProfileViewController.m */; };
 		DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */; };
 		DC386DA51BEFF8C900562543 /* ProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DA41BEFF8C900562543 /* ProjectsViewController.m */; };
+		DC386DA81BF003C500562543 /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386DA71BF003C500562543 /* Main.Storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,6 @@
 		DC386D841BEFEBA900562543 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DC386D861BEFEBA900562543 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		DC386D871BEFEBA900562543 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		DC386D8A1BEFEBA900562543 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DC386D8D1BEFEBA900562543 /* Shoutout.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shoutout.xcdatamodel; sourceTree = "<group>"; };
 		DC386D8F1BEFEBA900562543 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC386D921BEFEBA900562543 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -58,6 +57,7 @@
 		DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
 		DC386DA31BEFF8C900562543 /* ProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectsViewController.h; sourceTree = "<group>"; };
 		DC386DA41BEFF8C900562543 /* ProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectsViewController.m; sourceTree = "<group>"; };
+		DC386DA71BF003C500562543 /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,8 +104,8 @@
 				D49BF4991BEFF8DA00340627 /* Project.m */,
 				D49BF49B1BEFFA1B00340627 /* Video.h */,
 				D49BF49C1BEFFA1B00340627 /* Video.m */,
+				DC386DA71BF003C500562543 /* Main.Storyboard */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
-				DC386D891BEFEBA900562543 /* Main.storyboard */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
 				DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */,
 				DC386D941BEFEBA900562543 /* Info.plist */,
@@ -132,8 +132,6 @@
 		DC386DA61BEFF8F900562543 /* SOViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				DC386D861BEFEBA900562543 /* ViewController.h */,
-				DC386D871BEFEBA900562543 /* ViewController.m */,
 				DC386DA31BEFF8C900562543 /* ProjectsViewController.h */,
 				DC386DA41BEFF8C900562543 /* ProjectsViewController.m */,
 				DC386DA01BEFF8AF00562543 /* CollaborateViewController.h */,
@@ -204,9 +202,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
-				DC386D8B1BEFEBA900562543 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,14 +231,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DC386D891BEFEBA900562543 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DC386D8A1BEFEBA900562543 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -337,8 +327,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Shoutout/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesbekmek.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -348,8 +339,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Shoutout/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesbekmek.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
