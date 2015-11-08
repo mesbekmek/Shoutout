@@ -1,0 +1,2 @@
+pod 'Parse', '~> 1.9'
+pod 'ParseUI', '~> 1.1'
