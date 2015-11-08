@@ -22,6 +22,10 @@
 		DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC386D8C1BEFEBA900562543 /* Shoutout.xcdatamodeld */; };
 		DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC386D8F1BEFEBA900562543 /* Assets.xcassets */; };
 		DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */; };
+		DC386D9C1BEFF86100562543 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D9B1BEFF86100562543 /* ContactsViewController.m */; };
+		DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D9E1BEFF89500562543 /* ProfileViewController.m */; };
+		DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */; };
+		DC386DA51BEFF8C900562543 /* ProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DA41BEFF8C900562543 /* ProjectsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +50,14 @@
 		DC386D8F1BEFEBA900562543 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC386D921BEFEBA900562543 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DC386D941BEFEBA900562543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC386D9A1BEFF86100562543 /* ContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
+		DC386D9B1BEFF86100562543 /* ContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		DC386D9D1BEFF89500562543 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		DC386D9E1BEFF89500562543 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		DC386DA01BEFF8AF00562543 /* CollaborateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborateViewController.h; sourceTree = "<group>"; };
+		DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
+		DC386DA31BEFF8C900562543 /* ProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectsViewController.h; sourceTree = "<group>"; };
+		DC386DA41BEFF8C900562543 /* ProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +104,7 @@
 				D49BF4991BEFF8DA00340627 /* Project.m */,
 				D49BF49B1BEFFA1B00340627 /* Video.h */,
 				D49BF49C1BEFFA1B00340627 /* Video.m */,
+				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D891BEFEBA900562543 /* Main.storyboard */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
 				DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */,
@@ -114,6 +127,23 @@
 				DC386D811BEFEBA900562543 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DC386DA61BEFF8F900562543 /* SOViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DC386D861BEFEBA900562543 /* ViewController.h */,
+				DC386D871BEFEBA900562543 /* ViewController.m */,
+				DC386DA31BEFF8C900562543 /* ProjectsViewController.h */,
+				DC386DA41BEFF8C900562543 /* ProjectsViewController.m */,
+				DC386DA01BEFF8AF00562543 /* CollaborateViewController.h */,
+				DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */,
+				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
+				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
+				DC386D9A1BEFF86100562543 /* ContactsViewController.h */,
+				DC386D9B1BEFF86100562543 /* ContactsViewController.m */,
+			);
+			name = SOViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,10 +218,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
+				DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
+				DC386D9C1BEFF86100562543 /* ContactsViewController.m in Sources */,
+				DC386DA51BEFF8C900562543 /* ProjectsViewController.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
 				D49BF49D1BEFFA1B00340627 /* Video.m in Sources */,
 				D49BF49A1BEFF8DA00340627 /* Project.m in Sources */,
+				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
