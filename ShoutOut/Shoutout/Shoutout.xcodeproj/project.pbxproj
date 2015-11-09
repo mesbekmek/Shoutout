@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7127B5D1BF0547F0069CF76 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B5C1BF0547F0069CF76 /* User.m */; };
+		C7127B601BF055360069CF76 /* SOVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B5F1BF055360069CF76 /* SOVideo.m */; };
+		C7127B631BF0559C0069CF76 /* SOProject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B621BF0559C0069CF76 /* SOProject.m */; };
+		C7127B671BF05A460069CF76 /* NSURL+ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B661BF05A460069CF76 /* NSURL+ImageGenerator.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -33,6 +37,14 @@
 		2B71E56213096115E5D6499D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3933170B0C7BDDBBA4F99A84 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7127B5B1BF0547F0069CF76 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		C7127B5C1BF0547F0069CF76 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		C7127B5E1BF055360069CF76 /* SOVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOVideo.h; sourceTree = "<group>"; };
+		C7127B5F1BF055360069CF76 /* SOVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOVideo.m; sourceTree = "<group>"; };
+		C7127B611BF0559C0069CF76 /* SOProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOProject.h; sourceTree = "<group>"; };
+		C7127B621BF0559C0069CF76 /* SOProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOProject.m; sourceTree = "<group>"; };
+		C7127B651BF05A460069CF76 /* NSURL+ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ImageGenerator.h"; sourceTree = "<group>"; };
+		C7127B661BF05A460069CF76 /* NSURL+ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ImageGenerator.m"; sourceTree = "<group>"; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D49BF4901BEFF80800340627 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -90,6 +102,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C7127B5A1BF0419D0069CF76 /* SOModel */ = {
+			isa = PBXGroup;
+			children = (
+				C7127B5B1BF0547F0069CF76 /* User.h */,
+				C7127B5C1BF0547F0069CF76 /* User.m */,
+				C7127B5E1BF055360069CF76 /* SOVideo.h */,
+				C7127B5F1BF055360069CF76 /* SOVideo.m */,
+				C7127B611BF0559C0069CF76 /* SOProject.h */,
+				C7127B621BF0559C0069CF76 /* SOProject.m */,
+			);
+			name = SOModel;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		C7127B641BF05A0F0069CF76 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7127B651BF05A460069CF76 /* NSURL+ImageGenerator.h */,
+				C7127B661BF05A460069CF76 /* NSURL+ImageGenerator.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		DC386D741BEFEBA800562543 = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +155,8 @@
 				D49BF49B1BEFFA1B00340627 /* Video.h */,
 				D49BF49C1BEFFA1B00340627 /* Video.m */,
 				DC386DA71BF003C500562543 /* Main.Storyboard */,
+				C7127B641BF05A0F0069CF76 /* Extensions */,
+				C7127B5A1BF0419D0069CF76 /* SOModel */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
 				DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */,
@@ -294,10 +331,14 @@
 				DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
+				C7127B671BF05A460069CF76 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DA51BEFF8C900562543 /* ProjectsViewController.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
+				C7127B631BF0559C0069CF76 /* SOProject.m in Sources */,
+				C7127B5D1BF0547F0069CF76 /* User.m in Sources */,
 				D49BF49D1BEFFA1B00340627 /* Video.m in Sources */,
 				D49BF49A1BEFF8DA00340627 /* Project.m in Sources */,
+				C7127B601BF055360069CF76 /* SOVideo.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
 			);
