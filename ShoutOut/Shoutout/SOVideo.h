@@ -7,6 +7,7 @@
 //
 
 #import <Parse/Parse.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface SOVideo : PFObject <PFSubclassing>
 
@@ -15,6 +16,7 @@
 @property (nonatomic) NSString *username;
 @property (nonatomic) NSString *details;
 
-+(NSString*)parseClassName;
-
++ (NSString*)parseClassName;
+- (instancetype)initWithVideoUrl:(NSURL *)url;
+- (AVAsset*)assetFromVideoFile;
 @end

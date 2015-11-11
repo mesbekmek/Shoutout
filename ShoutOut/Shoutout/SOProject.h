@@ -14,7 +14,9 @@
 
 @property (nonatomic) PFUser *createdBy;
 @property (nonatomic) NSMutableArray <SOVideo*> *videos;
-@property (nonatomic) NSMutableArray <User *> *collaborators;
+@property (nonatomic) NSMutableArray <User *> *collaboratorsSentTo;
+@property (nonatomic) NSMutableArray <User *> *collaboratorsRecievedFrom;
+@property (nonatomic) NSMutableArray <User *> *collaboratorsDeclined;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *description;
 @property (nonatomic) NSDate *endDate;

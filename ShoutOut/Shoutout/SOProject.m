@@ -12,7 +12,9 @@
 
 @dynamic createdBy;
 @dynamic videos;
-@dynamic collaborators;
+@dynamic collaboratorsSentTo;
+@dynamic collaboratorsRecievedFrom;
+@dynamic collaboratorsDeclined;
 @dynamic title;
 @dynamic description;
 @dynamic endDate;
@@ -22,8 +24,12 @@
     
     if (self = [super init]) {
         self.videos = [NSMutableArray new];
-        self.collaborators = [NSMutableArray new];
+        self.collaboratorsSentTo = [NSMutableArray new];
+        self.collaboratorsRecievedFrom = [NSMutableArray new];
+        self.collaboratorsDeclined = [NSMutableArray new];
         self.title = title;
+        
+        self.createdBy = [PFUser currentUser];
         
         return self;
     }

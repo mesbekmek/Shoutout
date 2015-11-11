@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SOProject.h"
+#import "SOVideo.h"
 
 @interface ProjectsViewController : UIViewController
+
+@property (nonatomic) SOProject *currentProject;
 
 @end
