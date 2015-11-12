@@ -27,11 +27,11 @@
 		DC386DF91BF4223C00562543 /* SOProject.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF51BF4223C00562543 /* SOProject.m */; };
 		DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF71BF4223C00562543 /* SOVideo.m */; };
 		DC386DFD1BF4230200562543 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DFC1BF4230200562543 /* User.m */; };
-		DC386E041BF4234100562543 /* SOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DFF1BF4234100562543 /* SOLoginViewController.m */; };
-		DC386E051BF4234100562543 /* SOLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E001BF4234100562543 /* SOLoginViewController.xib */; };
-		DC386E061BF4234100562543 /* SOSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E021BF4234100562543 /* SOSignUpViewController.m */; };
-		DC386E071BF4234100562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E031BF4234100562543 /* SOSignUpViewController.xib */; };
 		DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E091BF424B300562543 /* NSURL+ImageGenerator.m */; };
+		DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E0D1BF4290C00562543 /* SOLoginViewController.m */; };
+		DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E0E1BF4290C00562543 /* SOLoginViewController.xib */; };
+		DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E101BF4290C00562543 /* SOSignUpViewController.m */; };
+		DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E111BF4290C00562543 /* SOSignUpViewController.xib */; };
 		F386A2585F70466F066DA368 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B31638C861E4996215CDACD0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -70,14 +70,14 @@
 		DC386DF71BF4223C00562543 /* SOVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOVideo.m; sourceTree = "<group>"; };
 		DC386DF81BF4223C00562543 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		DC386DFC1BF4230200562543 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		DC386DFE1BF4234100562543 /* SOLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLoginViewController.h; sourceTree = "<group>"; };
-		DC386DFF1BF4234100562543 /* SOLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLoginViewController.m; sourceTree = "<group>"; };
-		DC386E001BF4234100562543 /* SOLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOLoginViewController.xib; sourceTree = "<group>"; };
-		DC386E011BF4234100562543 /* SOSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSignUpViewController.h; sourceTree = "<group>"; };
-		DC386E021BF4234100562543 /* SOSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSignUpViewController.m; sourceTree = "<group>"; };
-		DC386E031BF4234100562543 /* SOSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSignUpViewController.xib; sourceTree = "<group>"; };
 		DC386E081BF424B300562543 /* NSURL+ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ImageGenerator.h"; sourceTree = "<group>"; };
 		DC386E091BF424B300562543 /* NSURL+ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ImageGenerator.m"; sourceTree = "<group>"; };
+		DC386E0C1BF4290C00562543 /* SOLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLoginViewController.h; sourceTree = "<group>"; };
+		DC386E0D1BF4290C00562543 /* SOLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLoginViewController.m; sourceTree = "<group>"; };
+		DC386E0E1BF4290C00562543 /* SOLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOLoginViewController.xib; sourceTree = "<group>"; };
+		DC386E0F1BF4290C00562543 /* SOSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSignUpViewController.h; sourceTree = "<group>"; };
+		DC386E101BF4290C00562543 /* SOSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSignUpViewController.m; sourceTree = "<group>"; };
+		DC386E111BF4290C00562543 /* SOSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSignUpViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,12 +169,12 @@
 				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
 				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
 				DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */,
-				DC386DFE1BF4234100562543 /* SOLoginViewController.h */,
-				DC386DFF1BF4234100562543 /* SOLoginViewController.m */,
-				DC386E001BF4234100562543 /* SOLoginViewController.xib */,
-				DC386E011BF4234100562543 /* SOSignUpViewController.h */,
-				DC386E021BF4234100562543 /* SOSignUpViewController.m */,
-				DC386E031BF4234100562543 /* SOSignUpViewController.xib */,
+				DC386E0C1BF4290C00562543 /* SOLoginViewController.h */,
+				DC386E0D1BF4290C00562543 /* SOLoginViewController.m */,
+				DC386E0E1BF4290C00562543 /* SOLoginViewController.xib */,
+				DC386E0F1BF4290C00562543 /* SOSignUpViewController.h */,
+				DC386E101BF4290C00562543 /* SOSignUpViewController.m */,
+				DC386E111BF4290C00562543 /* SOSignUpViewController.xib */,
 			);
 			name = SOViewControllers;
 			sourceTree = "<group>";
@@ -271,10 +271,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC386E051BF4234100562543 /* SOLoginViewController.xib in Resources */,
+				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
 				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
-				DC386E071BF4234100562543 /* SOSignUpViewController.xib in Resources */,
+				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,10 +334,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC386E041BF4234100562543 /* SOLoginViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
 				DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */,
+				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
+				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
@@ -346,7 +347,6 @@
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
-				DC386E061BF4234100562543 /* SOSignUpViewController.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
