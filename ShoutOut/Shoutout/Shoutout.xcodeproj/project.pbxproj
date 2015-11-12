@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C7127B5D1BF0547F0069CF76 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B5C1BF0547F0069CF76 /* User.m */; };
-		C7127B601BF055360069CF76 /* SOVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B5F1BF055360069CF76 /* SOVideo.m */; };
-		C7127B631BF0559C0069CF76 /* SOProject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B621BF0559C0069CF76 /* SOProject.m */; };
-		C7127B671BF05A460069CF76 /* NSURL+ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B661BF05A460069CF76 /* NSURL+ImageGenerator.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -28,6 +24,14 @@
 		DC386DA51BEFF8C900562543 /* ProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DA41BEFF8C900562543 /* ProjectsViewController.m */; };
 		DC386DA81BF003C500562543 /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386DA71BF003C500562543 /* Main.Storyboard */; };
 		DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */; };
+		DC386DF91BF4223C00562543 /* SOProject.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF51BF4223C00562543 /* SOProject.m */; };
+		DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF71BF4223C00562543 /* SOVideo.m */; };
+		DC386DFD1BF4230200562543 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DFC1BF4230200562543 /* User.m */; };
+		DC386E041BF4234100562543 /* SOLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DFF1BF4234100562543 /* SOLoginViewController.m */; };
+		DC386E051BF4234100562543 /* SOLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E001BF4234100562543 /* SOLoginViewController.xib */; };
+		DC386E061BF4234100562543 /* SOSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E021BF4234100562543 /* SOSignUpViewController.m */; };
+		DC386E071BF4234100562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E031BF4234100562543 /* SOSignUpViewController.xib */; };
+		DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E091BF424B300562543 /* NSURL+ImageGenerator.m */; };
 		F386A2585F70466F066DA368 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B31638C861E4996215CDACD0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -35,14 +39,6 @@
 		2B71E56213096115E5D6499D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3933170B0C7BDDBBA4F99A84 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7127B5B1BF0547F0069CF76 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		C7127B5C1BF0547F0069CF76 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		C7127B5E1BF055360069CF76 /* SOVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOVideo.h; sourceTree = "<group>"; };
-		C7127B5F1BF055360069CF76 /* SOVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOVideo.m; sourceTree = "<group>"; };
-		C7127B611BF0559C0069CF76 /* SOProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOProject.h; sourceTree = "<group>"; };
-		C7127B621BF0559C0069CF76 /* SOProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOProject.m; sourceTree = "<group>"; };
-		C7127B651BF05A460069CF76 /* NSURL+ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ImageGenerator.h"; sourceTree = "<group>"; };
-		C7127B661BF05A460069CF76 /* NSURL+ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ImageGenerator.m"; sourceTree = "<group>"; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D49BF4901BEFF80800340627 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -68,6 +64,20 @@
 		DC386DA71BF003C500562543 /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 		DC386DA91BF005EE00562543 /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
 		DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
+		DC386DF41BF4223C00562543 /* SOProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOProject.h; sourceTree = "<group>"; };
+		DC386DF51BF4223C00562543 /* SOProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOProject.m; sourceTree = "<group>"; };
+		DC386DF61BF4223C00562543 /* SOVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOVideo.h; sourceTree = "<group>"; };
+		DC386DF71BF4223C00562543 /* SOVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOVideo.m; sourceTree = "<group>"; };
+		DC386DF81BF4223C00562543 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		DC386DFC1BF4230200562543 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		DC386DFE1BF4234100562543 /* SOLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLoginViewController.h; sourceTree = "<group>"; };
+		DC386DFF1BF4234100562543 /* SOLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLoginViewController.m; sourceTree = "<group>"; };
+		DC386E001BF4234100562543 /* SOLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOLoginViewController.xib; sourceTree = "<group>"; };
+		DC386E011BF4234100562543 /* SOSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSignUpViewController.h; sourceTree = "<group>"; };
+		DC386E021BF4234100562543 /* SOSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSignUpViewController.m; sourceTree = "<group>"; };
+		DC386E031BF4234100562543 /* SOSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSignUpViewController.xib; sourceTree = "<group>"; };
+		DC386E081BF424B300562543 /* NSURL+ImageGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ImageGenerator.h"; sourceTree = "<group>"; };
+		DC386E091BF424B300562543 /* NSURL+ImageGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ImageGenerator.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,29 +106,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C7127B5A1BF0419D0069CF76 /* SOModel */ = {
-			isa = PBXGroup;
-			children = (
-				C7127B5B1BF0547F0069CF76 /* User.h */,
-				C7127B5C1BF0547F0069CF76 /* User.m */,
-				C7127B5E1BF055360069CF76 /* SOVideo.h */,
-				C7127B5F1BF055360069CF76 /* SOVideo.m */,
-				C7127B611BF0559C0069CF76 /* SOProject.h */,
-				C7127B621BF0559C0069CF76 /* SOProject.m */,
-			);
-			name = SOModel;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		C7127B641BF05A0F0069CF76 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				C7127B651BF05A460069CF76 /* NSURL+ImageGenerator.h */,
-				C7127B661BF05A460069CF76 /* NSURL+ImageGenerator.m */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
 		DC386D741BEFEBA800562543 = {
 			isa = PBXGroup;
 			children = (
@@ -145,8 +132,8 @@
 				DC386D861BEFEBA900562543 /* ViewController.h */,
 				DC386D871BEFEBA900562543 /* ViewController.m */,
 				DC386DA71BF003C500562543 /* Main.Storyboard */,
-				C7127B641BF05A0F0069CF76 /* Extensions */,
-				C7127B5A1BF0419D0069CF76 /* SOModel */,
+				DC386E0B1BF424BB00562543 /* extensions */,
+				DC386DFB1BF4224500562543 /* SOModel */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
 				DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */,
@@ -182,8 +169,36 @@
 				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
 				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
 				DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */,
+				DC386DFE1BF4234100562543 /* SOLoginViewController.h */,
+				DC386DFF1BF4234100562543 /* SOLoginViewController.m */,
+				DC386E001BF4234100562543 /* SOLoginViewController.xib */,
+				DC386E011BF4234100562543 /* SOSignUpViewController.h */,
+				DC386E021BF4234100562543 /* SOSignUpViewController.m */,
+				DC386E031BF4234100562543 /* SOSignUpViewController.xib */,
 			);
 			name = SOViewControllers;
+			sourceTree = "<group>";
+		};
+		DC386DFB1BF4224500562543 /* SOModel */ = {
+			isa = PBXGroup;
+			children = (
+				DC386DF81BF4223C00562543 /* User.h */,
+				DC386DFC1BF4230200562543 /* User.m */,
+				DC386DF41BF4223C00562543 /* SOProject.h */,
+				DC386DF51BF4223C00562543 /* SOProject.m */,
+				DC386DF61BF4223C00562543 /* SOVideo.h */,
+				DC386DF71BF4223C00562543 /* SOVideo.m */,
+			);
+			name = SOModel;
+			sourceTree = "<group>";
+		};
+		DC386E0B1BF424BB00562543 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DC386E081BF424B300562543 /* NSURL+ImageGenerator.h */,
+				DC386E091BF424B300562543 /* NSURL+ImageGenerator.m */,
+			);
+			name = extensions;
 			sourceTree = "<group>";
 		};
 		F88ABA11F1D5D8AA3BA47208 /* Pods */ = {
@@ -256,8 +271,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC386E051BF4234100562543 /* SOLoginViewController.xib in Resources */,
 				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
+				DC386E071BF4234100562543 /* SOSignUpViewController.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,18 +334,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC386E041BF4234100562543 /* SOLoginViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
 				DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
+				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
+				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
-				C7127B671BF05A460069CF76 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DA51BEFF8C900562543 /* ProjectsViewController.m in Sources */,
+				DC386DFD1BF4230200562543 /* User.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
-				C7127B631BF0559C0069CF76 /* SOProject.m in Sources */,
-				C7127B5D1BF0547F0069CF76 /* User.m in Sources */,
-				C7127B601BF055360069CF76 /* SOVideo.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
+				DC386E061BF4234100562543 /* SOSignUpViewController.m in Sources */,
+				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

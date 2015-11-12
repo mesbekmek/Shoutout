@@ -7,29 +7,40 @@
 //
 
 #import "AppDelegate.h"
+
 #import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 #import "User.h"
 #import "SOVideo.h"
 #import "SOProject.h"
+#import "SOLoginViewController.h"
+
 
 @interface AppDelegate ()
 
 @end
-
 NSString * const parseApplicationId = @"ED7PsBQFjJ5e5P8qDW7lw2fTvJlqZ9qecwLrXpGC";
 NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
-
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
     [User registerSubclass];
     [SOVideo registerSubclass];
     [SOProject registerSubclass];
     
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    
+    
+
     return YES;
 }
 
