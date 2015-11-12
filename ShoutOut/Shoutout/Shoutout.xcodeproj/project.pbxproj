@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84E5CF971BF4C9A300A587E1 /* VideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* VideoCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		84E5CF9A1BF4C9DA00A587E1 /* VideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CF991BF4C9DA00A587E1 /* VideoCVC.m */; settings = {ASSET_TAGS = (); }; };
+		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; settings = {ASSET_TAGS = (); }; };
+		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; settings = {ASSET_TAGS = (); }; };
+		84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */; settings = {ASSET_TAGS = (); }; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -38,6 +43,12 @@
 /* Begin PBXFileReference section */
 		2B71E56213096115E5D6499D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3933170B0C7BDDBBA4F99A84 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		84E5CF961BF4C9A300A587E1 /* VideoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoCollectionViewCell.xib; sourceTree = "<group>"; };
+		84E5CF981BF4C9DA00A587E1 /* VideoCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCVC.h; sourceTree = "<group>"; };
+		84E5CF991BF4C9DA00A587E1 /* VideoCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCVC.m; sourceTree = "<group>"; };
+		84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video1.jpg; sourceTree = "<group>"; };
+		84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video2.jpg; sourceTree = "<group>"; };
+		84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video3.jpg; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -133,6 +144,9 @@
 				DC386D871BEFEBA900562543 /* ViewController.m */,
 				DC386DA71BF003C500562543 /* Main.Storyboard */,
 				DC386E0B1BF424BB00562543 /* extensions */,
+				84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */,
+				84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */,
+				84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */,
 				DC386DFB1BF4224500562543 /* SOModel */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
@@ -163,6 +177,9 @@
 			children = (
 				DC386DA31BEFF8C900562543 /* ProjectsViewController.h */,
 				DC386DA41BEFF8C900562543 /* ProjectsViewController.m */,
+				84E5CF961BF4C9A300A587E1 /* VideoCollectionViewCell.xib */,
+				84E5CF981BF4C9DA00A587E1 /* VideoCVC.h */,
+				84E5CF991BF4C9DA00A587E1 /* VideoCVC.m */,
 				DC386DA01BEFF8AF00562543 /* CollaborateViewController.h */,
 				DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */,
 				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
@@ -271,11 +288,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E5CF971BF4C9A300A587E1 /* VideoCollectionViewCell.xib in Resources */,
 				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
+				84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */,
 				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
+				84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */,
+				84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +357,7 @@
 			files = (
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
 				DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */,
+				84E5CF9A1BF4C9DA00A587E1 /* VideoCVC.m in Sources */,
 				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,

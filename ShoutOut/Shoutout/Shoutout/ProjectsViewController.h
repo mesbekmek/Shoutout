@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SOProject.h"
 #import "SOVideo.h"
+#import <ParseUI/ParseUI.h>
+#import <Parse/Parse.h>
 
-@interface ProjectsViewController : UIViewController
+@interface ProjectsViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) SOProject *currentProject;
 
