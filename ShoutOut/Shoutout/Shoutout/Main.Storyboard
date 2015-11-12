@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LH3-k7-8kY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LH3-k7-8kY">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -124,21 +124,120 @@
         <!--ProjectsViewController-->
         <scene sceneID="voe-pJ-10B">
             <objects>
-                <viewController id="L11-kU-JqO" userLabel="ProjectsViewController" customClass="ProjectsViewController" sceneMemberID="viewController">
+                <viewController id="L11-kU-JqO" userLabel="ProjectsViewController" customClass="SOProjectsViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Re5-lh-0t1"/>
-                        <viewControllerLayoutGuide type="bottom" id="7rx-RF-LDc"/>
+                        <viewControllerLayoutGuide type="top" id="fmo-PF-Ezr"/>
+                        <viewControllerLayoutGuide type="bottom" id="OTg-fe-4ha"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="avL-8a-lMQ">
+                    <view key="view" contentMode="scaleToFill" id="m9J-rM-qnO">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eBT-NJ-n2o" userLabel="centerView">
+                                <rect key="frame" x="30" y="168" width="280" height="233"/>
+                                <color key="backgroundColor" red="0.93005047013274333" green="0.93005047013274333" blue="0.93005047013274333" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TDr-nZ-ExJ" userLabel="collectionView">
+                                <rect key="frame" x="30" y="169" width="280" height="233"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="idC-8Z-tGP">
+                                    <size key="itemSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="RUW-CA-BiX">
+                                        <rect key="frame" x="0.0" y="117" width="0.0" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="arh-7s-JC3" kind="show" identifier="SortingVideos" id="jMM-Yu-6zr"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="L11-kU-JqO" id="QMi-eq-kXP"/>
+                                    <outlet property="delegate" destination="L11-kU-JqO" id="B6R-Xj-d9R"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="My projects" id="yda-ve-4tt">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="eSR-yT-z0C">
+                            <connections>
+                                <segue destination="zNR-sc-Nd6" kind="show" id="P4s-dG-FWp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="centerView" destination="eBT-NJ-n2o" id="vvD-UP-Xmk"/>
+                        <outlet property="collectionView" destination="TDr-nZ-ExJ" id="BDG-Vy-Djg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBd-VP-wti" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1063" y="159"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="RB8-Uw-SsJ">
+            <objects>
+                <viewController id="zNR-sc-Nd6" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wnA-4j-ewX"/>
+                        <viewControllerLayoutGuide type="bottom" id="S1l-XH-KqS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jKn-R3-Cfr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZYo-kv-gKH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1789" y="-147"/>
+        </scene>
+        <!--Sorting Videos-->
+        <scene sceneID="1OD-b4-RGZ">
+            <objects>
+                <viewController id="arh-7s-JC3" customClass="SOSortingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y7K-wB-OAK"/>
+                        <viewControllerLayoutGuide type="bottom" id="yY7-9Q-Oei"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rPM-Ab-Ybg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yPn-FY-bsu" userLabel="centerView">
+                                <rect key="frame" x="20" y="168" width="280" height="233"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RBm-KK-f2o" userLabel="collectionView">
+                                <rect key="frame" x="20" y="169" width="280" height="233"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3g9-Lo-MI7">
+                                    <size key="itemSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Sorting Videos" id="dLK-EM-s41"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TeS-JE-7gq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1789" y="650"/>
         </scene>
         <!--CollaboratorViewController-->
         <scene sceneID="5AP-Cu-4dA">
