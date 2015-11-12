@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -215,25 +216,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yPn-FY-bsu" userLabel="centerView">
-                                <rect key="frame" x="20" y="168" width="280" height="233"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPn-FY-bsu" userLabel="centerView">
+                                <rect key="frame" x="20" y="426" width="560" height="120"/>
+                                <subviews>
+                                    <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RBm-KK-f2o" userLabel="collectionView">
+                                        <rect key="frame" x="235" y="5" width="90" height="110"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="GbX-hr-1E6"/>
+                                            <constraint firstAttribute="width" constant="90" id="jH4-g7-2Hq"/>
+                                            <constraint firstAttribute="width" constant="100" id="tef-Tp-Nfp"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3g9-Lo-MI7">
+                                            <size key="itemSize" width="0.0" height="0.0"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="cbf-E0-mTF">
+                                                <rect key="frame" x="0.0" y="65" width="0.0" height="0.0"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                </view>
+                                            </collectionViewCell>
+                                        </cells>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="GbX-hr-1E6"/>
+                                                <exclude reference="tef-Tp-Nfp"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <outlet property="dataSource" destination="arh-7s-JC3" id="mVp-uc-Mcj"/>
+                                            <outlet property="delegate" destination="arh-7s-JC3" id="rRf-sa-g8T"/>
+                                        </connections>
+                                    </collectionView>
+                                </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="RBm-KK-f2o" secondAttribute="bottom" constant="5" id="HHo-YI-KgU"/>
+                                    <constraint firstItem="RBm-KK-f2o" firstAttribute="top" secondItem="yPn-FY-bsu" secondAttribute="top" constant="5" id="Hf4-4X-2Ly"/>
+                                    <constraint firstAttribute="width" constant="160" id="SZH-lo-cje"/>
+                                    <constraint firstItem="RBm-KK-f2o" firstAttribute="centerX" secondItem="yPn-FY-bsu" secondAttribute="centerX" id="Ssu-WA-c1o"/>
+                                    <constraint firstAttribute="trailing" secondItem="RBm-KK-f2o" secondAttribute="trailing" constant="5" id="beh-xy-NR0"/>
+                                    <constraint firstAttribute="height" constant="120" id="f4s-yR-XCl"/>
+                                    <constraint firstItem="RBm-KK-f2o" firstAttribute="leading" secondItem="yPn-FY-bsu" secondAttribute="leading" constant="5" id="jYr-K4-MQm"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="SZH-lo-cje"/>
+                                        <exclude reference="beh-xy-NR0"/>
+                                        <exclude reference="jYr-K4-MQm"/>
+                                    </mask>
+                                </variation>
                             </view>
-                            <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RBm-KK-f2o" userLabel="collectionView">
-                                <rect key="frame" x="20" y="169" width="280" height="233"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3g9-Lo-MI7">
-                                    <size key="itemSize" width="0.0" height="0.0"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="yPn-FY-bsu" secondAttribute="trailing" id="8yE-F2-fHP"/>
+                            <constraint firstItem="yPn-FY-bsu" firstAttribute="leading" secondItem="rPM-Ab-Ybg" secondAttribute="leadingMargin" id="Nht-jw-Jby"/>
+                            <constraint firstItem="yPn-FY-bsu" firstAttribute="centerX" secondItem="rPM-Ab-Ybg" secondAttribute="centerX" id="QhO-gA-yMs"/>
+                            <constraint firstItem="yY7-9Q-Oei" firstAttribute="top" secondItem="yPn-FY-bsu" secondAttribute="bottom" constant="10" id="SFd-AF-65j"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Sorting Videos" id="dLK-EM-s41"/>
+                    <connections>
+                        <outlet property="centerView" destination="yPn-FY-bsu" id="CE5-La-72G"/>
+                        <outlet property="collectionView" destination="RBm-KK-f2o" id="cDZ-SE-Wym"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TeS-JE-7gq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
