@@ -1,8 +1,8 @@
 //
-//  ProjectsViewController.h
+//  SOProjectsViewController.h
 //  Shoutout
 //
-//  Created by Mesfin Bekele Mekonnen on 11/8/15.
+//  Created by Diana Elezaj on 11/12/15.
 //  Copyright © 2015 Mesfin. All rights reserved.
 //
 
@@ -11,8 +11,7 @@
 #import "SOVideo.h"
 #import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
-
-@interface ProjectsViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface SOProjectsViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) SOProject *currentProject;
 

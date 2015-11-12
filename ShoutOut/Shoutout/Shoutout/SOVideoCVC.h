@@ -1,5 +1,5 @@
 //
-//  VideoCVC.h
+//  SOVideoCVC.h
 //  Shoutout
 //
 //  Created by Diana Elezaj on 11/12/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VideoCVC : UICollectionViewCell
+@interface SOVideoCVC : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *videoImageView;
 
 @end
