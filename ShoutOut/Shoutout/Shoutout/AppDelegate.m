@@ -28,7 +28,9 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     // Override point for customization after application launch.
 
 
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
     
 
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
@@ -41,6 +43,11 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [self.window makeKeyAndVisible];
     
 
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    
+    
     return YES;
 }
 
