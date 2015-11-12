@@ -13,7 +13,6 @@
 #import "User.h"
 #import "SOVideo.h"
 #import "SOProject.h"
-#import "SOLoginViewController.h"
 
 
 @interface AppDelegate ()
@@ -26,21 +25,27 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+<<<<<<< HEAD
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+=======
+>>>>>>> parent of 1f46f5d... Sign up/Login Flow
     
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
     [User registerSubclass];
     [SOVideo registerSubclass];
     [SOProject registerSubclass];
     
+<<<<<<< HEAD
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
     
 
+=======
+>>>>>>> parent of 1f46f5d... Sign up/Login Flow
     return YES;
 }
 

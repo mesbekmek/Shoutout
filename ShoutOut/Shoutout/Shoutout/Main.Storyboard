@@ -8,7 +8,7 @@
         <!--Navigation Controller-->
         <scene sceneID="a8a-0d-Bb9">
             <objects>
-                <navigationController storyboardIdentifier="SOMainNavigationControllerID" id="LH3-k7-8kY" sceneMemberID="viewController">
+                <navigationController id="LH3-k7-8kY" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jVk-Ai-QcZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -25,7 +25,7 @@
         <!--View Controller-->
         <scene sceneID="mm1-Cq-DcX">
             <objects>
-                <viewController storyboardIdentifier="SOViewControllerID" id="5Rd-JW-kXI" sceneMemberID="viewController">
+                <viewController id="5Rd-JW-kXI" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HhW-3z-maV"/>
                         <viewControllerLayoutGuide type="bottom" id="BrG-OS-ZLN"/>
