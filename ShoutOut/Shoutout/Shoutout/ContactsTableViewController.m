@@ -7,8 +7,15 @@
 //
 
 #import "ContactsTableViewController.h"
+#import <Parse/Parse.h>
+#import "SOFriend.h"
+
 
 @interface ContactsTableViewController ()
+
+@property (nonatomic) NSArray *allUsers;
+@property (nonatomic) NSArray *storeUsersContacts;
+@property (nonatomic) NSMutableArray *friendedContacts;
 
 @end
 
@@ -17,11 +24,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    PFUser *currentUser =  [PFUser currentUser];
+    NSLog(@"current user  contacts == %@",[currentUser objectForKey: @"contacts"] );
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    PFQuery *query = [PFUser query];
+
+    [query whereKey:@"username" containedIn: [currentUser objectForKey:@"contacts"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        NSLog(@"%@",objects);
+        self.storeUsersContacts = objects;
+        [self grabContacts];
+        NSLog(@"%@",error);
+    }];
+    
+}
+
+-(void)grabContacts {
+    for (PFUser *contact in self.storeUsersContacts) {
+        if ([[contact objectForKey:@"contacts"] containsObject: [PFUser currentUser][@"username"]]) {
+            [self.friendedContacts addObject:contact];
+        }
+        NSLog(@"contacts == %@",[contact objectForKey:@"contacts"]);
+    }
 }
 
 - (void)didReceiveMemoryWarning {
