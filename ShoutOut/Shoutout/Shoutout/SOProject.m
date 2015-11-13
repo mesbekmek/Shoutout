@@ -13,7 +13,7 @@
 @dynamic createdBy;
 @dynamic videos;
 @dynamic collaboratorsSentTo;
-@dynamic collaboratorsRecievedFrom;
+@dynamic collaboratorsReceivedFrom;
 @dynamic collaboratorsDeclined;
 @dynamic title;
 @dynamic description;

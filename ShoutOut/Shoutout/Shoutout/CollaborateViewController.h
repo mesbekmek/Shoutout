@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SOModel.h"
 
 @interface CollaborateViewController : UIViewController
+
+@property (nonatomic) SOProject *collaborationProject;
 
 @end
