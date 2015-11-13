@@ -12,7 +12,7 @@
 #import "CollaborateViewController.h"
 #import "SOModel.h"
 
-const float kVideoLengthMax = 10.0;
+const float kVideoLengthMax1 = 10.0;
 
 
 @interface CollaborateViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -90,7 +90,7 @@ const float kVideoLengthMax = 10.0;
     self.imagePicker.delegate = self;
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = [[NSArray alloc]initWithObjects:(NSString *)kUTTypeMovie, nil];
-    self.imagePicker.videoMaximumDuration = kVideoLengthMax;
+    self.imagePicker.videoMaximumDuration = kVideoLengthMax1;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
     

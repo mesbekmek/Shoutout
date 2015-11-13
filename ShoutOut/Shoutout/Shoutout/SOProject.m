@@ -25,7 +25,7 @@
     if (self = [super init]) {
         self.videos = [NSMutableArray new];
         self.collaboratorsSentTo = [NSMutableArray new];
-        self.collaboratorsRecievedFrom = [NSMutableArray new];
+        self.collaboratorsReceivedFrom = [NSMutableArray new];
         self.collaboratorsDeclined = [NSMutableArray new];
         self.title = title;
         
