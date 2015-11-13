@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; settings = {ASSET_TAGS = (); }; };
-		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; settings = {ASSET_TAGS = (); }; };
-		84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */; settings = {ASSET_TAGS = (); }; };
-		84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */; settings = {ASSET_TAGS = (); }; };
-		84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */; settings = {ASSET_TAGS = (); }; };
-		84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */; settings = {ASSET_TAGS = (); }; };
+		84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */; };
+		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; };
+		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; };
+		84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */; };
+		84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */; };
+		84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */; };
+		84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */; };
+		84E5CFB21BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */; };
+		84E5CFB51BF4FCE300A587E1 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */; };
+		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
+		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -27,7 +31,6 @@
 		DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC386D8F1BEFEBA900562543 /* Assets.xcassets */; };
 		DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */; };
 		DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D9E1BEFF89500562543 /* ProfileViewController.m */; };
-		DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */; };
 		DC386DA81BF003C500562543 /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386DA71BF003C500562543 /* Main.Storyboard */; };
 		DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */; };
 		DC386DF91BF4223C00562543 /* SOProject.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF51BF4223C00562543 /* SOProject.m */; };
@@ -54,7 +57,17 @@
 		84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOProjectsViewController.m; sourceTree = "<group>"; };
 		84E5CFAC1BF4EA5100A587E1 /* SOSortingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingViewController.h; sourceTree = "<group>"; };
 		84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingViewController.m; sourceTree = "<group>"; };
+		84E5CFAF1BF4FA3200A587E1 /* video1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video1.mp4; sourceTree = "<group>"; };
+		84E5CFB01BF4FA3200A587E1 /* video2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video2.mp4; sourceTree = "<group>"; };
+		84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSortingCollectionViewCell.xib; sourceTree = "<group>"; };
+		84E5CFB31BF4FCE300A587E1 /* SOSortingCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingCVC.h; sourceTree = "<group>"; };
+		84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingCVC.m; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7127B6F1BF678D60069CF76 /* CollaborationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborationsTableViewController.h; sourceTree = "<group>"; };
+		C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborationsTableViewController.m; sourceTree = "<group>"; };
+		C7127B711BF678D60069CF76 /* SOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOModel.h; sourceTree = "<group>"; };
+		C7127B741BF6793A0069CF76 /* CollaborateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborateViewController.h; sourceTree = "<group>"; };
+		C7127B751BF6793A0069CF76 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D49BF4901BEFF80800340627 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -73,8 +86,6 @@
 		DC386D941BEFEBA900562543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC386D9D1BEFF89500562543 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		DC386D9E1BEFF89500562543 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		DC386DA01BEFF8AF00562543 /* CollaborateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborateViewController.h; sourceTree = "<group>"; };
-		DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
 		DC386DA71BF003C500562543 /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 		DC386DA91BF005EE00562543 /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
 		DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
@@ -143,8 +154,22 @@
 				84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */,
 				84E5CFAC1BF4EA5100A587E1 /* SOSortingViewController.h */,
 				84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */,
+				84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */,
+				84E5CFB31BF4FCE300A587E1 /* SOSortingCVC.h */,
+				84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */,
 			);
 			name = SOProjects;
+			sourceTree = "<group>";
+		};
+		C7127B731BF678F10069CF76 /* CollaborationSection */ = {
+			isa = PBXGroup;
+			children = (
+				C7127B741BF6793A0069CF76 /* CollaborateViewController.h */,
+				C7127B751BF6793A0069CF76 /* CollaborateViewController.m */,
+				C7127B6F1BF678D60069CF76 /* CollaborationsTableViewController.h */,
+				C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */,
+			);
+			name = CollaborationSection;
 			sourceTree = "<group>";
 		};
 		DC386D741BEFEBA800562543 = {
@@ -177,6 +202,8 @@
 				84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */,
 				84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */,
 				84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */,
+				84E5CFAF1BF4FA3200A587E1 /* video1.mp4 */,
+				84E5CFB01BF4FA3200A587E1 /* video2.mp4 */,
 				DC386DFB1BF4224500562543 /* SOModel */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
@@ -205,9 +232,8 @@
 		DC386DA61BEFF8F900562543 /* SOViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C7127B731BF678F10069CF76 /* CollaborationSection */,
 				84E5CFA21BF4E5B500A587E1 /* SOProjects */,
-				DC386DA01BEFF8AF00562543 /* CollaborateViewController.h */,
-				DC386DA11BEFF8AF00562543 /* CollaborateViewController.m */,
 				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
 				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
 				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
@@ -220,6 +246,7 @@
 		DC386DFB1BF4224500562543 /* SOModel */ = {
 			isa = PBXGroup;
 			children = (
+				C7127B711BF678D60069CF76 /* SOModel.h */,
 				DC386DF81BF4223C00562543 /* User.h */,
 				DC386DFC1BF4230200562543 /* User.m */,
 				DC386DF41BF4223C00562543 /* SOProject.h */,
@@ -282,7 +309,7 @@
 				TargetAttributes = {
 					DC386D7C1BEFEBA900562543 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = BULEKXRKSR;
+						DevelopmentTeam = 3L76772298;
 					};
 				};
 			};
@@ -311,6 +338,7 @@
 			files = (
 				84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */,
 				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
+				84E5CFB21BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib in Resources */,
 				84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */,
 				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
@@ -378,9 +406,11 @@
 			files = (
 				84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
-				DC386DA21BEFF8AF00562543 /* CollaborateViewController.m in Sources */,
 				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
+				C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
+				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
+				84E5CFB51BF4FCE300A587E1 /* SOSortingCVC.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
@@ -494,11 +524,14 @@
 			baseConfigurationReference = 3933170B0C7BDDBBA4F99A84 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -507,11 +540,14 @@
 			baseConfigurationReference = 2B71E56213096115E5D6499D /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
