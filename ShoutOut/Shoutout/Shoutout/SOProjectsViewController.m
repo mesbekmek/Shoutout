@@ -39,6 +39,52 @@ const float kVideoLengthMax = 10.0;
     [super viewDidLoad];
     
     
+    //should get user Id
+    NSString *temporaryUserId = @"SN9OrgnTTT";
+    
+    
+    //get all projects where objectId = temporaryUserId
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
+    [query whereKey:@"objectId" equalTo:temporaryUserId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            NSLog(@"Successfully retrieved %lu scores.", (unsigned long)objects.count);
+            // Do something with the found objects
+            for (PFObject *object in objects) {
+                NSLog(@"%@", object.objectId);
+                NSLog(@"obj %@",object);
+            }
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
+
+    
+    
+    
+    
+    
+    
+//    PFQuery *innerQuery = [PFQuery queryWithClassName:@"SOProject"];
+//    NSLog(@"innerQuery %@",innerQuery);
+    
+    
+//    [innerQuery whereKey:@"image"];
+//    PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+//    [query whereKey:@"post" matchesQuery:innerQuery];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+//        // comments now contains the comments for posts with images
+//    }];
+ 
+    
+    
+    
+    
+    
+    
     //    [centerView.layer setBorderWidth:5.0];
     //    [centerView.layer setBorderColor:[[UIColor colorWithPatternImage:[UIImage imageNamed:@"lines"]] CGColor]];
     

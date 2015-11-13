@@ -105,6 +105,47 @@
 }
 
 
+
+
+- (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath {
+#if LX_LIMITED_MOVEMENT == 1
+    PlayingCard *fromPlayingCard = self.deck[fromIndexPath.item];
+    PlayingCard *toPlayingCard = self.deck[toIndexPath.item];
+    
+    switch (toPlayingCard.suit) {
+        case PlayingCardSuitSpade:
+        case PlayingCardSuitClub: {
+            return fromPlayingCard.rank == toPlayingCard.rank;
+        } break;
+        default: {
+            return NO;
+        } break;
+    }
+#else
+    return YES;
+#endif
+}
+
+#pragma mark - LXReorderableCollectionViewDelegateFlowLayout methods
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout willBeginDraggingItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"will begin drag");
+}
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didBeginDraggingItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"did begin drag");
+}
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout willEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"will end drag");
+}
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"did end drag");
+}
+
+
+
 //-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 //{
 //    
