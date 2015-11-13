@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; settings = {ASSET_TAGS = (); }; };
-		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; settings = {ASSET_TAGS = (); }; };
-		84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */; settings = {ASSET_TAGS = (); }; };
-		84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */; settings = {ASSET_TAGS = (); }; };
-		84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */; settings = {ASSET_TAGS = (); }; };
-		84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */; settings = {ASSET_TAGS = (); }; };
+		84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */; };
+		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; };
+		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; };
+		84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */; };
+		84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */; };
+		84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */; };
+		84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */; };
+		D48B2CFE1BF676EE002E6E0A /* SearchContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D48B2CFD1BF676EE002E6E0A /* SearchContactTableViewController.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -55,6 +56,8 @@
 		84E5CFAC1BF4EA5100A587E1 /* SOSortingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingViewController.h; sourceTree = "<group>"; };
 		84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingViewController.m; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D48B2CFC1BF676EE002E6E0A /* SearchContactTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchContactTableViewController.h; sourceTree = "<group>"; };
+		D48B2CFD1BF676EE002E6E0A /* SearchContactTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchContactTableViewController.m; sourceTree = "<group>"; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D49BF4901BEFF80800340627 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -212,6 +215,8 @@
 				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
 				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
 				DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */,
+				D48B2CFC1BF676EE002E6E0A /* SearchContactTableViewController.h */,
+				D48B2CFD1BF676EE002E6E0A /* SearchContactTableViewController.m */,
 				84E5CFA11BF4E59F00A587E1 /* SOLoginSignUp */,
 			);
 			name = SOViewControllers;
@@ -383,6 +388,7 @@
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
+				D48B2CFE1BF676EE002E6E0A /* SearchContactTableViewController.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,

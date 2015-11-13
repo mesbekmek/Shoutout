@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LH3-k7-8kY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LH3-k7-8kY">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -135,10 +135,12 @@
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eBT-NJ-n2o" userLabel="centerView">
                                 <rect key="frame" x="30" y="168" width="280" height="233"/>
+                                <animations/>
                                 <color key="backgroundColor" red="0.93005047013274333" green="0.93005047013274333" blue="0.93005047013274333" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TDr-nZ-ExJ" userLabel="collectionView">
                                 <rect key="frame" x="30" y="169" width="280" height="233"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="idC-8Z-tGP">
                                     <size key="itemSize" width="0.0" height="0.0"/>
@@ -152,8 +154,10 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <animations/>
                                         <connections>
                                             <segue destination="arh-7s-JC3" kind="show" identifier="SortingVideos" id="jMM-Yu-6zr"/>
                                         </connections>
@@ -165,6 +169,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
@@ -196,6 +201,7 @@
                     <view key="view" contentMode="scaleToFill" id="jKn-R3-Cfr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -217,10 +223,12 @@
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yPn-FY-bsu" userLabel="centerView">
                                 <rect key="frame" x="20" y="168" width="280" height="233"/>
+                                <animations/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RBm-KK-f2o" userLabel="collectionView">
                                 <rect key="frame" x="20" y="169" width="280" height="233"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="3g9-Lo-MI7">
                                     <size key="itemSize" width="0.0" height="0.0"/>
@@ -231,6 +239,7 @@
                                 <cells/>
                             </collectionView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Sorting Videos" id="dLK-EM-s41"/>
@@ -284,10 +293,94 @@
                             <outlet property="delegate" destination="Wnh-KL-aQu" id="tlW-mx-o4q"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Contacts" id="RTT-v3-AuD">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="8AG-le-jKl">
+                            <connections>
+                                <segue destination="Ovw-Nx-au6" kind="show" id="lf1-NX-dNL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U9N-s3-CpP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1040" y="1712"/>
+        </scene>
+        <!--Search Contact Table View Controller-->
+        <scene sceneID="7RT-UC-v3I">
+            <objects>
+                <viewController id="Ovw-Nx-au6" customClass="SearchContactTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dgl-iS-fr8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nhr-Gn-lgJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ze7-TI-kO4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mbj-Jm-Lbu">
+                                <rect key="frame" x="0.0" y="94" width="600" height="506"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchContactCellID" id="3U9-cm-cRg">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3U9-cm-cRg" id="MFl-KT-TO1">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9v-h4-VBf">
+                                                    <rect key="frame" x="3" y="11" width="594" height="21"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="J9v-h4-VBf" firstAttribute="centerY" secondItem="MFl-KT-TO1" secondAttribute="centerY" id="21P-8K-pPH"/>
+                                                <constraint firstAttribute="trailing" secondItem="J9v-h4-VBf" secondAttribute="trailing" constant="3" id="7nf-PE-eEn"/>
+                                                <constraint firstItem="J9v-h4-VBf" firstAttribute="leading" secondItem="MFl-KT-TO1" secondAttribute="leading" constant="3" id="DfP-5N-OCP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VzI-9y-lwF">
+                                <rect key="frame" x="0.0" y="64" width="525" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRN-gG-ahu">
+                                <rect key="frame" x="533" y="64" width="62" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Search"/>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VzI-9y-lwF" firstAttribute="leading" secondItem="ze7-TI-kO4" secondAttribute="leading" id="DtW-yy-bCT"/>
+                            <constraint firstItem="gRN-gG-ahu" firstAttribute="leading" secondItem="VzI-9y-lwF" secondAttribute="trailing" constant="8" id="MGo-EW-CS1"/>
+                            <constraint firstAttribute="trailing" secondItem="gRN-gG-ahu" secondAttribute="trailing" constant="5" id="YX5-yA-Zh2"/>
+                            <constraint firstAttribute="trailing" secondItem="Mbj-Jm-Lbu" secondAttribute="trailing" id="bBt-dl-Ydu"/>
+                            <constraint firstItem="Mbj-Jm-Lbu" firstAttribute="top" secondItem="gRN-gG-ahu" secondAttribute="bottom" id="dVc-Q5-Vf2"/>
+                            <constraint firstItem="VzI-9y-lwF" firstAttribute="top" secondItem="dgl-iS-fr8" secondAttribute="bottom" id="deu-ev-EAf"/>
+                            <constraint firstItem="Nhr-Gn-lgJ" firstAttribute="top" secondItem="Mbj-Jm-Lbu" secondAttribute="bottom" id="ewC-Cg-iiE"/>
+                            <constraint firstItem="Mbj-Jm-Lbu" firstAttribute="leading" secondItem="ze7-TI-kO4" secondAttribute="leading" id="jUc-kr-83R"/>
+                            <constraint firstAttribute="trailing" secondItem="VzI-9y-lwF" secondAttribute="trailing" constant="75" id="ozc-YU-VBA"/>
+                            <constraint firstItem="gRN-gG-ahu" firstAttribute="top" secondItem="dgl-iS-fr8" secondAttribute="bottom" id="pso-5Q-RBu"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R04-Rh-xZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1673" y="1705"/>
         </scene>
     </scenes>
 </document>
