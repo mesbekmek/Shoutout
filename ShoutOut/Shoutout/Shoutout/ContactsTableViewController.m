@@ -8,7 +8,6 @@
 
 #import "ContactsTableViewController.h"
 #import <Parse/Parse.h>
-#import "SOFriend.h"
 
 
 @interface ContactsTableViewController ()
