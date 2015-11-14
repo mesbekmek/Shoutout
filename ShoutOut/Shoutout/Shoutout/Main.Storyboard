@@ -277,7 +277,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="M8g-J5-ei5">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="currentUserContactsCellID" id="M8g-J5-ei5">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8g-J5-ei5" id="rZ7-mE-A5Z">
@@ -307,10 +307,10 @@
             </objects>
             <point key="canvasLocation" x="1040" y="1712"/>
         </scene>
-        <!--Search Contact Table View Controller-->
+        <!--Search Contact View Controller-->
         <scene sceneID="7RT-UC-v3I">
             <objects>
-                <viewController id="Ovw-Nx-au6" customClass="SearchContactTableViewController" sceneMemberID="viewController">
+                <viewController id="Ovw-Nx-au6" customClass="SearchContactViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dgl-iS-fr8"/>
                         <viewControllerLayoutGuide type="bottom" id="Nhr-Gn-lgJ"/>
@@ -380,7 +380,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R04-Rh-xZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1673" y="1705"/>
+            <point key="canvasLocation" x="1736" y="1712"/>
         </scene>
     </scenes>
 </document>

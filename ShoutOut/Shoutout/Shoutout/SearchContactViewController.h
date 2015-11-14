@@ -1,5 +1,5 @@
 //
-//  SearchContactTableViewController.h
+//  SearchContactViewController.h
 //  Shoutout
 //
 //  Created by Jason Wang on 11/13/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchContactTableViewController : UITableViewController
+@interface SearchContactViewController : UIViewController
 
 @end
