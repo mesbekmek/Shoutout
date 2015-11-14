@@ -13,6 +13,7 @@
 #import "SOVideo.h"
 #import "SOProject.h"
 #import "SOVideoCVC.h"
+#import "SOSortingViewController.h"
 
 
 @interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -25,6 +26,7 @@
 @property (nonatomic) NSMutableArray <SOProject*> *projectsArray;
 @property (nonatomic) NSMutableArray <SOVideo*> *videosArray;
 @property (nonatomic) NSMutableArray *videoThumbnailsArray;
+@property (weak, nonatomic) IBOutlet UITextView *noProjectsTextView;
 
 
 @end
@@ -35,6 +37,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.noProjectsTextView.hidden = YES;
+    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
+    
     self.videoThumbnailsArray = [[NSMutableArray alloc]init];
     
      UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
@@ -63,7 +68,13 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    self.noProjectsTextView.hidden = YES;
     
+    if ([self.videoThumbnailsArray count]==0){
+        self.noProjectsTextView.hidden = NO;
+        collectionView.hidden = YES;
+        centerView.hidden = YES;
+    }
     [self projectsQuery];
  }
 
@@ -135,17 +146,22 @@
 
 
 
-
 #pragma mark - UICollectionViewDataSourceDelegate
-
-
 
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection
 {
+    
+    
+    //for testing purposes
+    if ([self.videoThumbnailsArray count]==0){
+        [self.videoThumbnailsArray addObject:@"video1.jpg"];
+        [self.videoThumbnailsArray addObject:@"video2.jpg"];
+        [self.videoThumbnailsArray addObject:@"video3.jpg"];
+
+    }
     return [self.videoThumbnailsArray count];
 }
-
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
@@ -155,6 +171,7 @@
     
     NSString *videoImage = [self.videoThumbnailsArray objectAtIndex:IndexPath.row];
     NSLog(@"%@",videoImage);
+    NSLog(@"index %ld",(long)IndexPath.row);
     
     UIImage *image = [UIImage imageNamed: videoImage];
     
@@ -186,6 +203,13 @@
     [self performSegueWithIdentifier:@"SortingVideos" sender:self];
     
     
+    if ([self.projectsArray count] !=0) {
+    SOSortingViewController *sortingVC;
+        
+    sortingVC.sortingProject = self.projectsArray[indexPath.row];
+    
+    [self.navigationController pushViewController:sortingVC animated:YES];
+    }
     
 }
 

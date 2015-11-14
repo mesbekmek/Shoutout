@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SOProject.h"
-#import "SOVideo.h"
 #import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
+#import "SOProject.h"
 
 @interface SOSortingViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic) SOProject *currentProject;
+@property (nonatomic) SOProject *sortingProject;
 
 @end

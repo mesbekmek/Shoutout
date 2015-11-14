@@ -165,8 +165,22 @@
                                     <outlet property="delegate" destination="L11-kU-JqO" id="B6R-Xj-d9R"/>
                                 </connections>
                             </collectionView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="You don't have any projects. Click + to create a new one!" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7Ti-om-p4I">
+                                <rect key="frame" x="142" y="260" width="316" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="316" id="isf-mG-3j4"/>
+                                    <constraint firstAttribute="height" constant="81" id="pgx-Rz-67s"/>
+                                </constraints>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7Ti-om-p4I" firstAttribute="centerY" secondItem="m9J-rM-qnO" secondAttribute="centerY" id="AlQ-7U-TkS"/>
+                            <constraint firstItem="7Ti-om-p4I" firstAttribute="centerX" secondItem="m9J-rM-qnO" secondAttribute="centerX" id="qPm-Eo-euk"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My projects" id="yda-ve-4tt">
@@ -180,6 +194,7 @@
                     <connections>
                         <outlet property="centerView" destination="eBT-NJ-n2o" id="vvD-UP-Xmk"/>
                         <outlet property="collectionView" destination="TDr-nZ-ExJ" id="BDG-Vy-Djg"/>
+                        <outlet property="noProjectsTextView" destination="7Ti-om-p4I" id="nHg-dz-e6f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zBd-VP-wti" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -302,6 +317,14 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJJ-y6-cgC">
+                                <rect key="frame" x="112" y="153" width="377" height="233"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="233" id="r3A-xL-G57"/>
+                                    <constraint firstAttribute="width" constant="377" id="yyf-VX-D1a"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -309,6 +332,8 @@
                             <constraint firstItem="yPn-FY-bsu" firstAttribute="leading" secondItem="rPM-Ab-Ybg" secondAttribute="leadingMargin" id="Nht-jw-Jby"/>
                             <constraint firstItem="yPn-FY-bsu" firstAttribute="centerX" secondItem="rPM-Ab-Ybg" secondAttribute="centerX" id="QhO-gA-yMs"/>
                             <constraint firstItem="yY7-9Q-Oei" firstAttribute="top" secondItem="yPn-FY-bsu" secondAttribute="bottom" constant="10" id="SFd-AF-65j"/>
+                            <constraint firstItem="YJJ-y6-cgC" firstAttribute="centerX" secondItem="rPM-Ab-Ybg" secondAttribute="centerX" id="ZcI-HQ-kN3"/>
+                            <constraint firstItem="yPn-FY-bsu" firstAttribute="top" secondItem="YJJ-y6-cgC" secondAttribute="bottom" constant="40" id="lK0-o3-4gk"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Sorting Videos" id="dLK-EM-s41">
@@ -317,6 +342,7 @@
                     <connections>
                         <outlet property="centerView" destination="yPn-FY-bsu" id="CE5-La-72G"/>
                         <outlet property="collectionView" destination="RBm-KK-f2o" id="cDZ-SE-Wym"/>
+                        <outlet property="videoPlayingView" destination="YJJ-y6-cgC" id="vcr-tj-gul"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TeS-JE-7gq" userLabel="First Responder" sceneMemberID="firstResponder"/>
