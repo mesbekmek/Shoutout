@@ -186,10 +186,10 @@
             </objects>
             <point key="canvasLocation" x="1063" y="159"/>
         </scene>
-        <!--View Controller-->
+        <!--Create New Project View Controller-->
         <scene sceneID="RB8-Uw-SsJ">
             <objects>
-                <viewController id="zNR-sc-Nd6" sceneMemberID="viewController">
+                <viewController id="zNR-sc-Nd6" customClass="SOCreateNewProjectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wnA-4j-ewX"/>
                         <viewControllerLayoutGuide type="bottom" id="S1l-XH-KqS"/>
@@ -197,6 +197,35 @@
                     <view key="view" contentMode="scaleToFill" id="jKn-R3-Cfr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0oz-uA-zEQ">
+                                <rect key="frame" x="28" y="181" width="43" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jEb-go-vuk">
+                                <rect key="frame" x="28" y="265" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nqJ-A4-aWO">
+                                <rect key="frame" x="91" y="177" width="301" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xvs-mS-TyO">
+                                <rect key="frame" x="133" y="261" width="259" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xsg-Pl-jhN">
+                                <rect key="frame" x="107" y="379" width="235" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <state key="normal" title="Send requests"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -282,7 +311,9 @@
                             <constraint firstItem="yY7-9Q-Oei" firstAttribute="top" secondItem="yPn-FY-bsu" secondAttribute="bottom" constant="10" id="SFd-AF-65j"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Sorting Videos" id="dLK-EM-s41"/>
+                    <navigationItem key="navigationItem" title="Sorting Videos" id="dLK-EM-s41">
+                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="add" id="Gq3-hh-EJL"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="centerView" destination="yPn-FY-bsu" id="CE5-La-72G"/>
                         <outlet property="collectionView" destination="RBm-KK-f2o" id="cDZ-SE-Wym"/>
