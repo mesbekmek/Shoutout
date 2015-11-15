@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SOSortingCVC : UICollectionViewCell
+@interface SOSortingCVC : UICollectionViewCell <NSCopying>
 @property (weak, nonatomic) IBOutlet UIImageView *videoImageView;
 
 @end

@@ -13,10 +13,11 @@
 		84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */; };
 		84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */; };
 		84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */; };
-		84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */; };
-		84E5CFB21BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */; };
-		84E5CFB51BF4FCE300A587E1 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */; };
 		84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */; };
+		84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D52E1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m */; settings = {ASSET_TAGS = (); }; };
+		84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */; settings = {ASSET_TAGS = (); }; };
+		84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */; settings = {ASSET_TAGS = (); }; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
@@ -58,15 +59,17 @@
 		84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOVideoCVC.m; sourceTree = "<group>"; };
 		84E5CFA91BF4E93F00A587E1 /* SOProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOProjectsViewController.h; sourceTree = "<group>"; };
 		84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOProjectsViewController.m; sourceTree = "<group>"; };
-		84E5CFAC1BF4EA5100A587E1 /* SOSortingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingViewController.h; sourceTree = "<group>"; };
-		84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingViewController.m; sourceTree = "<group>"; };
 		84E5CFAF1BF4FA3200A587E1 /* video1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video1.mp4; sourceTree = "<group>"; };
 		84E5CFB01BF4FA3200A587E1 /* video2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video2.mp4; sourceTree = "<group>"; };
-		84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSortingCollectionViewCell.xib; sourceTree = "<group>"; };
-		84E5CFB31BF4FCE300A587E1 /* SOSortingCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingCVC.h; sourceTree = "<group>"; };
-		84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingCVC.m; sourceTree = "<group>"; };
 		84E9D35E1BF6E500005ACE00 /* SOCreateNewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCreateNewProjectViewController.h; sourceTree = "<group>"; };
 		84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCreateNewProjectViewController.m; sourceTree = "<group>"; };
+		84E9D52D1BF8F25D005ACE00 /* UICollectionView+BMADecorators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+BMADecorators.h"; sourceTree = "<group>"; };
+		84E9D52E1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+BMADecorators.m"; sourceTree = "<group>"; };
+		84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSortingCollectionViewCell.xib; sourceTree = "<group>"; };
+		84E9D5321BF8F2B6005ACE00 /* SOSortingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingViewController.h; sourceTree = "<group>"; };
+		84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingViewController.m; sourceTree = "<group>"; };
+		84E9D5351BF8F2C6005ACE00 /* SOSortingCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingCVC.h; sourceTree = "<group>"; };
+		84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingCVC.m; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7127B6F1BF678D60069CF76 /* CollaborationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborationsTableViewController.h; sourceTree = "<group>"; };
 		C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborationsTableViewController.m; sourceTree = "<group>"; };
@@ -158,18 +161,36 @@
 			children = (
 				84E9D35E1BF6E500005ACE00 /* SOCreateNewProjectViewController.h */,
 				84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */,
+				84E9D52B1BF8F228005ACE00 /* My projects */,
+				84E9D52C1BF8F243005ACE00 /* Sorting */,
+			);
+			name = SOProjects;
+			sourceTree = "<group>";
+		};
+		84E9D52B1BF8F228005ACE00 /* My projects */ = {
+			isa = PBXGroup;
+			children = (
 				84E5CFA91BF4E93F00A587E1 /* SOProjectsViewController.h */,
 				84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */,
 				84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */,
 				84E5CFA61BF4E87D00A587E1 /* SOVideoCVC.h */,
 				84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */,
-				84E5CFAC1BF4EA5100A587E1 /* SOSortingViewController.h */,
-				84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */,
-				84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */,
-				84E5CFB31BF4FCE300A587E1 /* SOSortingCVC.h */,
-				84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */,
 			);
-			name = SOProjects;
+			name = "My projects";
+			sourceTree = "<group>";
+		};
+		84E9D52C1BF8F243005ACE00 /* Sorting */ = {
+			isa = PBXGroup;
+			children = (
+				84E9D5321BF8F2B6005ACE00 /* SOSortingViewController.h */,
+				84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */,
+				84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */,
+				84E9D5351BF8F2C6005ACE00 /* SOSortingCVC.h */,
+				84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */,
+				84E9D52D1BF8F25D005ACE00 /* UICollectionView+BMADecorators.h */,
+				84E9D52E1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m */,
+			);
+			name = Sorting;
 			sourceTree = "<group>";
 		};
 		C7127B731BF678F10069CF76 /* CollaborationSection */ = {
@@ -353,12 +374,12 @@
 			files = (
 				84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */,
 				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
-				84E5CFB21BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib in Resources */,
 				84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */,
 				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
+				84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */,
 				84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */,
 				84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */,
 			);
@@ -424,9 +445,9 @@
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
 				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
 				C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */,
+				84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
-				84E5CFB51BF4FCE300A587E1 /* SOSortingCVC.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
@@ -435,11 +456,12 @@
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
-				84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */,
+				84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */,
 				84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
+				84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
