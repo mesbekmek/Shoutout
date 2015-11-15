@@ -15,7 +15,7 @@
 @property (nonatomic) NSArray *allUsers;
 @property (nonatomic) NSArray *storeUsersContacts;
 @property (nonatomic) NSMutableArray *friendedContacts;
-@property (nonatomic) NSArray *currentUserContacts;
+@property (nonatomic) NSMutableArray *currentUserContacts;
 
 @end
 
@@ -49,47 +49,34 @@
     }];
     
     UIAlertAction *add = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSString *username = alert.textFields[0].text;
-        NSLog(@"user name entered == %@",username);
-        
-        PFQuery *query = [PFUser query];
-        
-        [query whereKey:@"username" containsString:username];
-        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"%@",objects);
-        }];
-        
-        
-        
-        //    PFQuery *query = [PFUser query];
-        //
-        //    [query whereKey:@"username" containedIn: [currentUser objectForKey:@"contacts"]];
-        //    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        //        NSLog(@"%@",objects);
-        //        self.storeUsersContacts = objects;
-        //        [self grabContacts];
-        //        NSLog(@"%@",error);
-        //    }];
-        
-//    }
-        
-                          //-(void)grabContacts {
-                          //    for (PFUser *contact in self.storeUsersContacts) {
-                          //        if ([[contact objectForKey:@"contacts"] containsObject: [PFUser currentUser][@"username"]]) {
-                          //            [self.friendedContacts addObject:contact];
-                          //        }
-                          //        NSLog(@"contacts == %@",[contact objectForKey:@"contacts"]);
-                          //    }
-                          //}
-        
-        
-        
+        [self checkUsernameInParseWithName:alert.textFields[0].text];
     }];
     
     [alert addAction:cancel];
     [alert addAction:add];
     
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)checkUsernameInParseWithName: (NSString *)enteredName {
+    PFQuery *query = [PFUser query];
+    
+    [query whereKey:@"username" containsString:enteredName];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        PFUser *searchedUser = objects[0];
+        if (!error && ![searchedUser.username isEqualToString:[PFUser currentUser].username]) {
+            NSLog(@"match");
+            [self.currentUserContacts addObject:searchedUser.username];
+            [self.tableView reloadData];
+            [self pushContactListToParse];
+        } else {
+            NSLog(@"can't add yourself");
+        }
+    }];
+}
+
+-(void)pushContactListToParse{
+    NSLog(@"Need to push to parse with updated contact list");
 }
 
 
@@ -100,7 +87,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"tvc == %ld",self.currentUserContacts.count);
     return self.currentUserContacts.count;
     
 }
