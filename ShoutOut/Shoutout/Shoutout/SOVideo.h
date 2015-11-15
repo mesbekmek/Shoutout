@@ -19,4 +19,5 @@
 + (NSString*)parseClassName;
 - (instancetype)initWithVideoUrl:(NSURL *)url;
 - (AVAsset*)assetFromVideoFile;
+
 @end

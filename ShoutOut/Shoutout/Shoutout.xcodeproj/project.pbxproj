@@ -18,6 +18,7 @@
 		84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */; settings = {ASSET_TAGS = (); }; };
 		84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */; settings = {ASSET_TAGS = (); }; };
+		84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
@@ -70,6 +71,8 @@
 		84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingViewController.m; sourceTree = "<group>"; };
 		84E9D5351BF8F2C6005ACE00 /* SOSortingCVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSortingCVC.h; sourceTree = "<group>"; };
 		84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingCVC.m; sourceTree = "<group>"; };
+		84E9D5381BF9375D005ACE00 /* SOAddMyVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOAddMyVideoViewController.h; sourceTree = "<group>"; };
+		84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOAddMyVideoViewController.m; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7127B6F1BF678D60069CF76 /* CollaborationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborationsTableViewController.h; sourceTree = "<group>"; };
 		C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborationsTableViewController.m; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 				84E9D5351BF8F2C6005ACE00 /* SOSortingCVC.h */,
 				84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */,
 				84E9D52D1BF8F25D005ACE00 /* UICollectionView+BMADecorators.h */,
+				84E9D5381BF9375D005ACE00 /* SOAddMyVideoViewController.h */,
+				84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */,
 				84E9D52E1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m */,
 			);
 			name = Sorting;
@@ -458,6 +463,7 @@
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
 				84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */,
 				84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */,
+				84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,

@@ -58,8 +58,8 @@ const float kVideoLengthMax1 = 10.0;
             SOProject *project = [objects firstObject];
             [project.videos addObject:self.collaboratorsVideo];
             
-            [project.collaboratorsSentTo removeObject:[User currentUser]];
-            [project.collaboratorsReceivedFrom addObject:[User currentUser]];
+            [project.collaboratorsSentTo removeObject:[User currentUser].username];
+            [project.collaboratorsReceivedFrom addObject:[User currentUser].username];
             
             /* Adding details and so on go here, finally we save project in background again if anything was added to it after the video is created;
              
