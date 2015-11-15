@@ -15,6 +15,15 @@
 @dynamic hasDecided;
 @dynamic isAccepted;
 
+-(instancetype)initWithPendingRequest {
+    if (self = [super init]) {
+        self.hasDecided = NO;
+        self.isAccepted = NO;
+        return self;
+    }
+    return nil;
+}
+
 +(NSString*)parseClassName{
     
     return @"SORequest";

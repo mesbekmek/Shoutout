@@ -52,16 +52,6 @@
     
     
     
-    PFRelation *relation = [currentUser relationForKey:@"contacts"];
-    PFQuery *query = [relation query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        NSLog(@"object %@",objects);
-        SOContacts *contactObject = objects[0];
-        self.currentUserContacts = contactObject[@"contactsList"];
-        [self.tableView reloadData];
-    }];
-    
-    
     
 }
 
@@ -108,6 +98,7 @@
                 if (![self checkDuplicateConctact:searchedUser.username]) {
                     [self.currentUserContacts addObject:searchedUser.username];
                     [self.tableView reloadData];
+                    [self sendFriendRequest];
                     [self pushContactListToParse];
                 } else {
                     [self contactDuplicateAlert];
@@ -117,6 +108,10 @@
             }
         }];
     }
+}
+
+-(void)sendFriendRequest {
+    
 }
 
 -(void)noUserFoundAlert {

@@ -16,5 +16,8 @@
 @property (nonatomic) BOOL hasDecided;
 @property (nonatomic) BOOL isAccepted;
 
+
+-(instancetype)initWithPendingRequest;
+
 +(NSString*)parseClassName;
 @end
