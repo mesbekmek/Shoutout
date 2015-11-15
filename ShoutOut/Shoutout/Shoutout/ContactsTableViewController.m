@@ -59,6 +59,37 @@
         NSString *username = alert.textFields[0].text;
         NSLog(@"user name entered == %@",username);
         
+        PFQuery *query = [PFUser query];
+        
+        [query whereKey:@"username" containsString:username];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            NSLog(@"%@",objects);
+        }];
+        
+        
+        
+        //    PFQuery *query = [PFUser query];
+        //
+        //    [query whereKey:@"username" containedIn: [currentUser objectForKey:@"contacts"]];
+        //    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        //        NSLog(@"%@",objects);
+        //        self.storeUsersContacts = objects;
+        //        [self grabContacts];
+        //        NSLog(@"%@",error);
+        //    }];
+        
+//    }
+        
+                          //-(void)grabContacts {
+                          //    for (PFUser *contact in self.storeUsersContacts) {
+                          //        if ([[contact objectForKey:@"contacts"] containsObject: [PFUser currentUser][@"username"]]) {
+                          //            [self.friendedContacts addObject:contact];
+                          //        }
+                          //        NSLog(@"contacts == %@",[contact objectForKey:@"contacts"]);
+                          //    }
+                          //}
+        
+        
         
     }];
     
