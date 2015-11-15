@@ -30,14 +30,13 @@
     
     PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
     [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+
     [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (!error) {
-            
+        if (objects.count > 0) {
             SOContacts *contact = objects[0];
             
             for (NSString *name in contact.contactsList) {
-                NSLog(@"name == %@",name);
-                
+                NSLog(@"ViewDidLoad Loading Contact from Parse == %@",name);
             }
             
             self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
@@ -48,11 +47,53 @@
         }
     }];
     
+    [self checkSORequestStatus];
     
+}
+
+-(void)checkSORequestStatus {
+    PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
+    [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error)
+    {
+        NSLog(@"SORequest %@",objects);
+        for (SORequest *newRequest in objects)
+        {
+            if (!newRequest.hasDecided && !newRequest.isAccepted)
+            {
+                [self newRequestRevievedAlert:newRequest.requestSentFrom];
+            }
+        }
+    }];
     
+}
+
+-(void)newRequestRevievedAlert:(NSString *)newFriend {
+    UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:@"Accept or Reject" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self updateRequestDidDecide:YES didAccepted:NO];
+        [newFriendRequest dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.currentUserContacts addObject:newFriend];
+        [self.tableView reloadData];
+        [self updateRequestDidDecide:YES didAccepted:YES];
+        [self pushContactListToParse];
+    }];
     
+    [newFriendRequest addAction:ignore];
+    [newFriendRequest addAction:accept];
     
-    
+    [self presentViewController:newFriendRequest animated:YES completion:nil];
+}
+
+-(void)updateRequestDidDecide:(BOOL)didDecided didAccepted:(BOOL)didAccepted {
+    if (didDecided && !didAccepted) {
+        [SORequest updateRequestWithDecided:didDecided withDidAccepted:didAccepted];
+    } else {
+        // add user B to user B via Query
+        NSLog(@"gonna save user b to user a contact list");
+    }
 }
 
 - (IBAction)addContactButtonTapped:(UIBarButtonItem *)sender {
@@ -81,7 +122,7 @@
     if ([enteredName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
         
         
-        PFQuery *query = [PFUser query];
+        PFQuery *query = [User query];
         
         [query whereKey:@"username" equalTo:enteredName];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -92,13 +133,14 @@
             }
             
             
-            PFUser *searchedUser = objects[0];
-            if (!error && ![searchedUser.username isEqualToString:[PFUser currentUser].username]) {
+            User *searchedUser = objects[0];
+            if (!error && ![searchedUser.username isEqualToString:[User currentUser].username]) {
                 NSLog(@"match");
+                // matched and wants to add user
                 if (![self checkDuplicateConctact:searchedUser.username]) {
                     [self.currentUserContacts addObject:searchedUser.username];
                     [self.tableView reloadData];
-                    [self sendFriendRequest];
+                    [self sendFriendRequest:searchedUser.username];
                     [self pushContactListToParse];
                 } else {
                     [self contactDuplicateAlert];
@@ -110,7 +152,8 @@
     }
 }
 
--(void)sendFriendRequest {
+-(void)sendFriendRequest:(NSString *)user {
+    [SORequest sendRequestTo:user];
     
 }
 
