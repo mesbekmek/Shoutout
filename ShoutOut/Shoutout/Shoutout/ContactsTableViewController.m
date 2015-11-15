@@ -25,9 +25,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFUser *currentUser =  [PFUser currentUser];
-    self.currentUserContacts = [currentUser objectForKey:@"contacts"];
-    NSLog(@"%@",self.currentUserContacts);
+//    PFUser *currentUser = [PFUser currentUser];
+//    NSLog(@"%@",currentUser.username);
+//    PFQuery *query = [PFQuery queryWithClassName:@"User"];
+//    [query whereKey:@"username" equalTo:currentUser.username];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//        NSLog(@"%@",objects);
+//    }];
+    
+//    PFUser *currentUser =  [PFUser currentUser];
+//    self.currentUserContacts = [currentUser objectForKey:@"contacts"];
+//    NSLog(@"%@",self.currentUserContacts);
     
     /*
      PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
