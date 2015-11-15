@@ -14,6 +14,8 @@
 #import "SOVideo.h"
 #import "SOProject.h"
 #import "SOLoginViewController.h"
+#import "SORequest.h"
+#import "SOContacts.h"
 
 
 @interface AppDelegate ()
@@ -37,6 +39,9 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [User registerSubclass];
     [SOVideo registerSubclass];
     [SOProject registerSubclass];
+    [SORequest registerSubclass];
+    [SOContacts registerSubclass];
+    
 
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
     self.window.backgroundColor = [UIColor whiteColor];

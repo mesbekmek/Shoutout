@@ -7,8 +7,12 @@
 //
 
 #import <Parse/Parse.h>
+#import "SOContacts.h"
 
 @interface User : PFUser <PFSubclassing>
 
+@property (nonatomic) SOContacts *contact;
+
+//+ (NSString *)parseClassName;
 
 @end

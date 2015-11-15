@@ -16,9 +16,11 @@
 		84E5CFAE1BF4EA5100A587E1 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAD1BF4EA5100A587E1 /* SOSortingViewController.m */; };
 		84E5CFB21BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CFB11BF4FBFD00A587E1 /* SOSortingCollectionViewCell.xib */; };
 		84E5CFB51BF4FCE300A587E1 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFB41BF4FCE300A587E1 /* SOSortingCVC.m */; };
-		84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */; settings = {ASSET_TAGS = (); }; };
+		84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
+		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
+		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -71,6 +73,10 @@
 		C7127B711BF678D60069CF76 /* SOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOModel.h; sourceTree = "<group>"; };
 		C7127B741BF6793A0069CF76 /* CollaborateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborateViewController.h; sourceTree = "<group>"; };
 		C7127B751BF6793A0069CF76 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
+		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
+		D4115F071BF850ED00C674AC /* SORequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SORequest.m; sourceTree = "<group>"; };
+		D4115F091BF8566100C674AC /* SOContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContacts.h; sourceTree = "<group>"; };
+		D4115F0A1BF8566100C674AC /* SOContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContacts.m; sourceTree = "<group>"; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D49BF4901BEFF80800340627 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -258,6 +264,10 @@
 				DC386DF51BF4223C00562543 /* SOProject.m */,
 				DC386DF61BF4223C00562543 /* SOVideo.h */,
 				DC386DF71BF4223C00562543 /* SOVideo.m */,
+				D4115F061BF850ED00C674AC /* SORequest.h */,
+				D4115F071BF850ED00C674AC /* SORequest.m */,
+				D4115F091BF8566100C674AC /* SOContacts.h */,
+				D4115F0A1BF8566100C674AC /* SOContacts.m */,
 			);
 			name = SOModel;
 			sourceTree = "<group>";
@@ -417,7 +427,9 @@
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
 				84E5CFB51BF4FCE300A587E1 /* SOSortingCVC.m in Sources */,
+				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
+				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
