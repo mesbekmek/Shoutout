@@ -55,7 +55,7 @@
         [alert dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    UIAlertAction *search = [UIAlertAction actionWithTitle:@"Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *add = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSString *username = alert.textFields[0].text;
         NSLog(@"user name entered == %@",username);
         
@@ -63,7 +63,7 @@
     }];
     
     [alert addAction:cancel];
-    [alert addAction:search];
+    [alert addAction:add];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
