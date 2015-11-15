@@ -25,29 +25,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    PFUser *currentUser = [PFUser currentUser];
-//    NSLog(@"%@",currentUser.username);
-//    PFQuery *query = [PFQuery queryWithClassName:@"User"];
-//    [query whereKey:@"username" equalTo:currentUser.username];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//        NSLog(@"%@",objects);
-//    }];
-    
-//    PFUser *currentUser =  [PFUser currentUser];
-//    self.currentUserContacts = [currentUser objectForKey:@"contacts"];
-//    NSLog(@"%@",self.currentUserContacts);
-    
-    /*
-     PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
-     [query whereKey:@"requestSentTo" equalTo:[PFUser currentUser].username];
-     NSLog(@"username == %@",[PFUser currentUser].username);
-     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-     if (!error) {
-     self.friendRequestPendingArray = objects;
-     NSLog(@"pending request == %@",objects);
-     }
-     }];
-     */
+    PFUser *currentUser = [PFUser currentUser];
+    PFRelation *relation = [currentUser relationForKey:@"contactsList"];
+    PFQuery *query = [relation query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        NSLog(@"object %@",objects);
+        PFObject *contactObject = objects[0];
+        self.currentUserContacts = contactObject[@"contactsList"];
+        [self.tableView reloadData];
+    }];
     
 }
 
@@ -56,7 +42,6 @@
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"username";
-//        textField.text;
     }];
     
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -115,7 +100,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"tvc == %ld",self.currentUserContacts.count);
     return self.currentUserContacts.count;
+    
 }
 
 
