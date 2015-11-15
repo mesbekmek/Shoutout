@@ -8,6 +8,7 @@
 
 #import "ContactsTableViewController.h"
 #import <Parse/Parse.h>
+#import "SOModel.h"
 
 
 @interface ContactsTableViewController ()
@@ -15,7 +16,7 @@
 @property (nonatomic) NSArray *allUsers;
 @property (nonatomic) NSArray *storeUsersContacts;
 @property (nonatomic) NSMutableArray *friendedContacts;
-@property (nonatomic) NSMutableArray *currentUserContacts;
+@property (nonatomic) NSMutableArray <NSString *> *currentUserContacts;
 
 @end
 
@@ -25,15 +26,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    PFUser *currentUser = [PFUser currentUser];
-    PFRelation *relation = [currentUser relationForKey:@"contactsList"];
+    User *currentUser = [User currentUser];
+    
+    PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
+    [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!error) {
+            
+            SOContacts *contact = objects[0];
+            
+            for (NSString *name in contact.contactsList) {
+                NSLog(@"name == %@",name);
+                
+            }
+            
+            self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+            [self.tableView reloadData];
+        }
+        else{
+            NSLog(@"%@",error);
+        }
+    }];
+    
+    
+    
+    
+    
+    PFRelation *relation = [currentUser relationForKey:@"contacts"];
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         NSLog(@"object %@",objects);
-        PFObject *contactObject = objects[0];
+        SOContacts *contactObject = objects[0];
         self.currentUserContacts = contactObject[@"contactsList"];
         [self.tableView reloadData];
     }];
+    
+    
     
 }
 
@@ -59,36 +87,57 @@
 }
 
 -(void)checkUsernameInParseWithName:(NSString *)enteredName {
-    PFQuery *query = [PFUser query];
     
-    [query whereKey:@"username" containsString:enteredName];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        PFUser *searchedUser = objects[0];
-        if (!error && ![searchedUser.username isEqualToString:[PFUser currentUser].username]) {
-            NSLog(@"match");
-            if (![self checkDouplicateConctact:searchedUser.username]) {
-                [self.currentUserContacts addObject:searchedUser.username];
-                [self.tableView reloadData];
-                [self pushContactListToParse];
-            } else {
-                [self contactDuplicateAlert];
+    if ([enteredName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
+        
+        
+        PFQuery *query = [PFUser query];
+        
+        [query whereKey:@"username" equalTo:enteredName];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            NSLog(@"object count = %lu",objects.count);
+            if (objects.count == 0) {
+                NSLog(@"NO USER FOUND");
+                [self noUserFoundAlert];
             }
-        } else {
-            NSLog(@"can't add yourself");
-        }
+            
+            
+            PFUser *searchedUser = objects[0];
+            if (!error && ![searchedUser.username isEqualToString:[PFUser currentUser].username]) {
+                NSLog(@"match");
+                if (![self checkDuplicateConctact:searchedUser.username]) {
+                    [self.currentUserContacts addObject:searchedUser.username];
+                    [self.tableView reloadData];
+                    [self pushContactListToParse];
+                } else {
+                    [self contactDuplicateAlert];
+                }
+            } else {
+                NSLog(@"can't add yourself");
+            }
+        }];
+    }
+}
+
+-(void)noUserFoundAlert {
+    UIAlertController *noUserAlert = [UIAlertController alertControllerWithTitle:@"No User Found" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
     }];
+    [noUserAlert addAction:ok];
+    [self presentViewController:noUserAlert animated:YES completion:nil];
 }
 
 -(void)contactDuplicateAlert {
     UIAlertController *duplicateAlert = [UIAlertController alertControllerWithTitle:@"Contact Already Saved" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-       [duplicateAlert dismissViewControllerAnimated:YES completion:nil];
+        [duplicateAlert dismissViewControllerAnimated:YES completion:nil];
     }];
     [duplicateAlert addAction:ok];
     [self presentViewController:duplicateAlert animated:YES completion:nil];
 }
 
--(BOOL)checkDouplicateConctact:(NSString *)username {
+-(BOOL)checkDuplicateConctact:(NSString *)username {
     for (int i = 0; i < self.currentUserContacts.count; i++) {
         if ([username isEqualToString:self.currentUserContacts[i]]) {
             return 1;
@@ -99,6 +148,10 @@
 
 -(void)pushContactListToParse{
     
+    [User currentUser].contacts.contactsList = self.currentUserContacts;
+    [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"new contact list saved to parse");
+    }];
 }
 
 

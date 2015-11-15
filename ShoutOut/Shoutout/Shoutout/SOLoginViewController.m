@@ -9,6 +9,7 @@
 #import "SOLoginViewController.h"
 #import "SOSignUpViewController.h"
 #import "ViewController.h"
+#import "SOModel.h"
 
 @interface SOLoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -49,12 +50,12 @@
     
     if ((username && username.length) && (password && password.length))
     {
-        PFUser *thisUser = [PFUser user];
+        User *thisUser = [User user];
         
         thisUser.username = username;
         thisUser.password = password;
         
-        [PFUser logInWithUsernameInBackground:thisUser.username password:thisUser.password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+        [User logInWithUsernameInBackground:thisUser.username password:thisUser.password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
                 if (!error) {
                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     

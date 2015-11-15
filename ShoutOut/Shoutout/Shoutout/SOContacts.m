@@ -17,4 +17,16 @@
     
     return @"SOContacts";
 }
+
+- (instancetype)initWithNewList{
+    
+    if (self = [super init]){
+        
+        self.contactsList = [NSMutableArray new];
+        
+        return self;
+    }
+    return nil;
+}
+
 @end

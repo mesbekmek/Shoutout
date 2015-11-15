@@ -10,8 +10,10 @@
 
 @interface SOContacts : PFObject <PFSubclassing>
 
-@property (nonatomic) NSArray *contactsList;
+@property (nonatomic) NSMutableArray <NSString *> *contactsList;
 
 + (NSString *)parseClassName;
+
+- (instancetype)initWithNewList;
 
 @end

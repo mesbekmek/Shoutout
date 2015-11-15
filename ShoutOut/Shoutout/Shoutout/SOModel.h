@@ -9,6 +9,8 @@
 #import "User.h"
 #import "SOProject.h"
 #import "SOVideo.h"
+#import "SOContacts.h"
+#import "SORequest.h"
 
 #ifndef SOModel_h
 #define SOModel_h

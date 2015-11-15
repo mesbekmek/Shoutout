@@ -11,7 +11,7 @@
 
 @interface User : PFUser <PFSubclassing>
 
-@property (nonatomic) SOContacts *contact;
+@property (nonatomic) SOContacts *contacts;
 
 //+ (NSString *)parseClassName;
 

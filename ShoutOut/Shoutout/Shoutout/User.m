@@ -10,7 +10,7 @@
 
 @implementation User
 
-@dynamic contact;
+@dynamic contacts;
 
 //+ (NSString *)parseClassName {
 //    return @"User";
