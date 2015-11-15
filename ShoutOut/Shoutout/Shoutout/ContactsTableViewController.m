@@ -58,7 +58,7 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
--(void)checkUsernameInParseWithName: (NSString *)enteredName {
+-(void)checkUsernameInParseWithName:(NSString *)enteredName {
     PFQuery *query = [PFUser query];
     
     [query whereKey:@"username" containsString:enteredName];
@@ -66,17 +66,39 @@
         PFUser *searchedUser = objects[0];
         if (!error && ![searchedUser.username isEqualToString:[PFUser currentUser].username]) {
             NSLog(@"match");
-            [self.currentUserContacts addObject:searchedUser.username];
-            [self.tableView reloadData];
-            [self pushContactListToParse];
+            if (![self checkDouplicateConctact:searchedUser.username]) {
+                [self.currentUserContacts addObject:searchedUser.username];
+                [self.tableView reloadData];
+                [self pushContactListToParse];
+            } else {
+                [self contactDuplicateAlert];
+            }
         } else {
             NSLog(@"can't add yourself");
         }
     }];
 }
 
+-(void)contactDuplicateAlert {
+    UIAlertController *duplicateAlert = [UIAlertController alertControllerWithTitle:@"Contact Already Saved" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+       [duplicateAlert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [duplicateAlert addAction:ok];
+    [self presentViewController:duplicateAlert animated:YES completion:nil];
+}
+
+-(BOOL)checkDouplicateConctact:(NSString *)username {
+    for (int i = 0; i < self.currentUserContacts.count; i++) {
+        if ([username isEqualToString:self.currentUserContacts[i]]) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 -(void)pushContactListToParse{
-    NSLog(@"Need to push to parse with updated contact list");
+    
 }
 
 
