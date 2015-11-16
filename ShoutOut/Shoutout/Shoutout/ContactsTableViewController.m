@@ -74,11 +74,16 @@
         object.isAccepted = NO;
         object.hasDecided = YES;
         [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            NSLog(@"saved to parse");
+            NSLog(@"saved reject BOOL value to parse");
         }];
         [newFriendRequest dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        object.isAccepted = YES;
+        object.hasDecided = YES;
+        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            NSLog(@"saved accept BOOL value in parse");
+        }];
         [self.currentUserContacts addObject:newFriend];
         [self.tableView reloadData];
         [self pushContactListToParse];
