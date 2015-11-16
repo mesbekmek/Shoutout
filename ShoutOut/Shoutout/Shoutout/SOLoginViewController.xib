@@ -48,7 +48,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="abc" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eMe-HC-nfT" userLabel="usernameTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eMe-HC-nfT" userLabel="usernameTextField">
                     <rect key="frame" x="110" y="280" width="478" height="17"/>
                     <animations/>
                     <constraints>
@@ -109,7 +109,7 @@
                         <action selector="signUpButtonTapped:" destination="-1" eventType="touchUpInside" id="tXd-7J-Zj2"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="abc" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5e3-fG-2gn" userLabel="passwordTextField">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5e3-fG-2gn" userLabel="passwordTextField">
                     <rect key="frame" x="110" y="331" width="478" height="17"/>
                     <animations/>
                     <constraints>

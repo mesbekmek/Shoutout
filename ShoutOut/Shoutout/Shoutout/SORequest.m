@@ -41,27 +41,4 @@
     }];
 }
 
-+(void)updateRequestWithDecided:(BOOL)didDecided withDidAccepted:(BOOL)didAccepted {
-//    PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
-//    [query whereKey:@"requestSendto" equalTo:[User currentUser].username];
-//    [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-//        SORequest *updateRequest = object;
-//        [updateRequest setValue:didDecided forKey:@"hasDecided"];
-//        [updateRequest setValue:didAccepted forKey:@"isAccepted"];
-//        [updateRequest saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//            NSLog(@"update request to parse");
-//        }];
-//    }];
-    
-    
-    
-    
-    SORequest *request = [[SORequest alloc]init];
-    request.hasDecided = didDecided;
-    request.isAccepted = didAccepted;
-    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"Request Status Updated");
-              }];
-}
-
 @end

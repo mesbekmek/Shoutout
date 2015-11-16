@@ -57,27 +57,30 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error)
     {
         NSLog(@"SORequest %@",objects);
-        for (SORequest *newRequest in objects)
-        {
-            if (!newRequest.hasDecided && !newRequest.isAccepted)
-            {
-                [self newRequestRevievedAlert:newRequest.requestSentFrom];
+        for (SORequest *newRequest in objects){
+            
+            if (!newRequest.hasDecided && !newRequest.isAccepted){
+                
+                [self newRequestRevievedAlert:newRequest.requestSentFrom withSORequestObject:newRequest];
             }
         }
     }];
     
 }
 
--(void)newRequestRevievedAlert:(NSString *)newFriend {
-    UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:@"Accept or Reject" preferredStyle:UIAlertControllerStyleAlert];
+-(void)newRequestRevievedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)object{
+    UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:[NSString stringWithFormat:@"%@ wants to add you",newFriend] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self updateRequestDidDecide:YES didAccepted:NO];
+        object.isAccepted = NO;
+        object.hasDecided = YES;
+        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            NSLog(@"saved to parse");
+        }];
         [newFriendRequest dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self.currentUserContacts addObject:newFriend];
         [self.tableView reloadData];
-        [self updateRequestDidDecide:YES didAccepted:YES];
         [self pushContactListToParse];
     }];
     
@@ -87,14 +90,6 @@
     [self presentViewController:newFriendRequest animated:YES completion:nil];
 }
 
--(void)updateRequestDidDecide:(BOOL)didDecided didAccepted:(BOOL)didAccepted {
-    if (didDecided && !didAccepted) {
-        [SORequest updateRequestWithDecided:didDecided withDidAccepted:didAccepted];
-    } else {
-        // add user B to user B via Query
-        NSLog(@"gonna save user b to user a contact list");
-    }
-}
 
 - (IBAction)addContactButtonTapped:(UIBarButtonItem *)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Search user" message:@"Enter username" preferredStyle:UIAlertControllerStyleAlert];
@@ -138,10 +133,11 @@
                 NSLog(@"match");
                 // matched and wants to add user
                 if (![self checkDuplicateConctact:searchedUser.username]) {
-                    [self.currentUserContacts addObject:searchedUser.username];
+//                    [self.currentUserContacts addObject:searchedUser.username];
                     [self.tableView reloadData];
-                    [self sendFriendRequest:searchedUser.username];
-                    [self pushContactListToParse];
+//                    [self sendFriendRequest:searchedUser.username];
+                    [SORequest sendRequestTo:searchedUser.username];
+//                    [self pushContactListToParse];
                 } else {
                     [self contactDuplicateAlert];
                 }
@@ -152,10 +148,9 @@
     }
 }
 
--(void)sendFriendRequest:(NSString *)user {
-    [SORequest sendRequestTo:user];
-    
-}
+//-(void)sendFriendRequest:(NSString *)user {
+//    [SORequest sendRequestTo:user];
+//}
 
 -(void)noUserFoundAlert {
     UIAlertController *noUserAlert = [UIAlertController alertControllerWithTitle:@"No User Found" message:@"" preferredStyle:UIAlertControllerStyleAlert];

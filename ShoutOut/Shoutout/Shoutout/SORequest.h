@@ -19,8 +19,6 @@
 
 -(instancetype)initWithPendingRequestTo:(NSString *)requestedUser;
 
-+(void)updateRequestWithDecided:(BOOL)didDecided withDidAccepted:(BOOL)didAccepted;
-
 +(NSString*)parseClassName;
 
 +(void)sendRequestTo:(NSString *)requestedUser;
