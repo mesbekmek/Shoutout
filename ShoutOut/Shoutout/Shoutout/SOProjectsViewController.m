@@ -21,11 +21,11 @@
     IBOutlet UIView *centerView;
     IBOutlet UICollectionView *collectionView;
     
- }
+}
 
 @property (nonatomic) NSMutableArray <SOProject*> *projectsArray;
 @property (nonatomic) NSMutableArray <SOVideo*> *videosArray;
-@property (nonatomic) NSMutableArray *videoThumbnailsArray;
+@property (nonatomic) NSMutableArray <PFFile *>*videoThumbnailsArray;
 @property (weak, nonatomic) IBOutlet UITextView *noProjectsTextView;
 @property (nonatomic) SOProject *project;
 
@@ -35,7 +35,6 @@
 @implementation SOProjectsViewController
 
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.noProjectsTextView.hidden = YES;
@@ -43,7 +42,7 @@
     
     self.videoThumbnailsArray = [[NSMutableArray alloc]init];
     
-     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
+    UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
     
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"VideoCellIdentifier"];
     
@@ -63,7 +62,7 @@
     myLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     [collectionView setCollectionViewLayout:myLayout];
- 
+    
 }
 
 
@@ -71,7 +70,8 @@
     [super viewDidAppear:animated];
     self.noProjectsTextView.hidden = YES;
     [self projectsQuery];
- }
+    [collectionView reloadData];
+}
 
 
 
@@ -98,7 +98,11 @@
                 NSLog(@"object %@",project);
                 
                 //getting only the first video from each project
-                //[self.videosArray addObject: [project.videos objectAtIndex:0] ];
+                
+                
+                
+                [self.videosArray addObjectsFromArray:project.videos];
+                //[self.videosArray addObjectWithArrat:project.videos];
                 NSLog(@"videosArray %@", self.videosArray);
                 
                 
@@ -106,11 +110,11 @@
                     
                     self.noProjectsTextView.hidden = NO;
                     collectionView.hidden = YES;
-                     centerView.hidden = YES;
+                    centerView.hidden = YES;
                 }
                 
-
-             }
+                
+            }
             [collectionView reloadData];
             [self videoThumbnailQuery];
         }
@@ -118,34 +122,37 @@
             NSLog(@"Error: %@",error);
         }
     }];
-
+    
 }
 
 -(void)videoThumbnailQuery {
     
     NSLog(@"yoooo %@", self.videosArray);
-
-    for (int i=0; i<[self.videosArray count]; i++) {
     
-     PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
-    [query whereKey:@"objectId" equalTo:[self.videosArray objectAtIndex:i]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-
-        if (!error) {
-            NSLog(@"video objects %@",objects);
-            for (SOVideo *vid in objects) {
-                NSLog(@"video thumbnail %@", vid.thumbnail);
-                
-                //add video thumbnail to thumbnails array
-                [self.videoThumbnailsArray addObject:vid.thumbnail];
-                 
-                 }
-        }
+    for (int i=0; i<[self.videosArray count]; i++) {
         
-        else{
-            NSLog(@"Error: %@",error);
-        }
-    }];
+        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+        [query whereKey:@"objectId" equalTo:[self.videosArray objectAtIndex:i].objectId];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            
+            if (!error) {
+                NSLog(@"video objects %@",objects);
+                for (SOVideo *vid in objects) {
+                    NSLog(@"video thumbnail %@", vid.thumbnail);
+                    
+                    //add video thumbnail to thumbnails array
+                    [self.videoThumbnailsArray addObject:vid.thumbnail];
+                    if(i == self.videosArray.count-1){
+                        [collectionView reloadData];
+                    }
+                    
+                }
+            }
+            
+            else{
+                NSLog(@"Error: %@",error);
+            }
+        }];
     }
 }
 
@@ -160,13 +167,13 @@
 {
     
     
-  //  for testing purposes
-//    if ([self.videoThumbnailsArray count]==0){
-//        [self.videoThumbnailsArray addObject:@"video1.jpg"];
-//        [self.videoThumbnailsArray addObject:@"video2.jpg"];
-//        [self.videoThumbnailsArray addObject:@"video3.jpg"];
-//
-//    }
+    //  for testing purposes
+    //    if ([self.videoThumbnailsArray count]==0){
+    //        [self.videoThumbnailsArray addObject:@"video1.jpg"];
+    //        [self.videoThumbnailsArray addObject:@"video2.jpg"];
+    //        [self.videoThumbnailsArray addObject:@"video3.jpg"];
+    //
+    //    }
     NSLog(@"projects array %lu",(unsigned long)[self.projectsArray count]);
     NSLog(@"videoThumbnailsArray %lu ",[self.videoThumbnailsArray count]);
     return [self.projectsArray count];
@@ -183,15 +190,21 @@
     
     
     if ([self.videoThumbnailsArray count] !=0 ) {
-    NSString *videoImage = [self.videoThumbnailsArray objectAtIndex:IndexPath.row];
-    NSLog(@"%@",videoImage);
-    NSLog(@"index %ld",(long)IndexPath.row);
-    
-    UIImage *image = [UIImage imageNamed: videoImage];
-    
-    cell.videoImageView.image = image;
-    
-    NSLog(@"imagessss %@",[self.videoThumbnailsArray objectAtIndex:IndexPath.row]);
+        //NSString *videoImage = [self.videoThumbnailsArray objectAtIndex:IndexPath.row];
+        // NSLog(@"%@",videoImage);
+        // NSLog(@"index %ld",(long)IndexPath.row);
+        
+        // UIImage *image = [UIImage imageNamed: videoImage];
+        
+        cell.videoImageView.file = self.videoThumbnailsArray[IndexPath.row];
+        
+        cell.videoImageView.frame = cell.bounds;
+        
+        cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        [cell.videoImageView loadInBackground];
+        
+        NSLog(@"imagessss %@",[self.videoThumbnailsArray objectAtIndex:IndexPath.row]);
         
     }
     
@@ -225,10 +238,12 @@
 {
     if ([self.projectsArray count] !=0) {
         SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
-    sortingVC.sortingProject = self.projectsArray[indexPath.row];
+        sortingVC.sortingProject = self.projectsArray[indexPath.row];
         NSLog(@"passing %@",sortingVC.sortingProject.title);
-    
-    [self.navigationController pushViewController:sortingVC animated:YES];
+        
+        sortingVC.videoThumbnails =  self.videoThumbnailsArray;
+        
+        [self.navigationController pushViewController:sortingVC animated:YES];
     }
     
 }
@@ -237,6 +252,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
- }
+}
 
 @end

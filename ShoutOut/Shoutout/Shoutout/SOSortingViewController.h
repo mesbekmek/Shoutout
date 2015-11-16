@@ -14,5 +14,6 @@
 @interface SOSortingViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) SOProject *sortingProject;
+@property (nonatomic) NSMutableArray <PFFile *>*videoThumbnails;
 
 @end

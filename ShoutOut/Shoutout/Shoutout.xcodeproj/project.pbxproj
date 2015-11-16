@@ -14,11 +14,11 @@
 		84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFA71BF4E87D00A587E1 /* SOVideoCVC.m */; };
 		84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5CFAA1BF4E93F00A587E1 /* SOProjectsViewController.m */; };
 		84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */; };
-		84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D52E1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m */; settings = {ASSET_TAGS = (); }; };
-		84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */; settings = {ASSET_TAGS = (); }; };
-		84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */; settings = {ASSET_TAGS = (); }; };
-		84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */; settings = {ASSET_TAGS = (); }; };
-		84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */; settings = {ASSET_TAGS = (); }; };
+		84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D52E1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m */; };
+		84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */; };
+		84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */; };
+		84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */; };
+		84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
@@ -575,7 +575,7 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.vhart.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -591,7 +591,7 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.vhart.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
