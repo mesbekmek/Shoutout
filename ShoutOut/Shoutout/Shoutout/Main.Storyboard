@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LH3-k7-8kY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LH3-k7-8kY">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -274,11 +273,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bp5-jt-pYL">
-                                <rect key="frame" x="200" y="84" width="200" height="200"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bp5-jt-pYL">
+                                <rect key="frame" x="175" y="20" width="250" height="200"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="98p-7E-pZz"/>
+                                    <constraint firstAttribute="width" constant="250" id="98p-7E-pZz"/>
                                     <constraint firstAttribute="width" constant="377" id="Ntq-Y7-sff"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="O8T-f6-GQw"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="c9I-DJ-q9P"/>
@@ -290,52 +289,58 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" pagingEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="seI-Te-6rQ" userLabel="collectionView">
-                                <rect key="frame" x="40" y="304" width="520" height="232"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aec-oK-hnQ">
+                                <rect key="frame" x="20" y="20" width="560" height="560"/>
+                                <subviews>
+                                    <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="seI-Te-6rQ" userLabel="collectionView">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="560"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="O1k-be-c00"/>
+                                            <constraint firstAttribute="width" constant="100" id="WF0-dX-RJZ"/>
+                                            <constraint firstAttribute="width" constant="90" id="brk-h5-Eve"/>
+                                            <constraint firstAttribute="height" constant="100" id="sR0-Ic-tDI"/>
+                                        </constraints>
+                                        <collectionViewLayout key="collectionViewLayout" id="JWV-Bm-dAE" customClass="BMAReorderableFlowLayout"/>
+                                        <cells/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="O1k-be-c00"/>
+                                                <exclude reference="WF0-dX-RJZ"/>
+                                                <exclude reference="brk-h5-Eve"/>
+                                                <exclude reference="sR0-Ic-tDI"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <outlet property="dataSource" destination="arh-7s-JC3" id="Z2t-iY-zDn"/>
+                                            <outlet property="delegate" destination="arh-7s-JC3" id="Qdz-oK-CjK"/>
+                                        </connections>
+                                    </collectionView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="O1k-be-c00"/>
-                                    <constraint firstAttribute="width" constant="100" id="WF0-dX-RJZ"/>
-                                    <constraint firstAttribute="width" constant="90" id="brk-h5-Eve"/>
-                                    <constraint firstAttribute="height" constant="100" id="sR0-Ic-tDI"/>
+                                    <constraint firstItem="seI-Te-6rQ" firstAttribute="leading" secondItem="aec-oK-hnQ" secondAttribute="leading" id="qEq-QV-6EG"/>
+                                    <constraint firstItem="seI-Te-6rQ" firstAttribute="top" secondItem="aec-oK-hnQ" secondAttribute="top" id="sI6-X4-ay3"/>
+                                    <constraint firstAttribute="trailing" secondItem="seI-Te-6rQ" secondAttribute="trailing" id="t9l-YP-vbX"/>
+                                    <constraint firstAttribute="bottom" secondItem="seI-Te-6rQ" secondAttribute="bottom" id="zzG-vX-Y2A"/>
                                 </constraints>
-                                <collectionViewLayout key="collectionViewLayout" id="JWV-Bm-dAE" customClass="BMAReorderableFlowLayout"/>
-                                <cells/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="O1k-be-c00"/>
-                                        <exclude reference="WF0-dX-RJZ"/>
-                                        <exclude reference="brk-h5-Eve"/>
-                                        <exclude reference="sR0-Ic-tDI"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <outlet property="dataSource" destination="arh-7s-JC3" id="Z2t-iY-zDn"/>
-                                    <outlet property="delegate" destination="arh-7s-JC3" id="Qdz-oK-CjK"/>
-                                </connections>
-                            </collectionView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Bp5-jt-pYL" firstAttribute="top" secondItem="mZL-7g-071" secondAttribute="bottom" constant="20" id="4CL-7t-gZ6"/>
-                            <constraint firstItem="cF2-qj-eOz" firstAttribute="top" secondItem="seI-Te-6rQ" secondAttribute="bottom" constant="20" id="54k-0i-1lf"/>
-                            <constraint firstItem="seI-Te-6rQ" firstAttribute="leading" secondItem="Axa-n1-ara" secondAttribute="leadingMargin" constant="20" id="CMN-xf-ZYu"/>
-                            <constraint firstItem="seI-Te-6rQ" firstAttribute="top" secondItem="Bp5-jt-pYL" secondAttribute="bottom" constant="29" id="Cfv-qO-igg"/>
-                            <constraint firstItem="cF2-qj-eOz" firstAttribute="top" secondItem="seI-Te-6rQ" secondAttribute="bottom" constant="20" id="QIP-v0-HKf"/>
+                            <constraint firstItem="Bp5-jt-pYL" firstAttribute="top" secondItem="mZL-7g-071" secondAttribute="bottom" id="4CL-7t-gZ6"/>
+                            <constraint firstItem="aec-oK-hnQ" firstAttribute="top" secondItem="mZL-7g-071" secondAttribute="bottom" id="5il-vZ-xyk"/>
+                            <constraint firstItem="cF2-qj-eOz" firstAttribute="top" secondItem="aec-oK-hnQ" secondAttribute="bottom" constant="20" id="RQg-XP-i25"/>
+                            <constraint firstItem="aec-oK-hnQ" firstAttribute="leading" secondItem="Axa-n1-ara" secondAttribute="leading" constant="20" id="RhK-S8-7ss"/>
                             <constraint firstItem="Bp5-jt-pYL" firstAttribute="centerX" secondItem="Axa-n1-ara" secondAttribute="centerX" id="SbB-zI-LHc"/>
                             <constraint firstItem="Bp5-jt-pYL" firstAttribute="centerX" secondItem="Axa-n1-ara" secondAttribute="centerX" id="ZZI-Vv-0bH"/>
-                            <constraint firstItem="seI-Te-6rQ" firstAttribute="top" secondItem="Bp5-jt-pYL" secondAttribute="bottom" constant="20" id="ZdQ-6K-qmH"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="seI-Te-6rQ" secondAttribute="trailing" constant="20" id="b48-qs-6gS"/>
-                            <constraint firstItem="seI-Te-6rQ" firstAttribute="leading" secondItem="Axa-n1-ara" secondAttribute="leadingMargin" constant="20" id="cEc-fk-COA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="seI-Te-6rQ" secondAttribute="trailing" constant="20" id="xaL-CH-Mfm"/>
+                            <constraint firstItem="aec-oK-hnQ" firstAttribute="top" secondItem="Bp5-jt-pYL" secondAttribute="bottom" constant="20" id="kDI-I3-dEq"/>
+                            <constraint firstAttribute="trailing" secondItem="aec-oK-hnQ" secondAttribute="trailing" constant="20" id="wuS-1o-Moi"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="SbB-zI-LHc"/>
-                                <exclude reference="CMN-xf-ZYu"/>
-                                <exclude reference="Cfv-qO-igg"/>
-                                <exclude reference="xaL-CH-Mfm"/>
-                                <exclude reference="QIP-v0-HKf"/>
+                                <exclude reference="kDI-I3-dEq"/>
                             </mask>
                         </variation>
                     </view>

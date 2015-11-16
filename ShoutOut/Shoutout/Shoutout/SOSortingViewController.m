@@ -54,7 +54,6 @@ UICollectionViewDataSource
 @property (weak, nonatomic) IBOutlet UIView *videoPlayingView;
 @property (nonatomic) NSIndexPath *draggedIndex;
 
-@property (nonatomic) NSMutableArray<PFFile *> *videoThumbnails;
 @property (nonatomic) NSMutableArray <UIImage *>*imagesArray;
 
 @property (nonatomic) UIImagePickerController *imagePicker;
@@ -63,22 +62,25 @@ UICollectionViewDataSource
 
 @implementation SOSortingViewController
 
+#pragma mark - Life cycle methods
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
     NSLog(@"passed %@",self.sortingProject.title);
     
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
     
-   // self.videoThumbnails =[NSMutableArray new];
-    
+//    self.videoThumbnails =[NSMutableArray new];
+//    
 //    for(int i = 0; i < self.sortingProject.videos.count; i++){
 //        SOVideo *video = self.sortingProject.videos[i];
 //        PFFile *thumbnail = video.thumbnail;
 //        [self.videoThumbnails addObject:thumbnail];
 //    }
-    
-    [self videoThumbnails];
+//    
+//    [self videoThumbnails];
     
     //    imagesArray = [[NSMutableArray alloc] initWithObjects:@"video1.jpg", @"video2.jpg", @"video3.jpg", nil];
     
@@ -88,12 +90,32 @@ UICollectionViewDataSource
 }
 
 
+- (void)viewDidAppear:(BOOL)animated{
+    
+    [collectionView reloadData];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"Saved new order of videos, assuming there is a new order");
+    }];
+    
+}
+
+#pragma mark - New video button selector
+
 -(void)modalCameraPopup{
+ 
     [self setupCamera];
 
 }
 
+
 # pragma mark - Video camera setup
+
 - (void)setupCamera{
     
     self.imagePicker = [[UIImagePickerController alloc]init];
@@ -105,24 +127,30 @@ UICollectionViewDataSource
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
     
 }
+
+
 # pragma mark - Image Picker Delegate
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     
-    NSURL *mediaURL = [NSURL URLWithString:info[UIImagePickerControllerMediaURL]];
-    SOVideo *video = [[SOVideo alloc]initWithVideoUrl:mediaURL];
+    SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
     
-    //Add video to current projects
+    [self.videoThumbnails addObject:video.thumbnail];
+    
+//Add video to current projects
     [self.sortingProject.videos addObject:video];
     
-    //Save current project in background with confirmation block. Alternative
-    //is to use saveEventually, allowing saving when connection is available
+// Alternative is to use saveEventually, allowing saving when connection is available
+    
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
     }];
     
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    [collectionView reloadData];
 }
 
- 
 
 -(void)videoThumbnailImages{
     self.imagesArray = [NSMutableArray new];
@@ -143,16 +171,10 @@ UICollectionViewDataSource
                 
             }
         }];
-        
     }
-    
-    
 }
 
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     return CGSizeMake(120, 120);
@@ -169,33 +191,37 @@ UICollectionViewDataSource
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    
+    return 1;
+    
+}
 
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
-     numberOfItemsInSection:(NSInteger)aSection
-{
+     numberOfItemsInSection:(NSInteger)aSection{
     
     return [self.sortingProject.videos count];
+    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)anIndexPath
-{
+                  cellForItemAtIndexPath:(NSIndexPath *)anIndexPath{
+    
     SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier"
                                                                     forIndexPath:anIndexPath];
-    //    NSString *videoImage = [imagesArray objectAtIndex:anIndexPath.row];
-    //
-    //    UIImage *image = [UIImage imageNamed: videoImage];
+    
+    cell.videoImageView.file = nil;
     
     cell.videoImageView.file = self.videoThumbnails[anIndexPath.row];
+    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
     [cell.videoImageView loadInBackground];
+    
     cell.backgroundColor = [UIColor blackColor];
     
     //  NSLog(@"imagessss %@",[imagesArray objectAtIndex:anIndexPath.row]);
     return cell;
     
-    
 }
-
 
 
 #pragma mark - Reorderable layout
@@ -226,7 +252,10 @@ UICollectionViewDataSource
     return ^(UICollectionViewCell *draggedView){
         draggedView.transform = CGAffineTransformMakeScale(1.3f, 1.3f);
         [acollectionView bma_overlayView].alpha = 0.5;
-        UIImageView *draggedImageView = [[UIImageView alloc] initWithFrame:draggedView.bounds];
+        PFImageView *draggedImageView = [[PFImageView alloc]initWithFrame:draggedView.bounds];
+        
+        draggedImageView.file = self.videoThumbnails[self.draggedIndex.row];
+        [draggedImageView loadInBackground];
         draggedImageView.transform = CGAffineTransformMakeScale(1.3f, 1.3f);
         
         [draggedView addSubview:draggedImageView];
@@ -237,7 +266,7 @@ UICollectionViewDataSource
         
        // draggedImageView.image = [UIImage imageNamed:draggedImageName];
         
-        draggedImageView.image = self.imagesArray[self.draggedIndex.row];
+        //draggedImageView.image = self.imagesArray[self.draggedIndex.row];
         
     };
 }
@@ -250,8 +279,13 @@ UICollectionViewDataSource
     };
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    [self.imagesArray bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+- (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    SOVideo *first = self.sortingProject.videos[indexPath.row];
+    [self.sortingProject.videos replaceObjectAtIndex:indexPath.row withObject:self.sortingProject.videos[toIndexPath.row]];
+    [self.sortingProject.videos replaceObjectAtIndex:toIndexPath.row withObject:first];
+    [collectionView reloadData];
+    
 }
 
 @end
