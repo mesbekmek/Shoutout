@@ -1,4 +1,5 @@
 PODS:
+  - BMACollectionViewLayouts (1.0.0)
   - Bolts/Tasks (1.4.0)
   - Parse (1.9.1):
     - Bolts/Tasks (>= 1.4.0)
@@ -7,10 +8,12 @@ PODS:
     - Parse (~> 1.8)
 
 DEPENDENCIES:
+  - BMACollectionViewLayouts
   - Parse (~> 1.9)
   - ParseUI (~> 1.1)
 
 SPEC CHECKSUMS:
+  BMACollectionViewLayouts: fa1ef5bcf3bb5ff8f4d0f2d164a3071f528b7112
   Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   ParseUI: 8a22e448c03f825203d8c379c80523517f68baa3

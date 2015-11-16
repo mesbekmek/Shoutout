@@ -10,10 +10,12 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 
-const float kVideoLengthMax = 10.0;
+//const float kVideoLengthMax = 10.0;
 
 @interface SOCreateNewProjectViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (nonatomic) UIImagePickerController *imagePicker;
+@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+@property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
 
 @end
 
@@ -46,9 +48,15 @@ const float kVideoLengthMax = 10.0;
 }
 
 - (IBAction)done:(id)sender{
+
+        SOProject *project = [[SOProject alloc]initWithTitle:self.titleTextField.text];
+        project.description = self.descriptionTextField.text;
     
-    //Adding details and so on go here, finally we save project in background again
-    //if anything was added to it after the video is created;
+        [project saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if(!error){
+                NSLog(@"Saved current PROJECT in background");
+            }
+         }];
 }
 
 
@@ -59,7 +67,7 @@ const float kVideoLengthMax = 10.0;
     self.imagePicker.delegate = self;
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     self.imagePicker.mediaTypes = [[NSArray alloc]initWithObjects:(NSString *)kUTTypeMovie, nil];
-    self.imagePicker.videoMaximumDuration = kVideoLengthMax;
+    //self.imagePicker.videoMaximumDuration = kVideoLengthMax;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
     

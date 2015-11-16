@@ -10,5 +10,6 @@
 
 @interface SOVideoCVC : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *videoImageView;
+@property (weak, nonatomic) IBOutlet UILabel *projectTitle;
 
 @end

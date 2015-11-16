@@ -27,6 +27,7 @@
 @property (nonatomic) NSMutableArray <SOVideo*> *videosArray;
 @property (nonatomic) NSMutableArray *videoThumbnailsArray;
 @property (weak, nonatomic) IBOutlet UITextView *noProjectsTextView;
+@property (nonatomic) SOProject *project;
 
 
 @end
@@ -69,12 +70,6 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     self.noProjectsTextView.hidden = YES;
-    
-    if ([self.videoThumbnailsArray count]==0){
-        self.noProjectsTextView.hidden = NO;
-        collectionView.hidden = YES;
-        centerView.hidden = YES;
-    }
     [self projectsQuery];
  }
 
@@ -85,7 +80,7 @@
     NSLog(@"current user %@", [User currentUser]);
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
-    [query whereKey:@"createdBy" equalTo:[User currentUser]];
+    [query whereKey:@"createdBy" equalTo:[User currentUser].username];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (!error) {
@@ -97,14 +92,26 @@
             self.videosArray = [[NSMutableArray alloc]init];
             //for every project get an array of videos
             for (SOProject *project in objects) {
+                self.project = project;
+                
                 NSLog(@"objectId %@", project.objectId);
                 NSLog(@"object %@",project);
                 
                 //getting only the first video from each project
-                [self.videosArray addObject: [project.videos objectAtIndex:0] ];
+                //[self.videosArray addObject: [project.videos objectAtIndex:0] ];
                 NSLog(@"videosArray %@", self.videosArray);
+                
+                
+                if ([self.projectsArray count]==0){
+                    
+                    self.noProjectsTextView.hidden = NO;
+                    collectionView.hidden = YES;
+                     centerView.hidden = YES;
+                }
+                
 
              }
+            [collectionView reloadData];
             [self videoThumbnailQuery];
         }
         else{
@@ -153,14 +160,16 @@
 {
     
     
-    //for testing purposes
-    if ([self.videoThumbnailsArray count]==0){
-        [self.videoThumbnailsArray addObject:@"video1.jpg"];
-        [self.videoThumbnailsArray addObject:@"video2.jpg"];
-        [self.videoThumbnailsArray addObject:@"video3.jpg"];
-
-    }
-    return [self.videoThumbnailsArray count];
+  //  for testing purposes
+//    if ([self.videoThumbnailsArray count]==0){
+//        [self.videoThumbnailsArray addObject:@"video1.jpg"];
+//        [self.videoThumbnailsArray addObject:@"video2.jpg"];
+//        [self.videoThumbnailsArray addObject:@"video3.jpg"];
+//
+//    }
+    NSLog(@"projects array %lu",(unsigned long)[self.projectsArray count]);
+    NSLog(@"videoThumbnailsArray %lu ",[self.videoThumbnailsArray count]);
+    return [self.projectsArray count];
 }
 
 
@@ -169,6 +178,11 @@
 {
     SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
     
+    
+    
+    
+    
+    if ([self.videoThumbnailsArray count] !=0 ) {
     NSString *videoImage = [self.videoThumbnailsArray objectAtIndex:IndexPath.row];
     NSLog(@"%@",videoImage);
     NSLog(@"index %ld",(long)IndexPath.row);
@@ -178,6 +192,16 @@
     cell.videoImageView.image = image;
     
     NSLog(@"imagessss %@",[self.videoThumbnailsArray objectAtIndex:IndexPath.row]);
+        
+    }
+    
+    SOProject *project = self.projectsArray[IndexPath.row];
+    
+    NSString *projectTitle = project.title;
+    cell.projectTitle.text = projectTitle;
+    
+    
+    
     return cell;
 }
 
@@ -199,14 +223,10 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    [self performSegueWithIdentifier:@"SortingVideos" sender:self];
-    
-    
     if ([self.projectsArray count] !=0) {
-    SOSortingViewController *sortingVC;
-        
+        SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
     sortingVC.sortingProject = self.projectsArray[indexPath.row];
+        NSLog(@"passing %@",sortingVC.sortingProject.title);
     
     [self.navigationController pushViewController:sortingVC animated:YES];
     }
@@ -217,7 +237,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+ }
 
 @end

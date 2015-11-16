@@ -9,7 +9,9 @@
 #import "SOVideo.h"
 #import "NSURL+ImageGenerator.h"
 
-@implementation SOVideo
+@implementation SOVideo{
+    UIImage *imageFromPFFile;
+}
 
 @dynamic video;
 @dynamic thumbnail;
@@ -59,6 +61,8 @@
     
     return nil;
 }
+
+
 
 
 @end

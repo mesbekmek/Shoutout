@@ -29,7 +29,7 @@
         self.collaboratorsDeclined = [NSMutableArray new];
         self.title = title;
         
-        self.createdBy = [PFUser currentUser];
+        self.createdBy = [User currentUser].username;
         
         return self;
     }
@@ -40,5 +40,7 @@
     
         return @"SOProject";
 }
+
+
 
 @end

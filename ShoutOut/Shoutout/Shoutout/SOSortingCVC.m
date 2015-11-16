@@ -10,4 +10,10 @@
 
 @implementation SOSortingCVC
 
+- (id)copyWithZone:(NSZone *)zone {
+    UICollectionViewCell *cell = [[SOSortingCVC alloc] initWithFrame:self.frame];
+    // Just copying background color for demo purposes. You really want to copy your custom cell as needed
+    cell.backgroundColor = self.backgroundColor;
+    return cell;
+}
 @end

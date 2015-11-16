@@ -71,7 +71,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"collaborationIdentifier" forIndexPath:indexPath];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", self.collaborationsArray[indexPath.row].createdBy.username, self.collaborationsArray[indexPath.row].description];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", self.collaborationsArray[indexPath.row].createdBy, self.collaborationsArray[indexPath.row].description];
     // Configure the cell...
     
     return cell;
