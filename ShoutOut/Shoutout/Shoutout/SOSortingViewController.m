@@ -153,7 +153,7 @@ UICollectionViewDataSource
         }];
     }
     
-   
+    
 }
 
 - (void)resortVideoFilesArray{
@@ -172,7 +172,6 @@ UICollectionViewDataSource
         }
         
     }
-    
     self.videoFilesArray = sortedArray;
     self.videoThumbnails = sortedPFFileThumbnailsArray;
 }
@@ -197,100 +196,116 @@ UICollectionViewDataSource
 }
 
 -(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
-    int count = (int) [videosArray count];
-    AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
-    for(int i = count-1; i >= 0 ; i--)
+
+    AVMutableComposition *mixComposition = [AVMutableComposition composition];
+    AVMutableCompositionTrack *videoCompositionTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    AVMutableCompositionTrack *audioCompositionTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    CGSize size = CGSizeZero;
+    CMTime time = kCMTimeZero;
+    
+    NSMutableArray *instructions = [NSMutableArray new];
+    
+    for(AVAsset *asset in videosArray)
     {
-        AVAsset *currentAsset = videosArray[i];
-        if(i>0)
-        {
-            AVAsset *previousAsset = videosArray[i-1];
-            if(currentAsset && previousAsset)
-            {
-                //Video track
-                AVMutableCompositionTrack *currentTrack = [mixComposition addMutableTrackWithMediaType:
-                                                           AVMediaTypeVideo
-                                                                                      preferredTrackID:kCMPersistentTrackID_Invalid];
-                [currentTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
-                                      ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:previousAsset.duration error:nil];
-                
-                //fetch current Audio Track
-                currentTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-                [currentTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
-                                      ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0]
-                                       atTime:previousAsset.duration error:nil];
-            }
-        }
-        else
-        {
-            if(currentAsset)//asset is the first video track
-            {
-                //Object that holds Video track instances
-                // 2 - Video track
-                AVMutableCompositionTrack *firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
-                                                                                    preferredTrackID:kCMPersistentTrackID_Invalid];
-                [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
-                                    ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
-                
-                //fetch current Audio Track
-                firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-                [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
-                                    ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0]
-                                     atTime:kCMTimeZero error:nil];
-            }
+        AVAssetTrack *videoAssetTrack = [asset tracksWithMediaType:AVMediaTypeVideo].firstObject;
+        
+        NSError *videoError;
+        [videoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetTrack.timeRange.duration)
+                                       ofTrack:videoAssetTrack
+                                        atTime:time
+                                         error:&videoError];
+        if (videoError) {
+            NSLog(@"Error - %@", videoError.debugDescription);
         }
         
+        AVAssetTrack *audioAssetTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
+        
+        NSError *audioError;
+        [audioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetTrack.timeRange.duration)
+                                       ofTrack:audioAssetTrack
+                                        atTime:time
+                                         error:&audioError];
+        if (audioError) {
+            NSLog(@"Error - %@", audioError.debugDescription);
+        }
+        AVMutableVideoCompositionInstruction *videoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+        videoCompositionInstruction.timeRange = CMTimeRangeMake(time, videoAssetTrack.timeRange.duration);
+        videoCompositionInstruction.layerInstructions = @[[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack]];
+        [instructions addObject:videoCompositionInstruction];
+        
+        time = CMTimeAdd(time, videoAssetTrack.timeRange.duration);
+        
+        if (CGSizeEqualToSize(size, CGSizeZero)) {
+            size = videoAssetTrack.naturalSize;;
+        }
     }
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
-                             [NSString stringWithFormat:@"mergeVideo-%d.mp4",arc4random() % 1000]];
-    NSURL *myURL = [NSURL fileURLWithPath:myPathDocs];
-    // 5 - Create exporter with High Quality
-    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition
-                                                                      presetName:AVAssetExportPresetHighestQuality];
-    exporter.outputURL=myURL;
+    
+    AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
+    mutableVideoComposition.instructions = instructions;
+    mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+    mutableVideoComposition.renderSize = size;
     
     
-    AVAsset *avAsset = nil;
-    AVPlayerItem *avPlayerItem = nil;
-    AVPlayer *avPlayer = nil;
-    AVPlayerLayer *avPlayerLayer =nil;
+    AVPlayerItem *pi = [AVPlayerItem playerItemWithAsset:mixComposition];
+    pi.videoComposition = mutableVideoComposition;
     
-//    if (avPlayer.rate > 0 && !avPlayer.error) {
-//        [avPlayer pause];
-//    }
-//    
-//    else {
-    AVComposition *immutableSnapshotOfMyComposition = [mixComposition copy];
+    AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
     
-       // avAsset = [mergedVideo assetFromVideoFile];
-        
-        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:immutableSnapshotOfMyComposition];
-        
-        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-        
-        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-        
-        [avPlayerLayer setFrame:self.videoPlayingView.frame];
-        avPlayerLayer.frame = self.videoPlayingView.bounds;
-        
-        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-        
-        [avPlayer seekToTime:kCMTimeZero];
-        [avPlayer play];
-        
-        
-//    }
+   AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
     
-//    exporter.outputFileType = AVFileTypeQuickTimeMovie;
-//    exporter.shouldOptimizeForNetworkUse = YES;
-//    [exporter exportAsynchronouslyWithCompletionHandler:^{
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self exportDidFinish:exporter];
-//        });
-//    }];
+    [avPlayerLayer setFrame:self.videoPlayingView.frame];
+    avPlayerLayer.frame = self.videoPlayingView.bounds;
+    
+    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+    
+    [player seekToTime:kCMTimeZero];
+    [player play];
+    
+    
+    //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //    NSString *documentsDirectory = [paths objectAtIndex:0];
+    //    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
+    //                             [NSString stringWithFormat:@"mergeVideo-%d.mp4",arc4random() % 1000]];
+    //    NSURL *myURL = [NSURL fileURLWithPath:myPathDocs];
+    //    // 5 - Create exporter with High Quality
+    //    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition
+    //                                                                      presetName:AVAssetExportPresetHighestQuality];
+    //    exporter.outputURL=myURL;
+    //
+    //
+    //    AVAsset *avAsset = nil;
+    //    AVPlayerItem *avPlayerItem = nil;
+    //    AVPlayer *avPlayer = nil;
+    //    AVPlayerLayer *avPlayerLayer =nil;
+    //
+    //    //    if (avPlayer.rate > 0 && !avPlayer.error) {
+    //    //        [avPlayer pause];
+    //    //    }
+    //    //
+    //    //    else {
+    //    AVComposition *immutableSnapshotOfMyComposition = [mixComposition copy];
+    //
+    //    // avAsset = [mergedVideo assetFromVideoFile];
+    //
+    //    avPlayerItem =[[AVPlayerItem alloc]initWithAsset:immutableSnapshotOfMyComposition];
+    //
+    //    avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+    //
+    
+    
+    
+    //    }
+    
+    //    exporter.outputFileType = AVFileTypeQuickTimeMovie;
+    //    exporter.shouldOptimizeForNetworkUse = YES;
+    //    [exporter exportAsynchronouslyWithCompletionHandler:^{
+    //        dispatch_async(dispatch_get_main_queue(), ^{
+    //            [self exportDidFinish:exporter];
+    //        });
+    //    }];
 }
 
 -(void)exportDidFinish:(AVAssetExportSession*)session {

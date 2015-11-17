@@ -19,16 +19,16 @@
 		84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */; };
 		84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */; };
 		84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */; };
-		84E9D5571BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5521BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf */; settings = {ASSET_TAGS = (); }; };
-		84E9D5581BFB8B0D005ACE00 /* CaviarDreams.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5531BFB8B0D005ACE00 /* CaviarDreams.ttf */; settings = {ASSET_TAGS = (); }; };
-		84E9D5591BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5541BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf */; settings = {ASSET_TAGS = (); }; };
-		84E9D55A1BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5551BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf */; settings = {ASSET_TAGS = (); }; };
-		84E9D55B1BFB8B0D005ACE00 /* Nymphont License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5561BFB8B0D005ACE00 /* Nymphont License.txt */; settings = {ASSET_TAGS = (); }; };
-		84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D55D1BFB9B8E005ACE00 /* boston_traffic.ttf */; settings = {ASSET_TAGS = (); }; };
-		84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D55E1BFB9B8E005ACE00 /* Vic Fieger License.txt */; settings = {ASSET_TAGS = (); }; };
-		84E9D5661BFB9D05005ACE00 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5631BFB9D05005ACE00 /* COPYING */; settings = {ASSET_TAGS = (); }; };
-		84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5641BFB9D05005ACE00 /* Engadget.ttf */; settings = {ASSET_TAGS = (); }; };
-		84E9D5681BFB9D05005ACE00 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5651BFB9D05005ACE00 /* README */; settings = {ASSET_TAGS = (); }; };
+		84E9D5571BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5521BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf */; };
+		84E9D5581BFB8B0D005ACE00 /* CaviarDreams.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5531BFB8B0D005ACE00 /* CaviarDreams.ttf */; };
+		84E9D5591BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5541BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf */; };
+		84E9D55A1BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5551BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf */; };
+		84E9D55B1BFB8B0D005ACE00 /* Nymphont License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5561BFB8B0D005ACE00 /* Nymphont License.txt */; };
+		84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D55D1BFB9B8E005ACE00 /* boston_traffic.ttf */; };
+		84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D55E1BFB9B8E005ACE00 /* Vic Fieger License.txt */; };
+		84E9D5661BFB9D05005ACE00 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5631BFB9D05005ACE00 /* COPYING */; };
+		84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5641BFB9D05005ACE00 /* Engadget.ttf */; };
+		84E9D5681BFB9D05005ACE00 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5651BFB9D05005ACE00 /* README */; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
@@ -446,7 +446,7 @@
 				TargetAttributes = {
 					DC386D7C1BEFEBA900562543 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = BULEKXRKSR;
+						DevelopmentTeam = 26RHXP32FH;
 					};
 				};
 			};
@@ -681,9 +681,9 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = com.c4q.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0235f36c-76e9-4af9-958e-e77fb64cbb1c";
 			};
 			name = Debug;
 		};
@@ -692,14 +692,14 @@
 			baseConfigurationReference = 2B71E56213096115E5D6499D /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: COALITION FOR QUEENS, INCORPORATED (26RHXP32FH)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = com.c4q.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0235f36c-76e9-4af9-958e-e77fb64cbb1c";
 			};
 			name = Release;
 		};

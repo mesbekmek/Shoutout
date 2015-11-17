@@ -186,8 +186,7 @@
 {
     SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
     
-    
-    
+    cell.videoImageView.file = nil;
     
     
     if ([self.videoThumbnailsArray count] !=0 ) {
