@@ -36,5 +36,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Caviar_Dreams_Bold.ttf</string>
+		<string>Engadget.ttf</string>
+		<string>CaviarDreams.ttf</string>
+		<string>boston_traffic.ttf</string>
+	</array>
 </dict>
 </plist>

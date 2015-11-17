@@ -19,6 +19,16 @@
 		84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */; };
 		84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */; };
 		84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */; };
+		84E9D5571BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5521BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf */; settings = {ASSET_TAGS = (); }; };
+		84E9D5581BFB8B0D005ACE00 /* CaviarDreams.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5531BFB8B0D005ACE00 /* CaviarDreams.ttf */; settings = {ASSET_TAGS = (); }; };
+		84E9D5591BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5541BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf */; settings = {ASSET_TAGS = (); }; };
+		84E9D55A1BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5551BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf */; settings = {ASSET_TAGS = (); }; };
+		84E9D55B1BFB8B0D005ACE00 /* Nymphont License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5561BFB8B0D005ACE00 /* Nymphont License.txt */; settings = {ASSET_TAGS = (); }; };
+		84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D55D1BFB9B8E005ACE00 /* boston_traffic.ttf */; settings = {ASSET_TAGS = (); }; };
+		84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D55E1BFB9B8E005ACE00 /* Vic Fieger License.txt */; settings = {ASSET_TAGS = (); }; };
+		84E9D5661BFB9D05005ACE00 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5631BFB9D05005ACE00 /* COPYING */; settings = {ASSET_TAGS = (); }; };
+		84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5641BFB9D05005ACE00 /* Engadget.ttf */; settings = {ASSET_TAGS = (); }; };
+		84E9D5681BFB9D05005ACE00 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5651BFB9D05005ACE00 /* README */; settings = {ASSET_TAGS = (); }; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
@@ -73,6 +83,16 @@
 		84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSortingCVC.m; sourceTree = "<group>"; };
 		84E9D5381BF9375D005ACE00 /* SOAddMyVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOAddMyVideoViewController.h; sourceTree = "<group>"; };
 		84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOAddMyVideoViewController.m; sourceTree = "<group>"; };
+		84E9D5521BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Caviar_Dreams_Bold.ttf; sourceTree = "<group>"; };
+		84E9D5531BFB8B0D005ACE00 /* CaviarDreams.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CaviarDreams.ttf; sourceTree = "<group>"; };
+		84E9D5541BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CaviarDreams_BoldItalic.ttf; sourceTree = "<group>"; };
+		84E9D5551BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CaviarDreams_Italic.ttf; sourceTree = "<group>"; };
+		84E9D5561BFB8B0D005ACE00 /* Nymphont License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Nymphont License.txt"; sourceTree = "<group>"; };
+		84E9D55D1BFB9B8E005ACE00 /* boston_traffic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = boston_traffic.ttf; sourceTree = "<group>"; };
+		84E9D55E1BFB9B8E005ACE00 /* Vic Fieger License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Vic Fieger License.txt"; sourceTree = "<group>"; };
+		84E9D5631BFB9D05005ACE00 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		84E9D5641BFB9D05005ACE00 /* Engadget.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Engadget.ttf; sourceTree = "<group>"; };
+		84E9D5651BFB9D05005ACE00 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7127B6F1BF678D60069CF76 /* CollaborationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborationsTableViewController.h; sourceTree = "<group>"; };
 		C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborationsTableViewController.m; sourceTree = "<group>"; };
@@ -197,6 +217,49 @@
 			name = Sorting;
 			sourceTree = "<group>";
 		};
+		84E9D5511BFB8B0D005ACE00 /* Caviar-Dreams */ = {
+			isa = PBXGroup;
+			children = (
+				84E9D5521BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf */,
+				84E9D5531BFB8B0D005ACE00 /* CaviarDreams.ttf */,
+				84E9D5541BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf */,
+				84E9D5551BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf */,
+				84E9D5561BFB8B0D005ACE00 /* Nymphont License.txt */,
+			);
+			name = "Caviar-Dreams";
+			sourceTree = "<group>";
+		};
+		84E9D55C1BFB9B8E005ACE00 /* Boston-Traffic */ = {
+			isa = PBXGroup;
+			children = (
+				84E9D55D1BFB9B8E005ACE00 /* boston_traffic.ttf */,
+				84E9D55E1BFB9B8E005ACE00 /* Vic Fieger License.txt */,
+			);
+			name = "Boston-Traffic";
+			path = "../Boston-Traffic";
+			sourceTree = "<group>";
+		};
+		84E9D5611BFB9B98005ACE00 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				84E9D5621BFB9D05005ACE00 /* engadget */,
+				84E9D55C1BFB9B8E005ACE00 /* Boston-Traffic */,
+				84E9D5511BFB8B0D005ACE00 /* Caviar-Dreams */,
+			);
+			name = Fonts;
+			path = "Caviar-Dreams";
+			sourceTree = "<group>";
+		};
+		84E9D5621BFB9D05005ACE00 /* engadget */ = {
+			isa = PBXGroup;
+			children = (
+				84E9D5631BFB9D05005ACE00 /* COPYING */,
+				84E9D5641BFB9D05005ACE00 /* Engadget.ttf */,
+				84E9D5651BFB9D05005ACE00 /* README */,
+			);
+			path = engadget;
+			sourceTree = "<group>";
+		};
 		C7127B731BF678F10069CF76 /* CollaborationSection */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +302,7 @@
 				DC386DFB1BF4224500562543 /* SOModel */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
+				84E9D5611BFB9B98005ACE00 /* Fonts */,
 				DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */,
 				DC386D941BEFEBA900562543 /* Info.plist */,
 				DC386D8C1BEFEBA900562543 /* Shoutout.xcdatamodeld */,
@@ -409,10 +473,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E9D5681BFB9D05005ACE00 /* README in Resources */,
+				84E9D5661BFB9D05005ACE00 /* COPYING in Resources */,
+				84E9D5571BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf in Resources */,
+				84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */,
+				84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */,
 				84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */,
+				84E9D55B1BFB8B0D005ACE00 /* Nymphont License.txt in Resources */,
+				84E9D5591BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf in Resources */,
+				84E9D5581BFB8B0D005ACE00 /* CaviarDreams.ttf in Resources */,
+				84E9D55A1BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf in Resources */,
 				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
 				84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */,
 				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
+				84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,

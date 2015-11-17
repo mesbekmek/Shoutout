@@ -1,0 +1,24 @@
+Engadget, a font by John Stracke, <http://www.thibault.org/fonts/>.
+
+This font is called Engadget because it is based on the modernistic
+letters in the logo of the Engadget blog (http://www.engadget.com).
+
+It is released under the terms of the GNU Lesser General Public
+License (LGPL).  You should have received a copy of the LGPL along
+with this program; it's in a file called COPYING.  If not, write to
+the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+Boston, MA 02111-1307 USA, or see
+<http://www.fsf.org/licenses/lgpl.txt>.
+
+Where the LGPL refers to "source code", I take that to refer to the
+file called Engadget.sfd, which is a file for editing with
+pfaedit (see <http://pfaedit.sourceforge.net>), an outline font editor
+program.  Pfaedit is not LGPLed, but its license does seem to count as
+free software (it's BSD-style, without the advertising clause).  Thus,
+according to the LGPL, if you distribute this font, you must make
+Engadget.sfd available to the recipient(s) under the terms
+the LGPL specifies for source availability.
+
+At the time of this writing, Engadget.sfd is available on my
+Website at <http://www.thibault.org/fonts/engadget/>.
+
