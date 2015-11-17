@@ -136,8 +136,15 @@ UICollectionViewDataSource
                     NSLog(@"Current video is: %@", vid.video);
                     //add video  PFiles to videoFiles array
                     [self.videoFilesArray addObject:vid];
+                    //
                 }
-                self.videoAssetsArray = [self videoAssestsArray];
+                if(self.videoFilesArray.count == self.sortingProject.videos.count){
+                    
+                    [self resortVideoFilesArray];
+                    [collectionView reloadData];
+                    
+                    self.videoAssetsArray = [self videoAssestsArray];
+                }
             }
             
             else{
@@ -145,7 +152,32 @@ UICollectionViewDataSource
             }
         }];
     }
+    
+   
 }
+
+- (void)resortVideoFilesArray{
+    
+    NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
+    NSMutableArray <PFFile  *> *sortedPFFileThumbnailsArray = [NSMutableArray new];
+    
+    for (SOVideo *video in self.sortingProject.videos) {
+        
+        for (SOVideo *unsortedVideo in self.videoFilesArray) {
+            if ([unsortedVideo.objectId isEqualToString:video.objectId]) {
+                [sortedArray addObject:unsortedVideo];
+                [sortedPFFileThumbnailsArray addObject:unsortedVideo.thumbnail];
+                break;
+            }
+        }
+        
+    }
+    
+    self.videoFilesArray = sortedArray;
+    self.videoThumbnails = sortedPFFileThumbnailsArray;
+}
+
+
 //method for getting AVAssets array from PFFile array
 -(NSMutableArray<AVAsset * > *)videoAssestsArray
 {
@@ -288,32 +320,32 @@ UICollectionViewDataSource
 }
 
 
--(void)videoThumbnailImages{
-    self.imagesArray = [NSMutableArray new];
-    
-    for (SOVideo *video in self.sortingProject.videos) {
-        
-        [video.thumbnail getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
-            if (data) {
-                
-                
-                NSData *dataFromFile = [NSData dataWithData:data];
-                UIImage *image = [UIImage imageWithData:dataFromFile];
-                [self.imagesArray addObject:image];
-                
-                if (self.imagesArray.count == self.sortingProject.videos.count) {
-                    [collectionView reloadData];
-                }
-                
-            }
-        }];
-    }
-}
+//-(void)videoThumbnailImages{
+//    self.imagesArray = [NSMutableArray new];
+//
+//    for (SOVideo *video in self.sortingProject.videos) {
+//
+//        [video.thumbnail getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
+//            if (data) {
+//
+//
+//                NSData *dataFromFile = [NSData dataWithData:data];
+//                UIImage *image = [UIImage imageWithData:dataFromFile];
+//                [self.imagesArray addObject:image];
+//
+//                if (self.imagesArray.count == self.sortingProject.videos.count) {
+//                    [collectionView reloadData];
+//                }
+//
+//            }
+//        }];
+//    }
+//}
 
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    return CGSizeMake(120, 120);
+    return CGSizeMake(100, 100);
 }
 
 
@@ -336,7 +368,7 @@ UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection{
     
-    return [self.sortingProject.videos count];
+    return [self.videoThumbnails count];
     
 }
 
@@ -358,6 +390,50 @@ UICollectionViewDataSource
     return cell;
     
 }
+
+
+
+
+- (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+
+{
+    NSLog (@"indexpath %ld",(long)indexPath.row);
+    AVAsset *avAsset = nil;
+    AVPlayerItem *avPlayerItem = nil;
+    AVPlayer *avPlayer = nil;
+    AVPlayerLayer *avPlayerLayer =nil;
+    
+    if (avPlayer.rate > 0 && !avPlayer.error) {
+        [avPlayer pause];
+    }
+    
+    else {
+        
+        avAsset = self.videoAssetsArray[indexPath.row];
+        
+        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+        
+        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+        
+        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
+        
+        [avPlayerLayer setFrame:self.videoPlayingView.frame];
+        avPlayerLayer.frame = self.videoPlayingView.bounds;
+        
+        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+        
+        [avPlayer seekToTime:kCMTimeZero];
+        [avPlayer play];
+        
+        
+    }
+    
+    [collectionView reloadData];
+    
+}
+
+
+
 
 
 #pragma mark - Reorderable layout
