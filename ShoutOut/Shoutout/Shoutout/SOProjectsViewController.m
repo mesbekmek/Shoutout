@@ -125,6 +125,7 @@
     
 }
 
+
 -(void)videoThumbnailQuery {
     
     NSLog(@"yoooo %@", self.videosArray);
@@ -175,7 +176,7 @@
     //
     //    }
     NSLog(@"projects array %lu",(unsigned long)[self.projectsArray count]);
-    NSLog(@"videoThumbnailsArray %lu ",[self.videoThumbnailsArray count]);
+    NSLog(@"videoThumbnailsArray %lu ",(unsigned long)[self.videoThumbnailsArray count]);
     return [self.projectsArray count];
 }
 
