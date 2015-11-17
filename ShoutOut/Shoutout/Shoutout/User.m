@@ -16,4 +16,14 @@
 //    return @"User";
 //}
 
+-(instancetype)initWithContacts{
+    
+    if (self = [super init]) {
+        self.contacts = [SOContacts new];
+        return self;
+        
+    }
+    return nil;
+}
+
 @end

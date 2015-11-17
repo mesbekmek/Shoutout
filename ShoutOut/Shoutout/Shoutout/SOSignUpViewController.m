@@ -8,6 +8,7 @@
 
 #import "SOSignUpViewController.h"
 #import "ViewController.h"
+#import "SOModel.h"
 
 @interface SOSignUpViewController ()
 
@@ -45,7 +46,7 @@
     
     if ((username && username.length) && (password && password.length) && (email && email.length))
     {
-        PFUser *thisUser = [PFUser user];
+        User *thisUser = [[User alloc]initWithContacts];
         
         thisUser.username = username;
         thisUser.password = password;

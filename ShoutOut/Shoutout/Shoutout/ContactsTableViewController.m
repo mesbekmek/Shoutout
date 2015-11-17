@@ -43,7 +43,7 @@
             [self.tableView reloadData];
         }
         else{
-            NSLog(@"%@",error);
+            NSLog(@"query contacts ERROR == %@",error);
         }
     }];
     
@@ -62,6 +62,17 @@
             if (!newRequest.hasDecided && !newRequest.isAccepted){
                 
                 [self newRequestRevievedAlert:newRequest.requestSentFrom withSORequestObject:newRequest];
+            }
+        }
+    }];
+    
+    PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
+    [queryRequestResult whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+    [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (SORequest *requestResult in objects) {
+            if (requestResult.hasDecided && requestResult.isAccepted) {
+                [self.currentUserContacts addObject:requestResult.requestSentTo];
+                [self pushContactListToParse];
             }
         }
     }];
@@ -85,14 +96,19 @@
             NSLog(@"saved accept BOOL value in parse");
         }];
         [self.currentUserContacts addObject:newFriend];
-        [self.tableView reloadData];
         [self pushContactListToParse];
+        [self addSelfToFromRequest:object];
     }];
     
     [newFriendRequest addAction:ignore];
     [newFriendRequest addAction:accept];
     
     [self presentViewController:newFriendRequest animated:YES completion:nil];
+}
+
+-(void)addSelfToFromRequest:(SORequest *)request{
+    
+    
 }
 
 
@@ -190,6 +206,7 @@
     [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"new contact list saved to parse");
     }];
+    [self.tableView reloadData];
 }
 
 

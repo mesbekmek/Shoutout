@@ -14,5 +14,5 @@
 @property (nonatomic) SOContacts *contacts;
 
 //+ (NSString *)parseClassName;
-
+-(instancetype)initWithContacts;
 @end
