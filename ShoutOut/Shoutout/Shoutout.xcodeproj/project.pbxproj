@@ -162,8 +162,7 @@
 		84E5CFA21BF4E5B500A587E1 /* SOProjects */ = {
 			isa = PBXGroup;
 			children = (
-				84E9D35E1BF6E500005ACE00 /* SOCreateNewProjectViewController.h */,
-				84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */,
+				DCB520C71BFA7FB200DEF285 /* New Projects */,
 				84E9D52B1BF8F228005ACE00 /* My projects */,
 				84E9D52C1BF8F243005ACE00 /* Sorting */,
 			);
@@ -236,11 +235,7 @@
 				DC386D871BEFEBA900562543 /* ViewController.m */,
 				DC386DA71BF003C500562543 /* Main.Storyboard */,
 				DC386E0B1BF424BB00562543 /* extensions */,
-				84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */,
-				84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */,
-				84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */,
-				84E5CFAF1BF4FA3200A587E1 /* video1.mp4 */,
-				84E5CFB01BF4FA3200A587E1 /* video2.mp4 */,
+				DCB520C41BFA7B1F00DEF285 /* SOTestVideosAndPictures */,
 				DC386DFB1BF4224500562543 /* SOModel */,
 				DC386DA61BEFF8F900562543 /* SOViewControllers */,
 				DC386D8F1BEFEBA900562543 /* Assets.xcassets */,
@@ -271,10 +266,8 @@
 			children = (
 				C7127B731BF678F10069CF76 /* CollaborationSection */,
 				84E5CFA21BF4E5B500A587E1 /* SOProjects */,
-				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
-				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
-				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
-				DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */,
+				DCB520C51BFA7B5600DEF285 /* SOProfile */,
+				DCB520C61BFA7B6100DEF285 /* SOContacts */,
 				84E5CFA11BF4E59F00A587E1 /* SOLoginSignUp */,
 			);
 			name = SOViewControllers;
@@ -305,6 +298,45 @@
 				DC386E091BF424B300562543 /* NSURL+ImageGenerator.m */,
 			);
 			name = extensions;
+			sourceTree = "<group>";
+		};
+		DCB520C41BFA7B1F00DEF285 /* SOTestVideosAndPictures */ = {
+			isa = PBXGroup;
+			children = (
+				84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */,
+				84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */,
+				84E5CF9D1BF4CA7C00A587E1 /* video3.jpg */,
+				84E5CFAF1BF4FA3200A587E1 /* video1.mp4 */,
+				84E5CFB01BF4FA3200A587E1 /* video2.mp4 */,
+			);
+			name = SOTestVideosAndPictures;
+			sourceTree = "<group>";
+		};
+		DCB520C51BFA7B5600DEF285 /* SOProfile */ = {
+			isa = PBXGroup;
+			children = (
+				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
+				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
+			);
+			name = SOProfile;
+			sourceTree = "<group>";
+		};
+		DCB520C61BFA7B6100DEF285 /* SOContacts */ = {
+			isa = PBXGroup;
+			children = (
+				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
+				DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */,
+			);
+			name = SOContacts;
+			sourceTree = "<group>";
+		};
+		DCB520C71BFA7FB200DEF285 /* New Projects */ = {
+			isa = PBXGroup;
+			children = (
+				84E9D35E1BF6E500005ACE00 /* SOCreateNewProjectViewController.h */,
+				84E9D35F1BF6E500005ACE00 /* SOCreateNewProjectViewController.m */,
+			);
+			name = "New Projects";
 			sourceTree = "<group>";
 		};
 		F88ABA11F1D5D8AA3BA47208 /* Pods */ = {
@@ -575,7 +607,7 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.vhart.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -591,7 +623,7 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.vhart.Shoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.mesfin.Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

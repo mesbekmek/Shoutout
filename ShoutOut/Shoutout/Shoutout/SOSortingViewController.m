@@ -58,6 +58,10 @@ UICollectionViewDataSource
 
 @property (nonatomic) UIImagePickerController *imagePicker;
 
+@property (nonatomic) NSMutableArray<SOVideo *> *videoFilesArray;
+
+@property (nonatomic) NSMutableArray<AVAsset *> *videoAssetsArray;
+
 @end
 
 @implementation SOSortingViewController
@@ -70,17 +74,19 @@ UICollectionViewDataSource
     
     NSLog(@"passed %@",self.sortingProject.title);
     
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
     
-//    self.videoThumbnails =[NSMutableArray new];
-//    
-//    for(int i = 0; i < self.sortingProject.videos.count; i++){
-//        SOVideo *video = self.sortingProject.videos[i];
-//        PFFile *thumbnail = video.thumbnail;
-//        [self.videoThumbnails addObject:thumbnail];
-//    }
-//    
-//    [self videoThumbnails];
+    self.videoAssetsArray = [NSMutableArray new];
+    
+    //    self.videoThumbnails =[NSMutableArray new];
+    //
+    //    for(int i = 0; i < self.sortingProject.videos.count; i++){
+    //        SOVideo *video = self.sortingProject.videos[i];
+    //        PFFile *thumbnail = video.thumbnail;
+    //        [self.videoThumbnails addObject:thumbnail];
+    //    }
+    //
+    //    [self videoThumbnails];
     
     //    imagesArray = [[NSMutableArray alloc] initWithObjects:@"video1.jpg", @"video2.jpg", @"video3.jpg", nil];
     
@@ -89,11 +95,15 @@ UICollectionViewDataSource
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"sortingIdentifier"];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self videoQuery];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated{
-    
+    [super viewDidAppear:animated];
     [collectionView reloadData];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -105,12 +115,138 @@ UICollectionViewDataSource
     
 }
 
+
+
+#pragma mark - Query videos
+
+-(void)videoQuery {
+    
+    NSMutableArray<SOVideo *> *videosArray = self.sortingProject.videos;
+    self.videoFilesArray = [[NSMutableArray alloc] init];
+    
+    for (int i=0; i<[videosArray count]; i++) {
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+        [query whereKey:@"objectId" equalTo:[videosArray objectAtIndex:i].objectId];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            
+            if (!error) {
+                NSLog(@"video objects %@",objects);
+                for (SOVideo *vid in objects) {
+                    NSLog(@"Current video is: %@", vid.video);
+                    //add video  PFiles to videoFiles array
+                    [self.videoFilesArray addObject:vid];
+                }
+                self.videoAssetsArray = [self videoAssestsArray];
+            }
+            
+            else{
+                NSLog(@"Error: %@",error);
+            }
+        }];
+    }
+}
+//method for getting AVAssets array from PFFile array
+-(NSMutableArray<AVAsset * > *)videoAssestsArray
+{
+    NSMutableArray<AVAsset *> *videoAssetsArray = [NSMutableArray new];
+    for (int i=0; i < self.videoFilesArray.count; i++)
+    {
+        SOVideo *currentVideo = self.videoFilesArray[i];
+        AVAsset *videoAsset = [currentVideo assetFromVideoFile];
+        [videoAssetsArray addObject:videoAsset];
+    }
+    return videoAssetsArray;
+}
+#pragma mark - Merging methods
+- (IBAction)mergeAndSaveButtonTapped:(UIButton *)sender {
+    
+    [self mergeVideosInArray:self.videoAssetsArray];
+}
+
+-(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
+    int count = (int) [videosArray count];
+    AVMutableComposition *mixComposition = nil;
+    for(int i = count-1; i >= 0 ; i--)
+    {
+        AVAsset *currentAsset = videosArray[i];
+        if(i>0)
+        {
+            AVAsset *previousAsset = videosArray[i-1];
+            if(currentAsset && previousAsset)
+            {
+                //Object that holds Video track instances
+                mixComposition = [[AVMutableComposition alloc] init];
+                // 2 - Video track
+                AVMutableCompositionTrack *currentTrack = [mixComposition addMutableTrackWithMediaType:
+                                                           AVMediaTypeVideo
+                                                                                      preferredTrackID:kCMPersistentTrackID_Invalid];
+                [currentTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
+                                      ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:previousAsset.duration error:nil];
+                
+                //fetch current Audio Track
+                currentTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+                [currentTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
+                                      ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0]
+                                       atTime:previousAsset.duration error:nil];
+            }
+        }
+        else
+        {
+            if(currentAsset)//asset is the first video track
+            {
+                //Object that holds Video track instances
+                AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
+                // 2 - Video track
+                AVMutableCompositionTrack *firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
+                                                                                    preferredTrackID:kCMPersistentTrackID_Invalid];
+                [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
+                                    ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0] atTime:kCMTimeZero error:nil];
+                
+                //fetch current Audio Track
+                firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+                [firstTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, currentAsset.duration)
+                                    ofTrack:[[currentAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0]
+                                     atTime:kCMTimeZero error:nil];
+            }
+        }
+        
+    }
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
+                             [NSString stringWithFormat:@"mergeVideo-%d.mov",arc4random() % 1000]];
+    NSURL *url = [NSURL fileURLWithPath:myPathDocs];
+    // 5 - Create exporter with High Quality
+    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition
+                                                                      presetName:AVAssetExportPresetHighestQuality];
+    exporter.outputURL=url;
+    exporter.outputFileType = AVFileTypeQuickTimeMovie;
+    exporter.shouldOptimizeForNetworkUse = YES;
+    [exporter exportAsynchronouslyWithCompletionHandler:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self exportDidFinish:exporter];
+        });
+    }];
+}
+
+-(void)exportDidFinish:(AVAssetExportSession*)session {
+    if (session.status == AVAssetExportSessionStatusCompleted) {
+        NSURL *outputURL = session.outputURL;
+        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:outputURL];
+        self.sortingProject.shoutout = video;
+    }
+}
+
+
+
 #pragma mark - New video button selector
 
 -(void)modalCameraPopup{
- 
+    
     [self setupCamera];
-
+    
 }
 
 
@@ -137,10 +273,10 @@ UICollectionViewDataSource
     
     [self.videoThumbnails addObject:video.thumbnail];
     
-//Add video to current projects
+    //Add video to current projects
     [self.sortingProject.videos addObject:video];
     
-// Alternative is to use saveEventually, allowing saving when connection is available
+    // Alternative is to use saveEventually, allowing saving when connection is available
     
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
@@ -260,11 +396,11 @@ UICollectionViewDataSource
         
         [draggedView addSubview:draggedImageView];
         
-       // PFFile *
+        // PFFile *
         
         // NSString *draggedImageName = [self.videoThumbnails objectAtIndex:self.draggedIndex.row];
         
-       // draggedImageView.image = [UIImage imageNamed:draggedImageName];
+        // draggedImageView.image = [UIImage imageNamed:draggedImageName];
         
         //draggedImageView.image = self.imagesArray[self.draggedIndex.row];
         
