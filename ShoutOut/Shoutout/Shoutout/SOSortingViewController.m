@@ -198,7 +198,7 @@ UICollectionViewDataSource
 
 -(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
     int count = (int) [videosArray count];
-    AVMutableComposition *mixComposition = nil;
+    AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
     for(int i = count-1; i >= 0 ; i--)
     {
         AVAsset *currentAsset = videosArray[i];
@@ -207,9 +207,7 @@ UICollectionViewDataSource
             AVAsset *previousAsset = videosArray[i-1];
             if(currentAsset && previousAsset)
             {
-                //Object that holds Video track instances
-                mixComposition = [[AVMutableComposition alloc] init];
-                // 2 - Video track
+                //Video track
                 AVMutableCompositionTrack *currentTrack = [mixComposition addMutableTrackWithMediaType:
                                                            AVMediaTypeVideo
                                                                                       preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -228,7 +226,6 @@ UICollectionViewDataSource
             if(currentAsset)//asset is the first video track
             {
                 //Object that holds Video track instances
-                AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
                 // 2 - Video track
                 AVMutableCompositionTrack *firstTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
                                                                                     preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -248,27 +245,91 @@ UICollectionViewDataSource
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
-                             [NSString stringWithFormat:@"mergeVideo-%d.mov",arc4random() % 1000]];
-    NSURL *url = [NSURL fileURLWithPath:myPathDocs];
+                             [NSString stringWithFormat:@"mergeVideo-%d.mp4",arc4random() % 1000]];
+    NSURL *myURL = [NSURL fileURLWithPath:myPathDocs];
     // 5 - Create exporter with High Quality
     AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition
                                                                       presetName:AVAssetExportPresetHighestQuality];
-    exporter.outputURL=url;
-    exporter.outputFileType = AVFileTypeQuickTimeMovie;
-    exporter.shouldOptimizeForNetworkUse = YES;
-    [exporter exportAsynchronouslyWithCompletionHandler:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self exportDidFinish:exporter];
-        });
-    }];
+    exporter.outputURL=myURL;
+    
+    
+    AVAsset *avAsset = nil;
+    AVPlayerItem *avPlayerItem = nil;
+    AVPlayer *avPlayer = nil;
+    AVPlayerLayer *avPlayerLayer =nil;
+    
+//    if (avPlayer.rate > 0 && !avPlayer.error) {
+//        [avPlayer pause];
+//    }
+//    
+//    else {
+    AVComposition *immutableSnapshotOfMyComposition = [mixComposition copy];
+    
+       // avAsset = [mergedVideo assetFromVideoFile];
+        
+        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:immutableSnapshotOfMyComposition];
+        
+        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+        
+        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
+        
+        [avPlayerLayer setFrame:self.videoPlayingView.frame];
+        avPlayerLayer.frame = self.videoPlayingView.bounds;
+        
+        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+        
+        [avPlayer seekToTime:kCMTimeZero];
+        [avPlayer play];
+        
+        
+//    }
+    
+//    exporter.outputFileType = AVFileTypeQuickTimeMovie;
+//    exporter.shouldOptimizeForNetworkUse = YES;
+//    [exporter exportAsynchronouslyWithCompletionHandler:^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self exportDidFinish:exporter];
+//        });
+//    }];
 }
 
 -(void)exportDidFinish:(AVAssetExportSession*)session {
     if (session.status == AVAssetExportSessionStatusCompleted) {
         NSURL *outputURL = session.outputURL;
-        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:outputURL];
+        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:session.outputURL];
         self.sortingProject.shoutout = video;
     }
+    
+    AVAsset *avAsset = nil;
+    AVPlayerItem *avPlayerItem = nil;
+    AVPlayer *avPlayer = nil;
+    AVPlayerLayer *avPlayerLayer =nil;
+    
+    if (avPlayer.rate > 0 && !avPlayer.error) {
+        [avPlayer pause];
+    }
+    
+    else {
+        
+        avAsset = [self.sortingProject.shoutout assetFromVideoFile];
+        
+        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+        
+        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+        
+        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
+        
+        [avPlayerLayer setFrame:self.videoPlayingView.frame];
+        avPlayerLayer.frame = self.videoPlayingView.bounds;
+        
+        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+        
+        [avPlayer seekToTime:kCMTimeZero];
+        [avPlayer play];
+        
+        
+    }
+    
 }
 
 
