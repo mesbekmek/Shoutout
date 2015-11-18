@@ -77,6 +77,8 @@ UICollectionViewDataSource
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
     
     self.videoAssetsArray = [NSMutableArray new];
+    self.videoFilesArray = [NSMutableArray new];
+
     
     //    self.videoThumbnails =[NSMutableArray new];
     //
@@ -122,12 +124,11 @@ UICollectionViewDataSource
 -(void)videoQuery {
     
     NSMutableArray<SOVideo *> *videosArray = self.sortingProject.videos;
-    self.videoFilesArray = [[NSMutableArray alloc] init];
     
     for (int i=0; i<[videosArray count]; i++) {
         
         PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
-        [query whereKey:@"objectId" equalTo:[videosArray objectAtIndex:i].objectId];
+        [query whereKey:@"objectId" containsString:[videosArray objectAtIndex:i].objectId];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
             if (!error) {
