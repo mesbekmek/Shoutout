@@ -388,11 +388,12 @@ UICollectionViewDataSource
     
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
+        [collectionView reloadData];
     }];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
-    [collectionView reloadData];
+    
 }
 
 
