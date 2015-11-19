@@ -389,6 +389,7 @@ UICollectionViewDataSource
     
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
+        NSLog(@"Saved project videos: %@",self.sortingProject.videos);
         [collectionView reloadData];
     }];
     
