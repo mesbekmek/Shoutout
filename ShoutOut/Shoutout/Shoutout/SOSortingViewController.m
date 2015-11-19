@@ -78,7 +78,7 @@ UICollectionViewDataSource
     
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
-
+    
     
     //    self.videoThumbnails =[NSMutableArray new];
     //
@@ -99,7 +99,14 @@ UICollectionViewDataSource
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self videoQuery];
+    //[self videoQuery];
+    [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
+        
+        self.videoThumbnails = thumbnails;
+        self.videoAssetsArray = fetchedVideoAssets;
+        
+        [collectionView reloadData];
+    }];
 }
 
 
@@ -122,23 +129,23 @@ UICollectionViewDataSource
 #pragma mark - Query videos
 
 //-(void)videoQuery {
-//    
+//
 //    NSMutableArray<SOVideo *> *videosArray = self.sortingProject.videos;
-//    
+//
 ////    for (SOVideo *video in self.sortingProject.videos) {
 ////        [video fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-////            
+////
 ////        }];
 ////    }
-//    
+//
 //    for (int i=0; i<[videosArray count]; i++) {
-//        
-//        
-//        
+//
+//
+//
 //        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
 //        [query whereKey:@"objectId" containsString:[videosArray objectAtIndex:i].objectId];
 //        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//            
+//
 //            if (!error) {
 //                NSLog(@"video objects %@",objects);
 //                for (SOVideo *vid in objects) {
@@ -148,30 +155,30 @@ UICollectionViewDataSource
 //                    //
 //                }
 //                if(self.videoFilesArray.count == self.sortingProject.videos.count){
-//                    
+//
 //                    [self resortVideoFilesArray];
 //                    [collectionView reloadData];
-//                    
+//
 //                    self.videoAssetsArray = [self videoAssestsArray];
 //                }
 //            }
-//            
+//
 //            else{
 //                NSLog(@"Error: %@",error);
 //            }
 //        }];
 //    }
-//    
-//    
+//
+//
 //}
 
 //- (void)resortVideoFilesArray{
-//    
+//
 //    NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
 //    NSMutableArray <PFFile  *> *sortedPFFileThumbnailsArray = [NSMutableArray new];
-//    
+//
 //    for (SOVideo *video in self.sortingProject.videos) {
-//        
+//
 //        for (SOVideo *unsortedVideo in self.videoFilesArray) {
 //            if ([unsortedVideo.objectId isEqualToString:video.objectId]) {
 //                [sortedArray addObject:unsortedVideo];
@@ -179,7 +186,7 @@ UICollectionViewDataSource
 //                break;
 //            }
 //        }
-//        
+//
 //    }
 //    self.videoFilesArray = sortedArray;
 //    self.videoThumbnails = sortedPFFileThumbnailsArray;
@@ -205,7 +212,7 @@ UICollectionViewDataSource
 }
 
 -(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
-
+    
     AVMutableComposition *mixComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *videoCompositionTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     
@@ -263,7 +270,7 @@ UICollectionViewDataSource
     
     AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
     
-   AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
+    AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
     
     [avPlayerLayer setFrame:self.videoPlayingView.frame];
     avPlayerLayer.frame = self.videoPlayingView.bounds;
@@ -283,30 +290,6 @@ UICollectionViewDataSource
     //    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition
     //                                                                      presetName:AVAssetExportPresetHighestQuality];
     //    exporter.outputURL=myURL;
-    //
-    //
-    //    AVAsset *avAsset = nil;
-    //    AVPlayerItem *avPlayerItem = nil;
-    //    AVPlayer *avPlayer = nil;
-    //    AVPlayerLayer *avPlayerLayer =nil;
-    //
-    //    //    if (avPlayer.rate > 0 && !avPlayer.error) {
-    //    //        [avPlayer pause];
-    //    //    }
-    //    //
-    //    //    else {
-    //    AVComposition *immutableSnapshotOfMyComposition = [mixComposition copy];
-    //
-    //    // avAsset = [mergedVideo assetFromVideoFile];
-    //
-    //    avPlayerItem =[[AVPlayerItem alloc]initWithAsset:immutableSnapshotOfMyComposition];
-    //
-    //    avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-    //
-    
-    
-    
-    //    }
     
     //    exporter.outputFileType = AVFileTypeQuickTimeMovie;
     //    exporter.shouldOptimizeForNetworkUse = YES;

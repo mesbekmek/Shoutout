@@ -24,4 +24,8 @@
 
 -(instancetype)initWithTitle:(NSString *)title;
 +(NSString *)parseClassName;
+
+-(void)fetchVideos:(void (^)(NSMutableArray <SOVideo *> *fetchedVideos,
+                             NSMutableArray <AVAsset *> *fetchedVideoAssets,
+                             NSMutableArray <PFFile *>* thumbnails) )onCompletion;
 @end

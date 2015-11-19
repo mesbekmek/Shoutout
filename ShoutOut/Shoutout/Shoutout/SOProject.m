@@ -41,7 +41,10 @@
         return @"SOProject";
 }
 
--(void)fetchVideos:(void (^)(NSArray <SOVideo *> *fetchedVideos, NSArray <AVAsset *> *fetchedVideoAssets, NSArray <PFFile *>* thumbnails))onCompletion{
+-(void)fetchVideos:(void (^)(NSMutableArray <SOVideo *> *fetchedVideos,
+                             NSMutableArray <AVAsset *> *fetchedVideoAssets,
+                             NSMutableArray <PFFile *>* thumbnails) )onCompletion{
+    
     NSMutableArray<SOVideo *> *videoFilesArray = [[NSMutableArray alloc]init];
     
     
@@ -63,9 +66,10 @@
                 }
                 if(videoFilesArray.count == self.videos.count){
                     
-                    [self resortVideoFilesArray:videoFilesArray];
+                   NSMutableArray<SOVideo *> *sortedVideoFilesArray =  [self resortVideoFilesArray:videoFilesArray];
                     
-                    onCompletion(videoFilesArray, [self videoAssestsArray], [videoFilesArray valueForKey: @"thumbnail"]);
+                    
+                    onCompletion(videoFilesArray, [self videoAssestsArray:sortedVideoFilesArray], [sortedVideoFilesArray valueForKey: @"thumbnail"]);
                     
                 }
             }
@@ -79,7 +83,7 @@
     
 }
 
-- (NSArray *)resortVideoFilesArray:(NSArray <SOVideo *>*)videoFilesArray{
+- (NSMutableArray<SOVideo *> *)resortVideoFilesArray:(NSArray <SOVideo *>*)videoFilesArray{
     
     NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
     
@@ -99,15 +103,12 @@
     
 }
 
-
-
--(NSMutableArray<AVAsset * > *)videoAssestsArray
+-(NSMutableArray<AVAsset * > *)videoAssestsArray:(NSArray <SOVideo *>*)sortedVideoFilesArray
 {
     NSMutableArray<AVAsset *> *videoAssetsArray = [NSMutableArray new];
-    for (int i=0; i < self.videoFilesArray.count; i++)
+    for (SOVideo *video in sortedVideoFilesArray)
     {
-        SOVideo *currentVideo = self.videoFilesArray[i];
-        AVAsset *videoAsset = [currentVideo assetFromVideoFile];
+        AVAsset *videoAsset = [video assetFromVideoFile];
         [videoAssetsArray addObject:videoAsset];
     }
     return videoAssetsArray;
