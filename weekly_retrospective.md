@@ -1,8 +1,8 @@
 ## Weekly Retro Template  
 
-**Goals for last week**:
+**Goals for last week**:Create MVP, get video sorting and compiling working, allow users to add videos to a project
 
-**Goals for this week**:
+**Goals for this week**: Much better UI/UX, get correct oritentation of videos during playback, Get collaborations working
 
 **Guiding Questions** (consider before the meeting):
 
@@ -14,19 +14,19 @@
 **Team Member Analysis**:
 If you did not meet your goals, how will this affect the progression of the product? What will you do differently to meet your goals this week?
 
-  *  Team Member #1
+  *  Diana
     * Goals/Responsibilities Last Week:
         * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
-  *  Team Member #2    
+  *  Varindra   
     * Goals/Responsibilities Last Week:
          * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
-  *  Team Member #3
+  *  Jason
     * Goals/Responsibilities Last Week:
         * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
-  *  (Team Member #4)
+  *  Mesfin
     * Goals/Responsibilities Last Week:
        * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
@@ -40,3 +40,4 @@ If you did not meet your goals, how will this affect the progression of the prod
   *  How can you improve productivity and get the most work done within the next week?
 
 **Mentor Comments**:
+Trust your gut, and decide on a user flow, as you do not have time to conduct a lot of user research, you need to refocus on shipping in 3 weeks. Refactor code within view controllers in order to adhere to MVC pattern and facilitate change and reuse.
