@@ -78,37 +78,25 @@ UICollectionViewDataSource
     
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
-    
-    
-    //    self.videoThumbnails =[NSMutableArray new];
-    //
-    //    for(int i = 0; i < self.sortingProject.videos.count; i++){
-    //        SOVideo *video = self.sortingProject.videos[i];
-    //        PFFile *thumbnail = video.thumbnail;
-    //        [self.videoThumbnails addObject:thumbnail];
-    //    }
-    //
-    //    [self videoThumbnails];
-    
-    //    imagesArray = [[NSMutableArray alloc] initWithObjects:@"video1.jpg", @"video2.jpg", @"video3.jpg", nil];
+    self.videoThumbnails = [NSMutableArray new];
     
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
     
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"sortingIdentifier"];
 }
 
+#pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //[self videoQuery];
     [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
         
-        self.videoThumbnails = thumbnails;
-        self.videoAssetsArray = fetchedVideoAssets;
+        self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
+        self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
         
         [collectionView reloadData];
     }];
 }
-
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -125,86 +113,6 @@ UICollectionViewDataSource
 }
 
 
-
-#pragma mark - Query videos
-
-//-(void)videoQuery {
-//
-//    NSMutableArray<SOVideo *> *videosArray = self.sortingProject.videos;
-//
-////    for (SOVideo *video in self.sortingProject.videos) {
-////        [video fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-////
-////        }];
-////    }
-//
-//    for (int i=0; i<[videosArray count]; i++) {
-//
-//
-//
-//        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
-//        [query whereKey:@"objectId" containsString:[videosArray objectAtIndex:i].objectId];
-//        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//
-//            if (!error) {
-//                NSLog(@"video objects %@",objects);
-//                for (SOVideo *vid in objects) {
-//                    NSLog(@"Current video is: %@", vid.video);
-//                    //add video  PFiles to videoFiles array
-//                    [self.videoFilesArray addObject:vid];
-//                    //
-//                }
-//                if(self.videoFilesArray.count == self.sortingProject.videos.count){
-//
-//                    [self resortVideoFilesArray];
-//                    [collectionView reloadData];
-//
-//                    self.videoAssetsArray = [self videoAssestsArray];
-//                }
-//            }
-//
-//            else{
-//                NSLog(@"Error: %@",error);
-//            }
-//        }];
-//    }
-//
-//
-//}
-
-//- (void)resortVideoFilesArray{
-//
-//    NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
-//    NSMutableArray <PFFile  *> *sortedPFFileThumbnailsArray = [NSMutableArray new];
-//
-//    for (SOVideo *video in self.sortingProject.videos) {
-//
-//        for (SOVideo *unsortedVideo in self.videoFilesArray) {
-//            if ([unsortedVideo.objectId isEqualToString:video.objectId]) {
-//                [sortedArray addObject:unsortedVideo];
-//                [sortedPFFileThumbnailsArray addObject:unsortedVideo.thumbnail];
-//                break;
-//            }
-//        }
-//
-//    }
-//    self.videoFilesArray = sortedArray;
-//    self.videoThumbnails = sortedPFFileThumbnailsArray;
-//}
-
-
-//method for getting AVAssets array from PFFile array
-//-(NSMutableArray<AVAsset * > *)videoAssestsArray
-//{
-//    NSMutableArray<AVAsset *> *videoAssetsArray = [NSMutableArray new];
-//    for (int i=0; i < self.videoFilesArray.count; i++)
-//    {
-//        SOVideo *currentVideo = self.videoFilesArray[i];
-//        AVAsset *videoAsset = [currentVideo assetFromVideoFile];
-//        [videoAssetsArray addObject:videoAsset];
-//    }
-//    return videoAssetsArray;
-//}
 #pragma mark - Merging methods
 - (IBAction)mergeAndSaveButtonTapped:(UIButton *)sender {
     
@@ -381,37 +289,13 @@ UICollectionViewDataSource
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
         NSLog(@"Saved project videos: %@",self.sortingProject.videos);
-        [collectionView reloadData];
+        [picker dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    
     
     
 }
-
-
-//-(void)videoThumbnailImages{
-//    self.imagesArray = [NSMutableArray new];
-//
-//    for (SOVideo *video in self.sortingProject.videos) {
-//
-//        [video.thumbnail getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
-//            if (data) {
-//
-//
-//                NSData *dataFromFile = [NSData dataWithData:data];
-//                UIImage *image = [UIImage imageWithData:dataFromFile];
-//                [self.imagesArray addObject:image];
-//
-//                if (self.imagesArray.count == self.sortingProject.videos.count) {
-//                    [collectionView reloadData];
-//                }
-//
-//            }
-//        }];
-//    }
-//}
-
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
