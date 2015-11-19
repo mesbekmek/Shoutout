@@ -121,75 +121,83 @@ UICollectionViewDataSource
 
 #pragma mark - Query videos
 
--(void)videoQuery {
-    
-    NSMutableArray<SOVideo *> *videosArray = self.sortingProject.videos;
-    
-    for (int i=0; i<[videosArray count]; i++) {
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
-        [query whereKey:@"objectId" containsString:[videosArray objectAtIndex:i].objectId];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            
-            if (!error) {
-                NSLog(@"video objects %@",objects);
-                for (SOVideo *vid in objects) {
-                    NSLog(@"Current video is: %@", vid.video);
-                    //add video  PFiles to videoFiles array
-                    [self.videoFilesArray addObject:vid];
-                    //
-                }
-                if(self.videoFilesArray.count == self.sortingProject.videos.count){
-                    
-                    [self resortVideoFilesArray];
-                    [collectionView reloadData];
-                    
-                    self.videoAssetsArray = [self videoAssestsArray];
-                }
-            }
-            
-            else{
-                NSLog(@"Error: %@",error);
-            }
-        }];
-    }
-    
-    
-}
+//-(void)videoQuery {
+//    
+//    NSMutableArray<SOVideo *> *videosArray = self.sortingProject.videos;
+//    
+////    for (SOVideo *video in self.sortingProject.videos) {
+////        [video fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+////            
+////        }];
+////    }
+//    
+//    for (int i=0; i<[videosArray count]; i++) {
+//        
+//        
+//        
+//        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+//        [query whereKey:@"objectId" containsString:[videosArray objectAtIndex:i].objectId];
+//        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//            
+//            if (!error) {
+//                NSLog(@"video objects %@",objects);
+//                for (SOVideo *vid in objects) {
+//                    NSLog(@"Current video is: %@", vid.video);
+//                    //add video  PFiles to videoFiles array
+//                    [self.videoFilesArray addObject:vid];
+//                    //
+//                }
+//                if(self.videoFilesArray.count == self.sortingProject.videos.count){
+//                    
+//                    [self resortVideoFilesArray];
+//                    [collectionView reloadData];
+//                    
+//                    self.videoAssetsArray = [self videoAssestsArray];
+//                }
+//            }
+//            
+//            else{
+//                NSLog(@"Error: %@",error);
+//            }
+//        }];
+//    }
+//    
+//    
+//}
 
-- (void)resortVideoFilesArray{
-    
-    NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
-    NSMutableArray <PFFile  *> *sortedPFFileThumbnailsArray = [NSMutableArray new];
-    
-    for (SOVideo *video in self.sortingProject.videos) {
-        
-        for (SOVideo *unsortedVideo in self.videoFilesArray) {
-            if ([unsortedVideo.objectId isEqualToString:video.objectId]) {
-                [sortedArray addObject:unsortedVideo];
-                [sortedPFFileThumbnailsArray addObject:unsortedVideo.thumbnail];
-                break;
-            }
-        }
-        
-    }
-    self.videoFilesArray = sortedArray;
-    self.videoThumbnails = sortedPFFileThumbnailsArray;
-}
+//- (void)resortVideoFilesArray{
+//    
+//    NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
+//    NSMutableArray <PFFile  *> *sortedPFFileThumbnailsArray = [NSMutableArray new];
+//    
+//    for (SOVideo *video in self.sortingProject.videos) {
+//        
+//        for (SOVideo *unsortedVideo in self.videoFilesArray) {
+//            if ([unsortedVideo.objectId isEqualToString:video.objectId]) {
+//                [sortedArray addObject:unsortedVideo];
+//                [sortedPFFileThumbnailsArray addObject:unsortedVideo.thumbnail];
+//                break;
+//            }
+//        }
+//        
+//    }
+//    self.videoFilesArray = sortedArray;
+//    self.videoThumbnails = sortedPFFileThumbnailsArray;
+//}
 
 
 //method for getting AVAssets array from PFFile array
--(NSMutableArray<AVAsset * > *)videoAssestsArray
-{
-    NSMutableArray<AVAsset *> *videoAssetsArray = [NSMutableArray new];
-    for (int i=0; i < self.videoFilesArray.count; i++)
-    {
-        SOVideo *currentVideo = self.videoFilesArray[i];
-        AVAsset *videoAsset = [currentVideo assetFromVideoFile];
-        [videoAssetsArray addObject:videoAsset];
-    }
-    return videoAssetsArray;
-}
+//-(NSMutableArray<AVAsset * > *)videoAssestsArray
+//{
+//    NSMutableArray<AVAsset *> *videoAssetsArray = [NSMutableArray new];
+//    for (int i=0; i < self.videoFilesArray.count; i++)
+//    {
+//        SOVideo *currentVideo = self.videoFilesArray[i];
+//        AVAsset *videoAsset = [currentVideo assetFromVideoFile];
+//        [videoAssetsArray addObject:videoAsset];
+//    }
+//    return videoAssetsArray;
+//}
 #pragma mark - Merging methods
 - (IBAction)mergeAndSaveButtonTapped:(UIButton *)sender {
     
