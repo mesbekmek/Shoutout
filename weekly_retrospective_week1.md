@@ -6,28 +6,28 @@
 
 **Guiding Questions** (consider before the meeting):
 
-  *  What went well?
-  *  What should we do differently next time?
-  *  What did we learn?
-  *  What still puzzles us?
+  *  What went well? Creating the MVP
+  *  What should we do differently next time? Have wireframes up and running quicker
+  *  What did we learn? We don't have a lot of time left. 
+  *  What still puzzles us? Push notifications, getting personal information from users (how to go about these things).
  
 **Team Member Analysis**:
 If you did not meet your goals, how will this affect the progression of the product? What will you do differently to meet your goals this week?
 
   *  Diana
-    * Goals/Responsibilities Last Week:
+    * Goals/Responsibilities Last Week:YES
         * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
   *  Varindra   
-    * Goals/Responsibilities Last Week:
+    * Goals/Responsibilities Last Week:YES 
          * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
   *  Jason
-    * Goals/Responsibilities Last Week:
+    * Goals/Responsibilities Last Week:YES
         * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
   *  Mesfin
-    * Goals/Responsibilities Last Week:
+    * Goals/Responsibilities Last Week:YES
        * Did you meet your goals/responsibilities last week? Why or why not?
     * Goals/Responsibilities This Week:
 
