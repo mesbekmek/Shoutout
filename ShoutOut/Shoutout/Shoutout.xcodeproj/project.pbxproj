@@ -29,6 +29,8 @@
 		84E9D5661BFB9D05005ACE00 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5631BFB9D05005ACE00 /* COPYING */; };
 		84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5641BFB9D05005ACE00 /* Engadget.ttf */; };
 		84E9D5681BFB9D05005ACE00 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5651BFB9D05005ACE00 /* README */; };
+		C70111911BFEAD7100F4C4F5 /* SOCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C70111901BFEAD7100F4C4F5 /* SOCameraOverlay.m */; };
+		C70111971BFEAF5800F4C4F5 /* CameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = C70111961BFEAF5800F4C4F5 /* CameraOverlay.xib */; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
@@ -94,6 +96,9 @@
 		84E9D5641BFB9D05005ACE00 /* Engadget.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Engadget.ttf; sourceTree = "<group>"; };
 		84E9D5651BFB9D05005ACE00 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		B31638C861E4996215CDACD0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C701118F1BFEAD7100F4C4F5 /* SOCameraOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCameraOverlay.h; sourceTree = "<group>"; };
+		C70111901BFEAD7100F4C4F5 /* SOCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCameraOverlay.m; sourceTree = "<group>"; };
+		C70111961BFEAF5800F4C4F5 /* CameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlay.xib; sourceTree = "<group>"; };
 		C7127B6F1BF678D60069CF76 /* CollaborationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborationsTableViewController.h; sourceTree = "<group>"; };
 		C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborationsTableViewController.m; sourceTree = "<group>"; };
 		C7127B711BF678D60069CF76 /* SOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOModel.h; sourceTree = "<group>"; };
@@ -204,6 +209,9 @@
 		84E9D52C1BF8F243005ACE00 /* Sorting */ = {
 			isa = PBXGroup;
 			children = (
+				C70111961BFEAF5800F4C4F5 /* CameraOverlay.xib */,
+				C701118F1BFEAD7100F4C4F5 /* SOCameraOverlay.h */,
+				C70111901BFEAD7100F4C4F5 /* SOCameraOverlay.m */,
 				84E9D5321BF8F2B6005ACE00 /* SOSortingViewController.h */,
 				84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */,
 				84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */,
@@ -489,6 +497,7 @@
 				84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
+				C70111971BFEAF5800F4C4F5 /* CameraOverlay.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
 				84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */,
 				84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */,
@@ -560,6 +569,7 @@
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
+				C70111911BFEAD7100F4C4F5 /* SOCameraOverlay.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
