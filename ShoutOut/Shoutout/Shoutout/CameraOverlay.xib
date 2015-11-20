@@ -12,8 +12,8 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7aG-5X-98x">
-                    <rect key="frame" x="450" y="25" width="30" height="30"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                    <rect key="frame" x="461" y="35" width="31" height="34"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                     <state key="normal" title="Tag"/>
                     <connections>
                         <action selector="tagButtonTapped:" destination="WDa-6J-EJ7" eventType="touchUpInside" id="ObW-iW-HtQ"/>
@@ -21,13 +21,15 @@
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="@TagGoesHere" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ayz-js-MWk">
                     <rect key="frame" x="186" y="240" width="128" height="21"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="7aG-5X-98x" firstAttribute="top" secondItem="WDa-6J-EJ7" secondAttribute="top" constant="25" id="0yx-US-Ceo"/>
-                <constraint firstAttribute="trailing" secondItem="7aG-5X-98x" secondAttribute="trailing" constant="20" id="T90-Uc-eo6"/>
+                <constraint firstItem="7aG-5X-98x" firstAttribute="top" secondItem="WDa-6J-EJ7" secondAttribute="top" constant="35" id="0yx-US-Ceo"/>
+                <constraint firstAttribute="trailing" secondItem="7aG-5X-98x" secondAttribute="trailing" constant="8" id="T90-Uc-eo6"/>
                 <constraint firstItem="ayz-js-MWk" firstAttribute="centerY" secondItem="WDa-6J-EJ7" secondAttribute="centerY" id="Yqu-Sg-i4V"/>
                 <constraint firstItem="ayz-js-MWk" firstAttribute="centerX" secondItem="WDa-6J-EJ7" secondAttribute="centerX" id="uyO-FC-df5"/>
             </constraints>

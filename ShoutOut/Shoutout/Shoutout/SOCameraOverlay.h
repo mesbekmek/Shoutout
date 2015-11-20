@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SOCameraOverlay : UIView
+const int MAX_STRING_LENGTH = 25;
+
+@interface SOCameraOverlay : UIView <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *tagButton;
 @property (weak, nonatomic) IBOutlet UITextField *tagTextField;
 
@@ -16,6 +18,6 @@
 
 -(IBAction)tagButtonTapped:(id)sender;
 
--(instancetype)initWithGestureRecognizer;
-
+//-(instancetype)initWithGestureRecognizer;
+- (void)setUpGestureRecognizer;
 @end

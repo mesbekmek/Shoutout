@@ -18,6 +18,8 @@
 
 #import "BMAReorderableFlowLayout.h"
 #import "UICollectionView+BMADecorators.h"
+#import "SOCameraOverlay.h"
+
 
 const float kVideoLengthMax2 = 10.0;
 
@@ -61,6 +63,8 @@ UICollectionViewDataSource
 @property (nonatomic) NSMutableArray<SOVideo *> *videoFilesArray;
 
 @property (nonatomic) NSMutableArray<AVAsset *> *videoAssetsArray;
+
+@property (nonatomic) SOCameraOverlay *cameraOverlay;
 
 @end
 
@@ -361,6 +365,11 @@ UICollectionViewDataSource
     self.imagePicker.videoMaximumDuration = kVideoLengthMax2;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
+   
+    self.cameraOverlay = [[[NSBundle mainBundle] loadNibNamed:@"CameraOverlay" owner:self options:nil] objectAtIndex:0];
+    [self.cameraOverlay setUpGestureRecognizer];
+    self.cameraOverlay.frame = CGRectMake(0, 0, self.imagePicker.view.bounds.size.width, self.imagePicker.view.bounds.size.height - 60);
+    self.imagePicker.cameraOverlayView = self.cameraOverlay;
     
 }
 

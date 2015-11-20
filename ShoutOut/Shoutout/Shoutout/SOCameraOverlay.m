@@ -18,21 +18,6 @@
 }
 */
 
-- (instancetype)initWithGestureRecognizer{
-    
-    if (self = [super init]) {
-            self.edited = NO;
-        UIPanGestureRecognizer *panGest = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
-        
-        [self.tagTextField addGestureRecognizer:panGest];
-        self.tagTextField.hidden = YES;
-        
-        return self;
-    
-    }
-    return nil;
-}
-
 - (void)handlePan:(UIPanGestureRecognizer *)pan{
     
     CGPoint translation = [pan translationInView:self.superview];
@@ -55,4 +40,24 @@
     
 }
 
+- (void)setUpGestureRecognizer{
+    self.edited = NO;
+    self.tagTextField.delegate = self;
+    UIPanGestureRecognizer *panGest = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+    
+    [self.tagTextField addGestureRecognizer:panGest];
+    self.tagTextField.hidden = YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [self endEditing:YES];
+    return YES;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self endEditing:YES];
+    
+}
 @end
