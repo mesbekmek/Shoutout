@@ -11,6 +11,7 @@
 @implementation User
 
 @dynamic contacts;
+@dynamic phoneNumber;
 
 //+ (NSString *)parseClassName {
 //    return @"User";
