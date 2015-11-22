@@ -149,6 +149,8 @@
     NSIndexPath *previous = self.selectedIndexPath;
     NSIndexPath *nextIndexPath = indexPath;
     
+    [self.collectionView scrollToItemAtIndexPath:nextIndexPath atScrollPosition:UICollectionViewScrollPositionTop animated:YES];
+    
     if (![self canMoveItemFrom:previous to:nextIndexPath]) {
         return;
     }

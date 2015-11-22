@@ -16,6 +16,8 @@
 #import "SOLoginViewController.h"
 #import "SORequest.h"
 #import "SOContacts.h"
+#import <SSKeychain/SSKeychain.h>
+#import <SSKeychain/SSKeychainQuery.h>
 
 
 @interface AppDelegate ()
@@ -24,6 +26,7 @@
 NSString * const parseApplicationId = @"ED7PsBQFjJ5e5P8qDW7lw2fTvJlqZ9qecwLrXpGC";
 NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 @implementation AppDelegate
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -48,8 +51,55 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [self.window makeKeyAndVisible];
     
     
+    
+    //Push notifications
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                    UIUserNotificationTypeBadge |
+                                                    UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                             categories:nil];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
+    
+    
+    
+    //SSKeyChain
+    // Specify how the keychain items can be access
+    // Do this in your -application:didFinishLaunchingWithOptions: callback
+    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    
+    // Set an access token for later use
+    NSString *username = [[NSUUID UUID] UUIDString];
+    NSString *password = [[NSUUID UUID] UUIDString];
+    [SSKeychain setPassword:username forService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
+    [SSKeychain setPassword:password forService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
+
+    
+    
+    // Access that token when needed
+   // [SSKeychain passwordForService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
+    
+    // Delete the token when appropriate (on sign out, perhaps)
+  //  [SSKeychain deletePasswordForService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
+    
+    
     return YES;
 }
+
+#pragma mark - Push notification
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation.channels = @[ @"global" ];
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

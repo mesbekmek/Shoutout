@@ -6,16 +6,28 @@ PODS:
   - ParseUI (1.1.6):
     - Bolts/Tasks (~> 1.2)
     - Parse (~> 1.8)
+  - SSKeychain (1.2.3)
 
 DEPENDENCIES:
-  - BMACollectionViewLayouts
+  - BMACollectionViewLayouts (from `https://github.com/mesbekmek/BMACollectionViewLayouts`)
   - Parse (~> 1.9)
   - ParseUI (~> 1.1)
+  - SSKeychain
+
+EXTERNAL SOURCES:
+  BMACollectionViewLayouts:
+    :git: https://github.com/mesbekmek/BMACollectionViewLayouts
+
+CHECKOUT OPTIONS:
+  BMACollectionViewLayouts:
+    :commit: c7b577b8926d72e33214237dce00ec0fb7466c7f
+    :git: https://github.com/mesbekmek/BMACollectionViewLayouts
 
 SPEC CHECKSUMS:
-  BMACollectionViewLayouts: fa1ef5bcf3bb5ff8f4d0f2d164a3071f528b7112
+  BMACollectionViewLayouts: 3fda4666f5b1f6942a54cb9d11519519882a5898
   Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   ParseUI: 8a22e448c03f825203d8c379c80523517f68baa3
+  SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
 
 COCOAPODS: 0.39.0
