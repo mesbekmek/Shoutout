@@ -705,6 +705,9 @@
                                                 <state key="normal" title="My Collaborations">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="changeEventTypeButtonsTapped:" destination="0RR-dZ-2M0" eventType="touchUpInside" id="MmI-rI-HkH"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <animations/>
@@ -736,6 +739,12 @@
                                         <state key="normal" title="+">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <real key="value" value="22.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.clipsToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gph-Jg-m2Z">
                                         <rect key="frame" x="0.0" y="73" width="300" height="40"/>
@@ -747,6 +756,9 @@
                                                 <state key="normal" title="My Events">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="changeEventTypeButtonsTapped:" destination="0RR-dZ-2M0" eventType="touchUpInside" id="0K3-HR-ReU"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <animations/>
