@@ -100,12 +100,30 @@ UICollectionViewDataSource
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //[self videoQuery];
+    
+    UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+    
+    
+    UIActivityIndicatorView *activityView=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    activityView.center= activityIndicatorView.center;
+    activityView.color = [UIColor blackColor];
+    activityIndicatorView.backgroundColor = [UIColor whiteColor];
+    activityIndicatorView.alpha = 0.6;
+
+    [activityView startAnimating];
+    [activityIndicatorView addSubview:activityView];
+    [self.view addSubview:activityIndicatorView];
+    [self.view bringSubviewToFront:activityIndicatorView];
+    
     [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
-        
-        self.videoThumbnails = thumbnails;
-        self.videoAssetsArray = fetchedVideoAssets;
+        self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
+        self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
         
         [collectionView reloadData];
+        [activityView stopAnimating];
+        [activityView removeFromSuperview];
+        [activityIndicatorView removeFromSuperview];
     }];
 }
 
@@ -467,36 +485,42 @@ UICollectionViewDataSource
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 {
-    NSLog (@"indexpath %ld",(long)indexPath.row);
-    AVAsset *avAsset = nil;
-    AVPlayerItem *avPlayerItem = nil;
-    AVPlayer *avPlayer = nil;
-    AVPlayerLayer *avPlayerLayer =nil;
-    
-    if (avPlayer.rate > 0 && !avPlayer.error) {
-        [avPlayer pause];
+    if(self.videoAssetsArray[indexPath.row] && self.videoAssetsArray.count != 0){
+        
+        NSLog (@"indexpath %ld",(long)indexPath.row);
+        AVAsset *avAsset = nil;
+        AVPlayerItem *avPlayerItem = nil;
+        AVPlayer *avPlayer = nil;
+        AVPlayerLayer *avPlayerLayer =nil;
+        
+        if (avPlayer.rate > 0 && !avPlayer.error) {
+            [avPlayer pause];
+        }
+        
+        else {
+            
+            avAsset = self.videoAssetsArray[indexPath.row];
+            
+            avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+            
+            avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+            
+            avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
+            
+            [avPlayerLayer setFrame:self.videoPlayingView.frame];
+            avPlayerLayer.frame = self.videoPlayingView.bounds;
+            
+            [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+            
+            [avPlayer seekToTime:kCMTimeZero];
+            [avPlayer play];
+            
+            
+        }
     }
     
-    else {
-        
-        avAsset = self.videoAssetsArray[indexPath.row];
-        
-        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-        
-        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-        
-        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-        
-        [avPlayerLayer setFrame:self.videoPlayingView.frame];
-        avPlayerLayer.frame = self.videoPlayingView.bounds;
-        
-        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-        
-        [avPlayer seekToTime:kCMTimeZero];
-        [avPlayer play];
-        
-        
-    }
+    else
+        NSLog(@"weird bug");
     
     [collectionView reloadData];
     
@@ -563,6 +587,9 @@ UICollectionViewDataSource
 
 - (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
     [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    
+    [self.videoAssetsArray bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    
     SOVideo *first = self.sortingProject.videos[indexPath.row];
     [self.sortingProject.videos replaceObjectAtIndex:indexPath.row withObject:self.sortingProject.videos[toIndexPath.row]];
     [self.sortingProject.videos replaceObjectAtIndex:toIndexPath.row withObject:first];

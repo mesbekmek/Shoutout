@@ -15,10 +15,11 @@
 #import "SOVideoCVC.h"
 #import "SOSortingViewController.h"
 
+const CGFloat aspectRatio = 1.77;
 
-@interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout>
 {
-    IBOutlet UIView *centerView;
+//    IBOutlet UIView *centerView;
     IBOutlet UICollectionView *collectionView;
     
 }
@@ -26,9 +27,10 @@
 @property (nonatomic) NSMutableArray <SOProject*> *projectsArray;
 @property (nonatomic) NSMutableArray <SOVideo*> *videosArray;
 @property (nonatomic) NSMutableArray <PFFile *>*videoThumbnailsArray;
-@property (weak, nonatomic) IBOutlet UITextView *noProjectsTextView;
+//@property (weak, nonatomic) IBOutlet UITextView *noProjectsTextView;
 @property (nonatomic) SOProject *project;
-
+@property (nonatomic, assign) CGFloat previousOffset;
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -37,8 +39,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.noProjectsTextView.hidden = YES;
-    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
+//    self.noProjectsTextView.hidden = YES;
+//    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
     
     self.videoThumbnailsArray = [[NSMutableArray alloc]init];
     
@@ -63,12 +65,16 @@
     
     [collectionView setCollectionViewLayout:myLayout];
     
+//    CGFloat width = self.view.frame.size.width * 0.6;
+//    collectionView.frame = CGRectMake(self.view.frame.size.width * 0.2, collectionView.frame.origin.y, width, width * aspectRatio);
+//    
+    
 }
 
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.noProjectsTextView.hidden = YES;
+//    self.noProjectsTextView.hidden = YES;
     [self projectsQuery];
     [collectionView reloadData];
 }
@@ -108,9 +114,9 @@
                 
                 if ([self.projectsArray count]==0){
                     
-                    self.noProjectsTextView.hidden = NO;
+//                    self.noProjectsTextView.hidden = NO;
                     collectionView.hidden = YES;
-                    centerView.hidden = YES;
+//                    centerView.hidden = YES;
                 }
                 
                 
@@ -158,7 +164,44 @@
 }
 
 
+#pragma mark Collection view layout things
+// Layout: Set cell size
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    CGFloat width = self.view.frame.size.width * 0.6;
+    CGFloat height = aspectRatio * width;
+    
+    
+    CGSize mElementSize = CGSizeMake(width, height);
+    return mElementSize;
+}
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+//    return 0.5;
+//}
 
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 20;
+}
+
+- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity {
+    NSInteger itemsCount = [collectionView.dataSource collectionView:collectionView numberOfItemsInSection:0];
+    
+     UICollectionViewFlowLayout *flowLayout = (id)collectionView.collectionViewLayout;
+    
+    // Imitating paging behaviour
+    // Check previous offset and scroll direction
+    if ((self.previousOffset > collectionView.contentOffset.x) && (velocity.x < 0.0f)) {
+        self.currentPage = MAX(self.currentPage - 1, 0);
+    } else if ((self.previousOffset < collectionView.contentOffset.x) && (velocity.x > 0.0f)) {
+        self.currentPage = MIN(self.currentPage + 1, itemsCount - 1);
+    }
+    
+    // Update offset by using item size + spacing
+    CGFloat updatedOffset = (flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing) * self.currentPage;
+    self.previousOffset = updatedOffset;
+    
+    return CGPointMake(updatedOffset, proposedContentOffset.y);
+}
 
 
 #pragma mark - UICollectionViewDataSourceDelegate
@@ -186,6 +229,7 @@
 {
     SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
     
+       
     cell.videoImageView.file = nil;
     
     
