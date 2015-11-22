@@ -12,6 +12,7 @@
 @interface User : PFUser <PFSubclassing>
 
 @property (nonatomic) SOContacts *contacts;
+@property (nonatomic) NSString *phoneNumber;
 
 //+ (NSString *)parseClassName;
 -(instancetype)initWithContacts;

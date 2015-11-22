@@ -10,11 +10,13 @@
 #import "ViewController.h"
 #import "SOModel.h"
 
-@interface SOSignUpViewController ()
+@interface SOSignUpViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
+
 
 @end
 
@@ -22,7 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
+    self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    [self.phoneNumberTextField sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,22 +39,31 @@
     [self.nameTextField resignFirstResponder];
     [self.emailTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
+    [self.phoneNumberTextField resignFirstResponder];
 }
+
+
 
 - (IBAction)joinButtonTapped:(UIButton *)sender {
     NSString *username = [self.nameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
+    
     NSString *email = [self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if ((username && username.length) && (password && password.length) && (email && email.length))
+    
+    NSString *phoneNumber = self.phoneNumberTextField.text;
+    
+    
+    if ((username && username.length) && (password && password.length) && (email && email.length) && ([phoneNumber length] == 10))
     {
         User *thisUser = [[User alloc]initWithContacts];
         
         thisUser.username = username;
         thisUser.password = password;
         thisUser.email = email;
+        thisUser.phoneNumber = phoneNumber;
         
         [thisUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if(!error){
@@ -82,7 +95,7 @@
     }
     else
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Please enter a value for all fields" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Please enter proper value for all fields" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [alertController dismissViewControllerAnimated:YES completion:nil];
