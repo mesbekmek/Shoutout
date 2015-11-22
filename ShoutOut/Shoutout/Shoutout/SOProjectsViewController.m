@@ -17,11 +17,18 @@
 
 const CGFloat aspectRatio = 1.77;
 
+typedef enum eventsType{
+    
+    MY_EVENTS = 0,
+    MY_COLLABORATIONS
+    
+} EventsType;
+
 @interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout>
 {
 //    IBOutlet UIView *centerView;
     IBOutlet UICollectionView *collectionView;
-    
+    EventsType currentEventType;
 }
 
 @property (nonatomic) NSMutableArray <SOProject*> *projectsArray;
@@ -31,6 +38,8 @@ const CGFloat aspectRatio = 1.77;
 @property (nonatomic) SOProject *project;
 @property (nonatomic, assign) CGFloat previousOffset;
 @property (nonatomic, assign) NSInteger currentPage;
+@property (weak, nonatomic) IBOutlet UIView *underlineBar;
+@property (nonatomic) BOOL isAnimating;
 
 @end
 
@@ -291,6 +300,7 @@ const CGFloat aspectRatio = 1.77;
     }
     
 }
+
 
 
 
