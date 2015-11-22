@@ -17,6 +17,24 @@
 @end
 
 @implementation ProfileViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.navigationController.navigationBarHidden = YES;
+    
+    [self queryCurrentUserContactsListOnParse];
+    
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    NSLog(@"DID RECEIVE MEMORY WARNING!!!!");
+}
+
+#pragma - mark IBAction
 - (IBAction)backButtonTapped:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -35,16 +53,8 @@
     
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.navigationController.navigationBarHidden = YES;
-    
-    [self queryCurrentUserContactsListOnParse];
 
-    
-}
+
 
 -(void)queryCurrentUserContactsListOnParse{
     User *currentUser = [User currentUser];
@@ -69,14 +79,81 @@
     }];
     
     
-//        [self checkSORequestStatus];
+        [self checkSORequestStatus];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    NSLog(@"DID RECEIVE MEMORY WARNING!!!!");
+-(void)checkSORequestStatus {
+    PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
+    [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error)
+     {
+         NSLog(@"SORequest %@",objects);
+         for (SORequest *newRequest in objects){
+             
+             if (!newRequest.hasDecided && !newRequest.isAccepted){
+                 
+                 [self newRequestReceivedAlert:newRequest.requestSentFrom withSORequestObject:newRequest];
+             }
+         }
+     }];
+    
+    PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
+    [queryRequestResult whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+    [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (SORequest *requestResult in objects) {
+            if (requestResult.hasDecided && requestResult.isAccepted) {
+                [self.currentUserContacts addObject:requestResult.requestSentTo];
+                [self pushContactListToParse];
+            }
+        }
+    }];
+    
 }
 
+-(void)newRequestReceivedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)object{
+    UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:[NSString stringWithFormat:@"%@ wants to add you",newFriend] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        object.isAccepted = NO;
+        object.hasDecided = YES;
+        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            NSLog(@"saved reject BOOL value to parse");
+        }];
+        [newFriendRequest dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        object.isAccepted = YES;
+        object.hasDecided = YES;
+        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            NSLog(@"saved accept BOOL value in parse");
+        }];
+        [self.currentUserContacts addObject:newFriend];
+        [self pushContactListToParse];
+//        [self addSelfToFromRequest:object];
+    }];
+    
+    [newFriendRequest addAction:ignore];
+    [newFriendRequest addAction:accept];
+    
+    [self presentViewController:newFriendRequest animated:YES completion:nil];
+}
+
+-(void)pushContactListToParse{
+    
+    [User currentUser].contacts.contactsList = self.currentUserContacts;
+    [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"new contact list saved to parse");
+    }];
+    [self.tableView reloadData];
+}
+
+//-(void)addSelfToFromRequest:(SORequest *)request{
+//    
+//    
+//}
+
+
+
+#pragma - mark UITableView Delegate and DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.currentUserContacts.count;
 }

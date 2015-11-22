@@ -61,7 +61,7 @@
             
             if (!newRequest.hasDecided && !newRequest.isAccepted){
                 
-                [self newRequestRevievedAlert:newRequest.requestSentFrom withSORequestObject:newRequest];
+                [self newRequestReceivedAlert:newRequest.requestSentFrom withSORequestObject:newRequest];
             }
         }
     }];
@@ -79,7 +79,7 @@
     
 }
 
--(void)newRequestRevievedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)object{
+-(void)newRequestReceivedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)object{
     UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:[NSString stringWithFormat:@"%@ wants to add you",newFriend] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         object.isAccepted = NO;
