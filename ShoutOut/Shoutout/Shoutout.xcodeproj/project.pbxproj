@@ -446,7 +446,7 @@
 				TargetAttributes = {
 					DC386D7C1BEFEBA900562543 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 55V3ELH4AV;
+						DevelopmentTeam = J286A8WA43;
 					};
 				};
 			};
@@ -681,7 +681,7 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.c4q.jasonShoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q..Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -697,7 +697,7 @@
 				INFOPLIST_FILE = Shoutout/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.c4q.jasonShoutout;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q..Shoutout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

@@ -62,6 +62,11 @@ UICollectionViewDataSource
 
 @property (nonatomic) NSMutableArray<AVAsset *> *videoAssetsArray;
 
+@property (nonatomic) AVPlayer *avPlayer;
+
+@property (nonatomic) AVPlayerItem *avPlayerItem;
+
+@property (nonatomic) AVPlayerLayer *avPlayerLayer;
 @end
 
 @implementation SOSortingViewController
@@ -110,7 +115,7 @@ UICollectionViewDataSource
     activityView.color = [UIColor blackColor];
     activityIndicatorView.backgroundColor = [UIColor whiteColor];
     activityIndicatorView.alpha = 0.6;
-
+    
     [activityView startAnimating];
     [activityIndicatorView addSubview:activityView];
     [self.view addSubview:activityIndicatorView];
@@ -483,52 +488,38 @@ UICollectionViewDataSource
 
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-
 {
-    if(self.videoAssetsArray[indexPath.row] && self.videoAssetsArray.count != 0){
-        
-        NSLog (@"indexpath %ld",(long)indexPath.row);
-        AVAsset *avAsset = nil;
-        AVPlayerItem *avPlayerItem = nil;
-        AVPlayer *avPlayer = nil;
-        AVPlayerLayer *avPlayerLayer =nil;
-        
-        if (avPlayer.rate > 0 && !avPlayer.error) {
-            [avPlayer pause];
-        }
-        
-        else {
-            
-            avAsset = self.videoAssetsArray[indexPath.row];
-            
-            avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-            
-            avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-            
-            avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-            
-            [avPlayerLayer setFrame:self.videoPlayingView.frame];
-            avPlayerLayer.frame = self.videoPlayingView.bounds;
-            
-            [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-            
-            [avPlayer seekToTime:kCMTimeZero];
-            [avPlayer play];
-            
-            
-        }
+    if (self.avPlayerLayer) {
+        [self.avPlayerLayer removeFromSuperlayer];
     }
     
-    else
-        NSLog(@"weird bug");
+    self.avPlayerLayer =nil;
+    AVAsset *avAsset = nil;
+    self.avPlayerItem = nil;
+    self.avPlayer = nil;
+    
+    if ( self.avPlayer.rate !=0 && !self.avPlayer.error) {
+        self.avPlayer.rate = 0.0;
+    }
+    
+    avAsset = self.videoAssetsArray[indexPath.row];
+    
+    self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+    
+    self.avPlayer = [[AVPlayer alloc]initWithPlayerItem:self.avPlayerItem];
+    
+    self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
+    
+    [self.avPlayerLayer setFrame:self.videoPlayingView.frame];
+    self.avPlayerLayer.frame = self.videoPlayingView.bounds;
+    
+    [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
+    
+    [self.avPlayer seekToTime:kCMTimeZero];
+    [self.avPlayer play];
     
     [collectionView reloadData];
-    
 }
-
-
-
-
 
 #pragma mark - Reorderable layout
 
