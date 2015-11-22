@@ -7,31 +7,86 @@
 //
 
 #import "ProfileViewController.h"
+#import <Parse/Parse.h>
+#import "SOModel.h"
 
-@interface ProfileViewController ()
+@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) NSMutableArray *currentUserContacts;
 
 @end
 
 @implementation ProfileViewController
+- (IBAction)backButtonTapped:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+- (IBAction)settingButtonTapped:(UIButton *)sender {
+    
+}
+
+- (IBAction)friendContactsButtonTapped:(UIButton *)sender {
+    if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
+        [self queryCurrentUserContactsListOnParse];
+    } else {
+        self.currentUserContacts = [NSMutableArray new];
+        [self.tableView reloadData];
+        NSLog(@"contacts TVC");
+    }
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.navigationController.navigationBarHidden = YES;
+    
+    [self queryCurrentUserContactsListOnParse];
+
+    
+}
+
+-(void)queryCurrentUserContactsListOnParse{
+    User *currentUser = [User currentUser];
+    
+    PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
+    [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+    
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count > 0) {
+            SOContacts *contact = objects[0];
+            
+            for (NSString *name in contact.contactsList) {
+                NSLog(@"Contact from Parse == %@",name);
+            }
+            
+            self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+            [self.tableView reloadData];
+        }
+        else{
+            NSLog(@"query contacts ERROR == %@",error);
+        }
+    }];
+    
+    
+//        [self checkSORequestStatus];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSLog(@"DID RECEIVE MEMORY WARNING!!!!");
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.currentUserContacts.count;
 }
-*/
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+    cell.textLabel.text = self.currentUserContacts[indexPath.row];
+    
+    return cell;
+}
 
 @end

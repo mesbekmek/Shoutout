@@ -15,7 +15,6 @@
 #import "SOProject.h"
 #import "NSURL+ImageGenerator.h"
 #import <Parse/Parse.h>
-
 #import "BMAReorderableFlowLayout.h"
 #import "UICollectionView+BMADecorators.h"
 
@@ -27,16 +26,16 @@ const float kVideoLengthMax2 = 10.0;
     if (index == toIndex) {
         return;
     }
-    
     // When index<toIndex
     for (NSUInteger i = index; i < toIndex; ++i) {
         [self exchangeObjectAtIndex:i withObjectAtIndex:i+1];
     }
-    
     // When toIndex>index
     for (NSUInteger i = index; i > toIndex; --i) {
         [self exchangeObjectAtIndex:i withObjectAtIndex:i-1];
     }
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"ArrayReorderedMustReloadData" object:[NSNumber numberWithInteger:toIndex]];
 }
 @end
 @interface SOSortingViewController ()
@@ -48,10 +47,9 @@ UICollectionViewDataSource
 >
 {
     IBOutlet UICollectionView *collectionView;
-    
-    //    NSMutableArray *imagesArray;
 }
 @property (weak, nonatomic) IBOutlet UIView *videoPlayingView;
+
 @property (nonatomic) NSIndexPath *draggedIndex;
 
 @property (nonatomic) NSMutableArray <UIImage *>*imagesArray;
@@ -62,6 +60,11 @@ UICollectionViewDataSource
 
 @property (nonatomic) NSMutableArray<AVAsset *> *videoAssetsArray;
 
+@property (nonatomic) AVPlayer *avPlayer;
+
+@property (nonatomic) AVPlayerItem *avPlayerItem;
+
+@property (nonatomic) AVPlayerLayer *avPlayerLayer;
 @end
 
 @implementation SOSortingViewController
@@ -83,18 +86,36 @@ UICollectionViewDataSource
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
     
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"sortingIdentifier"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload:) name:@"ArrayReorderedMustReloadData" object:nil];
 }
 
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    //[self videoQuery];
+    
+    UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+    
+    UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    activityIndicator.center= activityIndicatorView.center;
+    activityIndicator.color = [UIColor blackColor];
+    activityIndicatorView.backgroundColor = [UIColor whiteColor];
+    activityIndicatorView.alpha = 0.6;
+    
+    [activityIndicator startAnimating];
+    [activityIndicatorView addSubview:activityIndicator];
+    [self.view addSubview:activityIndicatorView];
+    [self.view bringSubviewToFront:activityIndicatorView];
+    
     [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
-        
+
         self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
         self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
         
         [collectionView reloadData];
+        [activityIndicator stopAnimating];
+        [activityIndicator removeFromSuperview];
+        [activityIndicatorView removeFromSuperview];
     }];
 }
 
@@ -112,8 +133,20 @@ UICollectionViewDataSource
     
 }
 
+- (void)reload:(NSNotification *)notif{
+    
+    NSNumber *number = notif.object;
+    NSInteger numb = [number integerValue];
+    
+    if(numb == 0 || numb == 1|| numb == 2){
+        if (self.videoThumbnails.count>5) {
+            [collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0], [NSIndexPath indexPathForRow:4 inSection:0]]];
+        }
+    }
+}
 
 #pragma mark - Merging methods
+
 - (IBAction)mergeAndSaveButtonTapped:(UIButton *)sender {
     
     [self mergeVideosInArray:self.videoAssetsArray];
@@ -172,7 +205,6 @@ UICollectionViewDataSource
     mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
     mutableVideoComposition.renderSize = size;
     
-    
     AVPlayerItem *pi = [AVPlayerItem playerItemWithAsset:mixComposition];
     pi.videoComposition = mutableVideoComposition;
     
@@ -210,7 +242,7 @@ UICollectionViewDataSource
 
 -(void)exportDidFinish:(AVAssetExportSession*)session {
     if (session.status == AVAssetExportSessionStatusCompleted) {
-        NSURL *outputURL = session.outputURL;
+//        NSURL *outputURL = session.outputURL;
         SOVideo *video = [[SOVideo alloc] initWithVideoUrl:session.outputURL];
         self.sortingProject.shoutout = video;
     }
@@ -241,20 +273,14 @@ UICollectionViewDataSource
         
         [avPlayer seekToTime:kCMTimeZero];
         [avPlayer play];
-        
-        
     }
-    
 }
-
-
 
 #pragma mark - New video button selector
 
 -(void)modalCameraPopup{
     
     [self setupCamera];
-    
 }
 
 
@@ -269,7 +295,6 @@ UICollectionViewDataSource
     self.imagePicker.videoMaximumDuration = kVideoLengthMax2;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-    
 }
 
 
@@ -285,23 +310,18 @@ UICollectionViewDataSource
     [self.sortingProject.videos addObject:video];
     
     // Alternative is to use saveEventually, allowing saving when connection is available
-    
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
+
         NSLog(@"Saved project videos: %@",self.sortingProject.videos);
         [picker dismissViewControllerAnimated:YES completion:nil];
     }];
-    
-    
-    
-    
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     return CGSizeMake(100, 100);
 }
-
 
 #pragma mark - UICollectionViewDataSourceDelegate
 
@@ -316,79 +336,69 @@ UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     
     return 1;
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection{
     
     return [self.videoThumbnails count];
-    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)anIndexPath{
+                  cellForItemAtIndexPath:(NSIndexPath *)IndexPath{
     
-    SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier"
-                                                                    forIndexPath:anIndexPath];
+    SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:IndexPath];
     
+    PFImageView *imageViewCopy = [[PFImageView alloc]initWithFrame:cell.videoImageView.bounds];
+    [cell addSubview:imageViewCopy];
     cell.videoImageView.file = nil;
     
-    cell.videoImageView.file = self.videoThumbnails[anIndexPath.row];
-    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [cell.videoImageView loadInBackground];
+//    cell.videoImageView.file = self.videoThumbnails[anIndexPath.row];
+    imageViewCopy.file = self.videoThumbnails[IndexPath.row];
+    NSLog(@"row %lu and file:%@",IndexPath.row, self.videoThumbnails[IndexPath.row]);
+    [imageViewCopy loadInBackground];
+    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit;
+//    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    [cell.videoImageView loadInBackground];
     
     cell.backgroundColor = [UIColor blackColor];
     
-    //  NSLog(@"imagessss %@",[imagesArray objectAtIndex:anIndexPath.row]);
     return cell;
-    
 }
-
-
-
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-
 {
-    NSLog (@"indexpath %ld",(long)indexPath.row);
+    if (self.avPlayerLayer) {
+        [self.avPlayerLayer removeFromSuperlayer];
+    }
+    
+    self.avPlayerLayer =nil;
     AVAsset *avAsset = nil;
-    AVPlayerItem *avPlayerItem = nil;
-    AVPlayer *avPlayer = nil;
-    AVPlayerLayer *avPlayerLayer =nil;
+    self.avPlayerItem = nil;
+    self.avPlayer = nil;
     
-    if (avPlayer.rate > 0 && !avPlayer.error) {
-        [avPlayer pause];
+    if ( self.avPlayer.rate !=0 && !self.avPlayer.error) {
+        self.avPlayer.rate = 0.0;
     }
     
-    else {
-        
-        avAsset = self.videoAssetsArray[indexPath.row];
-        
-        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-        
-        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-        
-        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-        
-        [avPlayerLayer setFrame:self.videoPlayingView.frame];
-        avPlayerLayer.frame = self.videoPlayingView.bounds;
-        
-        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-        
-        [avPlayer seekToTime:kCMTimeZero];
-        [avPlayer play];
-        
-        
-    }
+    avAsset = self.videoAssetsArray[indexPath.row];
+    
+    self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+    
+    self.avPlayer = [[AVPlayer alloc]initWithPlayerItem:self.avPlayerItem];
+    
+    self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
+    
+    [self.avPlayerLayer setFrame:self.videoPlayingView.frame];
+    self.avPlayerLayer.frame = self.videoPlayingView.bounds;
+    
+    [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
+    
+    [self.avPlayer seekToTime:kCMTimeZero];
+    [self.avPlayer play];
     
     [collectionView reloadData];
-    
 }
-
-
-
-
 
 #pragma mark - Reorderable layout
 
@@ -407,7 +417,6 @@ UICollectionViewDataSource
     overlay.alpha = 0;
     [acollectionView bma_setOverlayView:overlay];
     self.draggedIndex = indexPath;
-    
 }
 
 - (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout willEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -425,15 +434,6 @@ UICollectionViewDataSource
         draggedImageView.transform = CGAffineTransformMakeScale(1.3f, 1.3f);
         
         [draggedView addSubview:draggedImageView];
-        
-        // PFFile *
-        
-        // NSString *draggedImageName = [self.videoThumbnails objectAtIndex:self.draggedIndex.row];
-        
-        // draggedImageView.image = [UIImage imageNamed:draggedImageName];
-        
-        //draggedImageView.image = self.imagesArray[self.draggedIndex.row];
-        
     };
 }
 
@@ -447,6 +447,9 @@ UICollectionViewDataSource
 
 - (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
     [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    
+    [self.videoAssetsArray bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    
     SOVideo *first = self.sortingProject.videos[indexPath.row];
     [self.sortingProject.videos replaceObjectAtIndex:indexPath.row withObject:self.sortingProject.videos[toIndexPath.row]];
     [self.sortingProject.videos replaceObjectAtIndex:toIndexPath.row withObject:first];
