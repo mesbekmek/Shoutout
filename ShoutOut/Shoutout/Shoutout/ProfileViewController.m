@@ -17,6 +17,8 @@
 @end
 
 @implementation ProfileViewController
+- (IBAction)addByUserNameButtonTapped:(UIButton *)sender {
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -160,10 +162,15 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0){
+        UITableViewCell *addFriendCell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
+        return addFriendCell;
+    } else {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-    cell.textLabel.text = self.currentUserContacts[indexPath.row];
+    cell.textLabel.text = self.currentUserContacts[indexPath.row +1];
     
     return cell;
+    }
 }
 
 @end
