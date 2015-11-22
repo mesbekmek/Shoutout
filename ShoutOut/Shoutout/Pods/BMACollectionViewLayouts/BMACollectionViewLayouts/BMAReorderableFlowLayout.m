@@ -239,6 +239,8 @@
     };
 }
 
+ 
+
 - (CGFloat)animationDuration {
     return 0.25f;
 }
