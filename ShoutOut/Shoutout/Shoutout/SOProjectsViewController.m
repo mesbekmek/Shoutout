@@ -301,8 +301,39 @@ typedef enum eventsType{
     
 }
 
+- (IBAction)changeEventTypeButtonsTapped:(UIButton *)sender{
+    
+    if (self.isAnimating || (sender.tag ==0 && currentEventType == MY_EVENTS) || (sender.tag == 1 && currentEventType == MY_COLLABORATIONS)) {
+        return;
+    }
+    
+    [self animateUnderlineBar];
+    
+}
 
-
+- (void)animateUnderlineBar{
+    
+    if (!self.isAnimating) {
+        
+        CGFloat newX = currentEventType == MY_EVENTS? self.underlineBar.bounds.size.width : 0;
+        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
+        
+        self.isAnimating = YES;
+        
+        [UIView animateWithDuration:.25f animations:^{
+            
+            self.underlineBar.frame = newFrame;
+            
+        } completion:^(BOOL finished) {
+            
+            self.isAnimating = NO;
+            currentEventType = currentEventType == MY_EVENTS? MY_COLLABORATIONS : MY_EVENTS;
+            [collectionView reloadData];
+        }];
+        
+    }
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
