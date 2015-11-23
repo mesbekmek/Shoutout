@@ -14,5 +14,8 @@
 @interface SOProjectsViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) SOProject *currentProject;
+- (IBAction)plusButtonTapped:(UIButton *)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *plusButton;
 
 @end

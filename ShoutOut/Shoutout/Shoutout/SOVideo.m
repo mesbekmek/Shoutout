@@ -17,6 +17,7 @@
 @dynamic thumbnail;
 @dynamic username;
 @dynamic details;
+@dynamic index;
 
 +(NSString*)parseClassName{
     

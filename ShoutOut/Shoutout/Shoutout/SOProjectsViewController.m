@@ -31,6 +31,7 @@ typedef enum eventsType{
     EventsType currentEventType;
 }
 
+@property (nonatomic) UIImagePickerController *imagePicker;
 @property (nonatomic) NSMutableArray <SOProject*> *projectsArray;
 @property (nonatomic) NSMutableArray <SOVideo*> *videosArray;
 @property (nonatomic) NSMutableArray <PFFile *>*videoThumbnailsArray;
@@ -52,6 +53,8 @@ typedef enum eventsType{
 //    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
     
     self.videoThumbnailsArray = [[NSMutableArray alloc]init];
+    self.plusButton.layer.cornerRadius = 22.5;
+    self.plusButton.clipsToBounds = YES;
     
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
     
@@ -301,11 +304,87 @@ typedef enum eventsType{
     
 }
 
+- (IBAction)changeEventTypeButtonsTapped:(UIButton *)sender{
+    
+    if (self.isAnimating || (sender.tag ==0 && currentEventType == MY_EVENTS) || (sender.tag == 1 && currentEventType == MY_COLLABORATIONS)) {
+        return;
+    }
+    
+    [self animateUnderlineBar];
+    
+}
 
-
+- (void)animateUnderlineBar{
+    
+    if (!self.isAnimating) {
+        
+        CGFloat newX = currentEventType == MY_EVENTS? self.underlineBar.bounds.size.width : 0;
+        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
+        
+        self.isAnimating = YES;
+        
+        [UIView animateWithDuration:.25f animations:^{
+            
+            self.underlineBar.frame = newFrame;
+            
+        } completion:^(BOOL finished) {
+            
+            self.isAnimating = NO;
+            currentEventType = currentEventType == MY_EVENTS? MY_COLLABORATIONS : MY_EVENTS;
+            [collectionView reloadData];
+        }];
+        
+    }
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+#pragma mark Camera
+- (IBAction)plusButtonTapped:(UIButton *)sender {
+    [self modalCameraPopup];
+}
 
+#pragma mark - New video button selector
+
+-(void)modalCameraPopup{
+    
+    [self setupCamera];
+}
+
+
+# pragma mark - Video camera setup
+
+- (void)setupCamera{
+    
+    self.imagePicker = [[UIImagePickerController alloc]init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.mediaTypes = [[NSArray alloc]initWithObjects:(NSString *)kUTTypeMovie, nil];
+    self.imagePicker.videoMaximumDuration = 10.0;
+    self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+    [self presentViewController:self.imagePicker animated:YES completion:NULL];
+}
+
+
+# pragma mark - Image Picker Delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    
+   // SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
+    
+    //[self.videoThumbnails addObject:video.thumbnail];
+    
+    //Add video to current projects
+    //[self.sortingProject.videos addObject:video];
+    
+    // Alternative is to use saveEventually, allowing saving when connection is available
+   // [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+    //    NSLog(@"Saved current PROJECT in background");
+        
+     //   NSLog(@"Saved project videos: %@",self.sortingProject.videos);
+        [picker dismissViewControllerAnimated:YES completion:nil];
+   // }];
+}
 @end

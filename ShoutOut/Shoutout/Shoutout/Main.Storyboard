@@ -816,6 +816,9 @@
                                                 <state key="normal" title="My Collaborations">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="changeEventTypeButtonsTapped:" destination="0RR-dZ-2M0" eventType="touchUpInside" id="MmI-rI-HkH"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <animations/>
@@ -843,10 +846,19 @@
                                             <constraint firstAttribute="height" constant="45" id="gz0-me-A44"/>
                                             <constraint firstAttribute="width" constant="45" id="tj9-S6-pCB"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                         <state key="normal" title="+">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <real key="value" value="22.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.clipsToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="plusButtonTapped:" destination="0RR-dZ-2M0" eventType="touchUpInside" id="xJQ-nE-Umi"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gph-Jg-m2Z">
                                         <rect key="frame" x="0.0" y="73" width="300" height="40"/>
@@ -858,6 +870,9 @@
                                                 <state key="normal" title="My Events">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="changeEventTypeButtonsTapped:" destination="0RR-dZ-2M0" eventType="touchUpInside" id="0K3-HR-ReU"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <animations/>
@@ -909,6 +924,7 @@
                     <navigationItem key="navigationItem" id="PZa-L2-zkF"/>
                     <connections>
                         <outlet property="collectionView" destination="6cK-4S-eRr" id="RuM-1p-1NO"/>
+                        <outlet property="plusButton" destination="iUm-mY-2ze" id="5Uy-yV-FmC"/>
                         <outlet property="underlineBar" destination="nbc-9K-MCa" id="7RP-Cm-wBJ"/>
                     </connections>
                 </viewController>

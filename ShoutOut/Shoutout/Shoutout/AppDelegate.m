@@ -13,8 +13,10 @@
 #import "User.h"
 #import "SOVideo.h"
 #import "SOProject.h"
+#import "SOProjectsViewController.h"
 #import "SOLoginViewController.h"
 #import "SORequest.h"
+#import "User.h"
 #import "SOContacts.h"
 #import <SSKeychain/SSKeychain.h>
 #import <SSKeychain/SSKeychainQuery.h>
@@ -35,8 +37,6 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    
 
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
     [User registerSubclass];
@@ -74,7 +74,8 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SSKeychain setPassword:username forService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
     [SSKeychain setPassword:password forService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
 
-    
+   
+    [self signUpUserWithSSKeyChain:username :password];
     
     // Access that token when needed
    // [SSKeychain passwordForService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
@@ -82,8 +83,45 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     // Delete the token when appropriate (on sign out, perhaps)
   //  [SSKeychain deletePasswordForService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
     
-    
     return YES;
+}
+
+-(void)signUpUserWithSSKeyChain:(NSString *)username :(NSString *)password{
+    User *user = [User user];
+    user.username = username;
+    user.password = password;
+    
+    NSError *error = nil;
+    [user signUp:&error];
+    if(!error){
+        NSLog(@"Sign up succeded!");
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+        
+        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+        [[PFInstallation currentInstallation] saveInBackground];
+        
+        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
+        self.window.rootViewController = nc;
+    }
+//    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        if(!error){
+//            NSLog(@"Sign up succeded!");
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            
+//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//            
+//            [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+//            
+//            [[PFInstallation currentInstallation] saveInBackground];
+//            
+//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//            self.window.rootViewController = nc;
+//            
+//            self.window.rootViewController = [nc initWithRootViewController:[[SOProjectsViewController alloc] init]];
+//        }
+//    }];
 }
 
 #pragma mark - Push notification
