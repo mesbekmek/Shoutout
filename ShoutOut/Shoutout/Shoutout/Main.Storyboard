@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hG1-HH-2kr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hG1-HH-2kr">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -364,6 +364,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxZ-dz-99h">
                                         <rect key="frame" x="68" y="330" width="20" height="20"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="3KS-rQ-eYe"/>
                                             <constraint firstAttribute="width" constant="20" id="toU-xc-l7y"/>
@@ -379,6 +380,7 @@
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhk-lU-trS">
                                         <rect key="frame" x="530" y="330" width="60" height="20"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="Sak-id-F9A"/>
                                             <constraint firstAttribute="height" constant="20" id="Xdp-X2-GS5"/>
@@ -389,6 +391,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vU5-k0-pji">
                                         <rect key="frame" x="8" y="330" width="60" height="20"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="XQn-e9-5A4"/>
                                             <constraint firstAttribute="height" constant="20" id="mYW-t5-QZy"/>
@@ -399,6 +402,7 @@
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNT-7A-yFN">
                                         <rect key="frame" x="534" y="330" width="60" height="20"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="fJ1-r6-hhL"/>
                                             <constraint firstAttribute="height" constant="20" id="omK-Xw-L4i"/>
@@ -409,6 +413,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXf-FG-3Ev">
                                         <rect key="frame" x="530" y="330" width="60" height="20"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="5VA-Ma-Xwe"/>
                                             <constraint firstAttribute="width" constant="60" id="zGm-vD-hwL"/>
@@ -422,11 +427,13 @@
                                         <subviews>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="svE-U7-49w">
                                                 <rect key="frame" x="-2" y="-5" width="442" height="31"/>
+                                                <animations/>
                                                 <connections>
                                                     <action selector="sliderValueChanged:forEvent:" destination="oIx-92-LkW" eventType="valueChanged" id="gbV-hp-xa7"/>
                                                 </connections>
                                             </slider>
                                         </subviews>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="svE-U7-49w" secondAttribute="trailing" id="Fjx-tp-bcp"/>
                                             <constraint firstItem="svE-U7-49w" firstAttribute="leading" secondItem="oaQ-DV-AvX" secondAttribute="leading" id="Ldv-oc-qhb"/>
@@ -956,10 +963,36 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="currentUserContactsCellID" id="O4K-bI-TZe">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="addByUserNameCellID" id="O4K-bI-TZe">
                                         <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O4K-bI-TZe" id="Cca-a3-zDu">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s88-we-fCc">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                                    <animations/>
+                                                    <state key="normal" title="Add by User Name"/>
+                                                    <connections>
+                                                        <action selector="addByUserNameButtonTapped:" destination="yus-J4-sAw" eventType="touchUpInside" id="IG9-62-jqr"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="s88-we-fCc" firstAttribute="top" secondItem="Cca-a3-zDu" secondAttribute="top" id="P1T-Fd-SEh"/>
+                                                <constraint firstItem="s88-we-fCc" firstAttribute="leading" secondItem="Cca-a3-zDu" secondAttribute="leading" id="S0l-kZ-mWD"/>
+                                                <constraint firstAttribute="bottom" secondItem="s88-we-fCc" secondAttribute="bottom" id="asn-fR-vCa"/>
+                                                <constraint firstAttribute="trailing" secondItem="s88-we-fCc" secondAttribute="trailing" id="py2-Ym-AMC"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="currentUserContactsCellID" id="Nhd-RR-UWZ">
+                                        <rect key="frame" x="0.0" y="72" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nhd-RR-UWZ" id="bek-17-E47">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
