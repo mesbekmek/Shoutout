@@ -84,7 +84,7 @@ typedef enum eventsType{
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 //    self.noProjectsTextView.hidden = YES;
-//    [self projectsQuery];
+    [self projectsQuery];
     [collectionView reloadData];
 }
 
