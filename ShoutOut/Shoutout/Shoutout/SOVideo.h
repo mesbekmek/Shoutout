@@ -15,6 +15,7 @@
 @property (nonatomic) PFFile *thumbnail;
 @property (nonatomic) NSString *username;
 @property (nonatomic) NSString *details;
+@property (nonatomic) NSInteger index;
 
 + (NSString*)parseClassName;
 - (instancetype)initWithVideoUrl:(NSURL *)url;

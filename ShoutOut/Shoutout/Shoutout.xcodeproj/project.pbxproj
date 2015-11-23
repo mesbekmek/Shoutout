@@ -31,6 +31,8 @@
 		84E9D5681BFB9D05005ACE00 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 84E9D5651BFB9D05005ACE00 /* README */; };
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
+		C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */; };
+		C767BFC31C02AABF000DB883 /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFC21C02AABF000DB883 /* SOCachedObject.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
@@ -99,6 +101,10 @@
 		C7127B711BF678D60069CF76 /* SOModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOModel.h; sourceTree = "<group>"; };
 		C7127B741BF6793A0069CF76 /* CollaborateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollaborateViewController.h; sourceTree = "<group>"; };
 		C7127B751BF6793A0069CF76 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
+		C767BFBE1C02AAB0000DB883 /* SOCachedProjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedProjects.h; sourceTree = "<group>"; };
+		C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedProjects.m; sourceTree = "<group>"; };
+		C767BFC11C02AABF000DB883 /* SOCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedObject.h; sourceTree = "<group>"; };
+		C767BFC21C02AABF000DB883 /* SOCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedObject.m; sourceTree = "<group>"; };
 		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
 		D4115F071BF850ED00C674AC /* SORequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SORequest.m; sourceTree = "<group>"; };
 		D4115F091BF8566100C674AC /* SOContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContacts.h; sourceTree = "<group>"; };
@@ -351,6 +357,10 @@
 				D4115F071BF850ED00C674AC /* SORequest.m */,
 				D4115F091BF8566100C674AC /* SOContacts.h */,
 				D4115F0A1BF8566100C674AC /* SOContacts.m */,
+				C767BFBE1C02AAB0000DB883 /* SOCachedProjects.h */,
+				C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */,
+				C767BFC11C02AABF000DB883 /* SOCachedObject.h */,
+				C767BFC21C02AABF000DB883 /* SOCachedObject.m */,
 			);
 			name = SOModel;
 			sourceTree = "<group>";
@@ -560,6 +570,7 @@
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
+				C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
@@ -572,6 +583,7 @@
 				84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
+				C767BFC31C02AABF000DB883 /* SOCachedObject.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
 				84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */,
 			);

@@ -19,6 +19,8 @@
 #import "UICollectionView+BMADecorators.h"
 #import "ASBPlayerScrubbing.h"
 #import <AVFoundation/AVFoundation.h>
+#import "SOCachedProjects.h"
+
 
 
 const float kVideoLengthMax2 = 10.0;
@@ -134,6 +136,8 @@ UICollectionViewDataSource
     [self.view addSubview:activityIndicatorView];
     [self.view bringSubviewToFront:activityIndicatorView];
     
+    if (![SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId]) {
+    
     [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
 
         self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
@@ -144,6 +148,16 @@ UICollectionViewDataSource
         [activityIndicator removeFromSuperview];
         [activityIndicatorView removeFromSuperview];
     }];
+    }else{
+        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *avAssets, NSMutableArray<PFFile *> *allThumbnails) {
+            self.videoThumbnails = allThumbnails;
+            self.videoAssetsArray = avAssets;
+            [collectionView reloadData];
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            [activityIndicatorView removeFromSuperview];
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -154,6 +168,7 @@ UICollectionViewDataSource
 - (void)viewWillDisappear:(BOOL)animated{
     
     [super viewWillDisappear:animated];
+    
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved new order of videos, assuming there is a new order");
     }];
