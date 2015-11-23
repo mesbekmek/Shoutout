@@ -8,7 +8,7 @@
 
 #import "SOLoginViewController.h"
 #import "SOSignUpViewController.h"
-#import "ViewController.h"
+#import "SOProjectsViewController.h"
 #import "SOModel.h"
 
 @interface SOLoginViewController ()
@@ -61,7 +61,11 @@
                     
                     UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
                     
-                    ViewController *vc = (ViewController *)nc.topViewController;
+                    [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+                    
+                    [[PFInstallation currentInstallation] saveInBackground];
+                    
+                    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
                     [self presentViewController:nc animated:YES completion:nil];
                 } else {
                     NSLog(@"Error: %@", error.localizedDescription);

@@ -46,9 +46,9 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SOContacts registerSubclass];
     
 //
-//  self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
-//    self.window.backgroundColor = [UIColor whiteColor];
-//    [self.window makeKeyAndVisible];
+  self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
 //    
     
     

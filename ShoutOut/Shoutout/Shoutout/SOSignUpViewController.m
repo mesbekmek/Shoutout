@@ -9,6 +9,7 @@
 #import "SOSignUpViewController.h"
 #import "ViewController.h"
 #import "SOModel.h"
+#import "SOProjectsViewController.h"
 
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
@@ -72,7 +73,11 @@
                 
                 UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
                 
-                ViewController *vc = (ViewController *)nc.topViewController;
+                [[PFInstallation currentInstallation] setObject:thisUser forKey:@"user"];
+                
+                [[PFInstallation currentInstallation] saveInBackground];
+                
+                SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
                 [self presentViewController:nc animated:YES completion:nil];
             }else{
                 NSString *errorString = [error userInfo][@"error"];
