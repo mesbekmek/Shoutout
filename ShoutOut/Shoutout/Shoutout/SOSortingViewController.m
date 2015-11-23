@@ -65,11 +65,6 @@ UICollectionViewDataSource
 @property (nonatomic) NSURL *videoURL;
 
 
-
-
-
-
-
 @property (nonatomic) NSIndexPath *draggedIndex;
 
 @property (nonatomic) NSMutableArray <UIImage *>*imagesArray;
@@ -98,11 +93,6 @@ UICollectionViewDataSource
     self.scrubberBehavior.player = self.avPlayer;
     self.scrubberBehavior.slider = self.slider;
     self.remainingTimeLabel.hidden = YES;
-    
-    
-    //space between sections
-//    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
-    
     
     NSLog(@"passed %@",self.sortingProject.title);
     
@@ -395,19 +385,18 @@ UICollectionViewDataSource
     
     SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:IndexPath];
     
-    PFImageView *imageViewCopy = [[PFImageView alloc]initWithFrame:cell.videoImageView.bounds];
-    [cell addSubview:imageViewCopy];
+//     [cell addSubview:imageViewCopy];
     cell.videoImageView.file = nil;
     
-//    cell.videoImageView.file = self.videoThumbnails[anIndexPath.row];
-    imageViewCopy.file = self.videoThumbnails[IndexPath.row];
-    NSLog(@"row %lu and file:%@",IndexPath.row, self.videoThumbnails[IndexPath.row]);
-    [imageViewCopy loadInBackground];
-    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit ;
-//    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-//    [cell.videoImageView loadInBackground];
+    cell.videoImageView.file = self.videoThumbnails[IndexPath.row];
+//    imageViewCopy.file = self.videoThumbnails[IndexPath.row];
+//    [imageViewCopy loadInBackground];
+//    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit ;
     
-    cell.backgroundColor = [UIColor blackColor];
+     cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [cell.videoImageView loadInBackground];
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -443,18 +432,13 @@ UICollectionViewDataSource
     [self.avPlayer seekToTime:kCMTimeZero];
     [self.avPlayer play];
     
- 
     self.videoURL = [(AVURLAsset *)self.avPlayerItem.asset URL] ;
     
     NSLog(@"url %@",self.videoURL);
 
-    
-    
     [self setupPlayer];
     
     [self setupSlider];
-    
-
     
     [collectionView reloadData];
 }
@@ -481,17 +465,10 @@ UICollectionViewDataSource
 
 - (void)setupSlider
 {
-//    [self.slider setThumbImage:[UIImage imageNamed:@"sliderThumb"] forState:UIControlStateNormal];
     [self.videoPlayingView bringSubviewToFront: self.sliderView];
-    
  }
 
-
-
-
-
-
-- (void)viewDidLayoutSubviews
+ - (void)viewDidLayoutSubviews
 {
     self.avPlayerLayer.frame = self.videoPlayingView.bounds;
 }
@@ -510,8 +487,6 @@ UICollectionViewDataSource
     
     self.playPauseButton.selected = (player.rate != 0);
 }
-
-
 
 
 #pragma mark - Reorderable layout
