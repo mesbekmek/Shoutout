@@ -68,7 +68,6 @@ UICollectionViewDataSource
 
 
 
-
 @property (nonatomic) NSIndexPath *draggedIndex;
 
 @property (nonatomic) NSMutableArray <UIImage *>*imagesArray;
@@ -84,8 +83,7 @@ UICollectionViewDataSource
 @property (nonatomic) AVPlayerItem *avPlayerItem;
 
 @property (nonatomic) AVPlayerLayer *avPlayerLayer;
-//@property (nonatomic) ASBPlayerScrubbing *scrubbing;
-@end
+ @end
 
 @implementation SOSortingViewController
 
@@ -95,13 +93,13 @@ UICollectionViewDataSource
     
     [super viewDidLoad];
     
-    self.scrubberBehavior = [ASBPlayerScrubbing new];
     self.scrubberBehavior.player = self.avPlayer;
     self.scrubberBehavior.slider = self.slider;
+    self.remainingTimeLabel.hidden = YES;
     
     
-    
-    
+    //space between sections
+//    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
     
     NSLog(@"passed %@",self.sortingProject.title);
@@ -349,7 +347,7 @@ UICollectionViewDataSource
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    return CGSizeMake(100, 100);
+    return CGSizeMake(110, 110);
 }
 
 #pragma mark - UICollectionViewDataSourceDelegate
@@ -390,7 +388,7 @@ UICollectionViewDataSource
     imageViewCopy.file = self.videoThumbnails[IndexPath.row];
     NSLog(@"row %lu and file:%@",IndexPath.row, self.videoThumbnails[IndexPath.row]);
     [imageViewCopy loadInBackground];
-    imageViewCopy.contentMode = UIViewContentModeScaleAspectFill ;
+    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit ;
 //    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
 //    [cell.videoImageView loadInBackground];
     
@@ -401,9 +399,9 @@ UICollectionViewDataSource
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.avPlayerLayer) {
-        [self.avPlayerLayer removeFromSuperlayer];
-    }
+//    if (self.avPlayerLayer) {
+//        [self.avPlayerLayer removeFromSuperlayer];
+//    }
     
     self.avPlayerLayer =nil;
     AVAsset *avAsset = nil;
@@ -459,11 +457,11 @@ UICollectionViewDataSource
     self.avPlayerLayer.player = self.avPlayer;
     [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
     
-//    [player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
+    [self.avPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
     
     self.scrubberBehavior.player = self.avPlayer;
     
-    [self.avPlayer play];
+    [self.scrubberBehavior.player play];
 }
 
 - (void)setupSlider
@@ -472,6 +470,11 @@ UICollectionViewDataSource
     [self.videoPlayingView bringSubviewToFront: self.sliderView];
     
  }
+
+
+
+
+
 
 - (void)viewDidLayoutSubviews
 {

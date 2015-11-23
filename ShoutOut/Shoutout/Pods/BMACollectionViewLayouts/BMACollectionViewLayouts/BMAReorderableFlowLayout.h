@@ -40,6 +40,7 @@
 
 typedef void (^BMAReorderingAnimationBlock)(UICollectionViewCell *draggedCell);
 
+
 @protocol BMAReorderableDelegateFlowLayout <UICollectionViewDelegateFlowLayout>
 @optional
 /// Return YES if the item can be dragged. Default assumed NO.
@@ -68,5 +69,9 @@ typedef void (^BMAReorderingAnimationBlock)(UICollectionViewCell *draggedCell);
 
 /// Gives possibility to customise the animation of the cell when it's dropped after dragging
 - (BMAReorderingAnimationBlock)animationForDragEndedInCollectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout;
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section;
+
+ 
 
 @end

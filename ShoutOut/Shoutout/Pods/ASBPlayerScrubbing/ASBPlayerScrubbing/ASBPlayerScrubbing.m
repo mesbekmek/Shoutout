@@ -86,6 +86,7 @@
 
 - (void)setShowTimeHours:(BOOL)showTimeHours
 {
+    
     if(_showTimeHours == showTimeHours)
         return;
     
