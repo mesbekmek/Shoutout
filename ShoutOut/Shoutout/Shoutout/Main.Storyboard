@@ -362,12 +362,17 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bp5-jt-pYL">
                                 <rect key="frame" x="0.0" y="68" width="600" height="360"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxZ-dz-99h">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxZ-dz-99h">
                                         <rect key="frame" x="68" y="330" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="3KS-rQ-eYe"/>
                                             <constraint firstAttribute="width" constant="20" id="toU-xc-l7y"/>
                                         </constraints>
+                                        <state key="normal" backgroundImage="play">
+                                            <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" red="0.83284361169999999" green="0.83284361169999999" blue="0.83284361169999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <state key="selected" backgroundImage="pause"/>
                                         <connections>
                                             <action selector="playPause:" destination="oIx-92-LkW" eventType="touchUpInside" id="qz1-1S-7qk"/>
                                         </connections>
@@ -434,6 +439,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="uxZ-dz-99h" firstAttribute="centerY" secondItem="svE-U7-49w" secondAttribute="centerY" id="2lr-eo-iKv"/>
                                     <constraint firstItem="vU5-k0-pji" firstAttribute="leading" secondItem="Bp5-jt-pYL" secondAttribute="leading" constant="8" id="5lO-ji-JI4"/>
                                     <constraint firstAttribute="bottom" secondItem="KXf-FG-3Ev" secondAttribute="bottom" constant="10" id="8D1-qY-WfH"/>
                                     <constraint firstAttribute="width" constant="250" id="98p-7E-pZz"/>
@@ -1146,4 +1152,8 @@
             <point key="canvasLocation" x="-95" y="1228"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="pause" width="1200" height="1200"/>
+        <image name="play" width="800" height="800"/>
+    </resources>
 </document>
