@@ -370,18 +370,18 @@ UICollectionViewDataSource
     
     SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:IndexPath];
     
-    PFImageView *imageViewCopy = [[PFImageView alloc]initWithFrame:cell.videoImageView.bounds];
-    [cell addSubview:imageViewCopy];
+//     [cell addSubview:imageViewCopy];
     cell.videoImageView.file = nil;
     
-//    cell.videoImageView.file = self.videoThumbnails[anIndexPath.row];
-    imageViewCopy.file = self.videoThumbnails[IndexPath.row];
-    [imageViewCopy loadInBackground];
-    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit ;
-//    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-//    [cell.videoImageView loadInBackground];
+    cell.videoImageView.file = self.videoThumbnails[IndexPath.row];
+//    imageViewCopy.file = self.videoThumbnails[IndexPath.row];
+//    [imageViewCopy loadInBackground];
+//    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit ;
     
-    cell.backgroundColor = [UIColor blackColor];
+     cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [cell.videoImageView loadInBackground];
+    
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
