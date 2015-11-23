@@ -70,7 +70,7 @@
                 NSLog(@"Sign up succeded!");
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
-                UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerID"];
+                UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
                 
                 ViewController *vc = (ViewController *)nc.topViewController;
                 [self presentViewController:nc animated:YES completion:nil];
