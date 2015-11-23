@@ -239,7 +239,13 @@
     };
 }
 
- 
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+//    
+//    //space between sections
+////    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
+//    return 40.0;
+//    
+//}
 
 - (CGFloat)animationDuration {
     return 0.25f;
