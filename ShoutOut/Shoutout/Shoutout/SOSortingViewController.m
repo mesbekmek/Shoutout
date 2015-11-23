@@ -17,6 +17,9 @@
 #import <Parse/Parse.h>
 #import "BMAReorderableFlowLayout.h"
 #import "UICollectionView+BMADecorators.h"
+#import "ASBPlayerScrubbing.h"
+#import <AVFoundation/AVFoundation.h>
+
 
 const float kVideoLengthMax2 = 10.0;
 
@@ -50,6 +53,21 @@ UICollectionViewDataSource
 }
 @property (weak, nonatomic) IBOutlet UIView *videoPlayingView;
 
+@property (strong, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UIView *sliderView;
+@property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
+@property (strong, nonatomic) IBOutlet UILabel *durationLabel;
+@property (strong, nonatomic) IBOutlet UILabel *currentTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *remainingTimeLabel;
+@property (strong, nonatomic) IBOutlet ASBPlayerScrubbing *scrubberBehavior;
+@property (nonatomic) NSURL *videoURL;
+
+
+
+
+
+
+
 @property (nonatomic) NSIndexPath *draggedIndex;
 
 @property (nonatomic) NSMutableArray <UIImage *>*imagesArray;
@@ -65,7 +83,7 @@ UICollectionViewDataSource
 @property (nonatomic) AVPlayerItem *avPlayerItem;
 
 @property (nonatomic) AVPlayerLayer *avPlayerLayer;
-@end
+ @end
 
 @implementation SOSortingViewController
 
@@ -74,6 +92,15 @@ UICollectionViewDataSource
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.scrubberBehavior.player = self.avPlayer;
+    self.scrubberBehavior.slider = self.slider;
+    self.remainingTimeLabel.hidden = YES;
+    
+    
+    //space between sections
+//    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
+    
     
     NSLog(@"passed %@",self.sortingProject.title);
     
@@ -320,13 +347,17 @@ UICollectionViewDataSource
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    return CGSizeMake(100, 100);
+    return CGSizeMake(110, 110);
 }
 
 #pragma mark - UICollectionViewDataSourceDelegate
 
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 0.0;
+    return 10.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 10.0;
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -357,7 +388,7 @@ UICollectionViewDataSource
     imageViewCopy.file = self.videoThumbnails[IndexPath.row];
     NSLog(@"row %lu and file:%@",IndexPath.row, self.videoThumbnails[IndexPath.row]);
     [imageViewCopy loadInBackground];
-    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit;
+    imageViewCopy.contentMode = UIViewContentModeScaleAspectFit ;
 //    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
 //    [cell.videoImageView loadInBackground];
     
@@ -368,9 +399,9 @@ UICollectionViewDataSource
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.avPlayerLayer) {
-        [self.avPlayerLayer removeFromSuperlayer];
-    }
+//    if (self.avPlayerLayer) {
+//        [self.avPlayerLayer removeFromSuperlayer];
+//    }
     
     self.avPlayerLayer =nil;
     AVAsset *avAsset = nil;
@@ -397,8 +428,76 @@ UICollectionViewDataSource
     [self.avPlayer seekToTime:kCMTimeZero];
     [self.avPlayer play];
     
+ 
+    self.videoURL = [(AVURLAsset *)self.avPlayerItem.asset URL] ;
+    
+    NSLog(@"url %@",self.videoURL);
+
+    
+    
+    [self setupPlayer];
+    
+    [self setupSlider];
+    
+
+    
     [collectionView reloadData];
 }
+
+
+- (void)setupPlayer
+{
+    
+    
+    
+    self.avPlayer = [AVPlayer playerWithURL:self.videoURL];
+    
+    self.avPlayerLayer = [AVPlayerLayer layer];
+    self.avPlayerLayer.contentsGravity = kCAGravityResizeAspect;
+    self.avPlayerLayer.player = self.avPlayer;
+    [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
+    
+    [self.avPlayer addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
+    
+    self.scrubberBehavior.player = self.avPlayer;
+    
+    [self.scrubberBehavior.player play];
+}
+
+- (void)setupSlider
+{
+//    [self.slider setThumbImage:[UIImage imageNamed:@"sliderThumb"] forState:UIControlStateNormal];
+    [self.videoPlayingView bringSubviewToFront: self.sliderView];
+    
+ }
+
+
+
+
+
+
+- (void)viewDidLayoutSubviews
+{
+    self.avPlayerLayer.frame = self.videoPlayingView.bounds;
+}
+
+#pragma mark - Actions
+- (IBAction)switchTimeLabel:(id)sender
+{
+    self.remainingTimeLabel.hidden = !self.remainingTimeLabel.hidden;
+    self.durationLabel.hidden = !self.remainingTimeLabel.hidden;
+}
+
+#pragma mark - KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    AVPlayer *player = object;
+    
+    self.playPauseButton.selected = (player.rate != 0);
+}
+
+
+
 
 #pragma mark - Reorderable layout
 
