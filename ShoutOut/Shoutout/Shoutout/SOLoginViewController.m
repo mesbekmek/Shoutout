@@ -63,6 +63,9 @@
                     
                     ViewController *vc = (ViewController *)nc.topViewController;
                     [self presentViewController:nc animated:YES completion:nil];
+                    
+                    [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+                    [[PFInstallation currentInstallation] saveInBackground];
                 } else {
                     NSLog(@"Error: %@", error.localizedDescription);
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Invalid sign in parameters. Please re-enter your username and password." preferredStyle:UIAlertControllerStyleAlert];

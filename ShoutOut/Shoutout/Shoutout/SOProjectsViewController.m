@@ -67,8 +67,49 @@ const CGFloat aspectRatio = 1.77;
     
 //    CGFloat width = self.view.frame.size.width * 0.6;
 //    collectionView.frame = CGRectMake(self.view.frame.size.width * 0.2, collectionView.frame.origin.y, width, width * aspectRatio);
-//    
+
+    [self sendDummyPush];
     
+    
+    
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    button.frame = CGRectMake(0, 0, 44, 44);
+    button.center = self.view.center;
+    [self.view addSubview:button];
+    [button addTarget:self action:@selector(fetchCollaborators) forControlEvents:UIControlEventTouchUpInside];
+//    [self fetchCollaborators];
+    
+}
+
+- (void)fetchCollaborators {
+    NSDictionary *params =  @{
+                              @"usernames" : @[@"Mike"]
+                              };
+    
+    [PFCloud callFunctionInBackground:@"sendCollaborationRequests" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if(error){
+            NSLog(@"Cloud Code push error:%@",[error localizedDescription]);
+        }else{
+            NSLog(@"Cloud Code push success:%@",object);
+        }
+    }];
+}
+
+- (void)sendDummyPush {
+
+    NSDictionary *params = @{
+                  @"username" : @"1",
+                  @"message" : @"hello from Cloud Code"
+                  };
+    
+   [PFCloud callFunctionInBackground:@"sendPushToUser" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+       if(error){
+           NSLog(@"Cloud Code push error:%@",[error localizedDescription]);
+       }else{
+           NSLog(@"Cloud Code push success:%@",object);
+       }
+   }];
 }
 
 

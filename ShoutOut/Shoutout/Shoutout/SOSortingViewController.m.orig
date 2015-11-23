@@ -81,7 +81,10 @@ UICollectionViewDataSource
     
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
+<<<<<<< HEAD
     self.videoThumbnails = [NSMutableArray new];
+=======
+>>>>>>> 82284762363f01959889ac4d3ac8ae71fec25167
     
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
     
@@ -108,7 +111,10 @@ UICollectionViewDataSource
     [self.view bringSubviewToFront:activityIndicatorView];
     
     [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
-
+<<<<<<< HEAD
+        
+=======
+>>>>>>> 82284762363f01959889ac4d3ac8ae71fec25167
         self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
         self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
         
@@ -150,7 +156,6 @@ UICollectionViewDataSource
 - (IBAction)mergeAndSaveButtonTapped:(UIButton *)sender {
     
     [self mergeVideosInArray:self.videoAssetsArray];
-    
 }
 
 -(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
@@ -313,10 +318,20 @@ UICollectionViewDataSource
     // Alternative is to use saveEventually, allowing saving when connection is available
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current PROJECT in background");
-
+<<<<<<< HEAD
         NSLog(@"Saved project videos: %@",self.sortingProject.videos);
         [picker dismissViewControllerAnimated:YES completion:nil];
     }];
+    
+    
+    
+    
+=======
+        [collectionView reloadData];
+    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+>>>>>>> 82284762363f01959889ac4d3ac8ae71fec25167
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -356,7 +371,7 @@ UICollectionViewDataSource
     
 //    cell.videoImageView.file = self.videoThumbnails[anIndexPath.row];
     imageViewCopy.file = self.videoThumbnails[IndexPath.row];
-    NSLog(@"row %lu and file:%@",(long)IndexPath.row, self.videoThumbnails[IndexPath.row]);
+    NSLog(@"row %lu and file:%@",IndexPath.row, self.videoThumbnails[IndexPath.row]);
     [imageViewCopy loadInBackground];
     imageViewCopy.contentMode = UIViewContentModeScaleAspectFit;
 //    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
