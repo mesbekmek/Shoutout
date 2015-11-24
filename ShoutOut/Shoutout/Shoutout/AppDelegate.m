@@ -141,10 +141,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 //    [user signUp:&error];
 //    if(!error){
 //        NSLog(@"Sign up succeded!");
-    [user signUp:&error];
-    if(!error)
-    {
-        NSLog(@"Sign up succeded!");
+
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
 //        
@@ -154,11 +151,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
         self.window.rootViewController = nc;
     //}
-    }
-    else
-    {
-        NSLog(@"%@",[error localizedDescription]);
-    }
+
 //    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
 //        if(!error){
 //            NSLog(@"Sign up succeded!");

@@ -36,6 +36,7 @@
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
+		D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
 		D49BF48F1BEFF6D100340627 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48E1BEFF6D100340627 /* QuartzCore.framework */; };
 		D49BF4911BEFF80800340627 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4901BEFF80800340627 /* MobileCoreServices.framework */; };
@@ -112,6 +113,8 @@
 		D4115F071BF850ED00C674AC /* SORequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SORequest.m; sourceTree = "<group>"; };
 		D4115F091BF8566100C674AC /* SOContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContacts.h; sourceTree = "<group>"; };
 		D4115F0A1BF8566100C674AC /* SOContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContacts.m; sourceTree = "<group>"; };
+		D41C75111C040C2500125CE7 /* PhoneContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneContactTableViewCell.h; sourceTree = "<group>"; };
+		D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneContactTableViewCell.m; sourceTree = "<group>"; };
 		D49BF48C1BEFF6B500340627 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D49BF48E1BEFF6D100340627 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D49BF4901BEFF80800340627 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -394,6 +397,8 @@
 			children = (
 				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
 				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
+				D41C75111C040C2500125CE7 /* PhoneContactTableViewCell.h */,
+				D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */,
 				D40F78B11C029AAD004D14F0 /* Contact.h */,
 				D40F78B21C029AAD004D14F0 /* Contact.m */,
 			);
@@ -580,6 +585,7 @@
 				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
+				D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
