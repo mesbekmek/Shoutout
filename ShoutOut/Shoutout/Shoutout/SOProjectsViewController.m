@@ -13,6 +13,7 @@
 #import "SOVideo.h"
 #import "SOProject.h"
 #import "SOVideoCVC.h"
+#import "SOCachedProjects.h"
 #import "SOSortingViewController.h"
 
 const CGFloat aspectRatio = 1.77;
@@ -26,7 +27,7 @@ typedef enum eventsType{
 
 @interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout>
 {
-//    IBOutlet UIView *centerView;
+    //    IBOutlet UIView *centerView;
     IBOutlet UICollectionView *collectionView;
     EventsType currentEventType;
 }
@@ -41,6 +42,7 @@ typedef enum eventsType{
 @property (nonatomic, assign) NSInteger currentPage;
 @property (weak, nonatomic) IBOutlet UIView *underlineBar;
 @property (nonatomic) BOOL isAnimating;
+@property (nonatomic) BOOL initialFetchOfVideosComplete;
 
 @end
 
@@ -49,12 +51,15 @@ typedef enum eventsType{
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.noProjectsTextView.hidden = YES;
-//    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
+    //    self.noProjectsTextView.hidden = YES;
+    //    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
     
-    self.videoThumbnailsArray = [[NSMutableArray alloc]init];
+    self.videoThumbnailsArray = [NSMutableArray new];
     self.plusButton.layer.cornerRadius = 22.5;
     self.plusButton.clipsToBounds = YES;
+    
+    [self projectsQuery];
+    
     
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
     
@@ -76,26 +81,63 @@ typedef enum eventsType{
     myLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     [collectionView setCollectionViewLayout:myLayout];
-    
-//    CGFloat width = self.view.frame.size.width * 0.6;
-//    collectionView.frame = CGRectMake(self.view.frame.size.width * 0.2, collectionView.frame.origin.y, width, width * aspectRatio);
-//    
-    
 }
+
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//
+//    [collectionView reloadData];
+//}
 
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    self.noProjectsTextView.hidden = YES;
-    [self projectsQuery];
+    //    self.noProjectsTextView.hidden = YES;
+    //[self projectsQuery];
     [collectionView reloadData];
+    [self collectionViewBatchReload];
+}
+
+-(void)videoQuery{
+    
+    
+    NSMutableArray<NSString *> *videoObjectIDArray = [NSMutableArray new];
+    NSMutableArray<SOProject *> *correctOrderArray = [NSMutableArray arrayWithArray:[self.projectsArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]]];
+    self.projectsArray = correctOrderArray;
+    for(int i = 0; i < correctOrderArray.count; i++)
+    {
+        SOProject *project = self.projectsArray[i];
+        NSString *videoObjectID = project.videos[0].objectId;
+        [videoObjectIDArray addObject:videoObjectID];
+    }
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+    [query whereKey:@"objectId" containedIn:videoObjectIDArray];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (!error) {
+            for (SOVideo *vid in objects)
+            {
+                for(int i=0; i < videoObjectIDArray.count; i++)
+                {
+                    if([videoObjectIDArray[i] isEqualToString:vid.objectId]){
+                        [self.projectsArray[i].videos replaceObjectAtIndex:0 withObject:vid];
+                        break;
+                    }
+                }
+            }
+            self.initialFetchOfVideosComplete = YES;
+            [collectionView reloadData];
+            [self collectionViewBatchReload];
+        }
+        else{
+            NSLog(@"Error: %@",[error localizedDescription]);
+        }
+    }];
 }
 
 
-
 - (void)projectsQuery{
-    
-    NSLog(@"current user %@", [User currentUser]);
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
     [query whereKey:@"createdBy" equalTo:[User currentUser].username];
@@ -112,67 +154,19 @@ typedef enum eventsType{
             for (SOProject *project in objects) {
                 self.project = project;
                 
-                NSLog(@"objectId %@", project.objectId);
-                NSLog(@"object %@",project);
-                
-                //getting only the first video from each project
-                
-                
-                
                 [self.videosArray addObjectsFromArray:project.videos];
-                //[self.videosArray addObjectWithArrat:project.videos];
-                NSLog(@"videosArray %@", self.videosArray);
-                
-                
                 if ([self.projectsArray count]==0){
-                    
-//                    self.noProjectsTextView.hidden = NO;
                     collectionView.hidden = YES;
-//                    centerView.hidden = YES;
                 }
-                
-                
             }
+            [self videoQuery];
             [collectionView reloadData];
-            [self videoThumbnailQuery];
+            //[self videoThumbnailQuery];
         }
         else{
             NSLog(@"Error: %@",error);
         }
     }];
-    
-}
-
-
--(void)videoThumbnailQuery {
-    
-    NSLog(@"yoooo %@", self.videosArray);
-    
-    for (int i=0; i<[self.videosArray count]; i++) {
-        
-        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
-        [query whereKey:@"objectId" equalTo:[self.videosArray objectAtIndex:i].objectId];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            
-            if (!error) {
-                NSLog(@"video objects %@",objects);
-                for (SOVideo *vid in objects) {
-                    NSLog(@"video thumbnail %@", vid.thumbnail);
-                    
-                    //add video thumbnail to thumbnails array
-                    [self.videoThumbnailsArray addObject:vid.thumbnail];
-                    if(i == self.videosArray.count-1){
-                        [collectionView reloadData];
-                    }
-                    
-                }
-            }
-            
-            else{
-                NSLog(@"Error: %@",error);
-            }
-        }];
-    }
 }
 
 
@@ -198,7 +192,7 @@ typedef enum eventsType{
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity {
     NSInteger itemsCount = [collectionView.dataSource collectionView:collectionView numberOfItemsInSection:0];
     
-     UICollectionViewFlowLayout *flowLayout = (id)collectionView.collectionViewLayout;
+    UICollectionViewFlowLayout *flowLayout = (id)collectionView.collectionViewLayout;
     
     // Imitating paging behaviour
     // Check previous offset and scroll direction
@@ -221,56 +215,34 @@ typedef enum eventsType{
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection
 {
-    
-    
-    //  for testing purposes
-    //    if ([self.videoThumbnailsArray count]==0){
-    //        [self.videoThumbnailsArray addObject:@"video1.jpg"];
-    //        [self.videoThumbnailsArray addObject:@"video2.jpg"];
-    //        [self.videoThumbnailsArray addObject:@"video3.jpg"];
-    //
-    //    }
-    NSLog(@"projects array %lu",(unsigned long)[self.projectsArray count]);
-    NSLog(@"videoThumbnailsArray %lu ",(unsigned long)[self.videoThumbnailsArray count]);
+    if (!self.initialFetchOfVideosComplete) {
+        return 0;
+    }
     return [self.projectsArray count];
 }
-
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)IndexPath
 {
     SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
+    if (self.projectsArray[IndexPath.row].videos[0].thumbnail) {
     
-       
     cell.videoImageView.file = nil;
     
+    cell.videoImageView.file = self.projectsArray[IndexPath.row].videos[0].thumbnail;
     
-    if ([self.videoThumbnailsArray count] !=0 ) {
-        //NSString *videoImage = [self.videoThumbnailsArray objectAtIndex:IndexPath.row];
-        // NSLog(@"%@",videoImage);
-        // NSLog(@"index %ld",(long)IndexPath.row);
-        
-        // UIImage *image = [UIImage imageNamed: videoImage];
-        
-        cell.videoImageView.file = self.videoThumbnailsArray[IndexPath.row];
-        
-        cell.videoImageView.frame = cell.bounds;
-        
-        cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        
-        [cell.videoImageView loadInBackground];
-        
-        NSLog(@"imagessss %@",[self.videoThumbnailsArray objectAtIndex:IndexPath.row]);
-        
+    cell.videoImageView.frame = cell.bounds;
+    
+    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    [cell.videoImageView loadInBackground];
     }
-    
-    SOProject *project = self.projectsArray[IndexPath.row];
-    
-    NSString *projectTitle = project.title;
-    cell.projectTitle.text = projectTitle;
-    
-    
-    
+    if([self.projectsArray count] != 0){
+        SOProject *project = self.projectsArray[IndexPath.row];
+        
+        NSString *projectTitle = project.title;
+        cell.projectTitle.text = projectTitle;
+    }
     return cell;
 }
 
@@ -295,13 +267,10 @@ typedef enum eventsType{
     if ([self.projectsArray count] !=0) {
         SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
         sortingVC.sortingProject = self.projectsArray[indexPath.row];
-        NSLog(@"passing %@",sortingVC.sortingProject.title);
-        
-        sortingVC.videoThumbnails =  self.videoThumbnailsArray;
+        //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
         
         [self.navigationController pushViewController:sortingVC animated:YES];
     }
-    
 }
 
 - (IBAction)changeEventTypeButtonsTapped:(UIButton *)sender{
@@ -372,19 +341,39 @@ typedef enum eventsType{
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     
-   // SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
+    SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
     
-    //[self.videoThumbnails addObject:video.thumbnail];
+    [self.videoThumbnailsArray addObject:video.thumbnail];
     
-    //Add video to current projects
-    //[self.sortingProject.videos addObject:video];
+    NSString *uuid = [[SOCachedProjects sharedManager].cachedProjects objectForKey:@"UUID"];
     
-    // Alternative is to use saveEventually, allowing saving when connection is available
-   // [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-    //    NSLog(@"Saved current PROJECT in background");
-        
-     //   NSLog(@"Saved project videos: %@",self.sortingProject.videos);
-        [picker dismissViewControllerAnimated:YES completion:nil];
-   // }];
+    SOProject *project = [[SOProject alloc]initWithUUID:uuid];
+    [project.videos addObject:video];
+    self.currentProject = project;
+    
+    [project saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"Saved currrent project in background");
+    }];
+    //[self.projectsArray addObject:project];
+    [self.projectsArray insertObject:project atIndex:0];
+    [collectionView reloadData];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(void)collectionViewBatchReload{
+    
+    NSMutableArray *indexPathArray = [NSMutableArray new];
+    for(int i =0; i < self.projectsArray.count; i++)
+    {
+        [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    
+    [collectionView performBatchUpdates:^{
+        [collectionView reloadItemsAtIndexPaths:indexPathArray];
+    } completion:^(BOOL finished) {
+        NSLog(@"Reloaded");
+    }];
+    
+}
+
 @end

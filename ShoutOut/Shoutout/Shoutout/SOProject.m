@@ -59,7 +59,7 @@
 
 +(NSString *)parseClassName{
     
-        return @"SOProject";
+    return @"SOProject";
 }
 
 -(void)fetchVideos:(void (^)(NSMutableArray <SOVideo *> *fetchedVideos,
@@ -68,32 +68,28 @@
     
     NSMutableArray<SOVideo *> *videoFilesArray = [[NSMutableArray alloc]init];
     
-    if (self.collaboratorHasAddedVideo) {
+    if (self.collaboratorHasAddedVideo)
+    {
         [self.videos addObjectsFromArray:self.collaboratorSentVideos];
         [self.collaboratorSentVideos removeAllObjects];
         self.collaboratorHasAddedVideo = NO;
     }
-    
-    for (SOVideo *video in self.videos) {
-        
+    for (SOVideo *video in self.videos)
+    {
         PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
         
         [query whereKey:@"objectId" containsString:video.objectId];
-
+        
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
             if (!error) {
-                NSLog(@"video objects %@",objects);
-                for (SOVideo *vid in objects) {
-                    NSLog(@"Current video is: %@", vid.video);
-                    //add video  PFiles to videoFiles array
+                for (SOVideo *vid in objects)
+                {
                     [videoFilesArray addObject:vid];
-                    //
                 }
-                if(videoFilesArray.count == self.videos.count){
-                    
-                   NSMutableArray<SOVideo *> *sortedVideoFilesArray =  [self resortVideoFilesArray:videoFilesArray];
-                    
+                if(videoFilesArray.count == self.videos.count)
+                {
+                    NSMutableArray<SOVideo *> *sortedVideoFilesArray =  [self resortVideoFilesArray:videoFilesArray];
                     self.videos = sortedVideoFilesArray;
                     [self reindexVideos];
                     
@@ -103,14 +99,10 @@
                     newCache.thumbnailsArray = [sortedVideoFilesArray valueForKey:@"thumbnail"];
                     
                     [[SOCachedProjects sharedManager].cachedProjects setObject:newCache forKey:self.objectId];
-                    
                     [self saveInBackground];
-                    
                     onCompletion(self.videos, newCache.avassetsArray, [sortedVideoFilesArray valueForKey: @"thumbnail"]);
-                    
                 }
             }
-            
             else{
                 NSLog(@"Error: %@",[error localizedDescription]);
             }
@@ -123,23 +115,18 @@
 - (NSMutableArray<SOVideo *> *)resortVideoFilesArray:(NSArray <SOVideo *>*)videoFilesArray{
     
     NSMutableArray <SOVideo *> *sortedArray = [NSMutableArray new];
-    
-    
-    
-    for (SOVideo *video in self.videos) {
-        
-        for (SOVideo *unsortedVideo in videoFilesArray) {
-            if ([unsortedVideo.objectId isEqualToString:video.objectId]) {
-                
+    for (SOVideo *video in self.videos)
+    {
+        for (SOVideo *unsortedVideo in videoFilesArray)
+        {
+            if ([unsortedVideo.objectId isEqualToString:video.objectId])
+            {
                 [sortedArray addObject:unsortedVideo];
-                
                 break;
             }
         }
-        
     }
     return sortedArray;
-    
 }
 
 -(NSMutableArray<AVAsset * > *)videoAssestsArray:(NSArray <SOVideo *>*)sortedVideoFilesArray
@@ -170,7 +157,7 @@
             
             SOProject *temp = (SOProject *)objects[0];
             if (temp.collaboratorHasAddedVideo) {
-               
+                
                 NSArray <NSString *> *collabObjIds = [self.collaboratorSentVideos valueForKey:@"objectId"];
                 PFQuery *collaboratorQuery = [PFQuery queryWithClassName:@"SOVideo"];
                 [collaboratorQuery whereKey:@"objectId" containedIn:collabObjIds];

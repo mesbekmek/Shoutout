@@ -1,5 +1,4 @@
 PODS:
-  - ASBPlayerScrubbing (0.1)
   - BMACollectionViewLayouts (1.0.0)
   - Bolts/Tasks (1.4.0)
   - Parse (1.9.1):
@@ -10,7 +9,6 @@ PODS:
   - SSKeychain (1.2.3)
 
 DEPENDENCIES:
-  - ASBPlayerScrubbing
   - BMACollectionViewLayouts (from `https://github.com/mesbekmek/BMACollectionViewLayouts`)
   - Parse (~> 1.9)
   - ParseUI (~> 1.1)
@@ -26,7 +24,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/mesbekmek/BMACollectionViewLayouts
 
 SPEC CHECKSUMS:
-  ASBPlayerScrubbing: 0fc5e76aad6fdbcf14380734fb7f2c127cd28b66
   BMACollectionViewLayouts: 3fda4666f5b1f6942a54cb9d11519519882a5898
   Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
