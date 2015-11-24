@@ -12,6 +12,5 @@
 
 @interface SOSortingCVC : UICollectionViewCell <NSCopying>
 @property (weak, nonatomic) IBOutlet PFImageView *videoImageView;
-@property (weak, nonatomic) IBOutlet UIButton *plusButton;
 
 @end

@@ -70,6 +70,9 @@ UICollectionViewDataSource
 @property (nonatomic) AVPlayerItem *avPlayerItem;
 
 @property (nonatomic) AVPlayerLayer *avPlayerLayer;
+
+@property (nonatomic) NSMutableArray <PFFile *>*videoThumbnailsPlusOne;
+
 @end
 
 @implementation SOSortingViewController
@@ -82,11 +85,16 @@ UICollectionViewDataSource
     self.playStop = YES;
     
     
+    
+    
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
     
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
+    self.videoThumbnailsPlusOne = [NSMutableArray new];
+
+    
     
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
     
@@ -327,6 +335,12 @@ UICollectionViewDataSource
     
     [self.videoThumbnails addObject:video.thumbnail];
     
+    NSInteger *videoThumbnailsCount = self.videoThumbnails.count;
+    self.videoThumbnailsPlusOne = [[NSMutableArray alloc] initWithCapacity:(videoThumbnailsCount+1)];
+    
+    [self.videoThumbnailsPlusOne arrayByAddingObjectsFromArray:self.videoThumbnails];
+
+    
     //Add video to current projects
     [self.sortingProject.videos addObject:video];
     
@@ -371,7 +385,7 @@ UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection{
     
-    return [self.videoThumbnails count];
+    return [self.videoThumbnailsPlusOne count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
@@ -389,12 +403,12 @@ UICollectionViewDataSource
         
     }
     
-    //        if(IndexPath.row == self.videoThumbnails.count && self.videoThumbnails)
-    //        {
-    //            UICollectionViewCell *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"plusButtonCell" forIndexPath:IndexPath];
-    //
-    //            return cell2;
-    //        }
+            if(IndexPath.row == self.videoThumbnails.count && self.videoThumbnails)
+            {
+                UICollectionViewCell *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"plusButtonCell" forIndexPath:IndexPath];
+    
+                return cell2;
+            }
     return cell;
     
 }
