@@ -83,17 +83,11 @@ typedef enum eventsType{
     [collectionView setCollectionViewLayout:myLayout];
 }
 
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//
-//    [collectionView reloadData];
-//}
-
+ 
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    //    self.noProjectsTextView.hidden = YES;
-    //[self projectsQuery];
+ 
     [collectionView reloadData];
     [self collectionViewBatchReload];
 }

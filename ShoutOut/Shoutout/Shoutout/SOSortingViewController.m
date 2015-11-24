@@ -71,7 +71,7 @@ UICollectionViewDataSource
 
 @property (nonatomic) AVPlayerLayer *avPlayerLayer;
 
-@property (nonatomic) NSMutableArray <PFFile *>*videoThumbnailsPlusOne;
+@property (nonatomic) BOOL doneFetching;
 
 @end
 
@@ -86,14 +86,12 @@ UICollectionViewDataSource
     
     
     
-    
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
     
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
-    self.videoThumbnailsPlusOne = [NSMutableArray new];
-
+    
     
     
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
@@ -108,7 +106,42 @@ UICollectionViewDataSource
     [super viewWillAppear:animated];
     [self fetch];
     [collectionView reloadData];
+    [self collectionViewBatchReload];
 }
+
+
+
+-(void) alertView {
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    
+    
+    
+//    [UIAlertController  alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite a friend" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Take a video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        [self setupCamera];
+    }]];
+    
+    [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
+
+
 
 -(void)fetch{
     UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -130,7 +163,10 @@ UICollectionViewDataSource
             self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
             self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
             NSLog(@"VIDEO THUMBNAILS ARRAY: %@",self.videoThumbnails);
+            
+            self.doneFetching = YES;
             [collectionView reloadData];
+            [self collectionViewBatchReload];
             [activityIndicator stopAnimating];
             [activityIndicator removeFromSuperview];
             [activityIndicatorView removeFromSuperview];
@@ -139,7 +175,9 @@ UICollectionViewDataSource
         [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *avAssets, NSMutableArray<PFFile *> *allThumbnails) {
             self.videoThumbnails = allThumbnails;
             self.videoAssetsArray = avAssets;
+            self.doneFetching = YES;
             [collectionView reloadData];
+            [self collectionViewBatchReload];
             [activityIndicator stopAnimating];
             [activityIndicator removeFromSuperview];
             [activityIndicatorView removeFromSuperview];
@@ -305,12 +343,6 @@ UICollectionViewDataSource
     }
 }
 
-#pragma mark - New video button selector
-
--(void)modalCameraPopup{
-    
-    [self setupCamera];
-}
 
 
 # pragma mark - Video camera setup
@@ -324,23 +356,18 @@ UICollectionViewDataSource
     self.imagePicker.videoMaximumDuration = kVideoLengthMax2;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-}
+    NSLog(@"mmmm");
 
+}
 
 # pragma mark - Image Picker Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    
+    NSLog(@"aasadadsasdasda");
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
     
     [self.videoThumbnails addObject:video.thumbnail];
-    
-    NSInteger *videoThumbnailsCount = self.videoThumbnails.count;
-    self.videoThumbnailsPlusOne = [[NSMutableArray alloc] initWithCapacity:(videoThumbnailsCount+1)];
-    
-    [self.videoThumbnailsPlusOne arrayByAddingObjectsFromArray:self.videoThumbnails];
-
-    
+        
     //Add video to current projects
     [self.sortingProject.videos addObject:video];
     
@@ -384,71 +411,89 @@ UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection{
-    
-    return [self.videoThumbnailsPlusOne count];
+    if(!self.doneFetching){
+        return 0;
+    }
+    return self.videoThumbnails.count+1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)IndexPath{
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:IndexPath];
-    
-    if(self.videoThumbnails.count !=0){
+    if(self.videoThumbnails.count !=0 && indexPath.row != self.videoThumbnails.count){
+          SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
+        
         cell.videoImageView.file = nil;
-        cell.videoImageView.file = self.videoThumbnails[IndexPath.row];
+        cell.videoImageView.file = self.videoThumbnails[indexPath.row];
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.videoImageView loadInBackground];
         
         cell.backgroundColor = [UIColor clearColor];
-        
+        return cell;
     }
     
-            if(IndexPath.row == self.videoThumbnails.count && self.videoThumbnails)
-            {
-                UICollectionViewCell *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"plusButtonCell" forIndexPath:IndexPath];
-    
-                return cell2;
-            }
-    return cell;
+    else if(indexPath.row == self.videoThumbnails.count && self.videoThumbnails)
+    {
+        SOSortingCVC *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
+        
+        cell2.videoImageView.image = [UIImage imageNamed: @"PlusButtonCell" ];
+        return cell2;
+    }
+    else{
+        return nil;
+    }
     
 }
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (self.avPlayerLayer) {
-
-         [self.avPlayerLayer removeFromSuperlayer];
+    if(indexPath.row == self.videoThumbnails.count && self.videoThumbnails)
+    {
+        [self alertView];
+        //[self setupCamera];
+    }
+    
+    else {
+        
+        if (self.avPlayerLayer) {
+            
+            [self.avPlayerLayer removeFromSuperlayer];
+            
+        }
+        
+        AVAsset *avAsset = nil;
+        self.avPlayerLayer =nil;
+        self.avPlayerItem = nil;
+        self.avPlayer = nil;
+        
+        
+        if ( self.avPlayer.rate !=0 && !self.avPlayer.error) {
+            self.avPlayer.rate = 0.0;
+        }
+        
+        avAsset = self.videoAssetsArray[indexPath.row];
+        
+        self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+        
+        self.avPlayer = [[AVPlayer alloc]initWithPlayerItem:self.avPlayerItem];
+        
+        self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
+        
+        [self.avPlayerLayer setFrame:self.videoPlayingView.frame];
+        self.avPlayerLayer.frame = self.videoPlayingView.bounds;
+        
+        [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
+        
+        [self.avPlayer seekToTime:kCMTimeZero];
+        [self.avPlayer play];
+        
+        
+        
+        
         
     }
     
-    AVAsset *avAsset = nil;
-    self.avPlayerLayer =nil;
-    self.avPlayerItem = nil;
-    self.avPlayer = nil;
-    
-    
-    if ( self.avPlayer.rate !=0 && !self.avPlayer.error) {
-        self.avPlayer.rate = 0.0;
-    }
-    
-    avAsset = self.videoAssetsArray[indexPath.row];
-    
-    self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-    
-    self.avPlayer = [[AVPlayer alloc]initWithPlayerItem:self.avPlayerItem];
-    
-    self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
-    
-    [self.avPlayerLayer setFrame:self.videoPlayingView.frame];
-    self.avPlayerLayer.frame = self.videoPlayingView.bounds;
-    
-    [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
-    
-    [self.avPlayer seekToTime:kCMTimeZero];
-    [self.avPlayer play];
-    
-  
     [collectionView reloadData];
 }
 
@@ -510,6 +555,21 @@ UICollectionViewDataSource
     [self.sortingProject.videos replaceObjectAtIndex:indexPath.row withObject:self.sortingProject.videos[toIndexPath.row]];
     [self.sortingProject.videos replaceObjectAtIndex:toIndexPath.row withObject:first];
     [collectionView reloadData];
+}
+
+-(void)collectionViewBatchReload{
+    
+    NSMutableArray *indexPathArray = [NSMutableArray new];
+    for(int i =0; i < self.videoThumbnails.count; i++)
+    {
+        [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+    
+    [collectionView performBatchUpdates:^{
+        [collectionView reloadItemsAtIndexPaths:indexPathArray];
+    } completion:^(BOOL finished) {
+        NSLog(@"Reloaded");
+    }];
     
 }
 
