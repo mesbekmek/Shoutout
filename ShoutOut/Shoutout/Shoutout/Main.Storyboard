@@ -492,10 +492,10 @@
             </objects>
             <point key="canvasLocation" x="234" y="1024"/>
         </scene>
-        <!--View Controller-->
+        <!--Full Screen Merge View Controller-->
         <scene sceneID="u9Q-JC-iRs">
             <objects>
-                <viewController id="e0a-Wo-qB2" sceneMemberID="viewController">
+                <viewController id="e0a-Wo-qB2" customClass="FullScreenMergeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0a3-ty-xQm"/>
                         <viewControllerLayoutGuide type="bottom" id="IbG-Dt-5Ze"/>
@@ -507,20 +507,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U9I-uh-dOv">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nvi-fC-XMG">
-                                        <rect key="frame" x="8" y="8" width="30" height="30"/>
-                                        <animations/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cEh-Cr-Vlg">
+                                        <rect key="frame" x="23" y="8" width="30" height="30"/>
                                         <state key="normal" title="X">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                 </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="Nvi-fC-XMG" firstAttribute="top" secondItem="U9I-uh-dOv" secondAttribute="top" constant="8" id="jOX-ao-wAb"/>
-                                    <constraint firstItem="Nvi-fC-XMG" firstAttribute="leading" secondItem="U9I-uh-dOv" secondAttribute="leading" constant="8" id="qvT-2B-nvD"/>
-                                </constraints>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <animations/>
@@ -532,6 +527,9 @@
                             <constraint firstAttribute="trailing" secondItem="U9I-uh-dOv" secondAttribute="trailing" id="xcl-OV-53x"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="fullScreenVideoPlaying" destination="U9I-uh-dOv" id="eaz-38-sxb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jca-LE-CP2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -593,7 +591,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cvi-vb-D0f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1830" y="3167"/>
+            <point key="canvasLocation" x="2006" y="3139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="F7q-wb-v1j">

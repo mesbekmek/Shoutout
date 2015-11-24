@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84D61C1A1C0431E700E3D284 /* FullScreenMergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D61C191C0431E700E3D284 /* FullScreenMergeViewController.m */; };
 		84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */; };
 		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; };
 		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; };
@@ -66,6 +67,8 @@
 /* Begin PBXFileReference section */
 		2B71E56213096115E5D6499D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		3933170B0C7BDDBBA4F99A84 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		84D61C181C0431E600E3D284 /* FullScreenMergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenMergeViewController.h; sourceTree = "<group>"; };
+		84D61C191C0431E700E3D284 /* FullScreenMergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenMergeViewController.m; sourceTree = "<group>"; };
 		84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOVideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video1.jpg; sourceTree = "<group>"; };
 		84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video2.jpg; sourceTree = "<group>"; };
@@ -221,6 +224,8 @@
 				84E9D5301BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib */,
 				84E9D5351BF8F2C6005ACE00 /* SOSortingCVC.h */,
 				84E9D5361BF8F2C6005ACE00 /* SOSortingCVC.m */,
+				84D61C181C0431E600E3D284 /* FullScreenMergeViewController.h */,
+				84D61C191C0431E700E3D284 /* FullScreenMergeViewController.m */,
 				84E9D52D1BF8F25D005ACE00 /* UICollectionView+BMADecorators.h */,
 				84E9D5381BF9375D005ACE00 /* SOAddMyVideoViewController.h */,
 				84E9D5391BF9375D005ACE00 /* SOAddMyVideoViewController.m */,
@@ -583,6 +588,7 @@
 				C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
 				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
+				84D61C1A1C0431E700E3D284 /* FullScreenMergeViewController.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */,

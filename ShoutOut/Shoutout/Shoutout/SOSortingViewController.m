@@ -7,6 +7,7 @@
 //
 
 #import "SOSortingViewController.h"
+#import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <QuartzCore/QuartzCore.h>
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -17,8 +18,8 @@
 #import <Parse/Parse.h>
 #import "BMAReorderableFlowLayout.h"
 #import "UICollectionView+BMADecorators.h"
-#import <AVFoundation/AVFoundation.h>
 #import "SOCachedProjects.h"
+#import "FullScreenMergeViewController.h"
 
 const float kVideoLengthMax2 = 10.0;
 
@@ -98,27 +99,26 @@ UICollectionViewDataSource
     
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"sortingIdentifier"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload:) name:@"ArrayReorderedMustReloadData" object:nil];
-    
+    NSLog(@"sorting proj %@",self.sortingProject.objectId);
+    [self fetch];
 }
 
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self fetch];
+    
     [collectionView reloadData];
-    [self collectionViewBatchReload];
+    
+    if (self.videoThumbnails.count > 0) {
+        
+        [self collectionViewBatchReload];
+    }
 }
 
 
 
 -(void) alertView {
     UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    
-    
-    
-    
-//    [UIAlertController  alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
@@ -198,6 +198,16 @@ UICollectionViewDataSource
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved new order of videos, assuming there is a new order");
     }];
+    
+    SOCachedObject *currentlyCached = [SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId];
+    currentlyCached.cachedProject = self.sortingProject;
+    currentlyCached.avassetsArray = self.videoAssetsArray;
+    currentlyCached.thumbnailsArray = self.videoThumbnails;
+    
+    [[SOCachedProjects sharedManager].cachedProjects removeObjectForKey:self.sortingProject.objectId];
+    [[SOCachedProjects sharedManager].cachedProjects setObject:currentlyCached forKey:self.sortingProject.objectId];
+    
+    
 }
 
 - (void)reload:(NSNotification *)notif{
@@ -213,11 +223,11 @@ UICollectionViewDataSource
 }
 
 #pragma mark - Merging methods
-
-- (IBAction)mergeAndSaveButtonTapped:(UIButton *)sender {
-    
-    [self mergeVideosInArray:self.videoAssetsArray];
+- (IBAction)previewButtonTapped:(UIButton *)sender {
+      [self mergeVideosInArray:self.videoAssetsArray];
 }
+
+
 
 -(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
     
@@ -364,18 +374,28 @@ UICollectionViewDataSource
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     NSLog(@"aasadadsasdasda");
+    
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
-    
-    [self.videoThumbnails addObject:video.thumbnail];
-        
-    //Add video to current projects
-    [self.sortingProject.videos addObject:video];
-    
-    // Alternative is to use saveEventually, allowing saving when connection is available
-    [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"Saved current PROJECT in background");
-        [picker dismissViewControllerAnimated:YES completion:nil];
+    [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        [self viewWillAppear:YES];
     }];
+    
+    self.videoThumbnails  = [NSMutableArray arrayWithArray:self.videoThumbnails];
+    [self.videoThumbnails addObject:video.thumbnail];
+    
+    [self.videoAssetsArray addObject:[AVAsset assetWithURL:info[UIImagePickerControllerMediaURL]]];
+    NSLog(@"sorting proj %@",self.sortingProject.objectId);
+    
+    [self.sortingProject.videos addObject:video];
+    //Add video to current projects
+    //[self.sortingProject.collaboratorSentVideos addObject:video];
+    //self.sortingProject.collaboratorHasAddedVideo = YES;
+    // Alternative is to use saveEventually, allowing saving when connection is available
+//    [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        NSLog(@"Saved current PROJECT in background");
+//        [collectionView reloadData];
+        [picker dismissViewControllerAnimated:YES completion:nil];
+//    }];
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -424,6 +444,7 @@ UICollectionViewDataSource
           SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
         
         cell.videoImageView.file = nil;
+        cell.videoImageView.image = nil;
         cell.videoImageView.file = self.videoThumbnails[indexPath.row];
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.videoImageView loadInBackground];
@@ -432,10 +453,10 @@ UICollectionViewDataSource
         return cell;
     }
     
-    else if(indexPath.row == self.videoThumbnails.count && self.videoThumbnails)
+    else if(indexPath.row == self.videoThumbnails.count)
     {
         SOSortingCVC *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
-        
+        cell2.videoImageView.image = nil;
         cell2.videoImageView.image = [UIImage imageNamed: @"PlusButtonCell" ];
         return cell2;
     }
@@ -447,11 +468,9 @@ UICollectionViewDataSource
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if(indexPath.row == self.videoThumbnails.count && self.videoThumbnails)
     {
         [self alertView];
-        //[self setupCamera];
     }
     
     else {
@@ -459,14 +478,12 @@ UICollectionViewDataSource
         if (self.avPlayerLayer) {
             
             [self.avPlayerLayer removeFromSuperlayer];
-            
         }
-        
+
         AVAsset *avAsset = nil;
         self.avPlayerLayer =nil;
         self.avPlayerItem = nil;
         self.avPlayer = nil;
-        
         
         if ( self.avPlayer.rate !=0 && !self.avPlayer.error) {
             self.avPlayer.rate = 0.0;
@@ -477,28 +494,21 @@ UICollectionViewDataSource
         self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
         
         self.avPlayer = [[AVPlayer alloc]initWithPlayerItem:self.avPlayerItem];
-        
+
         self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
         
         [self.avPlayerLayer setFrame:self.videoPlayingView.frame];
+        
         self.avPlayerLayer.frame = self.videoPlayingView.bounds;
         
         [self.videoPlayingView.layer addSublayer:self.avPlayerLayer];
         
         [self.avPlayer seekToTime:kCMTimeZero];
         [self.avPlayer play];
-        
-        
-        
-        
-        
+
     }
-    
     [collectionView reloadData];
 }
-
-
-
 
 
 #pragma mark - Reorderable layout
@@ -560,7 +570,7 @@ UICollectionViewDataSource
 -(void)collectionViewBatchReload{
     
     NSMutableArray *indexPathArray = [NSMutableArray new];
-    for(int i =0; i < self.videoThumbnails.count; i++)
+    for(int i =0; i <=self.videoThumbnails.count; i++)
     {
         [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }

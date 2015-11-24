@@ -175,9 +175,6 @@ typedef enum eventsType{
     CGSize mElementSize = CGSizeMake(width, height);
     return mElementSize;
 }
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-//    return 0.5;
-//}
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 20;
@@ -261,6 +258,7 @@ typedef enum eventsType{
     if ([self.projectsArray count] !=0) {
         SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
         sortingVC.sortingProject = self.projectsArray[indexPath.row];
+ 
         //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
         
         [self.navigationController pushViewController:sortingVC animated:YES];
