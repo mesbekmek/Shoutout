@@ -34,6 +34,7 @@
     [self queryCurrentUserContactsListOnParse];
     self.tableView.estimatedRowHeight = 12.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReload) name:@"ReloadData" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -184,6 +185,37 @@
 //    [SORequest sendRequestTo:user];
 //}
 
+-(void)checkUsernameInParseWithPhoneNumber:(NSString *)phoneNumber {
+    
+    if ([phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 10) {
+        
+        
+        PFQuery *query = [User query];
+        
+        [query whereKey:@"phoneNumber" equalTo:phoneNumber];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            NSLog(@"object count = %lu",objects.count);
+            if (objects.count == 0) {
+                NSLog(@"NO USER FOUND");
+                [self noUserFoundAlert];
+            }
+            User *searchedUser = objects[0];
+            if (!error && ![searchedUser.phoneNumber isEqualToString:[User currentUser].phoneNumber]) {
+                NSLog(@"match");
+                // matched and wants to add user
+                if (![self checkDuplicateConctact:searchedUser.username]) {
+                    [self.tableView reloadData];
+                    [SORequest sendRequestTo:searchedUser.username];
+                } else {
+                    [self contactDuplicateAlert];
+                }
+            } else {
+                NSLog(@"can't add yourself or there's an Error %@", error);
+            }
+        }];
+    }
+}
+
 -(void)noUserFoundAlert {
     UIAlertController *noUserAlert = [UIAlertController alertControllerWithTitle:@"No User Found" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -330,7 +362,7 @@
     if (self.isOnContact) {
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [addButton setTag:indexPath.row];
-        addButton.frame = CGRectMake(330.0f, 5.0f, 30.0f, 30.0f);
+        addButton.frame = CGRectMake(330.0f, 5.0f, 40.0f, 40.0f);
         addButton.backgroundColor = [UIColor greenColor];
         [addButton setTitle:@"+" forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -356,39 +388,25 @@
     NSLog(@"Button tapped %ld", sender.tag);
     NSString *selectedPhoneNumber = self.contactsFromPhoneBook[sender.tag].phoneNumber[0];
     NSLog(@"phone number selected = %@",selectedPhoneNumber);
-    [self checkUsernameInParseWithPhoneNumber:selectedPhoneNumber];
-    
+    NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
+                            [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                           componentsJoinedByString:@""];
+    if ([formatedPhoneNumber length] == 10) {
+        
+        [self checkUsernameInParseWithPhoneNumber:formatedPhoneNumber];
+        NSLog(@"Number selected %@",formatedPhoneNumber);
+        
+    } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
+        
+        [self checkUsernameInParseWithPhoneNumber:[formatedPhoneNumber substringFromIndex:1]];
+        NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
+        
+    }
 }
 
--(void)checkUsernameInParseWithPhoneNumber:(NSString *)phoneNumber {
+-(void)formatePhoneNumberToDigitsOnly:(NSString *)phoneNumber{
+
     
-    if ([phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 10) {
-        
-        
-        PFQuery *query = [User query];
-        
-        [query whereKey:@"phoneNumber" equalTo:phoneNumber];
-        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"object count = %lu",objects.count);
-            if (objects.count == 0) {
-                NSLog(@"NO USER FOUND");
-                [self noUserFoundAlert];
-            }
-            User *searchedUser = objects[0];
-            if (!error && ![searchedUser.phoneNumber isEqualToString:[User currentUser].phoneNumber]) {
-                NSLog(@"match");
-                // matched and wants to add user
-                if (![self checkDuplicateConctact:searchedUser.username]) {
-                    [self.tableView reloadData];
-                    [SORequest sendRequestTo:searchedUser.username];
-                } else {
-                    [self contactDuplicateAlert];
-                }
-            } else {
-                NSLog(@"can't add yourself or there's an Error %@", error);
-            }
-        }];
-    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
