@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 #import "SOModel.h"
 #import "Contact.h"
+#import "PhoneContactTableViewCell.h"
 
 #import <Contacts/Contacts.h>
 #import <Parse/Parse.h>
@@ -17,17 +18,20 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) NSMutableArray *currentUserContacts;
 @property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
+@property (nonatomic) BOOL isOnContact;
 
 @end
 
 @implementation ProfileViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.allowsSelection = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.navigationController.navigationBarHidden = YES;
+    self.isOnContact = NO;
     
-//    [self queryCurrentUserContactsListOnParse];
+    [self queryCurrentUserContactsListOnParse];
     self.tableView.estimatedRowHeight = 12.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReload) name:@"ReloadData" object:nil];
 }
@@ -47,12 +51,13 @@
 
 - (IBAction)friendContactsButtonTapped:(UIButton *)sender {
     if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
-//        [self queryCurrentUserContactsListOnParse];
+        
+        [self queryCurrentUserContactsListOnParse];
+        self.isOnContact = NO;
+        
     } else {
         
-        NSLog(@"Tapped");
-        //self.currentUserContacts = [NSMutableArray new];
-        
+        self.isOnContact = YES;
         self.contactsFromPhoneBook  = [NSMutableArray new];
         
         Contact *queryContact = [Contact new];
@@ -95,46 +100,46 @@
 
 #pragma mark - Phonebook Contact List
 
--(void)grabDeviceContacts{
-    CNContactStore *store = [[CNContactStore alloc]init];
-    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        if (granted == YES) {
-            NSArray *keys = @[CNContactGivenNameKey, CNContactPhoneNumbersKey];
-            NSString *containerId = store.defaultContainerIdentifier;
-            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-            NSError *error;
-            NSArray *cnContact = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
-            if (error) {
-                NSLog(@"Error fetching contacts %@",error);
-            } else {
-        
-                for (CNContact *contact in cnContact) {
-                    Contact *newContact = [[Contact alloc]initWithPhoneNumberArray];
-                    newContact.firstName = contact.givenName;
-                    NSLog(@"first name %@",newContact.firstName);
-//                    newContact.lastName = contact.familyName;
-                    
-                    for (CNLabeledValue *label in contact.phoneNumbers) {
-                        NSString *phoneNumber = [label.value stringValue];
-                        if (phoneNumber != nil) {
-                            [newContact.phoneNumber addObject:[label.value stringValue]];
-                            NSLog(@"phone number %@", newContact.phoneNumber);
-                        } else {
-                            [newContact.phoneNumber addObject:@"N/A"];
-                        }
-                    }
-                    
-                    [self.contactsFromPhoneBook addObject:newContact];
-                    NSLog(@"adding to contacts from phone book array");
-                    
-                }
-                NSLog(@"%@ \ncount:%lu",self.contactsFromPhoneBook,self.contactsFromPhoneBook.count);
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-            }
-        }
-    }];
-    
-}
+//-(void)grabDeviceContacts{
+//    CNContactStore *store = [[CNContactStore alloc]init];
+//    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+//        if (granted == YES) {
+//            NSArray *keys = @[CNContactGivenNameKey, CNContactPhoneNumbersKey];
+//            NSString *containerId = store.defaultContainerIdentifier;
+//            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
+//            NSError *error;
+//            NSArray *cnContact = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
+//            if (error) {
+//                NSLog(@"Error fetching contacts %@",error);
+//            } else {
+//        
+//                for (CNContact *contact in cnContact) {
+//                    Contact *newContact = [[Contact alloc]initWithPhoneNumberArray];
+//                    newContact.firstName = contact.givenName;
+//                    NSLog(@"first name %@",newContact.firstName);
+////                    newContact.lastName = contact.familyName;
+//                    
+//                    for (CNLabeledValue *label in contact.phoneNumbers) {
+//                        NSString *phoneNumber = [label.value stringValue];
+//                        if (phoneNumber != nil) {
+//                            [newContact.phoneNumber addObject:[label.value stringValue]];
+//                            NSLog(@"phone number %@", newContact.phoneNumber);
+//                        } else {
+//                            [newContact.phoneNumber addObject:@"N/A"];
+//                        }
+//                    }
+//                    
+//                    [self.contactsFromPhoneBook addObject:newContact];
+//                    NSLog(@"adding to contacts from phone book array");
+//                    
+//                }
+//                NSLog(@"%@ \ncount:%lu",self.contactsFromPhoneBook,self.contactsFromPhoneBook.count);
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
+//            }
+//        }
+//    }];
+//    
+//}
 
 - (void)callReload{
     [self.tableView reloadData];
@@ -163,11 +168,8 @@
                 NSLog(@"match");
                 // matched and wants to add user
                 if (![self checkDuplicateConctact:searchedUser.username]) {
-                    //                    [self.currentUserContacts addObject:searchedUser.username];
                     [self.tableView reloadData];
-                    //                    [self sendFriendRequest:searchedUser.username];
                     [SORequest sendRequestTo:searchedUser.username];
-                    //                    [self pushContactListToParse];
                 } else {
                     [self contactDuplicateAlert];
                 }
@@ -315,31 +317,89 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    return self.currentUserContacts.count + 1;
-    return self.contactsFromPhoneBook.count;
+    if (self.isOnContact) {
+        return self.contactsFromPhoneBook.count;
+    } else {
+        return self.currentUserContacts.count + 1;
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (indexPath.row == 0){
-//        UITableViewCell *addFriendCell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
-//        return addFriendCell;
-//    } else {
-//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-//        cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
-//        return cell;
-//    }
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-    cell.textLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
-    cell.detailTextLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
-    return cell;
+    
+    if (self.isOnContact) {
+        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [addButton setTag:indexPath.row];
+        addButton.frame = CGRectMake(330.0f, 5.0f, 30.0f, 30.0f);
+        addButton.backgroundColor = [UIColor greenColor];
+        [addButton setTitle:@"+" forState:UIControlStateNormal];
+        [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
+        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
+        [cell addSubview:addButton];
+        return cell;
+    } else {
+        if (indexPath.row == 0){
+            UITableViewCell *addFriendCell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
+            return addFriendCell;
+        } else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
+            return cell;
+        }
+    }
+}
+
+-(void)addButtonTapped:(UIButton *)sender{
+    NSLog(@"Button tapped %ld", sender.tag);
+    NSString *selectedPhoneNumber = self.contactsFromPhoneBook[sender.tag].phoneNumber[0];
+    NSLog(@"phone number selected = %@",selectedPhoneNumber);
+    [self checkUsernameInParseWithPhoneNumber:selectedPhoneNumber];
+    
+}
+
+-(void)checkUsernameInParseWithPhoneNumber:(NSString *)phoneNumber {
+    
+    if ([phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 10) {
+        
+        
+        PFQuery *query = [User query];
+        
+        [query whereKey:@"phoneNumber" equalTo:phoneNumber];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            NSLog(@"object count = %lu",objects.count);
+            if (objects.count == 0) {
+                NSLog(@"NO USER FOUND");
+                [self noUserFoundAlert];
+            }
+            User *searchedUser = objects[0];
+            if (!error && ![searchedUser.phoneNumber isEqualToString:[User currentUser].phoneNumber]) {
+                NSLog(@"match");
+                // matched and wants to add user
+                if (![self checkDuplicateConctact:searchedUser.username]) {
+                    [self.tableView reloadData];
+                    [SORequest sendRequestTo:searchedUser.username];
+                } else {
+                    [self contactDuplicateAlert];
+                }
+            } else {
+                NSLog(@"can't add yourself or there's an Error %@", error);
+            }
+        }];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row > 0) {
-        return 40.0;
+    if (self.isOnContact) {
+        return 50.0;
     } else {
-        return 70.0;
+        if (indexPath.row > 0) {
+            return 40.0;
+        } else {
+            return 70.0;
+        }
     }
     
 }

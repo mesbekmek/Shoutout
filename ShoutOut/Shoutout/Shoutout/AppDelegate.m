@@ -92,19 +92,21 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.password = password;
     
     NSError *error = nil;
-    [user signUp:&error];
-    if(!error){
-        NSLog(@"Sign up succeded!");
+    [User logInWithUsername:@"1" password:@"1" error:&error];
+    
+
+//    [user signUp:&error];
+//    if(!error){
+//        NSLog(@"Sign up succeded!");
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
         UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-        
-        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-        [[PFInstallation currentInstallation] saveInBackground];
-        
+//        
+//        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+//        [[PFInstallation currentInstallation] saveInBackground];
+    
         SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
         self.window.rootViewController = nc;
-    }
+    //}
 //    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
 //        if(!error){
 //            NSLog(@"Sign up succeded!");

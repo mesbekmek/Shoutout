@@ -19,6 +19,7 @@
     return nil;
 }
 
+
 - (void)contactsQuery:(void (^)(NSMutableArray<Contact *> *, BOOL))onCompletion{
     
     CNContactStore *store = [[CNContactStore alloc]init];
