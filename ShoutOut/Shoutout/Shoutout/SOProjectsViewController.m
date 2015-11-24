@@ -14,6 +14,7 @@
 #import "SOProject.h"
 #import "SOVideoCVC.h"
 #import "SOCachedProjects.h"
+#import "ProfileViewController.h"
 #import "SOSortingViewController.h"
 
 const CGFloat aspectRatio = 1.77;
@@ -83,8 +84,10 @@ typedef enum eventsType{
     [collectionView setCollectionViewLayout:myLayout];
 }
 
- 
+#pragma mark -Navigate to Profile after sign up
 
+ 
+#pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
  

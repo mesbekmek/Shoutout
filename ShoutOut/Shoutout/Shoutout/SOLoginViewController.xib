@@ -140,6 +140,18 @@
                             <exclude reference="zQH-M5-5NZ"/>
                         </mask>
                     </variation>
+                    <connections>
+                        <action selector="signUpButtonTapped:" destination="-1" eventType="touchUpInside" id="ZDx-lJ-hHM"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbm-Ff-VOK">
+                    <rect key="frame" x="8" y="8" width="30" height="47"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="25"/>
+                    <state key="normal" title="X"/>
+                    <connections>
+                        <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="XmR-W5-YYt"/>
+                    </connections>
                 </button>
             </subviews>
             <animations/>
@@ -172,6 +184,8 @@
                 <constraint firstItem="tUU-2J-gs9" firstAttribute="top" secondItem="c2X-3L-4Qa" secondAttribute="bottom" id="mfl-Yc-FGz"/>
                 <constraint firstAttribute="trailing" secondItem="42i-nu-J5c" secondAttribute="trailing" id="obq-v3-FTt"/>
                 <constraint firstAttribute="trailing" secondItem="c2X-3L-4Qa" secondAttribute="trailing" id="p9r-rs-RB6"/>
+                <constraint firstItem="tbm-Ff-VOK" firstAttribute="leading" secondItem="whg-JT-8qU" secondAttribute="leading" constant="8" id="pf1-xR-oEf"/>
+                <constraint firstItem="tbm-Ff-VOK" firstAttribute="top" secondItem="whg-JT-8qU" secondAttribute="top" constant="8" id="qr7-cf-WQS"/>
                 <constraint firstItem="c2X-3L-4Qa" firstAttribute="top" secondItem="hHd-5P-x5U" secondAttribute="bottom" constant="35" id="szv-le-gYM"/>
                 <constraint firstItem="42i-nu-J5c" firstAttribute="top" secondItem="8NJ-ct-NRM" secondAttribute="bottom" constant="125" id="u8i-O0-OCA"/>
                 <constraint firstItem="glx-pn-pEK" firstAttribute="leading" secondItem="whg-JT-8qU" secondAttribute="leading" constant="20" id="w2i-m9-hmW"/>

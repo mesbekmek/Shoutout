@@ -9,6 +9,7 @@
 #import "SOSignUpViewController.h"
 #import "ViewController.h"
 #import "SOModel.h"
+#import "ProfileViewController.h"
 #import "SOProjectsViewController.h"
 
 @interface SOSignUpViewController () <UITextFieldDelegate>
@@ -28,6 +29,7 @@
     self.phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.phoneNumberTextField sizeToFit];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"SignUpComplete" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,7 +45,15 @@
     [self.phoneNumberTextField resignFirstResponder];
 }
 
-
+-(void)popToProfile{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+    
+    ProfileViewController *pc = [storyboard instantiateViewControllerWithIdentifier:@"ProfileVC"];
+    [nc pushViewController:pc animated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (IBAction)joinButtonTapped:(UIButton *)sender {
     NSString *username = [self.nameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -77,8 +87,10 @@
                 
                 [[PFInstallation currentInstallation] saveInBackground];
                 
-                SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-                [self presentViewController:nc animated:YES completion:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SignUpComplete" object:nil];
+                
+                //  SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+                //  [self presentViewController:nc animated:YES completion:nil];
             }else{
                 NSString *errorString = [error userInfo][@"error"];
                 NSLog(@"%@",errorString);
@@ -112,15 +124,18 @@
     }
     
 }
+- (IBAction)cancelButtonTapped:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

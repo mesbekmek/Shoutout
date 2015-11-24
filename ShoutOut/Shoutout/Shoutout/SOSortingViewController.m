@@ -19,6 +19,8 @@
 #import "BMAReorderableFlowLayout.h"
 #import "UICollectionView+BMADecorators.h"
 #import "SOCachedProjects.h"
+#import "SOSignUpViewController.h"
+#import "SOLoginViewController.h"
 #import "FullScreenMergeViewController.h"
 
 const float kVideoLengthMax2 = 10.0;
@@ -73,6 +75,7 @@ UICollectionViewDataSource
 @property (nonatomic) AVPlayerLayer *avPlayerLayer;
 
 @property (nonatomic) BOOL doneFetching;
+@property (weak, nonatomic) IBOutlet UIButton *videoPlayingViewCancelButton;
 
 @end
 
@@ -93,6 +96,7 @@ UICollectionViewDataSource
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
     
+    self.videoPlayingViewCancelButton.hidden = YES;
     
     
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
@@ -127,9 +131,10 @@ UICollectionViewDataSource
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite a friend" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        
-        [self dismissViewControllerAnimated:YES completion:^{
-        }];
+        SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
+        [self presentViewController:signUpViewController animated:YES completion:nil];
+        //[self dismissViewControllerAnimated:YES completion:^{
+        //}];
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Take a video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -221,6 +226,20 @@ UICollectionViewDataSource
         }
     }
 }
+#pragma mark - video playing method
+
+- (IBAction)cancelButtonTapped:(UIButton *)sender {
+    self.navigationController.navigationBar.hidden = NO;
+    self.videoPlayingViewCancelButton.hidden = YES;
+
+    self.videoPlayingView.frame = CGRectMake(0, 68, self.view.frame.size.width, self.view.frame.size.height - collectionView.frame.size.height);
+
+    [self.avPlayerLayer removeFromSuperlayer];
+    self.avPlayerLayer =nil;
+    self.avPlayerItem = nil;
+    self.avPlayer = nil;
+}
+
 
 #pragma mark - Merging methods
 - (IBAction)previewButtonTapped:(UIButton *)sender {
@@ -230,6 +249,11 @@ UICollectionViewDataSource
 
 
 -(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
+    
+    [self.avPlayerLayer removeFromSuperlayer];
+    self.avPlayerLayer =nil;
+    self.avPlayerItem = nil;
+    self.avPlayer = nil;
     
     AVMutableComposition *mixComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *videoCompositionTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -288,11 +312,13 @@ UICollectionViewDataSource
     AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
     
     AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
-    
+    self.navigationController.navigationBar.hidden = YES;
+    self.videoPlayingView.frame = self.view.bounds;
     [avPlayerLayer setFrame:self.videoPlayingView.frame];
     avPlayerLayer.frame = self.videoPlayingView.bounds;
     
     [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+    self.videoPlayingViewCancelButton.hidden = NO;
     
     [player seekToTime:kCMTimeZero];
     [player play];
@@ -317,41 +343,41 @@ UICollectionViewDataSource
     //    }];
 }
 
--(void)exportDidFinish:(AVAssetExportSession*)session {
-    if (session.status == AVAssetExportSessionStatusCompleted) {
-        //        NSURL *outputURL = session.outputURL;
-        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:session.outputURL];
-        self.sortingProject.shoutout = video;
-    }
-    
-    AVAsset *avAsset = nil;
-    AVPlayerItem *avPlayerItem = nil;
-    AVPlayer *avPlayer = nil;
-    AVPlayerLayer *avPlayerLayer =nil;
-    
-    if (avPlayer.rate > 0 && !avPlayer.error) {
-        [avPlayer pause];
-    }
-    
-    else {
-        
-        avAsset = [self.sortingProject.shoutout assetFromVideoFile];
-        
-        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-        
-        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-        
-        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-        
-        [avPlayerLayer setFrame:self.videoPlayingView.frame];
-        avPlayerLayer.frame = self.videoPlayingView.bounds;
-        
-        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-        
-        [avPlayer seekToTime:kCMTimeZero];
-        [avPlayer play];
-    }
-}
+//-(void)exportDidFinish:(AVAssetExportSession*)session {
+//    if (session.status == AVAssetExportSessionStatusCompleted) {
+//        //        NSURL *outputURL = session.outputURL;
+//        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:session.outputURL];
+//        self.sortingProject.shoutout = video;
+//    }
+//    
+//    AVAsset *avAsset = nil;
+//    AVPlayerItem *avPlayerItem = nil;
+//    AVPlayer *avPlayer = nil;
+//    AVPlayerLayer *avPlayerLayer =nil;
+//    
+//    if (avPlayer.rate > 0 && !avPlayer.error) {
+//        [avPlayer pause];
+//    }
+//    
+//    else {
+//        
+//        avAsset = [self.sortingProject.shoutout assetFromVideoFile];
+//        
+//        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
+//        
+//        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
+//        
+//        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
+//        
+//        [avPlayerLayer setFrame:self.videoPlayingView.frame];
+//        avPlayerLayer.frame = self.videoPlayingView.bounds;
+//        
+//        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+//        
+//        [avPlayer seekToTime:kCMTimeZero];
+//        [avPlayer play];
+//    }
+//}
 
 
 

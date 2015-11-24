@@ -92,6 +92,9 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }
 }
+- (IBAction)cancelButtonTapped:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 /*
 #pragma mark - Navigation

@@ -35,7 +35,10 @@
     self.tableView.estimatedRowHeight = 12.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReload) name:@"ReloadData" object:nil];
     
+   
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
