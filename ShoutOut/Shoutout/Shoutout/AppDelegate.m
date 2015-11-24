@@ -18,6 +18,7 @@
 #import "SORequest.h"
 #import "User.h"
 #import "SOContacts.h"
+#import "SOCachedProjects.h"
 #import <SSKeychain/SSKeychain.h>
 #import <SSKeychain/SSKeychainQuery.h>
 
@@ -29,15 +30,9 @@ NSString * const parseApplicationId = @"ED7PsBQFjJ5e5P8qDW7lw2fTvJlqZ9qecwLrXpGC
 NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 @implementation AppDelegate
 
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-
-
-
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
     [User registerSubclass];
     [SOVideo registerSubclass];
@@ -45,14 +40,14 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SORequest registerSubclass];
     [SOContacts registerSubclass];
     
-//
-//  self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SOLoginViewController alloc] init]];
-//    self.window.backgroundColor = [UIColor whiteColor];
-//    [self.window makeKeyAndVisible];
-//
-    
-    
-    //Push notifications
+    [self setupPushNotifications:application];
+    [self setupSSKeyChain];
+    return YES;
+}
+
+#pragma mark -  Push Notifications
+
+-(void)setupPushNotifications:(UIApplication *)application{
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
                                                     UIUserNotificationTypeBadge |
                                                     UIUserNotificationTypeSound);
@@ -60,40 +55,89 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
                                                                              categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
-    
-    
-    
-    //SSKeyChain
-    // Specify how the keychain items can be access
-    // Do this in your -application:didFinishLaunchingWithOptions: callback
-    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
-    
-    // Set an access token for later use
-    NSString *username = [[NSUUID UUID] UUIDString];
-    NSString *password = [[NSUUID UUID] UUIDString];
-    [SSKeychain setPassword:username forService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
-    [SSKeychain setPassword:password forService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
-
-   
-    [self signUpUserWithSSKeyChain:username :password];
-    
-    // Access that token when needed
-   // [SSKeychain passwordForService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
-    
-    // Delete the token when appropriate (on sign out, perhaps)
-  //  [SSKeychain deletePasswordForService:@"ShoutoutService" account:@"com.Shoutout.keychain"];
-    
-    return YES;
 }
 
--(void)signUpUserWithSSKeyChain:(NSString *)username :(NSString *)password{
+
+
+#pragma mark - SSKeychain Login and Sign up Methods
+
+-(void)setupSSKeyChain
+{
+    // Specify how the keychain items can be accessed
+    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
+    
+//    ([SSKeychain passwordForService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"])
+//    && ([SSKeychain passwordForService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"])
+    
+    
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+       && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
+    {
+        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
+        
+        [self loginUserWithSSKeyChain:username :password];
+        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
+    }
+    
+    else
+    {
+        // Set an access token for later use
+        NSString *username = [[NSUUID UUID] UUIDString];
+        NSString *password = [[NSUUID UUID] UUIDString];
+        [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
+        
+        [SSKeychain setPassword:password forService:@"ShoutoutPasswordService" account:@"com.Shoutout.keychain"];
+
+            [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"username"];
+            [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+        
+        
+        [self signUpUserWithSSKeyChain:username :password];
+        
+        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
+    }
+}
+
+-(void)loginUserWithSSKeyChain:(NSString *)username :(NSString *)password
+{
+    User *user = [User user];
+    user.username = username;
+    user.password = password;
+    
+    NSError *error = nil;
+    [User logInWithUsername:username  password:password error:&error];
+    if(!error)
+    {
+        NSLog(@"Login succeded!");
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+        
+        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+        [[PFInstallation currentInstallation] saveInBackground];
+        
+        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+        self.window.rootViewController = nc;
+    }
+    else
+    {
+        NSLog(@"%@",[error localizedDescription]);
+    }
+
+}
+
+
+-(void)signUpUserWithSSKeyChain:(NSString *)username :(NSString *)password
+{
     User *user = [User user];
     user.username = username;
     user.password = password;
     
     NSError *error = nil;
     [user signUp:&error];
-    if(!error){
+    if(!error)
+    {
         NSLog(@"Sign up succeded!");
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
@@ -104,6 +148,10 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         
         SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
         self.window.rootViewController = nc;
+    }
+    else
+    {
+        NSLog(@"%@",[error localizedDescription]);
     }
 //    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
 //        if(!error){
