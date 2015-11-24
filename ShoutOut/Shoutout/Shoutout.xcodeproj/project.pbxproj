@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		84D61C1A1C0431E700E3D284 /* FullScreenMergeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D61C191C0431E700E3D284 /* FullScreenMergeViewController.m */; };
+		84D61C1E1C050AD300E3D284 /* loaded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84D61C1C1C050AD300E3D284 /* loaded.ttf */; };
+		84D61C1F1C050AD300E3D284 /* SIL Open Font License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84D61C1D1C050AD300E3D284 /* SIL Open Font License.txt */; };
 		84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */; };
 		84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */; };
 		84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */; };
@@ -69,6 +71,8 @@
 		3933170B0C7BDDBBA4F99A84 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		84D61C181C0431E600E3D284 /* FullScreenMergeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenMergeViewController.h; sourceTree = "<group>"; };
 		84D61C191C0431E700E3D284 /* FullScreenMergeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenMergeViewController.m; sourceTree = "<group>"; };
+		84D61C1C1C050AD300E3D284 /* loaded.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = loaded.ttf; sourceTree = "<group>"; };
+		84D61C1D1C050AD300E3D284 /* SIL Open Font License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "SIL Open Font License.txt"; sourceTree = "<group>"; };
 		84E5CF961BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOVideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		84E5CF9B1BF4CA7C00A587E1 /* video1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video1.jpg; sourceTree = "<group>"; };
 		84E5CF9C1BF4CA7C00A587E1 /* video2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = video2.jpg; sourceTree = "<group>"; };
@@ -181,6 +185,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		84D61C1B1C050AD300E3D284 /* loaded */ = {
+			isa = PBXGroup;
+			children = (
+				84D61C1C1C050AD300E3D284 /* loaded.ttf */,
+				84D61C1D1C050AD300E3D284 /* SIL Open Font License.txt */,
+			);
+			path = loaded;
+			sourceTree = "<group>";
+		};
 		84E5CFA11BF4E59F00A587E1 /* SOLoginSignUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +272,7 @@
 		84E9D5611BFB9B98005ACE00 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				84D61C1B1C050AD300E3D284 /* loaded */,
 				84E9D5621BFB9D05005ACE00 /* engadget */,
 				84E9D55C1BFB9B8E005ACE00 /* Boston-Traffic */,
 				84E9D5511BFB8B0D005ACE00 /* Caviar-Dreams */,
@@ -499,8 +513,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				84E9D5681BFB9D05005ACE00 /* README in Resources */,
+				84D61C1F1C050AD300E3D284 /* SIL Open Font License.txt in Resources */,
 				84E9D5661BFB9D05005ACE00 /* COPYING in Resources */,
 				84E9D5571BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf in Resources */,
+				84D61C1E1C050AD300E3D284 /* loaded.ttf in Resources */,
 				84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */,
 				84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */,
 				84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */,

@@ -16,6 +16,7 @@
 #import "SOCachedProjects.h"
 #import "ProfileViewController.h"
 #import "SOSortingViewController.h"
+#import <ChameleonFramework/Chameleon.h>
 
 const CGFloat aspectRatio = 1.77;
 
@@ -54,6 +55,8 @@ typedef enum eventsType{
     [super viewDidLoad];
     //    self.noProjectsTextView.hidden = YES;
     //    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
+    
+    self.view.backgroundColor = [UIColor flatTealColorDark];
     
     self.videoThumbnailsArray = [NSMutableArray new];
     self.plusButton.layer.cornerRadius = 22.5;

@@ -75,7 +75,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     {
         NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
         NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
-        
+     
         [self loginUserWithSSKeyChain:username :password];
         [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
     }
@@ -85,7 +85,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         // Set an access token for later use
         NSString *username = [[NSUUID UUID] UUIDString];
         NSString *password = [[NSUUID UUID] UUIDString];
-        [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
+              [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
         
         [SSKeychain setPassword:password forService:@"ShoutoutPasswordService" account:@"com.Shoutout.keychain"];
 
