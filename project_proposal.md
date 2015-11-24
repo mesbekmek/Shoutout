@@ -19,6 +19,11 @@ Existing products in this sphere fall short on the last feature above, namely 's
 
 Shoutout is a social collaboration platform, as such we envision our primary users to be kids as young as teenagers and adults as old as grandparents (realizing that we'll need a UI/UX that can appeal to this full age range). Our app aims to have a simplistic design, one that doesn't bombard the user with features or ads, but displays only the crutial elements they need to create videos, merge videos, send videos or invite friends.
 
+Description:
+
+Shoutout is an application that allows you to create videos, collaborate on 'events', and easily share them with friends or on social media.
+
+
 ## The Solution 
 
 This project will focus on allowing the user to create a shoutout - a video compilation designed to be collaborative and sharable. 
