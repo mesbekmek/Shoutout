@@ -106,7 +106,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.password = password;
     
     NSError *error = nil;
-    [User logInWithUsername:username  password:password error:&error];
+    [User logInWithUsername:@"1"  password:@"1" error:&error];
     if(!error)
     {
         NSLog(@"Login succeded!");
@@ -135,19 +135,13 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.password = password;
     
     NSError *error = nil;
-<<<<<<< HEAD
     [User logInWithUsername:@"1" password:@"1" error:&error];
     
 
 //    [user signUp:&error];
 //    if(!error){
 //        NSLog(@"Sign up succeded!");
-=======
-    [user signUp:&error];
-    if(!error)
-    {
-        NSLog(@"Sign up succeded!");
->>>>>>> 31ebe8f8317ac4fcf4bffa5f3a0b51cf3b37ee04
+
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
 //        
@@ -156,15 +150,8 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     
         SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
         self.window.rootViewController = nc;
-<<<<<<< HEAD
     //}
-=======
-    }
-    else
-    {
-        NSLog(@"%@",[error localizedDescription]);
-    }
->>>>>>> 31ebe8f8317ac4fcf4bffa5f3a0b51cf3b37ee04
+
 //    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
 //        if(!error){
 //            NSLog(@"Sign up succeded!");
