@@ -293,6 +293,13 @@
 			name = CollaborationSection;
 			sourceTree = "<group>";
 		};
+		C7DED4981C07A02E00C04510 /* CameraOverlay */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = CameraOverlay;
+			sourceTree = "<group>";
+		};
 		DC386D741BEFEBA800562543 = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +357,7 @@
 		DC386DA61BEFF8F900562543 /* SOViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				C7DED4981C07A02E00C04510 /* CameraOverlay */,
 				C7127B731BF678F10069CF76 /* CollaborationSection */,
 				84E5CFA21BF4E5B500A587E1 /* SOProjects */,
 				DCB520C51BFA7B5600DEF285 /* SOProfile */,
