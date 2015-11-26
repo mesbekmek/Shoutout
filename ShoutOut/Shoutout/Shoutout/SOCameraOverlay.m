@@ -15,7 +15,7 @@
     if (self = [super init]) {
         
         self = [[[NSBundle mainBundle] loadNibNamed:@"CameraOverlay" owner:self options:nil] firstObject];
-        
+        [self setUpGestureRecognizer];
         return self;
     }
     

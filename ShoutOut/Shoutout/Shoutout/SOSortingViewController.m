@@ -462,6 +462,8 @@ UICollectionViewDataSource
     self.imagePicker.videoMaximumDuration = kVideoLengthMax2;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     self.cameraOverlay = [[SOCameraOverlay alloc]initFromNib];
+    self.cameraOverlay.frame = CGRectMake(0, 0, self.imagePicker.view.bounds.size.width, self.imagePicker.view.bounds.size.height - 60);
+    self.imagePicker.cameraOverlayView = self.cameraOverlay;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
 
 }
