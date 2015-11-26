@@ -35,6 +35,8 @@
 		C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */; };
 		C767BFC31C02AABF000DB883 /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFC21C02AABF000DB883 /* SOCachedObject.m */; };
 		C7DED4971C05271700C04510 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4961C05271700C04510 /* VideoViewController.m */; };
+		C7DED49C1C07A15700C04510 /* CameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DED4991C07A15700C04510 /* CameraOverlay.xib */; };
+		C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */; };
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
 		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
@@ -113,6 +115,9 @@
 		C767BFC21C02AABF000DB883 /* SOCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedObject.m; sourceTree = "<group>"; };
 		C7DED4951C05271700C04510 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		C7DED4961C05271700C04510 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
+		C7DED4991C07A15700C04510 /* CameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlay.xib; sourceTree = "<group>"; };
+		C7DED49A1C07A15700C04510 /* SOCameraOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCameraOverlay.h; sourceTree = "<group>"; };
+		C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCameraOverlay.m; sourceTree = "<group>"; };
 		D40F78B11C029AAD004D14F0 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		D40F78B21C029AAD004D14F0 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
@@ -296,6 +301,9 @@
 		C7DED4981C07A02E00C04510 /* CameraOverlay */ = {
 			isa = PBXGroup;
 			children = (
+				C7DED4991C07A15700C04510 /* CameraOverlay.xib */,
+				C7DED49A1C07A15700C04510 /* SOCameraOverlay.h */,
+				C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */,
 			);
 			name = CameraOverlay;
 			sourceTree = "<group>";
@@ -527,6 +535,7 @@
 				84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
+				C7DED49C1C07A15700C04510 /* CameraOverlay.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
 				84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */,
 				84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */,
@@ -592,6 +601,7 @@
 				84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */,
 				84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
+				C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */,
 				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
 				C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */,
 				84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */,

@@ -23,6 +23,7 @@
 #import "SOLoginViewController.h"
 #import "FullScreenMergeViewController.h"
 #import "VideoViewController.h"
+#import "SOCameraOverlay.h"
 
 const float kVideoLengthMax2 = 10.0;
 
@@ -83,6 +84,8 @@ UICollectionViewDataSource
 @property (nonatomic) BOOL hasRespondedToSignUp;
 
 @property (nonatomic) UIView *dropDownPlayerView;
+
+@property (nonatomic) SOCameraOverlay *cameraOverlay;
 @end
 
 @implementation SOSortingViewController
@@ -458,17 +461,21 @@ UICollectionViewDataSource
     self.imagePicker.mediaTypes = [[NSArray alloc]initWithObjects:(NSString *)kUTTypeMovie, nil];
     self.imagePicker.videoMaximumDuration = kVideoLengthMax2;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+    self.cameraOverlay = [[SOCameraOverlay alloc]initFromNib];
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-    NSLog(@"mmmm");
 
 }
 
 # pragma mark - Image Picker Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    NSLog(@"aasadadsasdasda");
     
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
+    
+    if ([self.cameraOverlay hasText]) {
+        video.details = self.cameraOverlay.tagTextField.text;
+    }
+    
     [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         [self viewWillAppear:YES];
     }];
@@ -480,15 +487,9 @@ UICollectionViewDataSource
     NSLog(@"sorting proj %@",self.sortingProject.objectId);
     
     [self.sortingProject.videos addObject:video];
-    //Add video to current projects
-    //[self.sortingProject.collaboratorSentVideos addObject:video];
-    //self.sortingProject.collaboratorHasAddedVideo = YES;
-    // Alternative is to use saveEventually, allowing saving when connection is available
-//    [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        NSLog(@"Saved current PROJECT in background");
-//        [collectionView reloadData];
-        [picker dismissViewControllerAnimated:YES completion:nil];
-//    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
