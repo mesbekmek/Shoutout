@@ -11,4 +11,6 @@
 
 @interface SOSignUpViewController : UIViewController<UITextFieldDelegate>
 
+@property (nonatomic) NSString *projectID;
+
 @end
