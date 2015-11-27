@@ -18,6 +18,7 @@
 @dynamic username;
 @dynamic details;
 @dynamic index;
+@dynamic projectId;
 
 +(NSString*)parseClassName{
     
@@ -43,6 +44,21 @@
         else{
             return self;
         }
+    }
+    
+    return nil;
+    
+}
+
+//Use if video is being set from a collaborator
+- (instancetype)initWithVideoUrl:(NSURL *)url andProjectId:(NSString *)projId{
+    
+    if (self = [super init]) {
+        
+        self = [self initWithVideoUrl:url];
+        self.projectId = projId;
+        
+        return self;
     }
     
     return nil;

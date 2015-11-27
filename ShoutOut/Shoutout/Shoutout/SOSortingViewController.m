@@ -22,6 +22,8 @@
 #import "SOSignUpViewController.h"
 #import "SOLoginViewController.h"
 #import "FullScreenMergeViewController.h"
+#import "VideoViewController.h"
+#import "SOCameraOverlay.h"
 
 const float kVideoLengthMax2 = 10.0;
 
@@ -41,6 +43,8 @@ const float kVideoLengthMax2 = 10.0;
     }
     
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ArrayReorderedMustReloadData" object:[NSNumber numberWithInteger:toIndex]];
+    
+    
 }
 @end
 @interface SOSortingViewController ()
@@ -77,6 +81,11 @@ UICollectionViewDataSource
 @property (nonatomic) BOOL doneFetching;
 @property (weak, nonatomic) IBOutlet UIButton *videoPlayingViewCancelButton;
 
+@property (nonatomic) BOOL hasRespondedToSignUp;
+
+@property (nonatomic) UIView *dropDownPlayerView;
+
+@property (nonatomic) SOCameraOverlay *cameraOverlay;
 @end
 
 @implementation SOSortingViewController
@@ -105,6 +114,15 @@ UICollectionViewDataSource
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload:) name:@"ArrayReorderedMustReloadData" object:nil];
     NSLog(@"sorting proj %@",self.sortingProject.objectId);
     [self fetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"SignUpComplete" object:nil];
+}
+
+-(void)popToProfile
+{
+    self.hasRespondedToSignUp = YES;
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
 
 #pragma mark - Query block called
@@ -131,7 +149,11 @@ UICollectionViewDataSource
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite a friend" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        
+        
         SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
+        signUpViewController.projectID = self.sortingProject.objectId;
+        
         [self presentViewController:signUpViewController animated:YES completion:nil];
         //[self dismissViewControllerAnimated:YES completion:^{
         //}];
@@ -200,6 +222,8 @@ UICollectionViewDataSource
     
     [super viewWillDisappear:animated];
     
+    
+    
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved new order of videos, assuming there is a new order");
     }];
@@ -212,6 +236,9 @@ UICollectionViewDataSource
     [[SOCachedProjects sharedManager].cachedProjects removeObjectForKey:self.sortingProject.objectId];
     [[SOCachedProjects sharedManager].cachedProjects setObject:currentlyCached forKey:self.sortingProject.objectId];
     
+    if(self.hasRespondedToSignUp){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MoveToProfile" object:nil];
+    }
     
 }
 
@@ -274,6 +301,9 @@ UICollectionViewDataSource
                                        ofTrack:videoAssetTrack
                                         atTime:time
                                          error:&videoError];
+        //Added this line in an attempt to fix the orientation
+        videoCompositionTrack.preferredTransform = videoAssetTrack.preferredTransform;
+        //
         if (videoError) {
             NSLog(@"Error - %@", videoError.debugDescription);
         }
@@ -311,17 +341,46 @@ UICollectionViewDataSource
     
     AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
     
-    AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
+    VideoViewController *videoVC = [VideoViewController new];
+    videoVC.avPlayer = player;
+    [self presentViewController:videoVC animated:YES completion:nil];
+    
+    //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
     self.navigationController.navigationBar.hidden = YES;
-    self.videoPlayingView.frame = self.view.bounds;
-    [avPlayerLayer setFrame:self.videoPlayingView.frame];
-    avPlayerLayer.frame = self.videoPlayingView.bounds;
     
-    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-    self.videoPlayingViewCancelButton.hidden = NO;
+//    self.videoPlayingView.frame = self.view.bounds;
+//    [avPlayerLayer setFrame:self.videoPlayingView.frame];
+//    avPlayerLayer.frame = self.videoPlayingView.bounds;
+//    
+//    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+//    self.videoPlayingViewCancelButton.hidden = NO;
     
-    [player seekToTime:kCMTimeZero];
-    [player play];
+//    self.dropDownPlayerView = [[UIView alloc]initWithFrame:self.videoPlayingView.bounds];
+//    self.dropDownPlayerView.backgroundColor = [UIColor blackColor];
+//    
+//    [self.view addSubview:self.dropDownPlayerView];
+//    
+//    [UIView animateWithDuration:.3f animations:^{
+//        self.dropDownPlayerView.frame = self.view.bounds;
+//    } completion:^(BOOL finished) {
+//        [avPlayerLayer setFrame:self.dropDownPlayerView.bounds];
+//        [self.dropDownPlayerView.layer addSublayer:avPlayerLayer];
+//        
+//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [button addTarget:self
+//                   action:@selector(cancelPreviewView)
+//         forControlEvents:UIControlEventTouchUpInside];
+//        [button setTitle:@"X" forState:UIControlStateNormal];
+//        button.titleLabel.textColor = [UIColor whiteColor];
+//        button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+//        [self.dropDownPlayerView addSubview:button];
+//        
+//        [player seekToTime:kCMTimeZero];
+//        [player play];
+//    }];
+    
+    
+    
     
     
     //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -341,6 +400,17 @@ UICollectionViewDataSource
     //            [self exportDidFinish:exporter];
     //        });
     //    }];
+}
+
+- (void)cancelPreviewView{
+    
+    [UIView animateWithDuration:.3f animations:^{
+        self.dropDownPlayerView.frame = self.videoPlayingView.bounds;
+    } completion:^(BOOL finished) {
+       self.dropDownPlayerView = nil;
+    }];
+    
+    
 }
 
 //-(void)exportDidFinish:(AVAssetExportSession*)session {
@@ -391,17 +461,23 @@ UICollectionViewDataSource
     self.imagePicker.mediaTypes = [[NSArray alloc]initWithObjects:(NSString *)kUTTypeMovie, nil];
     self.imagePicker.videoMaximumDuration = kVideoLengthMax2;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+    self.cameraOverlay = [[SOCameraOverlay alloc]initFromNib];
+    self.cameraOverlay.frame = CGRectMake(0, 0, self.imagePicker.view.bounds.size.width, self.imagePicker.view.bounds.size.height - 60);
+    self.imagePicker.cameraOverlayView = self.cameraOverlay;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-    NSLog(@"mmmm");
 
 }
 
 # pragma mark - Image Picker Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    NSLog(@"aasadadsasdasda");
     
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
+    
+    if ([self.cameraOverlay hasText]) {
+        video.details = self.cameraOverlay.tagTextField.text;
+    }
+    
     [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         [self viewWillAppear:YES];
     }];
@@ -413,15 +489,9 @@ UICollectionViewDataSource
     NSLog(@"sorting proj %@",self.sortingProject.objectId);
     
     [self.sortingProject.videos addObject:video];
-    //Add video to current projects
-    //[self.sortingProject.collaboratorSentVideos addObject:video];
-    //self.sortingProject.collaboratorHasAddedVideo = YES;
-    // Alternative is to use saveEventually, allowing saving when connection is available
-//    [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        NSLog(@"Saved current PROJECT in background");
-//        [collectionView reloadData];
-        [picker dismissViewControllerAnimated:YES completion:nil];
-//    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{

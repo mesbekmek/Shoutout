@@ -16,9 +16,11 @@
 @property (nonatomic) NSString *username;
 @property (nonatomic) NSString *details;
 @property (nonatomic) NSInteger index;
+@property (nonatomic) NSString *projectId;
 
 + (NSString*)parseClassName;
 - (instancetype)initWithVideoUrl:(NSURL *)url;
+- (instancetype)initWithVideoUrl:(NSURL *)url andProjectId:(NSString *)projId;
 - (AVAsset*)assetFromVideoFile;
 
 @end

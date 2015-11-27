@@ -11,6 +11,8 @@
 #import "SOModel.h"
 #import "ProfileViewController.h"
 #import "SOProjectsViewController.h"
+#import "SOCachedObject.h"
+#import "SOCachedProjects.h"
 
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
@@ -29,7 +31,7 @@
     self.phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.phoneNumberTextField sizeToFit];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"SignUpComplete" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,17 +47,17 @@
     [self.phoneNumberTextField resignFirstResponder];
 }
 
--(void)popToProfile{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-    
-    ProfileViewController *pc = [storyboard instantiateViewControllerWithIdentifier:@"ProfileVC"];
-    [nc pushViewController:pc animated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+
 
 - (IBAction)joinButtonTapped:(UIButton *)sender {
+    UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(view.center.x, view.center.y, 100, 100)];
+    [view addSubview:label];
+    
+    label.text = @"Registering... This may take a few seconds";
+    label.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:view];
+    
     NSString *username = [self.nameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -69,6 +71,10 @@
     
     if ((username && username.length) && (password && password.length) && (email && email.length) && ([phoneNumber length] == 10))
     {
+        User *oldUser = [User currentUser];
+        
+        [User logOut];
+        
         User *thisUser = [[User alloc]initWithContacts];
         
         thisUser.username = username;
@@ -78,6 +84,14 @@
         
         [thisUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if(!error){
+                
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:thisUser.username forKey:@"username"];
+                [[NSUserDefaults standardUserDefaults] setObject:thisUser.password forKey:@"password"];
+                
+                
                 NSLog(@"Sign up succeded!");
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
@@ -87,10 +101,22 @@
                 
                 [[PFInstallation currentInstallation] saveInBackground];
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"SignUpComplete" object:nil];
                 
-                //  SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-                //  [self presentViewController:nc animated:YES completion:nil];
+                SOCachedObject *cached = [[SOCachedProjects sharedManager].cachedProjects objectForKey:self.projectID];
+                
+                cached.cachedProject.createdBy = thisUser.username;
+                
+                [[SOCachedProjects sharedManager].cachedProjects removeObjectForKey:cached.cachedProject.objectId];
+                [[SOCachedProjects sharedManager].cachedProjects setObject:cached forKey:cached.cachedProject.objectId];
+                
+                
+                [cached.cachedProject saveInBackground];
+                
+                
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SignUpComplete" object:nil];
+                    
+                }];
             }else{
                 NSString *errorString = [error userInfo][@"error"];
                 NSLog(@"%@",errorString);

@@ -66,10 +66,6 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     // Specify how the keychain items can be accessed
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
-//    ([SSKeychain passwordForService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"])
-//    && ([SSKeychain passwordForService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"])
-    
-    
     if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
        && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
     {
@@ -134,13 +130,11 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.username = username;
     user.password = password;
     
-    NSError *error = nil;
-    [User logInWithUsername:@"1" password:@"1" error:&error];
-    
+    NSError *error = nil;    
 
-//    [user signUp:&error];
-//    if(!error){
-//        NSLog(@"Sign up succeded!");
+    [user signUp:&error];
+    if(!error){
+        NSLog(@"Sign up succeded!");
 
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
@@ -150,25 +144,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     
         SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
         self.window.rootViewController = nc;
-    //}
-
-//    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if(!error){
-//            NSLog(@"Sign up succeded!");
-//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//            
-//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-//            
-//            [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-//            
-//            [[PFInstallation currentInstallation] saveInBackground];
-//            
-//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-//            self.window.rootViewController = nc;
-//            
-//            self.window.rootViewController = [nc initWithRootViewController:[[SOProjectsViewController alloc] init]];
-//        }
-//    }];
+    }
 }
 
 #pragma mark - Push notification

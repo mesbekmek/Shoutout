@@ -45,6 +45,7 @@ typedef enum eventsType{
 @property (weak, nonatomic) IBOutlet UIView *underlineBar;
 @property (nonatomic) BOOL isAnimating;
 @property (nonatomic) BOOL initialFetchOfVideosComplete;
+@property (weak, nonatomic) IBOutlet UIButton *profileButton;
 
 @end
 
@@ -85,15 +86,28 @@ typedef enum eventsType{
     myLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     [collectionView setCollectionViewLayout:myLayout];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"MoveToProfile" object:nil];
 }
 
 #pragma mark -Navigate to Profile after sign up
 
- 
+-(void)popToProfile{
+
+    [self profileButtonTapped:self.profileButton];
+    
+}
+- (IBAction)profileButtonTapped:(UIButton *)sender {
+    
+    ProfileViewController *profileVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileVC"];
+    [self.navigationController pushViewController:profileVC animated:YES];
+    
+}
+
 #pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
- 
+    self.navigationController.navigationBarHidden = YES;
     [collectionView reloadData];
     [self collectionViewBatchReload];
 }
@@ -141,6 +155,7 @@ typedef enum eventsType{
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
     [query whereKey:@"createdBy" equalTo:[User currentUser].username];
+    NSLog(@"Current User: %@", [User currentUser].username);
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (!error) {
