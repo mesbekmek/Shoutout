@@ -251,9 +251,6 @@
 -(void)queryCurrentUserContactsListOnParse{
     User *currentUser = [User currentUser];
     
-    
-    if(currentUser.contacts != nil){
-    
     PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
     [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
     
@@ -272,11 +269,9 @@
             NSLog(@"query contacts ERROR == %@",error);
         }
     }];
+    
+    
         [self checkSORequestStatus];
-}
-    
-    
-    
 }
 
 -(void)checkSORequestStatus {
