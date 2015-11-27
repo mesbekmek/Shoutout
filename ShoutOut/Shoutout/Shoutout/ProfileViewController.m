@@ -35,7 +35,7 @@
     self.tableView.estimatedRowHeight = 12.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReload) name:@"ReloadData" object:nil];
     
-   
+    
     
 }
 
@@ -68,7 +68,7 @@
         [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
             
             if (didComplete) {
-        
+                
                 self.contactsFromPhoneBook = allContacts;
                 [self.tableView reloadData];
             }
@@ -116,13 +116,13 @@
 //            if (error) {
 //                NSLog(@"Error fetching contacts %@",error);
 //            } else {
-//        
+//
 //                for (CNContact *contact in cnContact) {
 //                    Contact *newContact = [[Contact alloc]initWithPhoneNumberArray];
 //                    newContact.firstName = contact.givenName;
 //                    NSLog(@"first name %@",newContact.firstName);
 ////                    newContact.lastName = contact.familyName;
-//                    
+//
 //                    for (CNLabeledValue *label in contact.phoneNumbers) {
 //                        NSString *phoneNumber = [label.value stringValue];
 //                        if (phoneNumber != nil) {
@@ -132,17 +132,17 @@
 //                            [newContact.phoneNumber addObject:@"N/A"];
 //                        }
 //                    }
-//                    
+//
 //                    [self.contactsFromPhoneBook addObject:newContact];
 //                    NSLog(@"adding to contacts from phone book array");
-//                    
+//
 //                }
 //                NSLog(@"%@ \ncount:%lu",self.contactsFromPhoneBook,self.contactsFromPhoneBook.count);
 //                [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
 //            }
 //        }
 //    }];
-//    
+//
 //}
 
 - (void)callReload{
@@ -251,27 +251,27 @@
 -(void)queryCurrentUserContactsListOnParse{
     User *currentUser = [User currentUser];
     
-    PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
-    [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
-    
-    [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects.count > 0) {
-            SOContacts *contact = objects[0];
-            
-            for (NSString *name in contact.contactsList) {
-                NSLog(@"Contact from Parse == %@",name);
+    if(currentUser.contacts != nil){
+        PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
+        [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+        
+        [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            if (objects.count > 0) {
+                SOContacts *contact = objects[0];
+                
+                for (NSString *name in contact.contactsList) {
+                    NSLog(@"Contact from Parse == %@",name);
+                }
+                
+                self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+                [self.tableView reloadData];
             }
-            
-            self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
-            [self.tableView reloadData];
-        }
-        else{
-            NSLog(@"query contacts ERROR == %@",error);
-        }
-    }];
-    
-    
+            else{
+                NSLog(@"query contacts ERROR == %@",error);
+            }
+        }];
         [self checkSORequestStatus];
+    }
 }
 
 -(void)checkSORequestStatus {
@@ -320,7 +320,7 @@
         }];
         [self.currentUserContacts addObject:newFriend];
         [self pushContactListToParse];
-//        [self addSelfToFromRequest:object];
+        //        [self addSelfToFromRequest:object];
     }];
     
     [newFriendRequest addAction:ignore];
@@ -339,8 +339,8 @@
 }
 
 //-(void)addSelfToFromRequest:(SORequest *)request{
-//    
-//    
+//
+//
 //}
 
 
@@ -392,8 +392,8 @@
     NSString *selectedPhoneNumber = self.contactsFromPhoneBook[sender.tag].phoneNumber[0];
     NSLog(@"phone number selected = %@",selectedPhoneNumber);
     NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
-                            [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                           componentsJoinedByString:@""];
+                                      [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                     componentsJoinedByString:@""];
     if ([formatedPhoneNumber length] == 10) {
         
         [self checkUsernameInParseWithPhoneNumber:formatedPhoneNumber];
@@ -408,7 +408,7 @@
 }
 
 -(void)formatePhoneNumberToDigitsOnly:(NSString *)phoneNumber{
-
+    
     
 }
 

@@ -56,7 +56,6 @@
 		DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC386D8F1BEFEBA900562543 /* Assets.xcassets */; };
 		DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386D911BEFEBA900562543 /* LaunchScreen.storyboard */; };
 		DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D9E1BEFF89500562543 /* ProfileViewController.m */; };
-		DC386DA81BF003C500562543 /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC386DA71BF003C500562543 /* Main.Storyboard */; };
 		DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */; };
 		DC386DF91BF4223C00562543 /* SOProject.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF51BF4223C00562543 /* SOProject.m */; };
 		DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386DF71BF4223C00562543 /* SOVideo.m */; };
@@ -66,6 +65,7 @@
 		DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E0E1BF4290C00562543 /* SOLoginViewController.xib */; };
 		DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E101BF4290C00562543 /* SOSignUpViewController.m */; };
 		DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E111BF4290C00562543 /* SOSignUpViewController.xib */; };
+		DCDA4F131C08372F0090959E /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCDA4F121C08372F0090959E /* Main.Storyboard */; };
 		F386A2585F70466F066DA368 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B31638C861E4996215CDACD0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -148,7 +148,6 @@
 		DC386D941BEFEBA900562543 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC386D9D1BEFF89500562543 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		DC386D9E1BEFF89500562543 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		DC386DA71BF003C500562543 /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 		DC386DA91BF005EE00562543 /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
 		DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
 		DC386DF41BF4223C00562543 /* SOProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOProject.h; sourceTree = "<group>"; };
@@ -165,6 +164,7 @@
 		DC386E0F1BF4290C00562543 /* SOSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSignUpViewController.h; sourceTree = "<group>"; };
 		DC386E101BF4290C00562543 /* SOSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSignUpViewController.m; sourceTree = "<group>"; };
 		DC386E111BF4290C00562543 /* SOSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSignUpViewController.xib; sourceTree = "<group>"; };
+		DCDA4F121C08372F0090959E /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,8 +346,8 @@
 				DC386D831BEFEBA900562543 /* AppDelegate.h */,
 				DC386D841BEFEBA900562543 /* AppDelegate.m */,
 				DC386D861BEFEBA900562543 /* ViewController.h */,
+				DCDA4F121C08372F0090959E /* Main.Storyboard */,
 				DC386D871BEFEBA900562543 /* ViewController.m */,
-				DC386DA71BF003C500562543 /* Main.Storyboard */,
 				DC386E0B1BF424BB00562543 /* extensions */,
 				DCB520C41BFA7B1F00DEF285 /* SOTestVideosAndPictures */,
 				DC386DFB1BF4224500562543 /* SOModel */,
@@ -541,13 +541,13 @@
 				84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */,
 				84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */,
 				84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */,
+				DCDA4F131C08372F0090959E /* Main.Storyboard in Resources */,
 				84E9D55B1BFB8B0D005ACE00 /* Nymphont License.txt in Resources */,
 				84E9D5591BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf in Resources */,
 				84E9D5581BFB8B0D005ACE00 /* CaviarDreams.ttf in Resources */,
 				84E9D55A1BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf in Resources */,
 				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
 				84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */,
-				DC386DA81BF003C500562543 /* Main.Storyboard in Resources */,
 				84E9D5671BFB9D05005ACE00 /* Engadget.ttf in Resources */,
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
