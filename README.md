@@ -1,6 +1,6 @@
 # Shoutout
 
-A project that aims to build an application that will allow its' users to create, edit, compile and share videos with friends and on social media.
+A project that aims to build an application that will allow its users to create, edit, compile and share videos with friends and on social media.
 
 Members:
 

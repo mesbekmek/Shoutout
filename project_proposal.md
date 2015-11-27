@@ -12,12 +12,17 @@ Existing products in this sphere fall short on the last feature above, namely 's
 
  In surveying the App store, we could not find an application that currently implements all the features above. However, popular resources in the realm of video editing and merging include:
 
-* [Video Meger] (https://itunes.apple.com/us/app/video-merger-free-combine/id880953154?mt=8) -  Easily merge videos on your device.  (free, iPhone and iPad).
+* [Video Merger] (https://itunes.apple.com/us/app/video-merger-free-combine/id880953154?mt=8) -  Easily merge videos on your device.  (free, iPhone and iPad).
 * [Glide] (https://itunes.apple.com/us/app/glide-live-video-messenger/id588199307?mt=8) - Glide is the live video messaging app for people who want more personality and expression when communicating with those who know them best.
  
 * [Tribute] (https://www.tribute.co/) - A “Tribute” is the perfect gift for any important occasion. It is a video montage created by a group ("The Tribe”) that comes together to share their appreciation, admiration and encouragement for a person they all care for.
 
 Shoutout is a social collaboration platform, as such we envision our primary users to be kids as young as teenagers and adults as old as grandparents (realizing that we'll need a UI/UX that can appeal to this full age range). Our app aims to have a simplistic design, one that doesn't bombard the user with features or ads, but displays only the crutial elements they need to create videos, merge videos, send videos or invite friends.
+
+Description:
+
+Shoutout is an application that allows you to create videos, collaborate on 'events', and easily share them with friends or on social media.
+
 
 ## The Solution 
 
