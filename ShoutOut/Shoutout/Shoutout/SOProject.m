@@ -8,6 +8,7 @@
 
 #import "SOProject.h"
 #import "SOCachedProjects.h"
+#import "SOCachedObject.h"
 
 @implementation SOProject
 

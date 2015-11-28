@@ -17,6 +17,7 @@
     dispatch_once(&onceToken, ^{
         sharedMyManager = [[self alloc] init];
         sharedMyManager.cachedProjects = [NSMutableDictionary new];
+        sharedMyManager.cachedRequests = [NSMutableDictionary new];
     });
     return sharedMyManager;
 

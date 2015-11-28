@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SOCachedObject.h"
+#import "SOCachedProjects.h"
 
 @interface SOCachedProjects : NSObject
 
 @property (nonatomic) NSMutableDictionary *cachedProjects;
+@property (nonatomic) NSMutableDictionary *cachedRequests;
 
 + (instancetype)sharedManager;
 
