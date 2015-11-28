@@ -10,6 +10,9 @@
 #import "SOModel.h"
 #import "Contact.h"
 #import "PhoneContactTableViewCell.h"
+#import "APAddressBook.h"
+#import "APContact.h"
+#import "APPhone.h"
 
 #import <Contacts/Contacts.h>
 #import <Parse/Parse.h>
@@ -19,6 +22,10 @@
 @property (nonatomic) NSMutableArray *currentUserContacts;
 @property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
 @property (nonatomic) BOOL isOnContact;
+
+@property (nonatomic) NSArray <APContact *> *phoneBookContactList;
+@property (nonatomic, strong) APAddressBook *addressBook;
+
 
 @end
 
@@ -61,23 +68,49 @@
         
     } else {
         
+        
         self.isOnContact = YES;
         self.contactsFromPhoneBook  = [NSMutableArray new];
         
-        Contact *queryContact = [Contact new];
-        [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
-            
-            if (didComplete) {
-                
-                self.contactsFromPhoneBook = allContacts;
-                [self.tableView reloadData];
-            }
-        }];
-        //[self grabDeviceContacts];
+        [self quryPhoneBookContact];
         
-        [self.tableView reloadData];
-        NSLog(@"contacts TVC");
+//        Contact *queryContact = [Contact new];
+//        [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
+//            
+//            if (didComplete) {
+//                
+//                self.contactsFromPhoneBook = allContacts;
+//                [self.tableView reloadData];
+//            }
+//        }];
+//        //[self grabDeviceContacts];
+//        
+//        [self.tableView reloadData];
+//        NSLog(@"contacts TVC");
     }
+    
+}
+
+-(void)quryPhoneBookContact{
+    self.phoneBookContactList = [NSArray new];
+    self.addressBook = [[APAddressBook alloc]init];
+    self.addressBook.fieldsMask = APContactFieldAll;
+    self.addressBook.filterBlock = ^BOOL(APContact *contact)
+    {
+        return contact.phones.count > 0;
+    };
+    self.addressBook.sortDescriptors = @[
+                                         [NSSortDescriptor sortDescriptorWithKey:@"name.firstName" ascending:YES],
+                                         [NSSortDescriptor sortDescriptorWithKey:@"name.lastName" ascending:YES]];
+    
+    [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
+        if (!error) {
+            self.phoneBookContactList = contacts;
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"Error!!! == %@",error);
+        }
+    }];
     
 }
 
@@ -101,6 +134,8 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+
 
 #pragma mark - Phonebook Contact List
 
@@ -353,7 +388,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.isOnContact) {
-        return self.contactsFromPhoneBook.count;
+//        return self.contactsFromPhoneBook.count;
+        return self.phoneBookContactList.count;
     } else {
         return self.currentUserContacts.count + 1;
     }
@@ -371,8 +407,12 @@
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
-        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
+//        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
+//        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
+        
+        cell.nameLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
+        cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
+        
         [cell addSubview:addButton];
         return cell;
     } else {
