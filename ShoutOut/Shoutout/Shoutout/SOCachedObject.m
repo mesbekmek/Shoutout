@@ -7,7 +7,10 @@
 //
 
 #import "SOCachedObject.h"
+#import "SORequest.h"
 
 @implementation SOCachedObject
+
+
 
 @end

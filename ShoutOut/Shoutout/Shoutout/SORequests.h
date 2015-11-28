@@ -10,7 +10,7 @@
 #import <Parse/Parse.h>
 #import "SOCachedObject.h"
 
-@interface SORequest : PFObject <PFSubclassing>
+@interface SORequests : PFObject <PFSubclassing>
 
 @property (nonatomic) NSString *requestSentFrom;
 @property (nonatomic) NSString *requestSentTo;
@@ -18,6 +18,8 @@
 @property (nonatomic) BOOL isAccepted;
 @property (nonatomic) NSString *projectId;
 @property (nonatomic) NSString *projectTitle;
+
+
 
 
 - (instancetype)initWithPendingRequestTo:(NSString *)requestedUser;
@@ -28,8 +30,8 @@
 
 + (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId;
 
-- (void)fetchAllRequests:(void (^)(NSMutableArray <SORequest *> *collaborationRequests, NSMutableArray <SORequest *> *friendRequests,  NSMutableArray <SORequest *> *responseRequests))onCompletion;
+- (void)fetchAllRequests:(void (^)(NSMutableArray <SORequests *> *collaborationRequests, NSMutableArray <SORequests *> *friendRequests,  NSMutableArray <SORequests *> *responseRequests))onCompletion;
 
-- (void)fetchForUpdates:(void (^)(NSMutableArray <SORequest *> *collaborationRequests,NSMutableArray <SORequest *> *friendRequests, NSMutableArray <SORequest *> *responseRequests))onCompletion;
+- (void)fetchForUpdates:(void (^)(NSMutableArray <SORequests *> *collaborationRequests,NSMutableArray <SORequests *> *friendRequests, NSMutableArray <SORequests *> *responseRequests))onCompletion;
 
 @end

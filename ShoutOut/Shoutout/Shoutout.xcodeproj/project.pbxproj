@@ -36,7 +36,7 @@
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */; };
 		C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */; };
-		C7D1F3B61C0A6161001E99FE /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
+		C7D1F3B61C0A6161001E99FE /* SORequests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequests.m */; };
 		C7DED4971C05271700C04510 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4961C05271700C04510 /* VideoViewController.m */; };
 		C7DED49C1C07A15700C04510 /* CameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DED4991C07A15700C04510 /* CameraOverlay.xib */; };
 		C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */; };
@@ -127,8 +127,8 @@
 		C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SONotificationsTableViewController.m; sourceTree = "<group>"; };
 		D40F78B11C029AAD004D14F0 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		D40F78B21C029AAD004D14F0 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
-		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
-		D4115F071BF850ED00C674AC /* SORequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SORequest.m; sourceTree = "<group>"; };
+		D4115F061BF850ED00C674AC /* SORequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequests.h; sourceTree = "<group>"; };
+		D4115F071BF850ED00C674AC /* SORequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SORequests.m; sourceTree = "<group>"; };
 		D4115F091BF8566100C674AC /* SOContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContacts.h; sourceTree = "<group>"; };
 		D4115F0A1BF8566100C674AC /* SOContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContacts.m; sourceTree = "<group>"; };
 		D41C75111C040C2500125CE7 /* PhoneContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneContactTableViewCell.h; sourceTree = "<group>"; };
@@ -412,8 +412,8 @@
 				DC386DF51BF4223C00562543 /* SOProject.m */,
 				DC386DF61BF4223C00562543 /* SOVideo.h */,
 				DC386DF71BF4223C00562543 /* SOVideo.m */,
-				D4115F061BF850ED00C674AC /* SORequest.h */,
-				D4115F071BF850ED00C674AC /* SORequest.m */,
+				D4115F061BF850ED00C674AC /* SORequests.h */,
+				D4115F071BF850ED00C674AC /* SORequests.m */,
 				D4115F091BF8566100C674AC /* SOContacts.h */,
 				D4115F0A1BF8566100C674AC /* SOContacts.m */,
 				C767BFBE1C02AAB0000DB883 /* SOCachedProjects.h */,
@@ -611,7 +611,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7D1F3B61C0A6161001E99FE /* SORequest.m in Sources */,
+				C7D1F3B61C0A6161001E99FE /* SORequests.m in Sources */,
 				84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */,
 				84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,

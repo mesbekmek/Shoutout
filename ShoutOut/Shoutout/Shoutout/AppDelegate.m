@@ -21,6 +21,7 @@
 #import "SOCachedProjects.h"
 #import <SSKeychain/SSKeychain.h>
 #import <SSKeychain/SSKeychainQuery.h>
+#import "SORequests.h"
 
 
 @interface AppDelegate ()
@@ -37,7 +38,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [User registerSubclass];
     [SOVideo registerSubclass];
     [SOProject registerSubclass];
-    [SORequest registerSubclass];
+    [SORequests registerSubclass];
     [SOContacts registerSubclass];
     
     [self setupPushNotifications:application];

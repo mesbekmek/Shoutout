@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SOCachedProjects.h"
 
 @interface SOCachedProjects : NSObject
 
