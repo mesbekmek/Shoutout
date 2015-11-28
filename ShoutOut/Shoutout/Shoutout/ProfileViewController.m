@@ -410,7 +410,14 @@
 //        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
 //        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
         
-        cell.nameLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
+        NSString *lastName;
+        if (!self.phoneBookContactList[indexPath.row].name.lastName) {
+            lastName = @"";
+        } else {
+            lastName = self.phoneBookContactList[indexPath.row].name.lastName;
+        }
+        
+        cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@",self.phoneBookContactList[indexPath.row].name.firstName, lastName];
         cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
         
         [cell addSubview:addButton];
