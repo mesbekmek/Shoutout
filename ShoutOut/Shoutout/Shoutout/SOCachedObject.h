@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "SOProject.h"
-#import "SORequests.h"
+#import "SORequest.h"
 #import "SOCachedProjects.h"
 
 @interface SOCachedObject : NSObject
@@ -23,8 +23,8 @@
 @property (nonatomic) SOVideo *video;
 
 
-@property (nonatomic) NSMutableArray <SORequests *> *collaborationRequestsArray;
-@property (nonatomic) NSMutableArray <SORequests *> *friendRequestsArray;
-@property (nonatomic) NSMutableArray <SORequests *> *responseRequestsArray;
+@property (nonatomic) NSMutableArray <SORequest *> *collaborationRequestsArray;
+@property (nonatomic) NSMutableArray <SORequest *> *friendRequestsArray;
+@property (nonatomic) NSMutableArray <SORequest *> *responseRequestsArray;
 
 @end
