@@ -429,7 +429,8 @@
 
 -(void)addButtonTapped:(UIButton *)sender{
     NSLog(@"Button tapped %ld", sender.tag);
-    NSString *selectedPhoneNumber = self.contactsFromPhoneBook[sender.tag].phoneNumber[0];
+//    NSString *selectedPhoneNumber = self.contactsFromPhoneBook[sender.tag].phoneNumber[0];
+    NSString *selectedPhoneNumber = self.phoneBookContactList[sender.tag].phones[0].number;
     NSLog(@"phone number selected = %@",selectedPhoneNumber);
     NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
                                       [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
