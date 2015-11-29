@@ -438,7 +438,7 @@ UIGestureRecognizerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
-    
+    video.index = self.sortingProject.videos.count;
     if ([self.cameraOverlay hasText]) {
         video.details = self.cameraOverlay.tagTextField.text;
     }
