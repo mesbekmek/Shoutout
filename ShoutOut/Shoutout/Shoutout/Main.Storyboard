@@ -631,7 +631,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-lt-dK1">
-                                <rect key="frame" x="542" y="20" width="50" height="26"/>
+                                <rect key="frame" x="542" y="25" width="50" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CCa-lt-dK1" secondAttribute="height" multiplier="60:31" id="ER6-FK-sHE"/>
                                     <constraint firstAttribute="width" constant="50" id="xHU-zJ-nKW"/>
@@ -655,7 +655,7 @@
                         <constraints>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="1HJ-vg-C3y"/>
                             <constraint firstItem="Qhv-jp-Piz" firstAttribute="top" secondItem="ZbD-np-9IG" secondAttribute="bottom" id="4ER-u0-wGT"/>
-                            <constraint firstItem="CCa-lt-dK1" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="904-xP-3Pq"/>
+                            <constraint firstItem="CCa-lt-dK1" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" constant="5" id="904-xP-3Pq"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="BZ5-8x-mqm"/>
                             <constraint firstItem="bXf-cc-LmZ" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="ECe-QP-b2F"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="top" secondItem="QkB-Gl-R9z" secondAttribute="bottom" id="G7h-Bs-lP0"/>
