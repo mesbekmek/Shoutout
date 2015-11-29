@@ -17,6 +17,7 @@
 #import "ProfileViewController.h"
 #import "SOSortingViewController.h"
 #import <ChameleonFramework/Chameleon.h>
+#import "SONotificationsTableViewController.h"
 
 const CGFloat aspectRatio = 1.77;
 
@@ -102,6 +103,13 @@ typedef enum eventsType{
     ProfileViewController *profileVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileVC"];
     [self.navigationController pushViewController:profileVC animated:YES];
     
+}
+
+- (IBAction)pushToNotifications:(UIButton *)sender {
+
+    SONotificationsTableViewController *notifTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationTableViewController"];
+    [self.navigationController pushViewController:notifTVC animated:YES];
+
 }
 
 #pragma mark - Life Cycle
