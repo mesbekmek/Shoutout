@@ -631,9 +631,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-lt-dK1">
-                                <rect key="frame" x="532" y="20" width="60" height="31"/>
+                                <rect key="frame" x="542" y="20" width="50" height="26"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="xHU-zJ-nKW"/>
+                                    <constraint firstAttribute="width" secondItem="CCa-lt-dK1" secondAttribute="height" multiplier="60:31" id="ER6-FK-sHE"/>
+                                    <constraint firstAttribute="width" constant="50" id="xHU-zJ-nKW"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="Email + Triangle@2x"/>
                             </button>
