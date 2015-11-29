@@ -9,6 +9,7 @@
 #import "SONotificationsTableViewController.h"
 #import <MGSwipeTableCell/MGSwipeButton.h>
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
+#import "SONotificationsHeader.h"
 #import "SOVideo.h"
 #import "SORequest.h"
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -48,6 +49,7 @@ typedef enum hasFetched{
         [self.tableView reloadData];
     }];
     self.navigationController.navigationBarHidden = NO;
+    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,20 +60,21 @@ typedef enum hasFetched{
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
+    
     return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
     if (fetchingStatus == FETCHING) {
         return 0;
     }
     else{
         switch (section) {
             case 0:
+            {
                 return self.collaborationRequests.count;
                 break;
+            }
             case 1:
                 return self.responseRequests.count;
                 break;
@@ -153,6 +156,31 @@ typedef enum hasFetched{
     
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    SONotificationsHeader *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SOHeaderIdentifier"];
+    switch (section) {
+        case 0:
+            header.headerTitle.text = @"Collaboration Requests";
+            break;
+        case 1:
+            header.headerTitle.text = @"Collaboration Replies";
+            break;
+        case 2:
+            header.headerTitle.text = @"Friend Requests";
+            break;
+        default:
+            break;
+    }
+    
+    return header;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 80.0f;
+}
 
 # pragma mark - Video camera setup
 
