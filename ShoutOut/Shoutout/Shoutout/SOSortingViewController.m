@@ -224,7 +224,7 @@ UIGestureRecognizerDelegate
     
     [super viewWillDisappear:animated];
     
-    
+    [self.sortingProject reindexVideos];
     
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved new order of videos, assuming there is a new order");
