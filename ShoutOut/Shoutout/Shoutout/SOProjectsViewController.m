@@ -116,11 +116,15 @@ typedef enum eventsType{
 #pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
     [collectionView reloadData];
     [self collectionViewBatchReload];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+    
+}
 -(void)videoQuery{
     
     

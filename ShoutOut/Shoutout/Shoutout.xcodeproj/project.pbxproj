@@ -41,6 +41,8 @@
 		C7DED49C1C07A15700C04510 /* CameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DED4991C07A15700C04510 /* CameraOverlay.xib */; };
 		C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */; };
 		C7DED4A11C0A349A00C04510 /* SONotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */; };
+		C7F3C8341C0B5FD600B834C7 /* SONotificationsHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F3C8331C0B5FD600B834C7 /* SONotificationsHeader.m */; };
+		C7F3C8361C0B604F00B834C7 /* NotificationsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */; };
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */; };
@@ -127,6 +129,9 @@
 		C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCameraOverlay.m; sourceTree = "<group>"; };
 		C7DED49F1C0A349A00C04510 /* SONotificationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SONotificationsTableViewController.h; sourceTree = "<group>"; };
 		C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SONotificationsTableViewController.m; sourceTree = "<group>"; };
+		C7F3C8321C0B5FD600B834C7 /* SONotificationsHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SONotificationsHeader.h; sourceTree = "<group>"; };
+		C7F3C8331C0B5FD600B834C7 /* SONotificationsHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SONotificationsHeader.m; sourceTree = "<group>"; };
+		C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsHeader.xib; sourceTree = "<group>"; };
 		D40F78B11C029AAD004D14F0 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		D40F78B21C029AAD004D14F0 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
@@ -337,6 +342,9 @@
 			children = (
 				C7DED49F1C0A349A00C04510 /* SONotificationsTableViewController.h */,
 				C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */,
+				C7F3C8321C0B5FD600B834C7 /* SONotificationsHeader.h */,
+				C7F3C8331C0B5FD600B834C7 /* SONotificationsHeader.m */,
+				C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */,
 			);
 			name = SONotifications;
 			sourceTree = "<group>";
@@ -582,6 +590,7 @@
 				DC386D931BEFEBA900562543 /* LaunchScreen.storyboard in Resources */,
 				DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */,
 				C7DED49C1C07A15700C04510 /* CameraOverlay.xib in Resources */,
+				C7F3C8361C0B604F00B834C7 /* NotificationsHeader.xib in Resources */,
 				DC386D901BEFEBA900562543 /* Assets.xcassets in Resources */,
 				84E9D5311BF8F28E005ACE00 /* SOSortingCollectionViewCell.xib in Resources */,
 				84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */,
@@ -634,6 +643,7 @@
 				84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
 				C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */,
+				C7F3C8341C0B5FD600B834C7 /* SONotificationsHeader.m in Sources */,
 				C7DED4A11C0A349A00C04510 /* SONotificationsTableViewController.m in Sources */,
 				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
 				C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */,
