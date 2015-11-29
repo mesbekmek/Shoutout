@@ -57,7 +57,7 @@
         
         self = [self initWithVideoUrl:url];
         self.projectId = projId;
-        
+        self.index = -1;
         return self;
     }
     

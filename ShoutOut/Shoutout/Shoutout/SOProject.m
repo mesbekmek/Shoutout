@@ -69,25 +69,37 @@
     
     NSMutableArray<SOVideo *> *videoFilesArray = [[NSMutableArray alloc]init];
     
-    if (self.collaboratorHasAddedVideo)
-    {
-        [self.videos addObjectsFromArray:self.collaboratorSentVideos];
-        [self.collaboratorSentVideos removeAllObjects];
-        self.collaboratorHasAddedVideo = NO;
-    }
+//    if (self.collaboratorHasAddedVideo)
+//    {
+//        [self.videos addObjectsFromArray:self.collaboratorSentVideos];
+//        [self.collaboratorSentVideos removeAllObjects];
+//        self.collaboratorHasAddedVideo = NO;
+//    }
+    
     for (SOVideo *video in self.videos)
     {
-        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+        NSPredicate *pred = [NSPredicate predicateWithFormat: @"objectId IN %@ OR projectId == %@", [self.videos valueForKey:@"objectId"], self.objectId];
+        PFQuery *query = [PFQuery queryWithClassName:@"SOVideo" predicate:pred];
         
         [query whereKey:@"objectId" containsString:video.objectId];
         
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
             if (!error) {
+                int i = 1;
                 for (SOVideo *vid in objects)
                 {
+                    if (vid.index == -1) {
+                        vid.index = objects.count - i;
+                        [self.videos addObject:vid];
+                        vid.projectId = @"";
+                        i++;
+                    }
                     [videoFilesArray addObject:vid];
                 }
+                
+                [self resortVideosArray];
+                
                 if(videoFilesArray.count == self.videos.count)
                 {
                     NSMutableArray<SOVideo *> *sortedVideoFilesArray =  [self resortVideoFilesArray:videoFilesArray];
@@ -146,6 +158,14 @@
     for (int i = 0; i<self.videos.count; i++) {
         self.videos[i].index = i;
     }
+    
+}
+
+- (void)resortVideosArray{
+    
+    NSSortDescriptor *desc = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    NSArray <SOVideo*> *sorted = [self.videos sortedArrayUsingDescriptors:@[desc]];
+    self.videos = [NSMutableArray arrayWithArray:sorted];
     
 }
 

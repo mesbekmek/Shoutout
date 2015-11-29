@@ -11,6 +11,7 @@
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "SOVideo.h"
 #import "SORequest.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 typedef enum hasFetched{
     
@@ -24,6 +25,10 @@ typedef enum hasFetched{
 @property (nonatomic)NSMutableArray *collaborationRequests;
 @property (nonatomic)NSMutableArray *friendRequests;
 @property (nonatomic)NSMutableArray *responseRequests;
+@property (nonatomic)UIImagePickerController *imagePicker;
+@property (nonatomic)NSString *currentProjectId;
+@property (nonatomic)SORequest *currentRequest;
+
 
 @end
 
@@ -42,6 +47,7 @@ typedef enum hasFetched{
         fetchingStatus = FETCHINGCOMPLETE;
         [self.tableView reloadData];
     }];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,10 +107,6 @@ typedef enum hasFetched{
         MG_Cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"X" backgroundColor:[UIColor redColor]]];
         MG_Cell.leftSwipeSettings.transition = MGSwipeTransitionBorder;
         
-        //configure right buttons
-//        MG_Cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Delete" backgroundColor:[UIColor redColor]],
-//                                 [MGSwipeButton buttonWithTitle:@"More" backgroundColor:[UIColor lightGrayColor]]];
-//        MG_Cell.rightSwipeSettings.transition = MGSwipeTransition3D;
         return MG_Cell;
         
     }
@@ -140,48 +142,46 @@ typedef enum hasFetched{
     }
     
 }
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0) {
+        self.currentRequest = self.collaborationRequests[indexPath.row];
+        self.currentProjectId = self.currentRequest.projectId;
+        [self setupCamera];
+    }
+    
+}
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
 
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+# pragma mark - Video camera setup
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (void)setupCamera{
+    
+    self.imagePicker = [[UIImagePickerController alloc]init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.mediaTypes = [[NSArray alloc]initWithObjects:(NSString *)kUTTypeMovie, nil];
+    self.imagePicker.videoMaximumDuration = 10.0;
+    self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
+    [self presentViewController:self.imagePicker animated:YES completion:NULL];
+}
+
+
+# pragma mark - Image Picker Delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    
+    SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL] andProjectId:self.currentProjectId];
+    self.currentRequest.isAccepted = YES;
+    self.currentRequest.hasDecided = YES;
+    [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"New Video Submitted");
+        [self.collaborationRequests removeObject:self.currentRequest];
+        [self.tableView reloadData];
+    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end
