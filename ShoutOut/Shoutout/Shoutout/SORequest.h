@@ -27,7 +27,7 @@
 
 + (void)sendRequestTo:(NSString *)requestedUser;
 
-+ (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId;
++ (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId andTitle:(NSString *)title;
 
 - (void)fetchAllRequests:(void (^)(NSMutableArray <SORequest *> *collaborationRequests, NSMutableArray <SORequest *> *friendRequests,  NSMutableArray <SORequest *> *responseRequests))onCompletion;
 

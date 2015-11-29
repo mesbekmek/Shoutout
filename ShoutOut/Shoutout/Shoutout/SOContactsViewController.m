@@ -11,6 +11,8 @@
 #import "APAddressBook.h"
 #import "APContact.h"
 #import "APPhone.h"
+#import "SORequest.h"
+#import "Contact.h"
 
 typedef enum actionType{
     
@@ -27,6 +29,7 @@ typedef enum actionType{
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
 
 @property (nonatomic) NSMutableArray *shoutoutFriends;
+@property (nonatomic) NSMutableArray *collaborationFriends;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 
 @property (nonatomic) BOOL nextButtonIsSelected;
@@ -49,6 +52,7 @@ typedef enum actionType{
     self.contactsTableView.dataSource = self;
     selectedCellIndexes = [NSMutableSet new];
     self.shoutoutFriends = [NSMutableArray new];
+    self.collaborationFriends = [NSMutableArray new];
     
 }
 
@@ -84,9 +88,20 @@ typedef enum actionType{
 #pragma mark Next Button
 - (IBAction)nextButtonTapped:(UIButton *)sender {
     
-    self.nextButtonIsSelected = YES;
-   currentActionType = currentActionType == ADD_FRIENDS ? ADD_COLLABORATORS :ADD_FRIENDS;
+    if([self.nextButton.titleLabel.text isEqualToString:@"Done"])
+    {
+        NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
 
+        for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
+        {
+          //  SORequest sendRequestTo:self.shou forProjectId:<#(NSString *)#> andTitle:<#(NSString *)#>
+            [self.collaborationFriends addObject:self.shoutoutFriends[indexPath.row]];
+        }
+    }
+    
+    self.nextButtonIsSelected = YES;
+    currentActionType = currentActionType == ADD_FRIENDS ? ADD_COLLABORATORS :ADD_FRIENDS;
+    
     
     if(self.nextButtonIsSelected){
         self.nextButton.titleLabel.text = currentActionType == ADD_FRIENDS ? @"Next" : @"Done";
@@ -115,10 +130,16 @@ typedef enum actionType{
         }
         self.shoutoutFriends  = [NSMutableArray arrayWithArray:[self.shoutoutFriends sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
         
+        [selectedCellIndexes removeAllObjects];
+        
         [self.contactsTableView reloadData];
     }
     
+    
+    
 }
+
+
 
 #pragma mark - Table view data source
 
@@ -165,24 +186,50 @@ typedef enum actionType{
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
-    {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    if(currentActionType == ADD_FRIENDS){
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        
+        if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
+        {
+            [selectedCellIndexes addObject:indexPath];
+        }
+        else if([selectedCellIndexes containsObject:indexPath])
+        {
+            [selectedCellIndexes removeObject:indexPath];
+        }
     }
-    else
-    {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    
-    if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
-    {
-        [selectedCellIndexes addObject:indexPath];
-    }
-    else if([selectedCellIndexes containsObject:indexPath])
-    {
-        [selectedCellIndexes removeObject:indexPath];
+    else{
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        
+        if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
+        {
+            [selectedCellIndexes addObject:indexPath];
+        }
+        else if([selectedCellIndexes containsObject:indexPath])
+        {
+            [selectedCellIndexes removeObject:indexPath];
+        }
+        
     }
 }
 
