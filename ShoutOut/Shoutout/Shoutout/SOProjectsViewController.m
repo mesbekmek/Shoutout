@@ -59,7 +59,7 @@ typedef enum eventsType{
     //    self.noProjectsTextView.hidden = YES;
     //    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
     
-    self.view.backgroundColor = [UIColor flatTealColorDark];
+    //self.view.backgroundColor = [UIColor flatTealColorDark];
     
     self.videoThumbnailsArray = [NSMutableArray new];
     self.plusButton.layer.cornerRadius = 22.5;
