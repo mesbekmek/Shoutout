@@ -76,10 +76,15 @@
             
             for (SORequest *req in objects) {
                 if ([req.requestSentFrom isEqualToString:[User currentUser].username]) {
-                    [responseReq addObject:req];
+                    if (req.hasDecided!=0) {
+                        [responseReq addObject:req];
+                    }
+                    
                 }
                 else if([req.requestSentTo isEqualToString:[User currentUser].username]){
-                    [collaborationReq addObject:req];
+                    if (req.hasDecided!=0) {
+                        [collaborationReq addObject:req];
+                    }
                 }
                 else{
                     [friendReq addObject:req];
