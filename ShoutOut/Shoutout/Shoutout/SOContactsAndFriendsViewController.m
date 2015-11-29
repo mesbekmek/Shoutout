@@ -33,7 +33,6 @@ typedef enum actionType{
 @property (nonatomic) BOOL isOnContact;
 @property (nonatomic) NSMutableArray *currentUserContacts;
 
-
 @end
 
 @implementation SOContactsAndFriendsViewController
@@ -53,6 +52,9 @@ typedef enum actionType{
     [self.tableView registerNib:soFriendsNib forCellReuseIdentifier:@"SOFriendsCell"];
     
     [self queryCurrentUserContactsListOnParse];
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -243,7 +245,14 @@ typedef enum actionType{
 #pragma mark Tablview data source and delegate methods
 
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    if(self.isOnContact)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -261,7 +270,9 @@ typedef enum actionType{
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(self.isOnContact)
     {
-                SOContactsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactsCell" forIndexPath:indexPath];
+        SOContactsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactsCell" forIndexPath:indexPath];
+        //So that the cell won't be highlighted when it's tapped
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         //        cell.nameLabel.text = self.phoneBookUserName[indexPath.row];
         //        cell.usernameLabel.text =
         return cell;
@@ -269,13 +280,20 @@ typedef enum actionType{
     else
     {
         SOFriendsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOFriendsCell" forIndexPath:indexPath];
-        cell.nameLabel = self.currentUserContacts[indexPath.row];
+        cell.nameLabel.text = self.currentUserContacts[indexPath.row];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         return cell;
     }
     
     
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60.0;
+}
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"%ld",(long)indexPath.row);
+}
 
 
 @end

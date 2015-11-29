@@ -10,4 +10,7 @@
 
 @interface SOContactsAndFriendsViewController : UIViewController
 
+@property (nonatomic) NSString *projectID;
+
+
 @end

@@ -25,6 +25,7 @@
 #import "VideoViewController.h"
 #import "SOCameraOverlay.h"
 #import "SOCachedProjects.h"
+#import "SOContactsAndFriendsViewController.h"
 #import "SOContactsViewController.h"
 const float kVideoLengthMax2 = 10.0;
 
@@ -155,9 +156,12 @@ UIGestureRecognizerDelegate
         
         if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
         {
-            SOContactsViewController *contactsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
-            contactsVC.projectId = self.sortingProject.objectId;
-            [self presentViewController:contactsVC animated:YES completion:nil];
+            SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
+            contactsAndFriendsVC.projectID = self.sortingProject.objectId;
+            [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
+//            SOContactsViewController *contactsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
+//            contactsVC.projectId = self.sortingProject.objectId;
+//            [self presentViewController:contactsVC animated:YES completion:nil];
         }
         else
         {
