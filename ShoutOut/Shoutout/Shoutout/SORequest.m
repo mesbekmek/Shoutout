@@ -82,7 +82,7 @@
                     
                 }
                 else if([req.requestSentTo isEqualToString:[User currentUser].username]){
-                    if (req.hasDecided!=0) {
+                    if (req.hasDecided == 0) {
                         [collaborationReq addObject:req];
                     }
                 }

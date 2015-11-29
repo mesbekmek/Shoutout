@@ -72,7 +72,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
         NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
      
-        [self loginUserWithSSKeyChain:username :password];
+        [self loginUserWithSSKeyChain:@"blue" :@"1"];
         [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
     }
     

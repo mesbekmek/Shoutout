@@ -181,6 +181,10 @@ typedef enum hasFetched{
         [self.tableView reloadData];
     }];
     
+    [self.currentRequest saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"Saved current request");
+    }];
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 

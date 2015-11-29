@@ -37,6 +37,7 @@ typedef enum eventsType{
 @property (nonatomic) NSMutableArray *phoneBookName;
 @property (nonatomic) BOOL isAnimating;
 
+@property (weak, nonatomic) IBOutlet UIView *underlineBar;
 
 
 @end
@@ -77,14 +78,14 @@ typedef enum eventsType{
     
     if (!self.isAnimating) {
         
-//        CGFloat newX = currentEventType == MY_EVENTS? self.underlineBar.bounds.size.width : 0;
-//        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
+        CGFloat newX = currentEventType == MY_EVENTS? self.underlineBar.bounds.size.width : 0;
+        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
         
         self.isAnimating = YES;
         
         [UIView animateWithDuration:.25f animations:^{
             
-//            self.underlineBar.frame = newFrame;
+            self.underlineBar.frame = newFrame;
             
         } completion:^(BOOL finished) {
             
