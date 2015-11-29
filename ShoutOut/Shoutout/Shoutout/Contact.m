@@ -29,24 +29,20 @@
     NSMutableArray *allPhoneNumber = [[NSMutableArray alloc]init];
     for (APContact *contact in phoneBook) {
         NSString *phoneNumber = contact.phones[0].number;
-        NSString *formatedPhoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:
-                                          [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                         componentsJoinedByString:@""];
-    
+        NSString *formatedPhoneNumber = [self formatePhoneNumberTo10Digit:phoneNumber];
         NSLog(@"%@",formatedPhoneNumber);
         if ([formatedPhoneNumber length] == 10) {
+            
             [allPhoneNumber addObject:formatedPhoneNumber];
             NSString *first_name = contact.name.firstName? contact.name.firstName : @"";
             NSString *last_name = contact.name.lastName? contact.name.lastName : @"";
-            
-            [namesForNumbers setObject:[NSString stringWithFormat:@"%@ %@",first_name, last_name] forKey:phoneNumber];
+            [namesForNumbers setObject:[NSString stringWithFormat:@"%@ %@",first_name, last_name] forKey:formatedPhoneNumber];
         } else {
-            NSLog(@"Contact.m formatedPhoneNumber != 10 cannot add to the query list");
+            continue;
         }
-        
 
         
-    }
+        }
     
     PFQuery *query = [User query];
     [query whereKey:@"phoneNumber" containedIn:allPhoneNumber];
@@ -65,8 +61,26 @@
             NSLog(@"ERROR!!! contact Model === %@",error);
         }
     }];
+}
+
+-(NSString *)formatePhoneNumberTo10Digit:(NSString *)phoneNumber{
+        NSString *formatedPhoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:
+                                          [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                         componentsJoinedByString:@""];
+        if ([formatedPhoneNumber length] == 10) {
+            
+            NSLog(@"Number selected %@",formatedPhoneNumber);
+            return formatedPhoneNumber;
     
+        } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
     
+            NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
+            return [formatedPhoneNumber substringFromIndex:1];
+        } else {
+            NSLog(@"Phone Number ----- %@",phoneNumber);
+            return nil;
+            
+        }
 }
 
 - (void)contactsQuery:(void (^)(NSMutableArray<Contact *> *, BOOL))onCompletion{

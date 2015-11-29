@@ -75,7 +75,7 @@
         self.isOnContact = YES;
         self.contactsFromPhoneBook  = [NSMutableArray new];
         
-        [self quryPhoneBookContact];
+        [self queryPhoneBookContact];
         
 //        Contact *queryContact = [Contact new];
 //        [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
@@ -94,7 +94,7 @@
     
 }
 
--(void)quryPhoneBookContact{
+-(void)queryPhoneBookContact{
 //    self.phoneBookContactList = [NSArray new];
     self.addressBook = [[APAddressBook alloc]init];
     self.addressBook.fieldsMask = APContactFieldAll;
