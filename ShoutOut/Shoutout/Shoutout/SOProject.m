@@ -76,12 +76,9 @@
 //        self.collaboratorHasAddedVideo = NO;
 //    }
     
-    for (SOVideo *video in self.videos)
-    {
+    
         NSPredicate *pred = [NSPredicate predicateWithFormat: @"objectId IN %@ OR projectId == %@", [self.videos valueForKey:@"objectId"], self.objectId];
         PFQuery *query = [PFQuery queryWithClassName:@"SOVideo" predicate:pred];
-        
-        [query whereKey:@"objectId" containsString:video.objectId];
         
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
@@ -98,7 +95,7 @@
                     [videoFilesArray addObject:vid];
                 }
                 
-                [self resortVideosArray];
+                //[self resortVideosArray];
                 
                 if(videoFilesArray.count == self.videos.count)
                 {
@@ -120,7 +117,7 @@
                 NSLog(@"Error: %@",[error localizedDescription]);
             }
         }];
-    }
+    
     
     
 }

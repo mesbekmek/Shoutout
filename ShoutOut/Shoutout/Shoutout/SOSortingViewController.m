@@ -224,7 +224,7 @@ UIGestureRecognizerDelegate
     
     [super viewWillDisappear:animated];
     
-    
+    [self.sortingProject reindexVideos];
     
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved new order of videos, assuming there is a new order");
@@ -438,7 +438,7 @@ UIGestureRecognizerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
-    
+    video.index = self.sortingProject.videos.count;
     if ([self.cameraOverlay hasText]) {
         video.details = self.cameraOverlay.tagTextField.text;
     }
