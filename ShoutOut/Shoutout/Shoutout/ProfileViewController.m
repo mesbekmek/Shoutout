@@ -23,8 +23,10 @@
 @property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
 @property (nonatomic) BOOL isOnContact;
 
-@property (nonatomic) NSArray <APContact *> *phoneBookContactList;
+//@property (nonatomic) NSArray <APContact *> *phoneBookContactList;
 @property (nonatomic, strong) APAddressBook *addressBook;
+@property (nonatomic) NSMutableArray *phoneBookUserName;
+@property (nonatomic) NSMutableArray *phoneBookName;
 
 
 @end
@@ -37,10 +39,11 @@
     self.tableView.dataSource = self;
     self.navigationController.navigationBarHidden = YES;
     self.isOnContact = NO;
+
+
     
     [self queryCurrentUserContactsListOnParse];
     self.tableView.estimatedRowHeight = 12.0f;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(callReload) name:@"ReloadData" object:nil];
     
     
     
@@ -92,7 +95,7 @@
 }
 
 -(void)quryPhoneBookContact{
-    self.phoneBookContactList = [NSArray new];
+//    self.phoneBookContactList = [NSArray new];
     self.addressBook = [[APAddressBook alloc]init];
     self.addressBook.fieldsMask = APContactFieldAll;
     self.addressBook.filterBlock = ^BOOL(APContact *contact)
@@ -105,8 +108,19 @@
     
     [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
         if (!error) {
-            self.phoneBookContactList = contacts;
-            [self.tableView reloadData];
+//            self.phoneBookContactList =
+            self.phoneBookName = [NSMutableArray new];
+            self.phoneBookUserName = [NSMutableArray new];
+            Contact *queryParse = [Contact new];
+            [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
+                for (User *user in users) {
+                    NSString *phoneNumber = user.phoneNumber;
+                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
+                    [self.phoneBookUserName addObject:phoneBookName];
+                    [self.phoneBookName addObject:user.username];
+                }
+                [self.tableView reloadData];
+            }];
         } else {
             NSLog(@"Error!!! == %@",error);
         }
@@ -389,7 +403,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.isOnContact) {
 //        return self.contactsFromPhoneBook.count;
-        return self.phoneBookContactList.count;
+//        return self.phoneBookContactList.count;
+        return self.phoneBookName.count;
     } else {
         return self.currentUserContacts.count + 1;
     }
@@ -410,15 +425,19 @@
 //        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
 //        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
         
-        NSString *lastName;
-        if (!self.phoneBookContactList[indexPath.row].name.lastName) {
-            lastName = @"";
-        } else {
-            lastName = self.phoneBookContactList[indexPath.row].name.lastName;
-        }
+//        NSString *lastName;
+//        if (!self.phoneBookContactList[indexPath.row].name.lastName) {
+//            lastName = @"";
+//        } else {
+//            lastName = self.phoneBookContactList[indexPath.row].name.lastName;
+//        }
+//        
+//        cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@",self.phoneBookContactList[indexPath.row].name.firstName, lastName];
+//        cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
         
-        cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@",self.phoneBookContactList[indexPath.row].name.firstName, lastName];
-        cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
+        cell.nameLabel.text = self.phoneBookUserName[indexPath.row];
+        cell.phoneNumberLabel.text = self.phoneBookName[indexPath.row];
+        
         
         [cell addSubview:addButton];
         return cell;
@@ -436,23 +455,22 @@
 
 -(void)addButtonTapped:(UIButton *)sender{
     NSLog(@"Button tapped %ld", sender.tag);
-//    NSString *selectedPhoneNumber = self.contactsFromPhoneBook[sender.tag].phoneNumber[0];
-    NSString *selectedPhoneNumber = self.phoneBookContactList[sender.tag].phones[0].number;
-    NSLog(@"phone number selected = %@",selectedPhoneNumber);
-    NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
-                                      [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                     componentsJoinedByString:@""];
-    if ([formatedPhoneNumber length] == 10) {
-        
-        [self checkUsernameInParseWithPhoneNumber:formatedPhoneNumber];
-        NSLog(@"Number selected %@",formatedPhoneNumber);
-        
-    } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
-        
-        [self checkUsernameInParseWithPhoneNumber:[formatedPhoneNumber substringFromIndex:1]];
-        NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
-        
-    }
+//    NSString *selectedPhoneNumber = self.phoneBookContactList[sender.tag].phones[0].number;
+//    NSLog(@"phone number selected = %@",selectedPhoneNumber);
+//    NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
+//                                      [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+//                                     componentsJoinedByString:@""];
+//    if ([formatedPhoneNumber length] == 10) {
+//        
+//        [self checkUsernameInParseWithPhoneNumber:formatedPhoneNumber];
+//        NSLog(@"Number selected %@",formatedPhoneNumber);
+//        
+//    } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
+//        
+//        [self checkUsernameInParseWithPhoneNumber:[formatedPhoneNumber substringFromIndex:1]];
+//        NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
+//        
+//    }
 }
 
 -(void)formatePhoneNumberToDigitsOnly:(NSString *)phoneNumber{
