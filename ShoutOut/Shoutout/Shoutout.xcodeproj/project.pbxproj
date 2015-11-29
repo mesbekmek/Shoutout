@@ -50,6 +50,7 @@
 		D49BF4931BEFF80E00340627 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4921BEFF80E00340627 /* AVKit.framework */; };
 		D49BF4951BEFF83100340627 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4941BEFF83100340627 /* AssetsLibrary.framework */; };
 		D49BF4971BEFF88100340627 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF4961BEFF88100340627 /* CoreMedia.framework */; };
+		D4A57F111C0A064C00132369 /* PhoneBookContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A57F101C0A064C00132369 /* PhoneBookContactTableViewController.m */; };
 		DC386D821BEFEBA900562543 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D811BEFEBA900562543 /* main.m */; };
 		DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D841BEFEBA900562543 /* AppDelegate.m */; };
 		DC386D881BEFEBA900562543 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386D871BEFEBA900562543 /* ViewController.m */; };
@@ -139,6 +140,8 @@
 		D49BF4921BEFF80E00340627 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		D49BF4941BEFF83100340627 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D49BF4961BEFF88100340627 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		D4A57F0F1C0A064C00132369 /* PhoneBookContactTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneBookContactTableViewController.h; sourceTree = "<group>"; };
+		D4A57F101C0A064C00132369 /* PhoneBookContactTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneBookContactTableViewController.m; sourceTree = "<group>"; };
 		DC386D7D1BEFEBA900562543 /* Shoutout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shoutout.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC386D811BEFEBA900562543 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DC386D831BEFEBA900562543 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -463,6 +466,8 @@
 			children = (
 				DC386DA91BF005EE00562543 /* ContactsTableViewController.h */,
 				DC386DAA1BF005EE00562543 /* ContactsTableViewController.m */,
+				D4A57F0F1C0A064C00132369 /* PhoneBookContactTableViewController.h */,
+				D4A57F101C0A064C00132369 /* PhoneBookContactTableViewController.m */,
 			);
 			name = SOContacts;
 			sourceTree = "<group>";
@@ -634,6 +639,7 @@
 				C7DED4971C05271700C04510 /* VideoViewController.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
+				D4A57F111C0A064C00132369 /* PhoneBookContactTableViewController.m in Sources */,
 				D40F78B31C029AAD004D14F0 /* Contact.m in Sources */,
 				84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */,
 				84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */,

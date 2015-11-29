@@ -4,3 +4,4 @@ pod 'BMACollectionViewLayouts’, :git => 'https://github.com/mesbekmek/BMAColle
 pod 'SSKeychain'
 pod 'ChameleonFramework'
 pod 'MGSwipeTableCell'
+pod 'APAddressBook'

@@ -1,4 +1,7 @@
 PODS:
+  - APAddressBook (0.2.1):
+    - APAddressBook/Core (= 0.2.1)
+  - APAddressBook/Core (0.2.1)
   - BMACollectionViewLayouts (1.0.0)
   - Bolts/Tasks (1.4.0)
   - ChameleonFramework (2.0.4):
@@ -13,6 +16,7 @@ PODS:
   - SSKeychain (1.2.3)
 
 DEPENDENCIES:
+  - APAddressBook
   - BMACollectionViewLayouts (from `https://github.com/mesbekmek/BMACollectionViewLayouts`)
   - ChameleonFramework
   - MGSwipeTableCell
@@ -30,6 +34,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/mesbekmek/BMACollectionViewLayouts
 
 SPEC CHECKSUMS:
+  APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
   BMACollectionViewLayouts: 3fda4666f5b1f6942a54cb9d11519519882a5898
   Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
   ChameleonFramework: 5abe69b1f2a6cc79c3c435fcd9d3d855748225ee
