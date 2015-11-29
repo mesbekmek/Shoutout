@@ -67,6 +67,7 @@
 		DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E101BF4290C00562543 /* SOSignUpViewController.m */; };
 		DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E111BF4290C00562543 /* SOSignUpViewController.xib */; };
 		DCDA4F131C08372F0090959E /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCDA4F121C08372F0090959E /* Main.Storyboard */; };
+		DCF5EF791C0A33020021B135 /* SOContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF5EF781C0A33020021B135 /* SOContactsViewController.m */; };
 		F386A2585F70466F066DA368 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B31638C861E4996215CDACD0 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +169,8 @@
 		DC386E101BF4290C00562543 /* SOSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSignUpViewController.m; sourceTree = "<group>"; };
 		DC386E111BF4290C00562543 /* SOSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSignUpViewController.xib; sourceTree = "<group>"; };
 		DCDA4F121C08372F0090959E /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
+		DCF5EF771C0A33020021B135 /* SOContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContactsViewController.h; sourceTree = "<group>"; };
+		DCF5EF781C0A33020021B135 /* SOContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContactsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +224,7 @@
 		84E5CFA21BF4E5B500A587E1 /* SOProjects */ = {
 			isa = PBXGroup;
 			children = (
+				DC1097711C0A1B1500163438 /* SOContactsAndFriends */,
 				DCB520C71BFA7FB200DEF285 /* New Projects */,
 				84E9D52B1BF8F228005ACE00 /* My projects */,
 				84E9D52C1BF8F243005ACE00 /* Sorting */,
@@ -323,6 +327,15 @@
 				C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */,
 			);
 			name = CameraOverlay;
+			sourceTree = "<group>";
+		};
+		DC1097711C0A1B1500163438 /* SOContactsAndFriends */ = {
+			isa = PBXGroup;
+			children = (
+				DCF5EF771C0A33020021B135 /* SOContactsViewController.h */,
+				DCF5EF781C0A33020021B135 /* SOContactsViewController.m */,
+			);
+			name = SOContactsAndFriends;
 			sourceTree = "<group>";
 		};
 		DC386D741BEFEBA800562543 = {
@@ -640,6 +653,7 @@
 				C7DED4971C05271700C04510 /* VideoViewController.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
+				DCF5EF791C0A33020021B135 /* SOContactsViewController.m in Sources */,
 				D4A57F111C0A064C00132369 /* PhoneBookContactTableViewController.m in Sources */,
 				D40F78B31C029AAD004D14F0 /* Contact.m in Sources */,
 				84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */,
