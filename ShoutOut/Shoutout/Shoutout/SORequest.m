@@ -40,7 +40,7 @@
 }
 
 //Collaborations
-- (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId andTitle:(NSString *)title{
++ (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId andTitle:(NSString *)title{
     
     SORequest *request = [[SORequest alloc]initWithPendingRequestTo:requestedUser];
     request.projectId = projId;

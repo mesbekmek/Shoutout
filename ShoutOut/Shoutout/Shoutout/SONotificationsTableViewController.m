@@ -10,7 +10,7 @@
 #import <MGSwipeTableCell/MGSwipeButton.h>
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "SOVideo.h"
-#import "SORequest.h";
+#import "SORequest.h"
 
 typedef enum hasFetched{
     

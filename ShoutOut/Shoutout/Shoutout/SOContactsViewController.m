@@ -28,13 +28,14 @@ typedef enum actionType{
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
 
-@property (nonatomic) NSMutableArray *shoutoutFriends;
 @property (nonatomic) NSMutableArray *collaborationFriends;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 
-@property (nonatomic) BOOL nextButtonIsSelected;
 @property (weak, nonatomic) IBOutlet UILabel *actionLabel;
 
+@property (nonatomic) NSMutableArray *phoneBookName;
+@property (nonatomic) NSMutableArray *phoneBookUserName;
+@property (nonatomic) NSMutableDictionary *usernamesForNames;
 
 @end
 
@@ -51,12 +52,16 @@ typedef enum actionType{
     self.contactsTableView.delegate = self;
     self.contactsTableView.dataSource = self;
     selectedCellIndexes = [NSMutableSet new];
-    self.shoutoutFriends = [NSMutableArray new];
     self.collaborationFriends = [NSMutableArray new];
+    self.usernamesForNames = [NSMutableDictionary new];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SetViewToHidden" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SOContactsLoaded" object:nil];
     
 }
 
 -(void)queryPhoneBookContact{
+    
     self.phoneBookContactList = [NSArray new];
     self.addressBook = [[APAddressBook alloc]init];
     self.addressBook.fieldsMask = APContactFieldAll;
@@ -70,15 +75,27 @@ typedef enum actionType{
     
     [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
         if (!error) {
-            self.phoneBookContactList = contacts;
-            [self.contactsTableView reloadData];
+            //            self.phoneBookContactList =
+            self.phoneBookName = [NSMutableArray new];
+            self.phoneBookUserName = [NSMutableArray new];
+            Contact *queryParse = [Contact new];
+            [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
+                for (User *user in users) {
+                    NSString *phoneNumber = user.phoneNumber;
+                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
+                    [self.phoneBookName addObject:phoneBookName];
+                    [self.phoneBookUserName addObject:user.username];
+                    [self.usernamesForNames setObject:user.username forKey:phoneBookName];
+                }
+                [self.contactsTableView reloadData];
+            }];
         } else {
             NSLog(@"Error!!! == %@",error);
         }
     }];
     
-    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -91,25 +108,24 @@ typedef enum actionType{
     if([self.nextButton.titleLabel.text isEqualToString:@"Done"])
     {
         NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
-
+        NSArray *keys = [[self.usernamesForNames allKeys]sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
         {
-          //  SORequest sendRequestTo:self.shou forProjectId:<#(NSString *)#> andTitle:<#(NSString *)#>
-            [self.collaborationFriends addObject:self.shoutoutFriends[indexPath.row]];
+            NSString *username = (NSString *)self.usernamesForNames[keys[indexPath.row]];
+            [SORequest sendRequestTo:username forProjectId:self.projectId andTitle:self.titleTextField.text];
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
     
-    self.nextButtonIsSelected = YES;
-    currentActionType = currentActionType == ADD_FRIENDS ? ADD_COLLABORATORS :ADD_FRIENDS;
     
     
-    if(self.nextButtonIsSelected){
-        self.nextButton.titleLabel.text = currentActionType == ADD_FRIENDS ? @"Next" : @"Done";
+    if(currentActionType == ADD_FRIENDS)
+    {
         [self.nextButton setTitle:@"Done" forState:UIControlStateNormal];
+        currentActionType = currentActionType == ADD_FRIENDS ? ADD_COLLABORATORS :ADD_FRIENDS;
+        self.actionLabel.text = @"Add collaborators";
     }
-    
-    self.actionLabel.text = @"Add collaborators";
-    
     
     if([selectedCellIndexes count] == 0){
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -124,19 +140,29 @@ typedef enum actionType{
     {
         NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
         
+        NSMutableArray *tempUsernameArray = [NSMutableArray new];
+        NSMutableArray *tempNameArray = [NSMutableArray new];
+        NSMutableDictionary *tempUsernameForNames = [NSMutableDictionary new];
+        NSArray *keys = [[self.usernamesForNames allKeys]sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
         for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
         {
-            [self.shoutoutFriends addObject:self.phoneBookContactList[indexPath.row].name.firstName];
+            
+//            [tempUsernameArray addObject:self.phoneBookUserName[indexPath.row]];
+//            [tempNameArray addObject:self.phoneBookName[indexPath.row]];
+            [tempUsernameForNames setObject:self.usernamesForNames[keys[indexPath.row]] forKey:keys[indexPath.row] ];
         }
-        self.shoutoutFriends  = [NSMutableArray arrayWithArray:[self.shoutoutFriends sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        self.phoneBookUserName = tempUsernameArray;
+        self.phoneBookName = tempNameArray;
+        self.usernamesForNames = tempUsernameForNames;
+        
+        self.phoneBookName = [NSMutableArray arrayWithArray:[self.phoneBookName sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+        
+        
         
         [selectedCellIndexes removeAllObjects];
         
         [self.contactsTableView reloadData];
     }
-    
-    
-    
 }
 
 
@@ -148,13 +174,7 @@ typedef enum actionType{
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.nextButtonIsSelected)
-    {
-        self.nextButtonIsSelected = NO;
-        return  [self.shoutoutFriends count];
-        
-    }
-    return self.phoneBookContactList.count;
+    return [self.usernamesForNames allKeys].count;
 }
 
 
@@ -165,72 +185,55 @@ typedef enum actionType{
     
     cell.accessoryType = UITableViewCellAccessoryNone;
     
+    NSArray *keys = [[self.usernamesForNames allKeys]sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
     if([selectedCellIndexes containsObject:indexPath]){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     
-    if(self.shoutoutFriends.count>0)
+//    if(self.shoutoutFriends.count>0)
+    if (keys.count>0)
     {
-        cell.textLabel.text = self.shoutoutFriends[indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", keys[indexPath.row]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [self.usernamesForNames objectForKey:keys[indexPath.row]]];
     }
     else{
-        cell.textLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
-        if(self.phoneBookContactList[indexPath.row].phones[0] != nil)
-        {
-            cell.detailTextLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
-        }
+        
     }
+//    else{
+//        cell.textLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
+//        if(self.phoneBookContactList[indexPath.row].phones[0] != nil)
+//        {
+//            cell.detailTextLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
+//        }
+//    }
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        
+        if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
+        {
+            [selectedCellIndexes addObject:indexPath];
+        }
+        else if([selectedCellIndexes containsObject:indexPath])
+        {
+            [selectedCellIndexes removeObject:indexPath];
+        }
     
-    if(currentActionType == ADD_FRIENDS){
-        
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        
-        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
-        {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        else
-        {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
-        
-        if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
-        {
-            [selectedCellIndexes addObject:indexPath];
-        }
-        else if([selectedCellIndexes containsObject:indexPath])
-        {
-            [selectedCellIndexes removeObject:indexPath];
-        }
-    }
-    else{
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        
-        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
-        {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        else
-        {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
-        
-        if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
-        {
-            [selectedCellIndexes addObject:indexPath];
-        }
-        else if([selectedCellIndexes containsObject:indexPath])
-        {
-            [selectedCellIndexes removeObject:indexPath];
-        }
-        
-    }
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

@@ -32,6 +32,18 @@
     self.emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [self.phoneNumberTextField sizeToFit];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSignUp) name:@"SOContactsLoaded" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSignUp) name:@"SetViewToHidden" object:nil];
+    
+}
+
+-(void)dismissSignUp{
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+-(void)hideSignUp{
+    [self.view setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,6 +127,7 @@
 
                 
                 SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
+                contactsVC.projectId = self.projectID;
                 [self presentViewController:contactsVC animated:YES completion:nil];
                 
                // [self dismissViewControllerAnimated:YES completion:^{
