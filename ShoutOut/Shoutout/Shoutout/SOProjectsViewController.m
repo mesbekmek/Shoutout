@@ -47,6 +47,7 @@ typedef enum eventsType{
 @property (nonatomic) BOOL initialFetchOfVideosComplete;
 @property (weak, nonatomic) IBOutlet UIButton *profileButton;
 
+
 @end
 
 @implementation SOProjectsViewController

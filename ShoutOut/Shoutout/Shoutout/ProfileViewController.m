@@ -17,6 +17,14 @@
 #import <Contacts/Contacts.h>
 #import <Parse/Parse.h>
 
+typedef enum eventsType{
+    
+    MY_EVENTS = 0,
+    MY_COLLABORATIONS
+    
+} EventsType;
+
+
 @interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) NSMutableArray *currentUserContacts;
@@ -27,11 +35,15 @@
 @property (nonatomic, strong) APAddressBook *addressBook;
 @property (nonatomic) NSMutableArray *phoneBookUserName;
 @property (nonatomic) NSMutableArray *phoneBookName;
+@property (nonatomic) BOOL isAnimating;
+
 
 
 @end
 
-@implementation ProfileViewController
+@implementation ProfileViewController{
+    EventsType currentEventType;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.allowsSelection = NO;
@@ -39,14 +51,11 @@
     self.tableView.dataSource = self;
     self.navigationController.navigationBarHidden = YES;
     self.isOnContact = NO;
-
-
+    
+    
     
     [self queryCurrentUserContactsListOnParse];
     self.tableView.estimatedRowHeight = 12.0f;
-    
-    
-    
 }
 
 
@@ -60,6 +69,30 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)settingButtonTapped:(UIButton *)sender {
+    
+}
+
+#pragma mark - Animation
+- (void)animateUnderlineBar{
+    
+    if (!self.isAnimating) {
+        
+//        CGFloat newX = currentEventType == MY_EVENTS? self.underlineBar.bounds.size.width : 0;
+//        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
+        
+        self.isAnimating = YES;
+        
+        [UIView animateWithDuration:.25f animations:^{
+            
+//            self.underlineBar.frame = newFrame;
+            
+        } completion:^(BOOL finished) {
+            
+            self.isAnimating = NO;
+            currentEventType = currentEventType == MY_EVENTS? MY_COLLABORATIONS : MY_EVENTS;
+        }];
+        
+    }
     
 }
 
@@ -77,25 +110,28 @@
         
         [self queryPhoneBookContact];
         
-//        Contact *queryContact = [Contact new];
-//        [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
-//            
-//            if (didComplete) {
-//                
-//                self.contactsFromPhoneBook = allContacts;
-//                [self.tableView reloadData];
-//            }
-//        }];
-//        //[self grabDeviceContacts];
-//        
-//        [self.tableView reloadData];
-//        NSLog(@"contacts TVC");
+        //        Contact *queryContact = [Contact new];
+        //        [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
+        //
+        //            if (didComplete) {
+        //
+        //                self.contactsFromPhoneBook = allContacts;
+        //                [self.tableView reloadData];
+        //            }
+        //        }];
+        //        //[self grabDeviceContacts];
+        //
+        //        [self.tableView reloadData];
+        //        NSLog(@"contacts TVC");
     }
-    
+    if (self.isAnimating || (sender.tag ==0 && currentEventType == MY_EVENTS) || (sender.tag == 1 && currentEventType == MY_COLLABORATIONS)) {
+        return;
+    }
+    [self animateUnderlineBar];
 }
 
 -(void)queryPhoneBookContact{
-//    self.phoneBookContactList = [NSArray new];
+    //    self.phoneBookContactList = [NSArray new];
     self.addressBook = [[APAddressBook alloc]init];
     self.addressBook.fieldsMask = APContactFieldAll;
     self.addressBook.filterBlock = ^BOOL(APContact *contact)
@@ -108,7 +144,7 @@
     
     [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
         if (!error) {
-//            self.phoneBookContactList =
+            //            self.phoneBookContactList =
             self.phoneBookName = [NSMutableArray new];
             self.phoneBookUserName = [NSMutableArray new];
             Contact *queryParse = [Contact new];
@@ -402,8 +438,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.isOnContact) {
-//        return self.contactsFromPhoneBook.count;
-//        return self.phoneBookContactList.count;
+        //        return self.contactsFromPhoneBook.count;
+        //        return self.phoneBookContactList.count;
         return self.phoneBookName.count;
     } else {
         return self.currentUserContacts.count + 1;
@@ -422,18 +458,18 @@
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-//        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
-//        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
+        //        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
+        //        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
         
-//        NSString *lastName;
-//        if (!self.phoneBookContactList[indexPath.row].name.lastName) {
-//            lastName = @"";
-//        } else {
-//            lastName = self.phoneBookContactList[indexPath.row].name.lastName;
-//        }
-//        
-//        cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@",self.phoneBookContactList[indexPath.row].name.firstName, lastName];
-//        cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
+        //        NSString *lastName;
+        //        if (!self.phoneBookContactList[indexPath.row].name.lastName) {
+        //            lastName = @"";
+        //        } else {
+        //            lastName = self.phoneBookContactList[indexPath.row].name.lastName;
+        //        }
+        //
+        //        cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@",self.phoneBookContactList[indexPath.row].name.firstName, lastName];
+        //        cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
         
         cell.nameLabel.text = self.phoneBookUserName[indexPath.row];
         cell.phoneNumberLabel.text = self.phoneBookName[indexPath.row];
@@ -455,22 +491,22 @@
 
 -(void)addButtonTapped:(UIButton *)sender{
     NSLog(@"Button tapped %ld", sender.tag);
-//    NSString *selectedPhoneNumber = self.phoneBookContactList[sender.tag].phones[0].number;
-//    NSLog(@"phone number selected = %@",selectedPhoneNumber);
-//    NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
-//                                      [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-//                                     componentsJoinedByString:@""];
-//    if ([formatedPhoneNumber length] == 10) {
-//        
-//        [self checkUsernameInParseWithPhoneNumber:formatedPhoneNumber];
-//        NSLog(@"Number selected %@",formatedPhoneNumber);
-//        
-//    } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
-//        
-//        [self checkUsernameInParseWithPhoneNumber:[formatedPhoneNumber substringFromIndex:1]];
-//        NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
-//        
-//    }
+    //    NSString *selectedPhoneNumber = self.phoneBookContactList[sender.tag].phones[0].number;
+    //    NSLog(@"phone number selected = %@",selectedPhoneNumber);
+    //    NSString *formatedPhoneNumber = [[selectedPhoneNumber componentsSeparatedByCharactersInSet:
+    //                                      [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+    //                                     componentsJoinedByString:@""];
+    //    if ([formatedPhoneNumber length] == 10) {
+    //
+    //        [self checkUsernameInParseWithPhoneNumber:formatedPhoneNumber];
+    //        NSLog(@"Number selected %@",formatedPhoneNumber);
+    //
+    //    } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
+    //
+    //        [self checkUsernameInParseWithPhoneNumber:[formatedPhoneNumber substringFromIndex:1]];
+    //        NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
+    //
+    //    }
 }
 
 -(void)formatePhoneNumberToDigitsOnly:(NSString *)phoneNumber{
