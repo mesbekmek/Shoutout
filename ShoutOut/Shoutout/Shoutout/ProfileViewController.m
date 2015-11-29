@@ -54,7 +54,6 @@ typedef enum eventsType{
     self.isOnContact = NO;
     
     
-    
     [self queryCurrentUserContactsListOnParse];
     self.tableView.estimatedRowHeight = 12.0f;
 }
@@ -105,25 +104,11 @@ typedef enum eventsType{
         
     } else {
         
-        
         self.isOnContact = YES;
         self.contactsFromPhoneBook  = [NSMutableArray new];
         
         [self queryPhoneBookContact];
         
-        //        Contact *queryContact = [Contact new];
-        //        [queryContact contactsQuery:^(NSMutableArray<Contact *> *allContacts, BOOL didComplete) {
-        //
-        //            if (didComplete) {
-        //
-        //                self.contactsFromPhoneBook = allContacts;
-        //                [self.tableView reloadData];
-        //            }
-        //        }];
-        //        //[self grabDeviceContacts];
-        //
-        //        [self.tableView reloadData];
-        //        NSLog(@"contacts TVC");
     }
     if (self.isAnimating || (sender.tag ==0 && currentEventType == MY_EVENTS) || (sender.tag == 1 && currentEventType == MY_COLLABORATIONS)) {
         return;
@@ -186,50 +171,6 @@ typedef enum eventsType{
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-
-
-#pragma mark - Phonebook Contact List
-
-//-(void)grabDeviceContacts{
-//    CNContactStore *store = [[CNContactStore alloc]init];
-//    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//        if (granted == YES) {
-//            NSArray *keys = @[CNContactGivenNameKey, CNContactPhoneNumbersKey];
-//            NSString *containerId = store.defaultContainerIdentifier;
-//            NSPredicate *predicate = [CNContact predicateForContactsInContainerWithIdentifier:containerId];
-//            NSError *error;
-//            NSArray *cnContact = [store unifiedContactsMatchingPredicate:predicate keysToFetch:keys error:&error];
-//            if (error) {
-//                NSLog(@"Error fetching contacts %@",error);
-//            } else {
-//
-//                for (CNContact *contact in cnContact) {
-//                    Contact *newContact = [[Contact alloc]initWithPhoneNumberArray];
-//                    newContact.firstName = contact.givenName;
-//                    NSLog(@"first name %@",newContact.firstName);
-////                    newContact.lastName = contact.familyName;
-//
-//                    for (CNLabeledValue *label in contact.phoneNumbers) {
-//                        NSString *phoneNumber = [label.value stringValue];
-//                        if (phoneNumber != nil) {
-//                            [newContact.phoneNumber addObject:[label.value stringValue]];
-//                            NSLog(@"phone number %@", newContact.phoneNumber);
-//                        } else {
-//                            [newContact.phoneNumber addObject:@"N/A"];
-//                        }
-//                    }
-//
-//                    [self.contactsFromPhoneBook addObject:newContact];
-//                    NSLog(@"adding to contacts from phone book array");
-//
-//                }
-//                NSLog(@"%@ \ncount:%lu",self.contactsFromPhoneBook,self.contactsFromPhoneBook.count);
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadData" object:nil];
-//            }
-//        }
-//    }];
-//
-//}
 
 - (void)callReload{
     [self.tableView reloadData];
@@ -345,10 +286,6 @@ typedef enum eventsType{
             if (objects.count > 0) {
                 SOContacts *contact = objects[0];
                 
-                for (NSString *name in contact.contactsList) {
-                    NSLog(@"Contact from Parse == %@",name);
-                }
-                
                 self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
                 [self.tableView reloadData];
             }
@@ -363,8 +300,7 @@ typedef enum eventsType{
 -(void)checkSORequestStatus {
     PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
     [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error)
-     {
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
          NSLog(@"SORequest %@",objects);
          for (SORequest *newRequest in objects){
              
@@ -388,20 +324,37 @@ typedef enum eventsType{
     
 }
 
--(void)newRequestReceivedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)object{
+-(void)newRequestReceivedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)parseObject{
     UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:[NSString stringWithFormat:@"%@ wants to add you",newFriend] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        object.isAccepted = NO;
-        object.hasDecided = YES;
-        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        parseObject.isAccepted = NO;
+        parseObject.hasDecided = YES;
+        [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             NSLog(@"saved reject BOOL value to parse");
         }];
         [newFriendRequest dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        object.isAccepted = YES;
-        object.hasDecided = YES;
-        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        
+        PFQuery *query = [User query];
+        [query whereKey:@"username" equalTo:parseObject.requestSentFrom];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            NSLog(@"%@",objects);
+            User *requestSentFromUser = objects[0];
+            [requestSentFromUser.contacts.contactsList addObject:[User currentUser].username];
+            [requestSentFromUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    NSLog(@"saved self to requstSentFrom User");
+                } else {
+                    NSLog(@"saved self to requstSentFrom User Failed");
+                }
+                
+            }];
+        }];
+        
+        parseObject.isAccepted = YES;
+        parseObject.hasDecided = YES;
+        [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             NSLog(@"saved accept BOOL value in parse");
         }];
         [self.currentUserContacts addObject:newFriend];
@@ -451,14 +404,17 @@ typedef enum eventsType{
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (self.isOnContact) {
+        
+        PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+        
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [addButton setTag:indexPath.row];
-        addButton.frame = CGRectMake(330.0f, 5.0f, 40.0f, 40.0f);
+        addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
         addButton.backgroundColor = [UIColor greenColor];
         [addButton setTitle:@"+" forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+
         //        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
         //        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
         
