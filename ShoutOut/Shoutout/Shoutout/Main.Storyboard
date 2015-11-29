@@ -623,25 +623,40 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-O5-ckx">
-                                <rect key="frame" x="0.0" y="61" width="600" height="449"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Send to:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-Gl-R9z">
-                                <rect key="frame" x="253" y="20" width="96" height="35"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send to:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-Gl-R9z">
+                                <rect key="frame" x="252" y="24" width="96" height="35"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="25"/>
                                 <color key="textColor" red="1" green="0.72941176470000002" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-lt-dK1">
+                                <rect key="frame" x="532" y="20" width="60" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="xHU-zJ-nKW"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="Email + Triangle@2x"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXf-cc-LmZ">
+                                <rect key="frame" x="24" y="20" width="48" height="30"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="1" green="0.1019607931" blue="0.1019607931" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-O5-ckx">
+                                <rect key="frame" x="0.0" y="59" width="600" height="451"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="1HJ-vg-C3y"/>
                             <constraint firstItem="Qhv-jp-Piz" firstAttribute="top" secondItem="ZbD-np-9IG" secondAttribute="bottom" id="4ER-u0-wGT"/>
+                            <constraint firstItem="CCa-lt-dK1" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="904-xP-3Pq"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="BZ5-8x-mqm"/>
+                            <constraint firstItem="bXf-cc-LmZ" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="ECe-QP-b2F"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="top" secondItem="QkB-Gl-R9z" secondAttribute="bottom" id="G7h-Bs-lP0"/>
                             <constraint firstAttribute="trailing" secondItem="WfK-O5-ckx" secondAttribute="trailing" id="K5Z-aP-eHL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QkB-Gl-R9z" secondAttribute="trailing" id="WGk-qQ-Lei"/>
@@ -649,7 +664,9 @@
                             <constraint firstItem="QkB-Gl-R9z" firstAttribute="centerX" secondItem="n1v-Qp-vIq" secondAttribute="centerX" id="Z2y-E5-JIk"/>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="centerX" secondItem="n1v-Qp-vIq" secondAttribute="centerX" id="Z56-wT-rtR"/>
                             <constraint firstAttribute="trailing" secondItem="ZbD-np-9IG" secondAttribute="trailing" id="gPc-Ia-VX2"/>
-                            <constraint firstItem="QkB-Gl-R9z" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="gpj-gq-01F"/>
+                            <constraint firstItem="QkB-Gl-R9z" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" constant="4" id="gpj-gq-01F"/>
+                            <constraint firstItem="CCa-lt-dK1" firstAttribute="trailing" secondItem="n1v-Qp-vIq" secondAttribute="trailingMargin" constant="12" id="iTr-JL-AZ8"/>
+                            <constraint firstItem="bXf-cc-LmZ" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leadingMargin" constant="4" id="rDf-7n-YMv"/>
                             <constraint firstItem="QkB-Gl-R9z" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leadingMargin" id="yxb-HA-wcq"/>
                         </constraints>
                         <variation key="default">
@@ -1407,6 +1424,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Email + Triangle@2x" width="82" height="31"/>
         <image name="logo@2x" width="50" height="50"/>
         <image name="notifications" width="363" height="363"/>
         <image name="profile@2x" width="44" height="52"/>
