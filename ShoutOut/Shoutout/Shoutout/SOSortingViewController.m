@@ -1,4 +1,4 @@
-    //
+//
 //  SOSortingViewController.m
 //  Shoutout
 //
@@ -25,6 +25,7 @@
 #import "VideoViewController.h"
 #import "SOCameraOverlay.h"
 #import "SOCachedProjects.h"
+#import "SOContactsViewController.h"
 const float kVideoLengthMax2 = 10.0;
 
 @implementation NSMutableArray (BMAReordering)
@@ -152,13 +153,19 @@ UIGestureRecognizerDelegate
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite a friend" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         
-        
-        SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
-        signUpViewController.projectID = self.sortingProject.objectId;
-        
-        [self presentViewController:signUpViewController animated:YES completion:nil];
-        //[self dismissViewControllerAnimated:YES completion:^{
-        //}];
+        if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
+        {
+            SOContactsViewController *contactsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
+            contactsVC.projectId = self.sortingProject.objectId;
+            [self presentViewController:contactsVC animated:YES completion:nil];
+        }
+        else
+        {
+            SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
+            signUpViewController.projectID = self.sortingProject.objectId;
+            
+            [self presentViewController:signUpViewController animated:YES completion:nil];
+        }
     }]];
     
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Take a video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -260,9 +267,9 @@ UIGestureRecognizerDelegate
 - (IBAction)cancelButtonTapped:(UIButton *)sender {
     self.navigationController.navigationBar.hidden = NO;
     self.videoPlayingViewCancelButton.hidden = YES;
-
+    
     self.videoPlayingView.frame = CGRectMake(0, 68, self.view.frame.size.width, self.view.frame.size.height - collectionView.frame.size.height);
-
+    
     [self.avPlayerLayer removeFromSuperlayer];
     self.avPlayerLayer =nil;
     self.avPlayerItem = nil;
@@ -272,7 +279,7 @@ UIGestureRecognizerDelegate
 
 #pragma mark - Merging methods
 - (IBAction)previewButtonTapped:(UIButton *)sender {
-      [self mergeVideosInArray:self.videoAssetsArray];
+    [self mergeVideosInArray:self.videoAssetsArray];
 }
 
 
@@ -350,14 +357,14 @@ UIGestureRecognizerDelegate
     //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
     self.navigationController.navigationBar.hidden = YES;
     
-//    self.videoPlayingView.frame = self.view.bounds;
-//    [avPlayerLayer setFrame:self.videoPlayingView.frame];
-//    avPlayerLayer.frame = self.videoPlayingView.bounds;
-//    
-//    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-//    self.videoPlayingViewCancelButton.hidden = NO;
+    //    self.videoPlayingView.frame = self.view.bounds;
+    //    [avPlayerLayer setFrame:self.videoPlayingView.frame];
+    //    avPlayerLayer.frame = self.videoPlayingView.bounds;
+    //
+    //    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
+    //    self.videoPlayingViewCancelButton.hidden = NO;
     
-
+    
     //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     //    NSString *documentsDirectory = [paths objectAtIndex:0];
     //    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
@@ -384,31 +391,31 @@ UIGestureRecognizerDelegate
 //        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:session.outputURL];
 //        self.sortingProject.shoutout = video;
 //    }
-//    
+//
 //    AVAsset *avAsset = nil;
 //    AVPlayerItem *avPlayerItem = nil;
 //    AVPlayer *avPlayer = nil;
 //    AVPlayerLayer *avPlayerLayer =nil;
-//    
+//
 //    if (avPlayer.rate > 0 && !avPlayer.error) {
 //        [avPlayer pause];
 //    }
-//    
+//
 //    else {
-//        
+//
 //        avAsset = [self.sortingProject.shoutout assetFromVideoFile];
-//        
+//
 //        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-//        
+//
 //        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-//        
+//
 //        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-//        
+//
 //        [avPlayerLayer setFrame:self.videoPlayingView.frame];
 //        avPlayerLayer.frame = self.videoPlayingView.bounds;
-//        
+//
 //        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-//        
+//
 //        [avPlayer seekToTime:kCMTimeZero];
 //        [avPlayer play];
 //    }
@@ -430,7 +437,7 @@ UIGestureRecognizerDelegate
     self.cameraOverlay.frame = CGRectMake(0, 0, self.imagePicker.view.bounds.size.width, self.imagePicker.view.bounds.size.height - 60);
     self.imagePicker.cameraOverlayView = self.cameraOverlay;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-
+    
 }
 
 # pragma mark - Image Picker Delegate
@@ -456,7 +463,7 @@ UIGestureRecognizerDelegate
     [self.sortingProject.videos addObject:video];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
-
+    
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -502,7 +509,7 @@ UIGestureRecognizerDelegate
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if(self.videoThumbnails.count !=0 && indexPath.row != self.videoThumbnails.count){
-          SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
+        SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
         
         cell.videoImageView.file = nil;
         cell.videoImageView.image = nil;
@@ -540,7 +547,7 @@ UIGestureRecognizerDelegate
             
             [self.avPlayerLayer removeFromSuperlayer];
         }
-
+        
         AVAsset *avAsset = nil;
         self.avPlayerLayer =nil;
         self.avPlayerItem = nil;
@@ -555,7 +562,7 @@ UIGestureRecognizerDelegate
         self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
         
         self.avPlayer = [[AVPlayer alloc]initWithPlayerItem:self.avPlayerItem];
-
+        
         self.avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
         
         [self.avPlayerLayer setFrame:self.videoPlayingView.frame];
@@ -566,7 +573,7 @@ UIGestureRecognizerDelegate
         
         [self.avPlayer seekToTime:kCMTimeZero];
         [self.avPlayer play];
-
+        
     }
     [collectionView reloadData];
 }

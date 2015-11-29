@@ -135,6 +135,8 @@ typedef enum actionType{
             [self dismissViewControllerAnimated:YES completion:^{
             }];
         }]];
+        [self presentViewController:alert animated:YES completion:nil];
+        
     }
     else
     {

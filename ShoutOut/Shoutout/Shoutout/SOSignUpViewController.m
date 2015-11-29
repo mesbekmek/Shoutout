@@ -103,6 +103,7 @@
                 [[NSUserDefaults standardUserDefaults] setObject:thisUser.username forKey:@"username"];
                 [[NSUserDefaults standardUserDefaults] setObject:thisUser.password forKey:@"password"];
                 
+                [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"signedUpAlready"];
                 
                 NSLog(@"Sign up succeded!");
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -130,10 +131,6 @@
                 contactsVC.projectId = self.projectID;
                 [self presentViewController:contactsVC animated:YES completion:nil];
                 
-               // [self dismissViewControllerAnimated:YES completion:^{
-                //    [[NSNotificationCenter defaultCenter] postNotificationName:@"SignUpComplete" object:nil];
-                    
-                //}];
             }else{
                 NSString *errorString = [error userInfo][@"error"];
                 NSLog(@"%@",errorString);
