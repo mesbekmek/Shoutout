@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "APContact.h"
+#import "APPhone.h"
+#import "SOModel.h"
 
 @interface Contact : NSObject
 
@@ -16,4 +19,5 @@
 
 -(instancetype)initWithPhoneNumberArray;
 - (void)contactsQuery:(void (^) (NSMutableArray <Contact *> *allContacts, BOOL didComplete))onCompletion;
+-(void)contactsQueryParseBaseOnPhoneBook:(NSArray <APContact *> *)phoneBook withBlock:(void (^)(NSMutableDictionary *namesForNumbers, NSArray <User *>*users))onCompletion;
 @end

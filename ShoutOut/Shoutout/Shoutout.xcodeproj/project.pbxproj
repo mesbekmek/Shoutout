@@ -35,12 +35,13 @@
 		C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B701BF678D60069CF76 /* CollaborationsTableViewController.m */; };
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */; };
-		C767BFC31C02AABF000DB883 /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFC21C02AABF000DB883 /* SOCachedObject.m */; };
+		C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */; };
+		C7D1F3B61C0A6161001E99FE /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		C7DED4971C05271700C04510 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4961C05271700C04510 /* VideoViewController.m */; };
 		C7DED49C1C07A15700C04510 /* CameraOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DED4991C07A15700C04510 /* CameraOverlay.xib */; };
 		C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */; };
+		C7DED4A11C0A349A00C04510 /* SONotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */; };
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
-		D4115F081BF850ED00C674AC /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
@@ -117,13 +118,15 @@
 		C7127B751BF6793A0069CF76 /* CollaborateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollaborateViewController.m; sourceTree = "<group>"; };
 		C767BFBE1C02AAB0000DB883 /* SOCachedProjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedProjects.h; sourceTree = "<group>"; };
 		C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedProjects.m; sourceTree = "<group>"; };
-		C767BFC11C02AABF000DB883 /* SOCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedObject.h; sourceTree = "<group>"; };
-		C767BFC21C02AABF000DB883 /* SOCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedObject.m; sourceTree = "<group>"; };
+		C7D1F3B31C0A60B9001E99FE /* SOCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedObject.h; sourceTree = "<group>"; };
+		C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedObject.m; sourceTree = "<group>"; };
 		C7DED4951C05271700C04510 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
 		C7DED4961C05271700C04510 /* VideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoViewController.m; sourceTree = "<group>"; };
 		C7DED4991C07A15700C04510 /* CameraOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraOverlay.xib; sourceTree = "<group>"; };
 		C7DED49A1C07A15700C04510 /* SOCameraOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCameraOverlay.h; sourceTree = "<group>"; };
 		C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCameraOverlay.m; sourceTree = "<group>"; };
+		C7DED49F1C0A349A00C04510 /* SONotificationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SONotificationsTableViewController.h; sourceTree = "<group>"; };
+		C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SONotificationsTableViewController.m; sourceTree = "<group>"; };
 		D40F78B11C029AAD004D14F0 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		D40F78B21C029AAD004D14F0 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
@@ -319,14 +322,23 @@
 			name = CollaborationSection;
 			sourceTree = "<group>";
 		};
-		C7DED4981C07A02E00C04510 /* CameraOverlay */ = {
+		C7DED4981C07A02E00C04510 /* SOCameraOverlay */ = {
 			isa = PBXGroup;
 			children = (
 				C7DED4991C07A15700C04510 /* CameraOverlay.xib */,
 				C7DED49A1C07A15700C04510 /* SOCameraOverlay.h */,
 				C7DED49B1C07A15700C04510 /* SOCameraOverlay.m */,
 			);
-			name = CameraOverlay;
+			name = SOCameraOverlay;
+			sourceTree = "<group>";
+		};
+		C7DED49E1C0A345300C04510 /* SONotifications */ = {
+			isa = PBXGroup;
+			children = (
+				C7DED49F1C0A349A00C04510 /* SONotificationsTableViewController.h */,
+				C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */,
+			);
+			name = SONotifications;
 			sourceTree = "<group>";
 		};
 		DC1097711C0A1B1500163438 /* SOContactsAndFriends */ = {
@@ -395,7 +407,8 @@
 		DC386DA61BEFF8F900562543 /* SOViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C7DED4981C07A02E00C04510 /* CameraOverlay */,
+				C7DED49E1C0A345300C04510 /* SONotifications */,
+				C7DED4981C07A02E00C04510 /* SOCameraOverlay */,
 				C7127B731BF678F10069CF76 /* CollaborationSection */,
 				84E5CFA21BF4E5B500A587E1 /* SOProjects */,
 				DCB520C51BFA7B5600DEF285 /* SOProfile */,
@@ -421,8 +434,8 @@
 				D4115F0A1BF8566100C674AC /* SOContacts.m */,
 				C767BFBE1C02AAB0000DB883 /* SOCachedProjects.h */,
 				C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */,
-				C767BFC11C02AABF000DB883 /* SOCachedObject.h */,
-				C767BFC21C02AABF000DB883 /* SOCachedObject.m */,
+				C7D1F3B31C0A60B9001E99FE /* SOCachedObject.h */,
+				C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */,
 			);
 			name = SOModel;
 			sourceTree = "<group>";
@@ -501,7 +514,6 @@
 				DC386D791BEFEBA900562543 /* Sources */,
 				DC386D7A1BEFEBA900562543 /* Frameworks */,
 				DC386D7B1BEFEBA900562543 /* Resources */,
-				9CD7E284BA2CF264773B873E /* Embed Pods Frameworks */,
 				233BCEC5E6F6B8E42623E423 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -595,21 +607,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9CD7E284BA2CF264773B873E /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AAB358BFC0787784AD07D88D /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -632,19 +629,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7D1F3B61C0A6161001E99FE /* SORequest.m in Sources */,
 				84E9D3601BF6E500005ACE00 /* SOCreateNewProjectViewController.m in Sources */,
 				84E5CFAB1BF4E93F00A587E1 /* SOProjectsViewController.m in Sources */,
 				DC386D8E1BEFEBA900562543 /* Shoutout.xcdatamodeld in Sources */,
 				C7DED49D1C07A15700C04510 /* SOCameraOverlay.m in Sources */,
+				C7DED4A11C0A349A00C04510 /* SONotificationsTableViewController.m in Sources */,
 				DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */,
 				C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */,
 				84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
+				C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */,
 				C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,
-				D4115F081BF850ED00C674AC /* SORequest.m in Sources */,
 				84D61C1A1C0431E700E3D284 /* FullScreenMergeViewController.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
@@ -661,7 +660,6 @@
 				84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
-				C767BFC31C02AABF000DB883 /* SOCachedObject.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
 				84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */,
 			);
