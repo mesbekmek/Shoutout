@@ -46,23 +46,6 @@
                     <color key="textColor" red="1" green="0.25098039220000001" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xwm-4M-1gZ">
-                    <rect key="frame" x="116" y="148" width="484" height="20"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="251" id="2LM-hq-Tut"/>
-                        <constraint firstAttribute="height" constant="17" id="Eul-PE-n2t"/>
-                        <constraint firstAttribute="height" constant="20" id="S7n-ak-srw"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <textInputTraits key="textInputTraits"/>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="2LM-hq-Tut"/>
-                            <exclude reference="Eul-PE-n2t"/>
-                        </mask>
-                    </variation>
-                </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EEu-Xu-5qX">
                     <rect key="frame" x="74" y="200" width="526" height="20"/>
                     <animations/>
@@ -122,7 +105,7 @@
                         </mask>
                     </variation>
                 </textField>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MJN-rO-ezQ">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MJN-rO-ezQ" userLabel="JoinButtonView">
                     <rect key="frame" x="0.0" y="419" width="600" height="50"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wy3-3Z-nzj">
@@ -147,22 +130,22 @@
                         <constraint firstItem="wy3-3Z-nzj" firstAttribute="leading" secondItem="MJN-rO-ezQ" secondAttribute="leading" id="zzT-UE-wAe"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mfx-7J-hkw">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mfx-7J-hkw" userLabel="ViewUnderEmail">
                     <rect key="frame" x="0.0" y="222" width="600" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MeZ-ik-0ba">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MeZ-ik-0ba" userLabel="ViewUnderPhone">
                     <rect key="frame" x="0.0" y="273" width="600" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7QF-ci-bLp">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7QF-ci-bLp" userLabel="ViewUnderPassword">
                     <rect key="frame" x="0.0" y="325" width="600" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6r-c1-TMR">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6r-c1-TMR" userLabel="ViewUnderUsername">
                     <rect key="frame" x="0.0" y="171" width="600" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -176,6 +159,23 @@
                         <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="b1y-Xf-Jtn"/>
                     </connections>
                 </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xwm-4M-1gZ">
+                    <rect key="frame" x="116" y="149" width="484" height="20"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="251" id="2LM-hq-Tut"/>
+                        <constraint firstAttribute="height" constant="17" id="Eul-PE-n2t"/>
+                        <constraint firstAttribute="height" constant="20" id="S7n-ak-srw"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="2LM-hq-Tut"/>
+                            <exclude reference="Eul-PE-n2t"/>
+                        </mask>
+                    </variation>
+                </textField>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -219,6 +219,7 @@
                 <constraint firstItem="gRl-il-Tuu" firstAttribute="top" secondItem="8hP-YF-GCJ" secondAttribute="bottom" constant="40" id="YgH-gu-kyt"/>
                 <constraint firstItem="Rb2-9f-cba" firstAttribute="trailing" secondItem="ziu-QU-DPo" secondAttribute="trailing" id="YxQ-Ro-ceG"/>
                 <constraint firstItem="Rb2-9f-cba" firstAttribute="top" secondItem="ziu-QU-DPo" secondAttribute="bottom" constant="30" id="aEa-Ea-Uec"/>
+                <constraint firstItem="fyk-Hb-UyW" firstAttribute="top" secondItem="MeZ-ik-0ba" secondAttribute="bottom" constant="28" id="aRz-Wy-pQO"/>
                 <constraint firstAttribute="trailing" secondItem="e6r-c1-TMR" secondAttribute="trailing" id="coQ-Fa-zeX"/>
                 <constraint firstItem="gRl-il-Tuu" firstAttribute="trailing" secondItem="8hP-YF-GCJ" secondAttribute="trailing" id="ePk-Vs-fMo"/>
                 <constraint firstItem="7QF-ci-bLp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="eVk-yn-ylx"/>
@@ -264,6 +265,7 @@
                     <exclude reference="iCz-F1-ifI"/>
                     <exclude reference="itU-5C-I93"/>
                     <exclude reference="pDk-id-w0Z"/>
+                    <exclude reference="uAc-XE-tmb"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="254" y="295"/>

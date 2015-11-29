@@ -11,6 +11,8 @@
 #import "SOVideo.h"
 #import "SOContacts.h"
 #import "SORequest.h"
+#import "SOContacts.h"
+
 
 #ifndef SOModel_h
 #define SOModel_h

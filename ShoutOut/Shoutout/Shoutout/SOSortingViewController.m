@@ -18,13 +18,13 @@
 #import <Parse/Parse.h>
 #import "BMAReorderableFlowLayout.h"
 #import "UICollectionView+BMADecorators.h"
-#import "SOCachedProjects.h"
+#import "SOCachedObject.h"
 #import "SOSignUpViewController.h"
 #import "SOLoginViewController.h"
 #import "FullScreenMergeViewController.h"
 #import "VideoViewController.h"
 #import "SOCameraOverlay.h"
-
+#import "SOCachedProjects.h"
 const float kVideoLengthMax2 = 10.0;
 
 @implementation NSMutableArray (BMAReordering)
@@ -52,7 +52,8 @@ const float kVideoLengthMax2 = 10.0;
 UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 BMAReorderableDelegateFlowLayout,
-UICollectionViewDataSource
+UICollectionViewDataSource,
+UIGestureRecognizerDelegate
 >
 {
     IBOutlet UICollectionView *collectionView;
@@ -97,9 +98,10 @@ UICollectionViewDataSource
     [super viewDidLoad];
     self.playStop = YES;
     
-    
-    
-    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(modalCameraPopup)];
+    UIScreenEdgePanGestureRecognizer * edgePan = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(popToRoot:)];
+    [edgePan setEdges:UIRectEdgeLeft];
+    edgePan.delegate = self;
+    [self.view addGestureRecognizer:edgePan];
     
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
@@ -355,34 +357,7 @@ UICollectionViewDataSource
 //    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
 //    self.videoPlayingViewCancelButton.hidden = NO;
     
-//    self.dropDownPlayerView = [[UIView alloc]initWithFrame:self.videoPlayingView.bounds];
-//    self.dropDownPlayerView.backgroundColor = [UIColor blackColor];
-//    
-//    [self.view addSubview:self.dropDownPlayerView];
-//    
-//    [UIView animateWithDuration:.3f animations:^{
-//        self.dropDownPlayerView.frame = self.view.bounds;
-//    } completion:^(BOOL finished) {
-//        [avPlayerLayer setFrame:self.dropDownPlayerView.bounds];
-//        [self.dropDownPlayerView.layer addSublayer:avPlayerLayer];
-//        
-//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [button addTarget:self
-//                   action:@selector(cancelPreviewView)
-//         forControlEvents:UIControlEventTouchUpInside];
-//        [button setTitle:@"X" forState:UIControlStateNormal];
-//        button.titleLabel.textColor = [UIColor whiteColor];
-//        button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-//        [self.dropDownPlayerView addSubview:button];
-//        
-//        [player seekToTime:kCMTimeZero];
-//        [player play];
-//    }];
-    
-    
-    
-    
-    
+
     //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     //    NSString *documentsDirectory = [paths objectAtIndex:0];
     //    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
@@ -402,16 +377,6 @@ UICollectionViewDataSource
     //    }];
 }
 
-- (void)cancelPreviewView{
-    
-    [UIView animateWithDuration:.3f animations:^{
-        self.dropDownPlayerView.frame = self.videoPlayingView.bounds;
-    } completion:^(BOOL finished) {
-       self.dropDownPlayerView = nil;
-    }];
-    
-    
-}
 
 //-(void)exportDidFinish:(AVAssetExportSession*)session {
 //    if (session.status == AVAssetExportSessionStatusCompleted) {
@@ -676,6 +641,17 @@ UICollectionViewDataSource
     } completion:^(BOOL finished) {
         NSLog(@"Reloaded");
     }];
+    
+}
+
+#pragma mark - Gesture Recognizer
+- (void)popToRoot:(UIScreenEdgePanGestureRecognizer *)edgePan{
+    CGPoint translation = [edgePan translationInView:self.view];
+    
+    if (translation.x >= 100) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
     
 }
 

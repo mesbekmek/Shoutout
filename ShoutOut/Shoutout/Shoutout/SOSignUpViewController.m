@@ -13,7 +13,7 @@
 #import "SOProjectsViewController.h"
 #import "SOCachedObject.h"
 #import "SOCachedProjects.h"
-
+#import "SOContactsViewController.h"
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -112,11 +112,15 @@
                 
                 [cached.cachedProject saveInBackground];
                 
+
                 
-                [self dismissViewControllerAnimated:YES completion:^{
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"SignUpComplete" object:nil];
+                SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
+                [self presentViewController:contactsVC animated:YES completion:nil];
+                
+               // [self dismissViewControllerAnimated:YES completion:^{
+                //    [[NSNotificationCenter defaultCenter] postNotificationName:@"SignUpComplete" object:nil];
                     
-                }];
+                //}];
             }else{
                 NSString *errorString = [error userInfo][@"error"];
                 NSLog(@"%@",errorString);
