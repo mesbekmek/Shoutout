@@ -12,6 +12,7 @@
 
 @property (nonatomic) NSMutableDictionary *cachedProjects;
 @property (nonatomic) NSMutableDictionary *cachedRequests;
+@property (nonatomic) NSMutableArray <NSString *> *cachedUsernameForFriends;
 
 + (instancetype)sharedManager;
 

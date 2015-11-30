@@ -13,6 +13,7 @@
 #import "APAddressBook.h"
 #import "APContact.h"
 #import "APPhone.h"
+#import "SOCachedProjects.h"
 
 #import <Contacts/Contacts.h>
 #import <Parse/Parse.h>
@@ -27,7 +28,7 @@ typedef enum eventsType{
 
 @interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic) NSMutableArray *currentUserContacts;
+@property (nonatomic) NSMutableArray <NSString *>*currentUserContacts;
 @property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
 @property (nonatomic) BOOL isOnContact;
 
@@ -53,9 +54,14 @@ typedef enum eventsType{
     self.navigationController.navigationBarHidden = YES;
     self.isOnContact = NO;
     
+    if ([SOCachedProjects sharedManager].cachedUsernameForFriends.count > 0) {
+        self.currentUserContacts = [SOCachedProjects sharedManager].cachedUsernameForFriends;
+    } else {
+        [self queryCurrentUserContactsListOnParse];
+
+    }
     
-    [self queryCurrentUserContactsListOnParse];
-    self.tableView.estimatedRowHeight = 12.0f;
+//    self.tableView.estimatedRowHeight = 12.0f;
 }
 
 
@@ -276,6 +282,7 @@ typedef enum eventsType{
 
 
 -(void)queryCurrentUserContactsListOnParse{
+
     User *currentUser = [User currentUser];
     
     if(currentUser.contacts != nil){
@@ -300,6 +307,7 @@ typedef enum eventsType{
 -(void)checkSORequestStatus {
     PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
     [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
+    [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
          NSLog(@"SORequest %@",objects);
          for (SORequest *newRequest in objects){
@@ -313,13 +321,19 @@ typedef enum eventsType{
     
     PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
     [queryRequestResult whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+    [queryRequestResult whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+    [queryRequestResult whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
+    [queryRequestResult whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
     [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         for (SORequest *requestResult in objects) {
-            if (requestResult.hasDecided && requestResult.isAccepted) {
-                [self.currentUserContacts addObject:requestResult.requestSentTo];
-                [self pushContactListToParse];
+            for (NSString *username in self.currentUserContacts) {
+                if (![requestResult.requestSentTo isEqualToString:username]) {
+                    [self.currentUserContacts addObject:requestResult.requestSentTo];
+                }
             }
+            
         }
+        [self pushContactListToParse];
     }];
     
 }
@@ -336,22 +350,6 @@ typedef enum eventsType{
     }];
     UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        PFQuery *query = [User query];
-        [query whereKey:@"username" equalTo:parseObject.requestSentFrom];
-        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"%@",objects);
-            User *requestSentFromUser = objects[0];
-            [requestSentFromUser.contacts.contactsList addObject:[User currentUser].username];
-            [requestSentFromUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                if (succeeded) {
-                    NSLog(@"saved self to requstSentFrom User");
-                } else {
-                    NSLog(@"saved self to requstSentFrom User Failed");
-                }
-                
-            }];
-        }];
-        
         parseObject.isAccepted = YES;
         parseObject.hasDecided = YES;
         [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -359,7 +357,6 @@ typedef enum eventsType{
         }];
         [self.currentUserContacts addObject:newFriend];
         [self pushContactListToParse];
-        //        [self addSelfToFromRequest:object];
     }];
     
     [newFriendRequest addAction:ignore];
@@ -414,19 +411,6 @@ typedef enum eventsType{
         [addButton setTitle:@"+" forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-
-        //        cell.nameLabel.text = self.contactsFromPhoneBook[indexPath.row].firstName;
-        //        cell.phoneNumberLabel.text = self.contactsFromPhoneBook[indexPath.row].phoneNumber[0];
-        
-        //        NSString *lastName;
-        //        if (!self.phoneBookContactList[indexPath.row].name.lastName) {
-        //            lastName = @"";
-        //        } else {
-        //            lastName = self.phoneBookContactList[indexPath.row].name.lastName;
-        //        }
-        //
-        //        cell.nameLabel.text = [NSString stringWithFormat:@"%@ %@",self.phoneBookContactList[indexPath.row].name.firstName, lastName];
-        //        cell.phoneNumberLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
         
         cell.nameLabel.text = self.phoneBookUserName[indexPath.row];
         cell.phoneNumberLabel.text = self.phoneBookName[indexPath.row];

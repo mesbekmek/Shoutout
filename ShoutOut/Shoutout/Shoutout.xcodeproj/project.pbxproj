@@ -43,6 +43,9 @@
 		C7DED4A11C0A349A00C04510 /* SONotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4A01C0A349A00C04510 /* SONotificationsTableViewController.m */; };
 		C7F3C8341C0B5FD600B834C7 /* SONotificationsHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F3C8331C0B5FD600B834C7 /* SONotificationsHeader.m */; };
 		C7F3C8361C0B604F00B834C7 /* NotificationsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */; };
+		C7F4115B1C0BA81100287B0E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4115A1C0BA81100287B0E /* MessageUI.framework */; };
+		C7F4115E1C0BA8F400287B0E /* SOShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F4115D1C0BA8F400287B0E /* SOShareViewController.m */; };
+		C7F411621C0BB6C700287B0E /* SOExportHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F411611C0BB6C700287B0E /* SOExportHandler.m */; };
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */; };
@@ -139,6 +142,11 @@
 		C7F3C8321C0B5FD600B834C7 /* SONotificationsHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SONotificationsHeader.h; sourceTree = "<group>"; };
 		C7F3C8331C0B5FD600B834C7 /* SONotificationsHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SONotificationsHeader.m; sourceTree = "<group>"; };
 		C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsHeader.xib; sourceTree = "<group>"; };
+		C7F4115A1C0BA81100287B0E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		C7F4115C1C0BA8F400287B0E /* SOShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOShareViewController.h; sourceTree = "<group>"; };
+		C7F4115D1C0BA8F400287B0E /* SOShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOShareViewController.m; sourceTree = "<group>"; };
+		C7F411601C0BB6C700287B0E /* SOExportHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOExportHandler.h; sourceTree = "<group>"; };
+		C7F411611C0BB6C700287B0E /* SOExportHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOExportHandler.m; sourceTree = "<group>"; };
 		D40F78B11C029AAD004D14F0 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		D40F78B21C029AAD004D14F0 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
@@ -204,6 +212,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7F4115B1C0BA81100287B0E /* MessageUI.framework in Frameworks */,
 				D49BF4971BEFF88100340627 /* CoreMedia.framework in Frameworks */,
 				D49BF4951BEFF83100340627 /* AssetsLibrary.framework in Frameworks */,
 				D49BF4931BEFF80E00340627 /* AVKit.framework in Frameworks */,
@@ -220,6 +229,7 @@
 		11B3947B65273DC1E22F89DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7F4115A1C0BA81100287B0E /* MessageUI.framework */,
 				B31638C861E4996215CDACD0 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -273,6 +283,8 @@
 		84E9D52C1BF8F243005ACE00 /* Sorting */ = {
 			isa = PBXGroup;
 			children = (
+				C7F411601C0BB6C700287B0E /* SOExportHandler.h */,
+				C7F411611C0BB6C700287B0E /* SOExportHandler.m */,
 				84E9D5321BF8F2B6005ACE00 /* SOSortingViewController.h */,
 				84E9D5331BF8F2B6005ACE00 /* SOSortingViewController.m */,
 				C7DED4951C05271700C04510 /* VideoViewController.h */,
@@ -367,6 +379,15 @@
 			name = SONotifications;
 			sourceTree = "<group>";
 		};
+		C7F4115F1C0BA8FC00287B0E /* SOSharing */ = {
+			isa = PBXGroup;
+			children = (
+				C7F4115C1C0BA8F400287B0E /* SOShareViewController.h */,
+				C7F4115D1C0BA8F400287B0E /* SOShareViewController.m */,
+			);
+			name = SOSharing;
+			sourceTree = "<group>";
+		};
 		DC1097711C0A1B1500163438 /* SOContactsAndFriends */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +472,7 @@
 				DCB520C51BFA7B5600DEF285 /* SOProfile */,
 				DCB520C61BFA7B6100DEF285 /* SOContacts */,
 				84E5CFA11BF4E59F00A587E1 /* SOLoginSignUp */,
+				C7F4115F1C0BA8FC00287B0E /* SOSharing */,
 			);
 			name = SOViewControllers;
 			sourceTree = "<group>";
@@ -694,6 +716,7 @@
 				DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */,
+				C7F411621C0BB6C700287B0E /* SOExportHandler.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
 				C7DED4971C05271700C04510 /* VideoViewController.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,
@@ -703,6 +726,7 @@
 				D40F78B31C029AAD004D14F0 /* Contact.m in Sources */,
 				84E9D52F1BF8F25D005ACE00 /* UICollectionView+BMADecorators.m in Sources */,
 				84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */,
+				C7F4115E1C0BA8F400287B0E /* SOShareViewController.m in Sources */,
 				84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,

@@ -15,7 +15,7 @@
 @interface SOCachedObject : NSObject
 
 @property (nonatomic) SOProject *cachedProject;
-@property (nonatomic) SOCachedProjects *prokect;
+//@property (nonatomic) SOCachedProjects *prokect;
 
 @property (nonatomic) NSMutableArray <AVAsset*> *avassetsArray;
 @property (nonatomic) NSMutableArray <PFFile *> *thumbnailsArray;

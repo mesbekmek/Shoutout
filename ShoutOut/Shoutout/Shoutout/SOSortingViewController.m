@@ -27,6 +27,8 @@
 #import "SOCachedProjects.h"
 #import "SOContactsAndFriendsViewController.h"
 #import "SOContactsViewController.h"
+#import "SOExportHandler.h"
+#import "SOShareViewController.h"
 const float kVideoLengthMax2 = 10.0;
 
 @implementation NSMutableArray (BMAReordering)
@@ -424,6 +426,53 @@ UIGestureRecognizerDelegate
 //        [avPlayer play];
 //    }
 //}
+
+- (IBAction)shareButtonTapped:(UIButton *)sender{
+    
+    UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+    UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    activityIndicator.center= activityIndicatorView.center;
+    activityIndicator.color = [UIColor blackColor];
+    activityIndicatorView.backgroundColor = [UIColor whiteColor];
+    activityIndicatorView.alpha = 0.6;
+    
+    [activityIndicator startAnimating];
+    [activityIndicatorView addSubview:activityIndicator];
+    [self.view addSubview:activityIndicatorView];
+    [self.view bringSubviewToFront:activityIndicatorView];
+    
+    SOExportHandler *exportHandler = [[SOExportHandler alloc]init];
+    AVMutableComposition *mutableComp = [exportHandler mergeVideosFrom:self.videoAssetsArray];
+    [exportHandler exportMixComposition:mutableComp completion:^(NSURL *url, BOOL success) {
+        if (success) {
+            SOVideo *shoutout = [[SOVideo alloc]initWithVideoUrl:url];
+            [shoutout saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                NSString *passedUrl = shoutout.video.url;
+                [activityIndicator stopAnimating];
+                [activityIndicator removeFromSuperview];
+                [activityIndicatorView removeFromSuperview];
+                [self segueToShareViewControllerWithUrl:passedUrl];
+            }];
+        }
+        else{
+            
+            NSLog(@"Unsuccessful, must troubleshoot");
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            [activityIndicatorView removeFromSuperview];
+        }
+    }];
+  
+}
+
+- (void)segueToShareViewControllerWithUrl:(NSString *)sharedUrl{
+    
+    SOShareViewController *shareVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
+    shareVC.shareUrl = sharedUrl;
+    [self presentViewController:shareVC animated:YES completion:nil];
+    
+}
 
 
 

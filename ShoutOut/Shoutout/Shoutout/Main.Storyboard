@@ -341,7 +341,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="i0I-r9-sX5" kind="show" id="ufe-ub-hg5"/>
+                                    <action selector="shareButtonTapped:" destination="arh-7s-JC3" eventType="touchUpInside" id="tcB-kD-K0I"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B3w-ik-x8s">
@@ -599,10 +599,10 @@
             </objects>
             <point key="canvasLocation" x="1830" y="2442"/>
         </scene>
-        <!--View Controller-->
+        <!--Share View Controller-->
         <scene sceneID="Gad-Bu-8pU">
             <objects>
-                <viewController id="i0I-r9-sX5" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareViewController" id="i0I-r9-sX5" customClass="SOShareViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Ng-Bo-MNa"/>
                         <viewControllerLayoutGuide type="bottom" id="Qhv-jp-Piz"/>
@@ -623,33 +623,59 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-O5-ckx">
-                                <rect key="frame" x="0.0" y="61" width="600" height="449"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Send to:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-Gl-R9z">
-                                <rect key="frame" x="253" y="20" width="96" height="35"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send to:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-Gl-R9z">
+                                <rect key="frame" x="252" y="24" width="96" height="35"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="25"/>
                                 <color key="textColor" red="1" green="0.72941176470000002" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-O5-ckx">
+                                <rect key="frame" x="0.0" y="59" width="600" height="451"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sS-Cn-V8I">
+                                <rect key="frame" x="10" y="24" width="25" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="QVL-GT-FnX"/>
+                                    <constraint firstAttribute="height" constant="35" id="z6k-Z7-1Dg"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="back"/>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="i0I-r9-sX5" eventType="touchUpInside" id="OdK-0e-g1N"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCa-lt-dK1">
+                                <rect key="frame" x="554" y="26" width="38" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CCa-lt-dK1" secondAttribute="height" multiplier="40:30" id="ER6-FK-sHE"/>
+                                    <constraint firstAttribute="width" constant="38" id="xHU-zJ-nKW"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="Mail"/>
+                                <connections>
+                                    <action selector="sendAsEmailButtonTapped:" destination="i0I-r9-sX5" eventType="touchUpInside" id="h7l-V3-3Mq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="1HJ-vg-C3y"/>
                             <constraint firstItem="Qhv-jp-Piz" firstAttribute="top" secondItem="ZbD-np-9IG" secondAttribute="bottom" id="4ER-u0-wGT"/>
+                            <constraint firstItem="CCa-lt-dK1" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" constant="6" id="904-xP-3Pq"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="BZ5-8x-mqm"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="top" secondItem="QkB-Gl-R9z" secondAttribute="bottom" id="G7h-Bs-lP0"/>
                             <constraint firstAttribute="trailing" secondItem="WfK-O5-ckx" secondAttribute="trailing" id="K5Z-aP-eHL"/>
+                            <constraint firstItem="2sS-Cn-V8I" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" constant="10" id="LTG-aH-7WV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="QkB-Gl-R9z" secondAttribute="trailing" id="WGk-qQ-Lei"/>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="top" secondItem="WfK-O5-ckx" secondAttribute="bottom" constant="30" id="X8A-Wk-7Pr"/>
                             <constraint firstItem="QkB-Gl-R9z" firstAttribute="centerX" secondItem="n1v-Qp-vIq" secondAttribute="centerX" id="Z2y-E5-JIk"/>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="centerX" secondItem="n1v-Qp-vIq" secondAttribute="centerX" id="Z56-wT-rtR"/>
                             <constraint firstAttribute="trailing" secondItem="ZbD-np-9IG" secondAttribute="trailing" id="gPc-Ia-VX2"/>
-                            <constraint firstItem="QkB-Gl-R9z" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="gpj-gq-01F"/>
+                            <constraint firstItem="QkB-Gl-R9z" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" constant="4" id="gpj-gq-01F"/>
+                            <constraint firstItem="CCa-lt-dK1" firstAttribute="trailing" secondItem="n1v-Qp-vIq" secondAttribute="trailingMargin" constant="12" id="iTr-JL-AZ8"/>
+                            <constraint firstItem="2sS-Cn-V8I" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" constant="4" id="pPs-fe-fyK"/>
                             <constraint firstItem="QkB-Gl-R9z" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leadingMargin" id="yxb-HA-wcq"/>
                         </constraints>
                         <variation key="default">
@@ -1407,6 +1433,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Mail" width="40" height="24"/>
+        <image name="back" width="16" height="23"/>
         <image name="logo@2x" width="50" height="50"/>
         <image name="notifications" width="363" height="363"/>
         <image name="profile@2x" width="44" height="52"/>

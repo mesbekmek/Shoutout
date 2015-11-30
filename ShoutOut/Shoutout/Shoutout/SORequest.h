@@ -15,6 +15,7 @@
 @property (nonatomic) NSString *requestSentTo;
 @property (nonatomic) BOOL hasDecided;
 @property (nonatomic) BOOL isAccepted;
+@property (nonatomic) BOOL isFriendRequest;
 @property (nonatomic) NSString *projectId;
 @property (nonatomic) NSString *projectTitle;
 
