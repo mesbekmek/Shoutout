@@ -279,7 +279,7 @@ typedef enum actionType{
 }
 
 - (IBAction)doneButtonTapped:(UIButton *)sender {
-    
+#warning Fix bug by adding two sets of mutablesets that track indexpaths...other wise clearing needs to happen
     NSString *title = [self.projectTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if(self.isOnContact)
@@ -293,9 +293,9 @@ typedef enum actionType{
             }]];
             [self presentViewController:alert animated:YES completion:nil];
         }
-        else if (!(title && title.length))
+        else if(!(title && title.length))
         {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Please title your event " preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
             
             [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 
@@ -323,6 +323,16 @@ typedef enum actionType{
     {
         if([selectedCellIndexes count] == 0){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else if(!(title && title.length))
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
             
             [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 
