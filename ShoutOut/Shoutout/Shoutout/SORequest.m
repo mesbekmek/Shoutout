@@ -17,6 +17,7 @@
 @dynamic requestSentTo;
 @dynamic hasDecided;
 @dynamic isAccepted;
+@dynamic isFriendRequest;
 @dynamic projectId;
 @dynamic projectTitle;
 
@@ -29,6 +30,7 @@
         self.requestSentTo = requestedUser;
         self.hasDecided = NO;
         self.isAccepted = NO;
+        self.isFriendRequest = YES;
         return self;
     }
     return nil;

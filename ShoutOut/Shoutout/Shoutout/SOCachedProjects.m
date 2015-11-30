@@ -18,6 +18,7 @@
         sharedMyManager = [[self alloc] init];
         sharedMyManager.cachedProjects = [NSMutableDictionary new];
         sharedMyManager.cachedRequests = [NSMutableDictionary new];
+        sharedMyManager.cachedUsernameForFriends = [NSMutableArray new];
     });
     return sharedMyManager;
 
