@@ -24,4 +24,6 @@
 
 - (AVMutableComposition *)mergeVideosFrom:(NSMutableArray <AVAsset *> *)videosArray;
 
+- (AVPlayerItem *)playerItemFromVideosArray:(NSMutableArray <AVAsset *> *)videosArray;
+
 @end

@@ -45,6 +45,7 @@
 + (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId andTitle:(NSString *)title{
     
     SORequest *request = [[SORequest alloc]initWithPendingRequestTo:requestedUser];
+    request.isFriendRequest = NO;
     request.projectId = projId;
     request.projectTitle = title;
     [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
