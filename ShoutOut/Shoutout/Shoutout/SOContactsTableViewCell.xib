@@ -28,27 +28,47 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SH2-Xz-Plb">
-                        <rect key="frame" x="287" y="15" width="30" height="30"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hE3-pL-SlV">
+                        <rect key="frame" x="273" y="0.0" width="60" height="60"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SH2-Xz-Plb">
+                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="30"/>
+                                <state key="normal" title="+"/>
+                                <connections>
+                                    <action selector="addButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="g3Z-io-hOO"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
-                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="30"/>
-                        <state key="normal" title="+"/>
-                        <connections>
-                            <action selector="addButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="g3Z-io-hOO"/>
-                        </connections>
-                    </button>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="4ze-tN-ie3"/>
+                            <constraint firstAttribute="trailing" secondItem="SH2-Xz-Plb" secondAttribute="trailing" id="5F0-RJ-fxP"/>
+                            <constraint firstAttribute="bottom" secondItem="SH2-Xz-Plb" secondAttribute="bottom" id="LCV-eA-Of9"/>
+                            <constraint firstItem="SH2-Xz-Plb" firstAttribute="top" secondItem="hE3-pL-SlV" secondAttribute="top" id="NqA-Wh-ZyO"/>
+                            <constraint firstAttribute="width" constant="60" id="uIt-d9-uaN"/>
+                            <constraint firstItem="SH2-Xz-Plb" firstAttribute="leading" secondItem="hE3-pL-SlV" secondAttribute="leading" id="xip-C5-i58"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="hE3-pL-SlV" secondAttribute="trailing" id="6te-Dd-8IX"/>
+                    <constraint firstItem="hE3-pL-SlV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="9Us-aJ-niz"/>
                     <constraint firstItem="CiX-VC-wql" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="D6g-8b-Wig"/>
+                    <constraint firstItem="bTF-vf-ORm" firstAttribute="top" secondItem="CiX-VC-wql" secondAttribute="bottom" constant="2" id="HKP-nb-yFH"/>
                     <constraint firstAttribute="bottom" secondItem="bTF-vf-ORm" secondAttribute="bottom" constant="8" id="ZXB-bC-o6l"/>
                     <constraint firstItem="CiX-VC-wql" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="dAh-uu-Jdb"/>
+                    <constraint firstAttribute="bottom" secondItem="hE3-pL-SlV" secondAttribute="bottom" id="ri5-IO-lVZ"/>
                     <constraint firstItem="bTF-vf-ORm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="yXz-f0-BHy"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
             <connections>
                 <outlet property="addButton" destination="SH2-Xz-Plb" id="Z7N-HQ-ian"/>
+                <outlet property="buttonView" destination="hE3-pL-SlV" id="fDc-3n-Slw"/>
                 <outlet property="nameLabel" destination="CiX-VC-wql" id="QKx-JZ-WhW"/>
                 <outlet property="usernameLabel" destination="bTF-vf-ORm" id="0c4-kt-4r4"/>
             </connections>

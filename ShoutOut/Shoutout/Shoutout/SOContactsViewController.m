@@ -75,12 +75,12 @@ typedef enum actionType{
     
     [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
         if (!error) {
-            //            self.phoneBookContactList =
             self.phoneBookName = [NSMutableArray new];
             self.phoneBookUserName = [NSMutableArray new];
             Contact *queryParse = [Contact new];
             [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
-                for (User *user in users) {
+                for (User *user in users)
+                {
                     NSString *phoneNumber = user.phoneNumber;
                     NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
                     [self.phoneBookName addObject:phoneBookName];
@@ -128,9 +128,9 @@ typedef enum actionType{
     }
     
     if([selectedCellIndexes count] == 0){
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
         
-        [alert addAction:[UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             
             [self dismissViewControllerAnimated:YES completion:^{
             }];
@@ -239,7 +239,9 @@ typedef enum actionType{
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.titleTextField resignFirstResponder];
+    //[self.titleTextField resignFirstResponder];
+    
+    [self.titleTextField endEditing:YES];
 }
 
 

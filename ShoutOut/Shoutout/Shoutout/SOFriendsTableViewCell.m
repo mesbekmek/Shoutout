@@ -20,6 +20,13 @@
     // Configure the view for the selected state
 }
 - (IBAction)collaborateButtonTapped:(UIButton *)sender {
+    if(!self.isHighlighted){
+        self.isHighlighted = YES;
+        [self.buttonView setBackgroundColor:[UIColor redColor]];
+    }else{
+        [self.buttonView setBackgroundColor:[UIColor clearColor]];
+        self.isHighlighted = NO;
+    }
 }
 
 @end

@@ -32,6 +32,7 @@ typedef enum actionType{
 @property (nonatomic) NSMutableArray *phoneBookName;
 @property (nonatomic) BOOL isOnContact;
 @property (nonatomic) NSMutableArray *currentUserContacts;
+@property (weak, nonatomic) IBOutlet UITextField *projectTitleTextField;
 
 @property (nonatomic) NSArray<APContact *> *phoneBookContacts;
 
@@ -46,6 +47,7 @@ typedef enum actionType{
 
 @implementation SOContactsAndFriendsViewController
 {
+    NSMutableSet<NSIndexPath *> *selectedCellIndexes;
     ActionType actionType;
 }
 #pragma mark Life Cycle
@@ -57,6 +59,7 @@ typedef enum actionType{
 -(void)setup
 {
     self.phoneBookDictionary = [NSMutableDictionary new];
+    selectedCellIndexes = [NSMutableSet new];
     // SOContacts XIB
     UINib *soContactsNib = [UINib nibWithNibName:@"SOContactsTableViewCell" bundle:nil];
     [self.tableView registerNib:soContactsNib forCellReuseIdentifier:@"ContactsCell"];
@@ -276,6 +279,29 @@ typedef enum actionType{
 }
 
 - (IBAction)doneButtonTapped:(UIButton *)sender {
+    
+    if([selectedCellIndexes count] == 0){
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+            [self dismissViewControllerAnimated:YES completion:^{
+            }];
+        }]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else
+    {
+        NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
+        NSArray *keys = [[self.usernamesForNames allKeys]sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
+        {
+            NSString *username = (NSString *)self.usernamesForNames[keys[indexPath.row]];
+            [SORequest sendRequestTo:username forProjectId:self.projectID andTitle:self.projectTitleTextField.text];
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
 }
 
 #pragma mark Tablview data source and delegate methods
@@ -310,8 +336,14 @@ typedef enum actionType{
     if(self.isOnContact)
     {
         SOContactsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactsCell" forIndexPath:indexPath];
+        
+        [cell.buttonView setBackgroundColor:[UIColor clearColor]];
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        if([selectedCellIndexes containsObject:indexPath]){
+            [cell.buttonView setBackgroundColor:[UIColor redColor]];
+        }
         
         if(indexPath.section == 0)
         {
@@ -324,6 +356,7 @@ typedef enum actionType{
         {
             SOContactsFormatter *object = [self.phoneBookDictionary objectForKey:@"Contacts Without Shoutout"][indexPath.row];
             
+            
             cell.nameLabel.text = object.name;
             cell.usernameLabel.text = object.phoneNumber;
         }
@@ -332,6 +365,15 @@ typedef enum actionType{
     else
     {
         SOFriendsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOFriendsCell" forIndexPath:indexPath];
+        
+        [cell.buttonView setBackgroundColor:[UIColor clearColor]];
+        //So that the cell won't be highlighted when it's tapped
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        
+        if([selectedCellIndexes containsObject:indexPath]){
+            [cell.buttonView setBackgroundColor:[UIColor redColor]];
+        }
+        
         cell.nameLabel.text = self.currentUserContacts[indexPath.row];
         return cell;
     }
@@ -342,7 +384,31 @@ typedef enum actionType{
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%ld",(long)indexPath.row);
+    if(self.isOnContact)
+    {
+        if(indexPath.section == 0)
+        {
+            SOContactsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            [cell addButtonTapped:cell.addButton];
+            if(cell.isHighlighted ){
+                [selectedCellIndexes addObject:indexPath];
+            }else if(!cell.isHighlighted && [selectedCellIndexes containsObject:indexPath]){
+                [selectedCellIndexes removeObject:indexPath];
+            }
+        }else{
+            //Code goes here for messaging contacts to invite them to join Shoutout
+        }
+    }
+    else
+    {
+        SOFriendsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell collaborateButtonTapped:cell.collaborateButton];
+        if(cell.isHighlighted ){
+            [selectedCellIndexes addObject:indexPath];
+        }else if(!cell.isHighlighted && [selectedCellIndexes containsObject:indexPath]){
+            [selectedCellIndexes removeObject:indexPath];
+        }
+    }
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -350,6 +416,12 @@ typedef enum actionType{
         return section == 0 ? @"Contacts With Shoutout" : @"Contacts Without Shoutout";
     }
     return nil;
+}
+
+#pragma mark - TextField Delegate
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [self.projectTitleTextField endEditing:YES];
 }
 
 @end

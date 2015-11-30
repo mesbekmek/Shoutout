@@ -10,6 +10,10 @@
 
 @interface SOFriendsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-
 @property (weak, nonatomic) IBOutlet UIButton *collaborateButton;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (nonatomic) BOOL isHighlighted;
+
+- (IBAction)collaborateButtonTapped:(UIButton *)sender;
+
 @end

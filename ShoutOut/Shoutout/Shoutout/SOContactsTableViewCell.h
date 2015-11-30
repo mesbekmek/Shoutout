@@ -12,5 +12,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UIView *buttonView;
+@property (nonatomic) BOOL isHighlighted;
+
+- (IBAction)addButtonTapped:(UIButton *)sender;
 
 @end
