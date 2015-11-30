@@ -32,23 +32,29 @@
 }
 
 - (IBAction)sendAsEmailButtonTapped:(UIButton *)sender{
-    
-    // Email Subject
-    NSString *emailTitle = @"Test Email";
-    // Email Content
-    NSString *messageBody = [NSString stringWithFormat: @"iOS programming is so fun! Message from Shoutout: %@", self.shareUrl];
-    // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"varindrahart@gmail.com"];
-    
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:YES];
-    [mc setToRecipients:toRecipents];
-    
-    // Present mail view controller on screen
-    [self presentViewController:mc animated:YES completion:NULL];
-    
+    if ([MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        
+        // Email Subject
+        NSString *emailTitle = @"Test Email";
+        // Email Content
+        NSString *messageBody = [NSString stringWithFormat: @"iOS programming is so fun! Message from Shoutout: %@", self.shareUrl];
+        // To address
+        NSArray *toRecipents = [NSArray arrayWithObject:@"varindrahart@gmail.com"];
+        
+        
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:YES];
+        [mc setToRecipients:toRecipents];
+        
+        // Present mail view controller on screen
+        [self presentViewController:mc animated:YES completion:NULL];
+    }
+    else{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warning" message:@"Your device currently has no email set to it" preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error

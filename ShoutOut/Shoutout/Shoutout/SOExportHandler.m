@@ -8,8 +8,12 @@
 
 #import "SOExportHandler.h"
 
-@implementation SOExportHandler
-
+@implementation SOExportHandler{
+    
+    CGSize sizeRef;
+    NSMutableArray *instructionsArray;
+    
+}
 
 - (void)exportMixComposition:(AVMutableComposition *)mixComposition completion:(void (^)(NSURL *url, BOOL success))onCompletion{
     
@@ -114,16 +118,28 @@
         }
     }
     
+    sizeRef = size;
+    instructionsArray = instructions;
     return mixComposition;
     
-//    AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
-//    mutableVideoComposition.instructions = instructions;
-//    mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
-//    mutableVideoComposition.renderSize = size;
-//    
-//    AVPlayerItem *pi = [AVPlayerItem playerItemWithAsset:mixComposition];
-//    pi.videoComposition = mutableVideoComposition;
-//    
-//    return pi;
+
 }
+
+- (AVPlayerItem *)playerItemFromVideosArray:(NSMutableArray <AVAsset *> *)videosArray{
+    
+    AVMutableComposition *mixComposition = [self mergeVideosFrom:videosArray];
+    
+        AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
+        mutableVideoComposition.instructions = instructionsArray;
+        mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+        mutableVideoComposition.renderSize = sizeRef;
+    
+        AVPlayerItem *pi = [AVPlayerItem playerItemWithAsset:mixComposition];
+        pi.videoComposition = mutableVideoComposition;
+        
+        return pi;
+    
+}
+
+
 @end

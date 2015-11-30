@@ -289,70 +289,15 @@ UIGestureRecognizerDelegate
 }
 
 
-
--(void)mergeVideosInArray:(NSArray<AVAsset *> *)videosArray{
+-(void)mergeVideosInArray:(NSMutableArray<AVAsset *> *)videosArray{
     
     [self.avPlayerLayer removeFromSuperlayer];
     self.avPlayerLayer =nil;
     self.avPlayerItem = nil;
     self.avPlayer = nil;
     
-    AVMutableComposition *mixComposition = [AVMutableComposition composition];
-    AVMutableCompositionTrack *videoCompositionTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-    
-    AVMutableCompositionTrack *audioCompositionTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-    
-    CGSize size = CGSizeZero;
-    CMTime time = kCMTimeZero;
-    
-    NSMutableArray *instructions = [NSMutableArray new];
-    
-    for(AVAsset *asset in videosArray)
-    {
-        AVAssetTrack *videoAssetTrack = [asset tracksWithMediaType:AVMediaTypeVideo].firstObject;
-        
-        NSError *videoError;
-        [videoCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetTrack.timeRange.duration)
-                                       ofTrack:videoAssetTrack
-                                        atTime:time
-                                         error:&videoError];
-        //Added this line in an attempt to fix the orientation
-        videoCompositionTrack.preferredTransform = videoAssetTrack.preferredTransform;
-        //
-        if (videoError) {
-            NSLog(@"Error - %@", videoError.debugDescription);
-        }
-        
-        AVAssetTrack *audioAssetTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
-        
-        NSError *audioError;
-        [audioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoAssetTrack.timeRange.duration)
-                                       ofTrack:audioAssetTrack
-                                        atTime:time
-                                         error:&audioError];
-        if (audioError) {
-            NSLog(@"Error - %@", audioError.debugDescription);
-        }
-        AVMutableVideoCompositionInstruction *videoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-        videoCompositionInstruction.timeRange = CMTimeRangeMake(time, videoAssetTrack.timeRange.duration);
-        videoCompositionInstruction.layerInstructions = @[[AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack]];
-        [instructions addObject:videoCompositionInstruction];
-        
-        time = CMTimeAdd(time, videoAssetTrack.timeRange.duration);
-        
-        if (CGSizeEqualToSize(size, CGSizeZero)) {
-            size = videoAssetTrack.naturalSize;;
-        }
-    }
-    
-    
-    AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
-    mutableVideoComposition.instructions = instructions;
-    mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
-    mutableVideoComposition.renderSize = size;
-    
-    AVPlayerItem *pi = [AVPlayerItem playerItemWithAsset:mixComposition];
-    pi.videoComposition = mutableVideoComposition;
+    SOExportHandler *exportHandler = [SOExportHandler new];
+    AVPlayerItem * pi = [exportHandler playerItemFromVideosArray:videosArray];
     
     AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
     
@@ -363,69 +308,7 @@ UIGestureRecognizerDelegate
     //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
     self.navigationController.navigationBar.hidden = YES;
     
-    //    self.videoPlayingView.frame = self.view.bounds;
-    //    [avPlayerLayer setFrame:self.videoPlayingView.frame];
-    //    avPlayerLayer.frame = self.videoPlayingView.bounds;
-    //
-    //    [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-    //    self.videoPlayingViewCancelButton.hidden = NO;
-    
-    
-    //    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    //    NSString *documentsDirectory = [paths objectAtIndex:0];
-    //    NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:
-    //                             [NSString stringWithFormat:@"mergeVideo-%d.mp4",arc4random() % 1000]];
-    //    NSURL *myURL = [NSURL fileURLWithPath:myPathDocs];
-    //    // 5 - Create exporter with High Quality
-    //    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:mixComposition
-    //                                                                      presetName:AVAssetExportPresetHighestQuality];
-    //    exporter.outputURL=myURL;
-    
-    //    exporter.outputFileType = AVFileTypeQuickTimeMovie;
-    //    exporter.shouldOptimizeForNetworkUse = YES;
-    //    [exporter exportAsynchronouslyWithCompletionHandler:^{
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            [self exportDidFinish:exporter];
-    //        });
-    //    }];
 }
-
-
-//-(void)exportDidFinish:(AVAssetExportSession*)session {
-//    if (session.status == AVAssetExportSessionStatusCompleted) {
-//        //        NSURL *outputURL = session.outputURL;
-//        SOVideo *video = [[SOVideo alloc] initWithVideoUrl:session.outputURL];
-//        self.sortingProject.shoutout = video;
-//    }
-//
-//    AVAsset *avAsset = nil;
-//    AVPlayerItem *avPlayerItem = nil;
-//    AVPlayer *avPlayer = nil;
-//    AVPlayerLayer *avPlayerLayer =nil;
-//
-//    if (avPlayer.rate > 0 && !avPlayer.error) {
-//        [avPlayer pause];
-//    }
-//
-//    else {
-//
-//        avAsset = [self.sortingProject.shoutout assetFromVideoFile];
-//
-//        avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
-//
-//        avPlayer = [[AVPlayer alloc]initWithPlayerItem:avPlayerItem];
-//
-//        avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:avPlayer];
-//
-//        [avPlayerLayer setFrame:self.videoPlayingView.frame];
-//        avPlayerLayer.frame = self.videoPlayingView.bounds;
-//
-//        [self.videoPlayingView.layer addSublayer:avPlayerLayer];
-//
-//        [avPlayer seekToTime:kCMTimeZero];
-//        [avPlayer play];
-//    }
-//}
 
 - (IBAction)shareButtonTapped:(UIButton *)sender{
     
