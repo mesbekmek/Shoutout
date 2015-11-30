@@ -21,7 +21,7 @@
         
         SOContactsFormatter *contact = [[SOContactsFormatter alloc] init];
         NSString *firstName =  apContact.name.firstName;
-        NSString *lastName =  apContact.name.lastName;
+        NSString *lastName =  apContact.name.lastName ? apContact.name.lastName : @"";
         
         contact.name = [NSString stringWithFormat:@"%@ %@",firstName,lastName];
         
@@ -39,18 +39,17 @@
 {
     NSArray *allKeysInUserNameDict = [usernameDict allKeys];
     
-    //Using an NSSet for constant time lookup, but increases space complexity
-    //http://stackoverflow.com/questions/7396919/how-might-i-check-if-a-particular-nsstring-is-present-in-an-nsarray
-    
-    NSSet *set = [NSSet setWithArray:[apContactsDict allKeys]];
+//    //Using an NSSet for constant time lookup, but increases space complexity
+//    //http://stackoverflow.com/questions/7396919/how-might-i-check-if-a-particular-nsstring-is-present-in-an-nsarray
+//    
+//    NSSet *set = [NSSet setWithArray:[apContactsDict allKeys]];
     
     NSMutableArray<SOContactsFormatter *>* soContactsArray = [NSMutableArray new];
     
     
     for(NSString *key in allKeysInUserNameDict)
     {
-        if([set containsObject:key])
-        {
+
             SOContactsFormatter *contact = [[SOContactsFormatter alloc] init];
             contact.username = usernameDict[key];
             
@@ -61,12 +60,6 @@
             contact.name = [NSString stringWithFormat:@"%@ %@",firstName,lastName];
             
             [soContactsArray addObject:contact];
-        }
-        else
-        {
-            continue;
-        }
-        
     }
     [soContactsArray sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
     return soContactsArray;
