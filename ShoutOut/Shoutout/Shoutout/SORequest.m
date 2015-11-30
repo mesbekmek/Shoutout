@@ -83,7 +83,7 @@
                     }
                     
                 }
-                else if([req.requestSentTo isEqualToString:[User currentUser].username]){
+                else if([req.requestSentTo isEqualToString:[User currentUser].username] && !req.isFriendRequest){
                     if (req.hasDecided == 0) {
                         [collaborationReq addObject:req];
                     }
