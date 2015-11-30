@@ -40,9 +40,9 @@
         } else {
             continue;
         }
-
         
-        }
+        
+    }
     
     PFQuery *query = [User query];
     [query whereKey:@"phoneNumber" containedIn:allPhoneNumber];
@@ -64,23 +64,23 @@
 }
 
 -(NSString *)formatePhoneNumberTo10Digit:(NSString *)phoneNumber{
-        NSString *formatedPhoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:
-                                          [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                         componentsJoinedByString:@""];
-        if ([formatedPhoneNumber length] == 10) {
-            
-            NSLog(@"Number selected %@",formatedPhoneNumber);
-            return formatedPhoneNumber;
-    
-        } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
-    
-            NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
-            return [formatedPhoneNumber substringFromIndex:1];
-        } else {
-            NSLog(@"Phone Number ----- %@",phoneNumber);
-            return nil;
-            
-        }
+    NSString *formatedPhoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:
+                                      [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                     componentsJoinedByString:@""];
+    if ([formatedPhoneNumber length] == 10) {
+        
+        NSLog(@"Number selected %@",formatedPhoneNumber);
+        return formatedPhoneNumber;
+        
+    } else if ([formatedPhoneNumber length] == 11 && [formatedPhoneNumber hasPrefix:@"1"]) {
+        
+        NSLog(@"Number selected %@",[formatedPhoneNumber substringFromIndex:1]);
+        return [formatedPhoneNumber substringFromIndex:1];
+    } else {
+        NSLog(@"Phone Number ----- %@",phoneNumber);
+        return nil;
+        
+    }
 }
 
 - (void)contactsQuery:(void (^)(NSMutableArray<Contact *> *, BOOL))onCompletion{
@@ -122,14 +122,14 @@
                     NSLog(@"adding to contacts from phone book array");
                     
                 }
-             
+                
                 onCompletion(contactsFromPhoneBook, YES);
             }
         }
     }];
 }
 
-#pragma mark Convenience method for doing set subtraction on APContacts
+#pragma mark - Convenience method obtaining contacts with and without Shoutout
 
 -(void)queryParseContactsBasedOnPhoneBook:(NSArray <APContact *> *)phoneBook withBlock:(void (^)(NSMutableDictionary *apContactsForNumbers, NSMutableDictionary *usernameForNumbers))onCompletion{
     
@@ -137,68 +137,51 @@
     
     NSMutableArray *allPhoneNumber = [[NSMutableArray alloc]init];
     NSMutableDictionary *apContactForNumber = [[NSMutableDictionary alloc] init];
-    for (APContact *contact in phoneBook) {
+    
+    for (APContact *contact in phoneBook)
+    {
         NSString *phoneNumber = contact.phones[0].number;
         NSString *formatedPhoneNumber = [self formatePhoneNumberTo10Digit:phoneNumber];
         
         [apContactForNumber setObject:contact forKey:formatedPhoneNumber];
         NSLog(@"%@",formatedPhoneNumber);
-        if ([formatedPhoneNumber length] == 10) {
-            
+        if ([formatedPhoneNumber length] == 10)
+        {
             [allPhoneNumber addObject:formatedPhoneNumber];
             NSString *first_name = contact.name.firstName? contact.name.firstName : @"";
             NSString *last_name = contact.name.lastName? contact.name.lastName : @"";
             
             [namesForNumbers setObject:[NSString stringWithFormat:@"%@ %@",first_name, last_name] forKey:formatedPhoneNumber];
-        } else {
+        }
+        else
+        {
             continue;
         }
-        
-        
     }
-    NSMutableArray<APContact *> *contactsWithShoutout = [[NSMutableArray alloc] init];
     PFQuery *query = [User query];
     [query whereKey:@"phoneNumber" containedIn:allPhoneNumber];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects.count == 0) {
+        
+        if (objects.count == 0)
+        {
             NSLog(@"Object count is == 0 for phoneNumber query");
         }
-        if (!error) {
-            NSLog(@"phoneBook Query Object %lu", objects.count);
+        if (!error)
+        {
+            NSLog(@"phoneBook Query Object %u", objects.count);
             NSMutableArray <User *> *allUsers = [NSMutableArray new];
             allUsers =[NSMutableArray arrayWithArray: objects];
             
             NSMutableDictionary *usernamesForNumbers = [NSMutableDictionary new];
-            for(User *user in allUsers )
+            for(User *user in allUsers)
             {
                 [usernamesForNumbers setObject:user.username forKey:user.phoneNumber];
-            
-               
-//                APContact *contact = [[APContact alloc] init];
-//                
-//                //Get Contacts Name
-//                APName *contactName = [[APName alloc] init];
-//                NSString *phoneNumberForName = allPhoneNumber[i];
-//                NSString *firstNameAndLastName = [namesForNumbers objectForKey:phoneNumberForName];
-//                
-//                NSArray *array = [firstNameAndLastName componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//                contactName.firstName = array[0];
-//                contactName.lastName = array[1];
-//                contact.name = contactName;
-//                
-//                //Get Contacts Phone
-//                APPhone *contactPhone = [[APPhone alloc] init];
-//                contactPhone.number = phoneNumberForName;
-//                contact.phones = @[contactPhone];
-//                
-//                [contactsWithShoutout addObject:contact];
             }
-            
-            
             onCompletion(apContactForNumber,usernamesForNumbers);
-            
-        } else {
-            NSLog(@"ERROR!!! contact Model === %@",error);
+        }
+        else
+        {
+            NSLog(@"Error in the Contact Model : %@",[error localizedDescription]);
         }
     }];
 }
