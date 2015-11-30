@@ -20,4 +20,6 @@
 -(instancetype)initWithPhoneNumberArray;
 - (void)contactsQuery:(void (^) (NSMutableArray <Contact *> *allContacts, BOOL didComplete))onCompletion;
 -(void)contactsQueryParseBaseOnPhoneBook:(NSArray <APContact *> *)phoneBook withBlock:(void (^)(NSMutableDictionary *namesForNumbers, NSArray <User *>*users))onCompletion;
+
+-(void)queryParseContactsBasedOnPhoneBook:(NSArray <APContact *> *)phoneBook withBlock:(void (^)(NSMutableDictionary *apContactsForNumbers, NSMutableDictionary *usernameForNumbers))onCompletion;
 @end

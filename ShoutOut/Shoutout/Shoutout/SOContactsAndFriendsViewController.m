@@ -13,6 +13,7 @@
 #import "APContact.h"
 #import "APPhone.h"
 #import "Contact.h"
+#import "SOContactsFormatter.h"
 
 
 typedef enum actionType{
@@ -33,6 +34,20 @@ typedef enum actionType{
 @property (nonatomic) BOOL isOnContact;
 @property (nonatomic) NSMutableArray *currentUserContacts;
 
+@property (nonatomic) NSArray<APContact *> *phoneBookContacts;
+
+@property (nonatomic) NSArray<APContact *> *phoneBookContactsWithShoutout;
+
+@property (nonatomic) NSArray<APContact *> *phoneBookContactsWithOutShoutout;
+
+@property (nonatomic) NSMutableDictionary *phoneBookDictionary;
+
+@property (nonatomic) NSMutableDictionary *usernamesForNames;
+
+
+
+
+
 @end
 
 @implementation SOContactsAndFriendsViewController
@@ -43,6 +58,7 @@ typedef enum actionType{
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.phoneBookDictionary = [NSMutableDictionary new];
     // SOContacts XIB
     UINib *soContactsNib = [UINib nibWithNibName:@"SOContactsTableViewCell" bundle:nil];
     [self.tableView registerNib:soContactsNib forCellReuseIdentifier:@"ContactsCell"];
@@ -98,24 +114,105 @@ typedef enum actionType{
     
     [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
         if (!error) {
-            //            self.phoneBookContactList =
+            self.phoneBookContacts = contacts;
             self.phoneBookName = [NSMutableArray new];
             self.phoneBookUserName = [NSMutableArray new];
             Contact *queryParse = [Contact new];
-            [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
-                for (User *user in users) {
-                    NSString *phoneNumber = user.phoneNumber;
-                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
-                    [self.phoneBookUserName addObject:phoneBookName];
-                    [self.phoneBookName addObject:user.username];
+            
+            [queryParse queryParseContactsBasedOnPhoneBook:contacts withBlock:^(NSMutableDictionary *apContactsForNumbers, NSMutableDictionary *usernameForNumbers) {
+                
+                NSMutableArray *allKeysOfPhoneContactsNotOnShoutout = [NSMutableArray new];
+                for (int i=0; i < [apContactsForNumbers allKeys].count; i++)
+                {
+                    NSString *apContactPhoneNumber = [NSString stringWithFormat:@"%@",[apContactsForNumbers allKeys][i]];
+                    
+                    for(int j = 0; j < [usernameForNumbers allKeys].count; j++)
+                    {
+                        NSString *shoutoutUserPhoneNumber = [NSString stringWithFormat:@"%@",[usernameForNumbers allKeys][j]];
+                        
+                        if([apContactPhoneNumber isEqualToString:shoutoutUserPhoneNumber]){
+                            break;
+                        }
+                        else if( j == [usernameForNumbers allKeys].count - 1)
+                        {
+                            [allKeysOfPhoneContactsNotOnShoutout addObject:apContactPhoneNumber];
+                        }
+                    }
+                    
                 }
+                
+                //Contacts without shoutout
+              NSArray<SOContactsFormatter *> *contactsWithoutShoutout = [SOContactsFormatter getNameAndPhoneNumberForDictionary:apContactsForNumbers andKeys:allKeysOfPhoneContactsNotOnShoutout];
+                //Contacts with shoutout
+             NSArray<SOContactsFormatter*>* contactsWithShoutout =    [SOContactsFormatter getNameAndUsernameForDictionary:apContactsForNumbers andDictionary:usernameForNumbers];
+                
+                [self.phoneBookDictionary setObject:contactsWithShoutout forKey:@"Contacts With Shoutout"];
+                [self.phoneBookDictionary setObject:contactsWithoutShoutout forKey:@"Contacts Without Shoutout"];
+                
+//                self.phoneBookContactsWithShoutout = contacts;
+//                
+//                self.phoneBookContactsWithOutShoutout = [self getContactsWithoutShout];
+                
+//                [self.phoneBookDictionary setObject:self.phoneBookContactsWithShoutout forKey:@"Contacts With Shoutout"];
+//                [self.phoneBookDictionary setObject:self.phoneBookContactsWithOutShoutout forKey:@"Contacts Without Shoutout"];
+                
+//                for (User *user in users)
+//                {
+//                    NSString *phoneNumber = user.phoneNumber;
+//                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
+//                    
+//                    [self.phoneBookName addObject:phoneBookName];
+//                    [self.phoneBookUserName addObject:user.username];
+//                    [self.usernamesForNames setObject:user.username forKey:phoneBookName];
+//                    
+//                }
                 [self.tableView reloadData];
             }];
+            
+            
+            //            [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
+            //                for (User *user in users) {
+            //                    NSString *phoneNumber = user.phoneNumber;
+            //                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
+            //                    [self.phoneBookUserName addObject:phoneBookName];
+            //                    [self.phoneBookName addObject:user.username];
+            //                }
+            //                [self.tableView reloadData];
+            //            }];
         } else {
             NSLog(@"Error!!! == %@",error);
         }
     }];
     
+}
+
+-(NSArray<APContact *>*)getContactsWithoutShout{
+    NSMutableSet *allContacts = [NSMutableSet setWithArray:self.phoneBookContacts];
+    NSMutableSet *allContactsWithShoutout = [NSMutableSet setWithArray:self.phoneBookContactsWithShoutout];
+    
+    
+    
+    NSMutableSet *contactsWithShoutout2 = [NSMutableSet new];
+    
+    for(APContact *contact in allContactsWithShoutout){
+        NSString *phone1 = [NSString stringWithFormat:@"%@",contact.phones[0]];
+        for(APContact *contact2 in allContacts)
+        {
+            NSString *phone2 = [NSString stringWithFormat:@"%@",contact2.phones[0]];
+            
+            if([phone1 isEqualToString:phone2])
+            {
+                [contactsWithShoutout2 addObject:contact];
+                break;
+            }
+        }
+    }
+    
+    [allContacts minusSet:contactsWithShoutout2];
+    
+    NSArray<APContact *> *contactsWithoutShout = [allContacts allObjects];
+    
+    return contactsWithoutShout;
 }
 
 
@@ -247,7 +344,7 @@ typedef enum actionType{
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
     if(self.isOnContact)
     {
-        return 2;
+        return [self.phoneBookDictionary allKeys].count;
     }
     else
     {
@@ -258,7 +355,10 @@ typedef enum actionType{
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(self.isOnContact)
     {
-        return self.phoneBookName.count;
+        NSArray *array = section == 0 ? self.phoneBookDictionary[@"Contacts With Shoutout"]  : self.phoneBookDictionary[@"Contacts Without Shoutout"];
+        
+        return array.count;
+        
     }
     else
     {
@@ -273,8 +373,21 @@ typedef enum actionType{
         SOContactsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactsCell" forIndexPath:indexPath];
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        //        cell.nameLabel.text = self.phoneBookUserName[indexPath.row];
-        //        cell.usernameLabel.text =
+        
+        if(indexPath.section == 0){
+            
+            SOContactsFormatter *object = [self.phoneBookDictionary objectForKey:@"Contacts With Shoutout"][indexPath.row];
+            
+            cell.nameLabel.text = object.name;
+            cell.usernameLabel.text = object.username;
+        }
+        else
+        {
+            SOContactsFormatter *object = [self.phoneBookDictionary objectForKey:@"Contacts Without Shoutout"][indexPath.row];
+            
+            cell.nameLabel.text = object.name;
+            cell.usernameLabel.text = object.phoneNumber;
+        }
         return cell;
     }
     else
@@ -287,6 +400,8 @@ typedef enum actionType{
     
     
 }
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60.0;
 }
@@ -294,6 +409,22 @@ typedef enum actionType{
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"%ld",(long)indexPath.row);
 }
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if(self.isOnContact){
+        return section == 0 ? @"Contacts With Shoutout" : @"Contacts Without Shoutout";
+    }
+    return nil;
+}
+
+
+#pragma mark Title For Header In Section
+
+-(NSString *)titleForHeaderInSection:(NSIndexPath *)indexPath{
+    UITableViewHeaderFooterView* header =[self.tableView headerViewForSection:indexPath.section];
+    return header.textLabel.text;
+}
+
 
 
 @end

@@ -75,6 +75,7 @@
 		DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E111BF4290C00562543 /* SOSignUpViewController.xib */; };
 		DC74C0FF1C0B754D00FFCF45 /* SOFriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */; };
 		DC74C1001C0B754D00FFCF45 /* SOFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */; };
+		DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */; };
 		DCDA4F131C08372F0090959E /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCDA4F121C08372F0090959E /* Main.Storyboard */; };
 		DCF5EF791C0A33020021B135 /* SOContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF5EF781C0A33020021B135 /* SOContactsViewController.m */; };
 		F386A2585F70466F066DA368 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B31638C861E4996215CDACD0 /* libPods.a */; };
@@ -191,6 +192,8 @@
 		DC74C0FC1C0B754D00FFCF45 /* SOFriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFriendsTableViewCell.h; sourceTree = "<group>"; };
 		DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFriendsTableViewCell.m; sourceTree = "<group>"; };
 		DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOFriendsTableViewCell.xib; sourceTree = "<group>"; };
+		DC74C1011C0BE57700FFCF45 /* SOContactsFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContactsFormatter.h; sourceTree = "<group>"; };
+		DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContactsFormatter.m; sourceTree = "<group>"; };
 		DCDA4F121C08372F0090959E /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 		DCF5EF771C0A33020021B135 /* SOContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContactsViewController.h; sourceTree = "<group>"; };
 		DCF5EF781C0A33020021B135 /* SOContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContactsViewController.m; sourceTree = "<group>"; };
@@ -378,6 +381,8 @@
 				DC360E861C0B6584001B958E /* SOContactsAndFriendsViewController.h */,
 				DC360E871C0B6584001B958E /* SOContactsAndFriendsViewController.m */,
 				DC360E881C0B6584001B958E /* SOContactsAndFriendsViewController.xib */,
+				DC74C1011C0BE57700FFCF45 /* SOContactsFormatter.h */,
+				DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */,
 			);
 			name = SOContactsAndFriends;
 			sourceTree = "<group>";
@@ -686,6 +691,7 @@
 				DC360E8E1C0B6B59001B958E /* SOContactsTableViewCell.m in Sources */,
 				DC386E0A1BF424B300562543 /* NSURL+ImageGenerator.m in Sources */,
 				DC74C0FF1C0B754D00FFCF45 /* SOFriendsTableViewCell.m in Sources */,
+				DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
 				D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
