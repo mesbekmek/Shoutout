@@ -180,7 +180,7 @@ typedef enum actionType{
                 NSLog(@"query contacts ERROR == %@",error);
             }
         }];
-        [self checkSORequestStatus];
+        //   [self checkSORequestStatus];
     }
 }
 
@@ -280,26 +280,65 @@ typedef enum actionType{
 
 - (IBAction)doneButtonTapped:(UIButton *)sender {
     
-    if([selectedCellIndexes count] == 0){
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
-        
-        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    NSString *title = [self.projectTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if(self.isOnContact)
+    {
+        if([selectedCellIndexes count] == 0){
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
             
-            [self dismissViewControllerAnimated:YES completion:^{
-            }];
-        }]];
-        [self presentViewController:alert animated:YES completion:nil];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else if (!(title && title.length))
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Please title your event " preferredStyle:UIAlertControllerStyleAlert];
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else
+        {
+            NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
+            
+            NSArray<SOContactsFormatter*>* contactsWithShoutout = [self.phoneBookDictionary objectForKey:@"Contacts With Shoutout"];
+            
+            for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
+            {
+                SOContactsFormatter *contact = contactsWithShoutout[indexPath.row];
+                NSString *username = contact.username;
+                [SORequest sendRequestTo:username forProjectId:self.projectID andTitle:self.projectTitleTextField.text];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        }
     }
     else
     {
-        NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
-        NSArray *keys = [[self.usernamesForNames allKeys]sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-        for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
-        {
-            NSString *username = (NSString *)self.usernamesForNames[keys[indexPath.row]];
-            [SORequest sendRequestTo:username forProjectId:self.projectID andTitle:self.projectTitleTextField.text];
+        if([selectedCellIndexes count] == 0){
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
             
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else{
+            NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
+            for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
+            {
+                NSString *username = (NSString *)self.currentUserContacts[indexPath.row];
+                [SORequest sendRequestTo:username forProjectId:self.projectID andTitle:self.projectTitleTextField.text];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
         }
     }
 }

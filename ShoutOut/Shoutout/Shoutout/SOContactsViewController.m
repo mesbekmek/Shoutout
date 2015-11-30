@@ -104,6 +104,7 @@ typedef enum actionType{
 
 #pragma mark Next Button
 - (IBAction)nextButtonTapped:(UIButton *)sender {
+    NSString *title = [self.titleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if([self.nextButton.titleLabel.text isEqualToString:@"Done"])
     {
@@ -132,11 +133,19 @@ typedef enum actionType{
         
         [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             
-            [self dismissViewControllerAnimated:YES completion:^{
-            }];
+            [alert dismissViewControllerAnimated:YES completion:nil];
         }]];
         [self presentViewController:alert animated:YES completion:nil];
+    }
+    else if (!(title && title.length))
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Please title your event " preferredStyle:UIAlertControllerStyleAlert];
         
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        }]];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     else
     {
@@ -149,8 +158,8 @@ typedef enum actionType{
         for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
         {
             
-//            [tempUsernameArray addObject:self.phoneBookUserName[indexPath.row]];
-//            [tempNameArray addObject:self.phoneBookName[indexPath.row]];
+            //            [tempUsernameArray addObject:self.phoneBookUserName[indexPath.row]];
+            //            [tempNameArray addObject:self.phoneBookName[indexPath.row]];
             [tempUsernameForNames setObject:self.usernamesForNames[keys[indexPath.row]] forKey:keys[indexPath.row] ];
         }
         self.phoneBookUserName = tempUsernameArray;
@@ -193,7 +202,7 @@ typedef enum actionType{
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     
-//    if(self.shoutoutFriends.count>0)
+    //    if(self.shoutoutFriends.count>0)
     if (keys.count>0)
     {
         cell.textLabel.text = [NSString stringWithFormat:@"%@", keys[indexPath.row]];
@@ -202,39 +211,39 @@ typedef enum actionType{
     else{
         
     }
-//    else{
-//        cell.textLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
-//        if(self.phoneBookContactList[indexPath.row].phones[0] != nil)
-//        {
-//            cell.detailTextLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
-//        }
-//    }
+    //    else{
+    //        cell.textLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
+    //        if(self.phoneBookContactList[indexPath.row].phones[0] != nil)
+    //        {
+    //            cell.detailTextLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
+    //        }
+    //    }
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-        
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        
-        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
-        {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        else
-        {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
-        
-        if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
-        {
-            [selectedCellIndexes addObject:indexPath];
-        }
-        else if([selectedCellIndexes containsObject:indexPath])
-        {
-            [selectedCellIndexes removeObject:indexPath];
-        }
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
+    if ([cell accessoryType] == UITableViewCellAccessoryCheckmark)
+    {
+        [selectedCellIndexes addObject:indexPath];
+    }
+    else if([selectedCellIndexes containsObject:indexPath])
+    {
+        [selectedCellIndexes removeObject:indexPath];
+    }
     
 }
 
