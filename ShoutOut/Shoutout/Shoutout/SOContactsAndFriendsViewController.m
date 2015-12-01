@@ -47,7 +47,8 @@ typedef enum actionType{
 
 @implementation SOContactsAndFriendsViewController
 {
-    NSMutableSet<NSIndexPath *> *selectedCellIndexes;
+    NSMutableSet<NSIndexPath *> *selectedCellIndexesOnContactSection;
+    NSMutableSet<NSIndexPath *> *selectedCellIndexesOnFriendsSection;
     ActionType actionType;
 }
 #pragma mark Life Cycle
@@ -59,7 +60,8 @@ typedef enum actionType{
 -(void)setup
 {
     self.phoneBookDictionary = [NSMutableDictionary new];
-    selectedCellIndexes = [NSMutableSet new];
+    selectedCellIndexesOnContactSection = [NSMutableSet new];
+    selectedCellIndexesOnFriendsSection = [NSMutableSet new];
     // SOContacts XIB
     UINib *soContactsNib = [UINib nibWithNibName:@"SOContactsTableViewCell" bundle:nil];
     [self.tableView registerNib:soContactsNib forCellReuseIdentifier:@"ContactsCell"];
@@ -279,12 +281,11 @@ typedef enum actionType{
 }
 
 - (IBAction)doneButtonTapped:(UIButton *)sender {
-#warning Fix bug by adding two sets of mutablesets that track indexpaths...other wise clearing needs to happen
     NSString *title = [self.projectTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if(self.isOnContact)
     {
-        if([selectedCellIndexes count] == 0){
+        if([selectedCellIndexesOnContactSection count] == 0){
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
             
             [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -305,7 +306,7 @@ typedef enum actionType{
         }
         else
         {
-            NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
+            NSArray *selectedFriendsIndexPaths = [selectedCellIndexesOnContactSection allObjects];
             
             NSArray<SOContactsFormatter*>* contactsWithShoutout = [self.phoneBookDictionary objectForKey:@"Contacts With Shoutout"];
             
@@ -321,7 +322,8 @@ typedef enum actionType{
     }
     else
     {
-        if([selectedCellIndexes count] == 0){
+        if([selectedCellIndexesOnFriendsSection count] == 0)
+        {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Sorry, you need to select at least one person " preferredStyle:UIAlertControllerStyleAlert];
             
             [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -341,7 +343,7 @@ typedef enum actionType{
             [self presentViewController:alert animated:YES completion:nil];
         }
         else{
-            NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
+            NSArray *selectedFriendsIndexPaths = [selectedCellIndexesOnFriendsSection allObjects];
             for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
             {
                 NSString *username = (NSString *)self.currentUserContacts[indexPath.row];
@@ -390,7 +392,7 @@ typedef enum actionType{
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        if([selectedCellIndexes containsObject:indexPath]){
+        if([selectedCellIndexesOnContactSection containsObject:indexPath]){
             [cell.buttonView setBackgroundColor:[UIColor redColor]];
         }
         
@@ -419,7 +421,7 @@ typedef enum actionType{
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        if([selectedCellIndexes containsObject:indexPath]){
+        if([selectedCellIndexesOnFriendsSection containsObject:indexPath]){
             [cell.buttonView setBackgroundColor:[UIColor redColor]];
         }
         
@@ -440,11 +442,14 @@ typedef enum actionType{
             SOContactsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             [cell addButtonTapped:cell.addButton];
             if(cell.isHighlighted ){
-                [selectedCellIndexes addObject:indexPath];
-            }else if(!cell.isHighlighted && [selectedCellIndexes containsObject:indexPath]){
-                [selectedCellIndexes removeObject:indexPath];
+                [selectedCellIndexesOnContactSection addObject:indexPath];
             }
-        }else{
+            else if(!cell.isHighlighted && [selectedCellIndexesOnContactSection containsObject:indexPath])
+            {
+                [selectedCellIndexesOnContactSection removeObject:indexPath];
+            }
+        }
+        else{
             //Code goes here for messaging contacts to invite them to join Shoutout
         }
     }
@@ -452,10 +457,14 @@ typedef enum actionType{
     {
         SOFriendsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         [cell collaborateButtonTapped:cell.collaborateButton];
-        if(cell.isHighlighted ){
-            [selectedCellIndexes addObject:indexPath];
-        }else if(!cell.isHighlighted && [selectedCellIndexes containsObject:indexPath]){
-            [selectedCellIndexes removeObject:indexPath];
+        
+        if(cell.isHighlighted)
+        {
+            [selectedCellIndexesOnFriendsSection addObject:indexPath];
+        }
+        else if(!cell.isHighlighted && [selectedCellIndexesOnFriendsSection containsObject:indexPath])
+        {
+            [selectedCellIndexesOnFriendsSection removeObject:indexPath];
         }
     }
 }
