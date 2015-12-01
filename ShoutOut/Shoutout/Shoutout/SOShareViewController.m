@@ -9,7 +9,9 @@
 #import "SOShareViewController.h"
 #import <MessageUI/MessageUI.h>
 
-@interface SOShareViewController () <MFMailComposeViewControllerDelegate>
+@interface SOShareViewController () <MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableview;
+@property (nonatomic) NSMutableDictionary *shareContactsDict;
 
 @end
 
@@ -17,7 +19,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.tableview.delegate = self;
+    self.tableview.dataSource = self;
+    
+    self.shareContactsDict = [NSMutableDictionary new];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,6 +87,28 @@
     
     // Close the Mail Interface
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - Table View Data Source And Delegate Methods
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOShareCellID" forIndexPath:indexPath];
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [self.shareContactsDict allKeys].count;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 

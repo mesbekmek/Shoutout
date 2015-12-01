@@ -18,6 +18,7 @@
 #import "SORequest.h"
 #import "User.h"
 #import "SOContacts.h"
+#import "SOShoutout.h"
 #import "SOCachedProjects.h"
 #import <SSKeychain/SSKeychain.h>
 #import <SSKeychain/SSKeychainQuery.h>
@@ -39,6 +40,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SOProject registerSubclass];
     [SORequest registerSubclass];
     [SOContacts registerSubclass];
+    [SOShoutout registerSubclass];
     
     [self setupPushNotifications:application];
     [self setupSSKeyChain];
