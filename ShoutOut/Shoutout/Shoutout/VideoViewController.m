@@ -20,14 +20,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     // the video player
     //self.avPlayer = [AVPlayer playerWithURL:self.videoUrl];
     self.avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
     self.avPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
-    self.avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playerItemDidReachEnd:)
@@ -41,9 +41,10 @@
     
 //    [self cancelButton];
     // cancel button
-    [self.view addSubview:self.cancelButton];
+    
     [self.cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.cancelButton.frame = CGRectMake(0, 0, 44, 44);
+    [self.view addSubview:self.cancelButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -67,7 +68,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
         button.tintColor = [UIColor whiteColor];
         button.titleLabel.text = @"X";
-        button.titleLabel.textColor = [UIColor blackColor];
+        button.titleLabel.textColor = [UIColor whiteColor];
         button.imageView.clipsToBounds = NO;
         button.contentEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
         button.layer.shadowColor = [UIColor blackColor].CGColor;

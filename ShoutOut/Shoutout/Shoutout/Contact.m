@@ -143,7 +143,10 @@
         NSString *phoneNumber = contact.phones[0].number;
         NSString *formatedPhoneNumber = [self formatePhoneNumberTo10Digit:phoneNumber];
         
-        [apContactForNumber setObject:contact forKey:formatedPhoneNumber];
+        if (formatedPhoneNumber) {
+            [apContactForNumber setObject:contact forKey:formatedPhoneNumber];
+        }
+        
         NSLog(@"%@",formatedPhoneNumber);
         if ([formatedPhoneNumber length] == 10)
         {
