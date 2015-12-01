@@ -78,6 +78,27 @@ typedef enum eventsType{
     
 }
 
+- (IBAction)friendContactsButtonTapped:(UIButton *)sender {
+    if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
+        self.currentUserContacts = [NSMutableArray new];
+        [self queryCurrentUserContactsListOnParse];
+        self.isOnContact = NO;
+        
+    } else {
+        
+        self.isOnContact = YES;
+        self.contactsFromPhoneBook  = [NSMutableArray new];
+        
+        [self queryPhoneBookContact];
+        
+    }
+    if (self.isAnimating || (sender.tag ==0 && currentEventType == MY_EVENTS) || (sender.tag == 1 && currentEventType == MY_COLLABORATIONS)) {
+        return;
+    }
+    [self animateUnderlineBar];
+}
+
+
 #pragma mark - Animation
 - (void)animateUnderlineBar{
     
@@ -102,25 +123,7 @@ typedef enum eventsType{
     
 }
 
-- (IBAction)friendContactsButtonTapped:(UIButton *)sender {
-    if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
-        
-        [self queryCurrentUserContactsListOnParse];
-        self.isOnContact = NO;
-        
-    } else {
-        
-        self.isOnContact = YES;
-        self.contactsFromPhoneBook  = [NSMutableArray new];
-        
-        [self queryPhoneBookContact];
-        
-    }
-    if (self.isAnimating || (sender.tag ==0 && currentEventType == MY_EVENTS) || (sender.tag == 1 && currentEventType == MY_COLLABORATIONS)) {
-        return;
-    }
-    [self animateUnderlineBar];
-}
+
 
 -(void)queryPhoneBookContact{
     //    self.phoneBookContactList = [NSArray new];
@@ -308,6 +311,8 @@ typedef enum eventsType{
     PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
     [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
     [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+    [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
+    [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
          NSLog(@"SORequest %@",objects);
          for (SORequest *newRequest in objects){
