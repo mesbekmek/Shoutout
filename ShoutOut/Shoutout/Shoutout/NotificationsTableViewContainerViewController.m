@@ -35,7 +35,7 @@ typedef enum hasFetched{
 @end
 
 @implementation NotificationsTableViewContainerViewController{
-FetchingStatus fetchingStatus;
+    FetchingStatus fetchingStatus;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -48,6 +48,7 @@ FetchingStatus fetchingStatus;
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.allowsMultipleSelection = NO;
     SORequest *request = [SORequest new];
     fetchingStatus = FETCHING;
     [request fetchAllRequests:^(NSMutableArray<SORequest *> *collaborationRequests, NSMutableArray<SORequest *> *friendRequests, NSMutableArray<SORequest *> *responseRequests) {
@@ -218,6 +219,52 @@ FetchingStatus fetchingStatus;
     }];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section ==0 || indexPath.section ==2) {
+        return YES;
+    }
+    return NO;
+    
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    switch (indexPath.section) {
+        case 0:{
+            
+            SORequest *req = self.collaborationRequests[indexPath.row];
+            req.isAccepted = NO;
+            req.hasDecided = YES;
+            [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                [self.collaborationRequests removeObject:req];
+                [self.tableView reloadData];
+                
+            }];
+            break;
+        }
+
+        case 2:{
+            SORequest *req = self.friendRequests[indexPath.row];
+            req.isAccepted = NO;
+            req.hasDecided = YES;
+            [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                [self.friendRequests removeObject:req];
+                [self.tableView reloadData];
+                
+            }];
+            break;
+            
+        }
+        default:
+            break;
+    }
+    
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
