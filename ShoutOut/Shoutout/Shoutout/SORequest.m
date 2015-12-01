@@ -54,13 +54,29 @@
 }
 
 //Friend Requests
-+ (void)sendRequestTo:(NSString *)requestedUser{
++ (void)sendRequestTo:(NSString *)requestedUser withBlock:(void (^)(BOOL succeeded))onCompletion{
     
-    SORequest *request = [[SORequest alloc]initWithPendingRequestTo:requestedUser];
-    
-    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"Request send to %@",requestedUser);
+    PFQuery *checkForDoubleRequest = [PFQuery queryWithClassName:@"SORequest"];
+    [checkForDoubleRequest whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+    [checkForDoubleRequest whereKey:@"requestSentTo" equalTo:requestedUser];
+    [checkForDoubleRequest whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+    [checkForDoubleRequest whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
+    [checkForDoubleRequest whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
+    [checkForDoubleRequest findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (objects.count == 0) {
+            SORequest *request = [[SORequest alloc]initWithPendingRequestTo:requestedUser];
+            
+            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                NSLog(@"Request send to %@",requestedUser);
+                onCompletion (succeeded);
+            }];
+        } else {
+            NSLog(@"Friend request is still pending");
+            onCompletion(NO);
+        }
     }];
+    
+
 }
 
 - (void)fetchAllRequests:(void (^)(NSMutableArray<SORequest *> *collaborationRequests, NSMutableArray<SORequest *> *friendRequests, NSMutableArray<SORequest *> *responseRequests))onCompletion{

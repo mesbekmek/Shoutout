@@ -156,9 +156,7 @@
                 if (![self checkDuplicateConctact:searchedUser.username]) {
 //                    [self.currentUserContacts addObject:searchedUser.username];
                     [self.tableView reloadData];
-//                    [self sendFriendRequest:searchedUser.username];
-                    [SORequest sendRequestTo:searchedUser.username];
-//                    [self pushContactListToParse];
+                    [SORequest sendRequestTo:searchedUser.username withBlock:nil];
                 } else {
                     [self contactDuplicateAlert];
                 }
