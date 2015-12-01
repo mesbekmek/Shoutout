@@ -26,7 +26,7 @@
 
 + (NSString*)parseClassName;
 
-+ (void)sendRequestTo:(NSString *)requestedUser;
++ (void)sendRequestTo:(NSString *)requestedUser withBlock:(void (^)(BOOL succeeded))onCompletion;
 
 + (void)sendRequestTo:(NSString *)requestedUser forProjectId:(NSString *)projId andTitle:(NSString *)title;
 
