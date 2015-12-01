@@ -518,10 +518,16 @@ UIGestureRecognizerDelegate
 #pragma mark - Reorderable layout
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canDragItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == self.videoThumbnails.count) {
+        return NO;
+    }
     return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    if (toIndexPath.row == self.videoThumbnails.count ) {
+        return NO;
+    }
     return YES;
 }
 
@@ -561,6 +567,7 @@ UIGestureRecognizerDelegate
 }
 
 - (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    
     [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
     
     [self.videoAssetsArray bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];

@@ -21,7 +21,7 @@ Shoutout is a social collaboration platform, as such we envision our primary use
 
 Description:
 
-Shoutout is an application that allows you to create videos, collaborate on 'events', and easily share them with friends or on social media.
+Shoutout allows you to create sharable collaborative videos between you and your friends.
 
 
 ## The Solution 

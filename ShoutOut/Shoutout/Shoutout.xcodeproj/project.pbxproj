@@ -46,6 +46,7 @@
 		C7F4115B1C0BA81100287B0E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4115A1C0BA81100287B0E /* MessageUI.framework */; };
 		C7F4115E1C0BA8F400287B0E /* SOShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F4115D1C0BA8F400287B0E /* SOShareViewController.m */; };
 		C7F411621C0BB6C700287B0E /* SOExportHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F411611C0BB6C700287B0E /* SOExportHandler.m */; };
+		C7FD67C11C0D3002008C436C /* NotificationsTableViewContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7FD67C01C0D3002008C436C /* NotificationsTableViewContainerViewController.m */; };
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */; };
@@ -147,6 +148,8 @@
 		C7F4115D1C0BA8F400287B0E /* SOShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOShareViewController.m; sourceTree = "<group>"; };
 		C7F411601C0BB6C700287B0E /* SOExportHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOExportHandler.h; sourceTree = "<group>"; };
 		C7F411611C0BB6C700287B0E /* SOExportHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOExportHandler.m; sourceTree = "<group>"; };
+		C7FD67BF1C0D3002008C436C /* NotificationsTableViewContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsTableViewContainerViewController.h; sourceTree = "<group>"; };
+		C7FD67C01C0D3002008C436C /* NotificationsTableViewContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsTableViewContainerViewController.m; sourceTree = "<group>"; };
 		D40F78B11C029AAD004D14F0 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		D40F78B21C029AAD004D14F0 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		D4115F061BF850ED00C674AC /* SORequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SORequest.h; sourceTree = "<group>"; };
@@ -375,6 +378,8 @@
 				C7F3C8321C0B5FD600B834C7 /* SONotificationsHeader.h */,
 				C7F3C8331C0B5FD600B834C7 /* SONotificationsHeader.m */,
 				C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */,
+				C7FD67BF1C0D3002008C436C /* NotificationsTableViewContainerViewController.h */,
+				C7FD67C01C0D3002008C436C /* NotificationsTableViewContainerViewController.m */,
 			);
 			name = SONotifications;
 			sourceTree = "<group>";
@@ -706,6 +711,7 @@
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
+				C7FD67C11C0D3002008C436C /* NotificationsTableViewContainerViewController.m in Sources */,
 				C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */,
 				C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */,
 				DC386E121BF4290C00562543 /* SOLoginViewController.m in Sources */,

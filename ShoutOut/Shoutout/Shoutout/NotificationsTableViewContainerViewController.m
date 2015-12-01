@@ -1,17 +1,16 @@
 //
-//  SONotificationsTableViewController.m
+//  NotificationsTableViewContainerViewController.m
 //  Shoutout
 //
-//  Created by Varindra Hart on 11/28/15.
+//  Created by Varindra Hart on 11/30/15.
 //  Copyright © 2015 Mesfin. All rights reserved.
 //
 
+#import "NotificationsTableViewContainerViewController.h"
+#import "SORequest.h"
 #import "SONotificationsTableViewController.h"
-#import <MGSwipeTableCell/MGSwipeButton.h>
-#import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "SONotificationsHeader.h"
 #import "SOVideo.h"
-#import "SORequest.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
 typedef enum hasFetched{
@@ -21,24 +20,34 @@ typedef enum hasFetched{
     
 } FetchingStatus;
 
-@interface SONotificationsTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface NotificationsTableViewContainerViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic) SONotificationsTableViewController *notifTVC;
+@property (weak, nonatomic) IBOutlet UIView *tableViewHolder;
 @property (nonatomic)NSMutableArray *collaborationRequests;
 @property (nonatomic)NSMutableArray *friendRequests;
 @property (nonatomic)NSMutableArray *responseRequests;
 @property (nonatomic)UIImagePickerController *imagePicker;
 @property (nonatomic)NSString *currentProjectId;
 @property (nonatomic)SORequest *currentRequest;
-
+@property (nonatomic)IBOutlet UITableView *tableView;
 
 @end
 
-@implementation SONotificationsTableViewController{
-    FetchingStatus fetchingStatus;
+@implementation NotificationsTableViewContainerViewController{
+FetchingStatus fetchingStatus;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    self.navigationController.navigationBarHidden = YES;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     SORequest *request = [SORequest new];
     fetchingStatus = FETCHING;
     [request fetchAllRequests:^(NSMutableArray<SORequest *> *collaborationRequests, NSMutableArray<SORequest *> *friendRequests, NSMutableArray<SORequest *> *responseRequests) {
@@ -56,6 +65,11 @@ typedef enum hasFetched{
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)backButtonTapped:(UIButton *)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -210,5 +224,7 @@ typedef enum hasFetched{
     
     return 60.0f;
 }
+
+
 
 @end
