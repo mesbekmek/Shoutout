@@ -21,7 +21,7 @@ typedef enum hasFetched{
     
 } FetchingStatus;
 
-@interface SONotificationsTableViewController () <MGSwipeTableCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SONotificationsTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic)NSMutableArray *collaborationRequests;
 @property (nonatomic)NSMutableArray *friendRequests;
@@ -50,6 +50,7 @@ typedef enum hasFetched{
     }];
     self.navigationController.navigationBarHidden = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
+    self.tableView.estimatedRowHeight = 20.0f;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,23 +95,12 @@ typedef enum hasFetched{
     
     if (indexPath.section == 0) {
         
-        MGSwipeTableCell * MG_Cell = [self.tableView dequeueReusableCellWithIdentifier:@"MGCell"];
-        if (!MG_Cell) {
-            MG_Cell = [[MGSwipeTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MGCell"];
-        }
         SORequest *req = self.collaborationRequests[indexPath.row];
         
-        MG_Cell.textLabel.text = [NSString stringWithFormat:@"%@ would like you to collaborate on %@",req.requestSentFrom, req.projectTitle? req.projectTitle: req.projectId];
-        //Date goes here
-//        MG_Cell.detailTextLabel.text = @"%@";
-        MG_Cell.delegate = self; //optional
+        cell.textLabel.text = req.projectTitle;
+        cell.detailTextLabel.text = req.requestSentFrom;
         
-        
-        //configure left buttons
-        MG_Cell.leftButtons = @[[MGSwipeButton buttonWithTitle:@"X" backgroundColor:[UIColor redColor]]];
-        MG_Cell.leftSwipeSettings.transition = MGSwipeTransitionBorder;
-        
-        return MG_Cell;
+        return cell;
         
     }
     
@@ -214,6 +204,11 @@ typedef enum hasFetched{
     }];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 60.0f;
 }
 
 @end

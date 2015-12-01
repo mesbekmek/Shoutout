@@ -18,6 +18,7 @@
 #import "SOSortingViewController.h"
 #import <ChameleonFramework/Chameleon.h>
 #import "SONotificationsTableViewController.h"
+#import "NotificationsTableViewContainerViewController.h"
 
 const CGFloat aspectRatio = 1.77;
 
@@ -108,9 +109,10 @@ typedef enum eventsType{
 
 - (IBAction)pushToNotifications:(UIButton *)sender {
 
-    SONotificationsTableViewController *notifTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationTableViewController"];
-    [self.navigationController pushViewController:notifTVC animated:YES];
-
+//    SONotificationsTableViewController *notifTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationTableViewController"];
+//    [self.navigationController pushViewController:notifTVC animated:YES];
+    NotificationsTableViewContainerViewController *notifContainer = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationsSection"];
+    [self.navigationController pushViewController:notifContainer animated:YES];
 }
 
 #pragma mark - Life Cycle
