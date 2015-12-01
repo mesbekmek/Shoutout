@@ -485,7 +485,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" textLabel="aUG-zo-NaO" detailTextLabel="DH7-Sv-VrC" style="IBUITableViewCellStyleSubtitle" id="iQY-bQ-lDC">
+                                            <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notificationCell" textLabel="aUG-zo-NaO" detailTextLabel="DH7-Sv-VrC" style="IBUITableViewCellStyleSubtitle" id="iQY-bQ-lDC">
                                                 <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iQY-bQ-lDC" id="Ydq-iO-L8x">
@@ -539,7 +539,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqF-b0-x9s">
                                         <rect key="frame" x="214" y="1" width="172" height="41"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="30"/>
-                                        <color key="textColor" red="1" green="0.72941176470000002" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.2040193975" green="0.59008382339999998" blue="0.8224234533" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -889,7 +889,7 @@
                                         </connections>
                                     </button>
                                     <collectionView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6cK-4S-eRr">
-                                        <rect key="frame" x="0.0" y="113" width="600" height="338"/>
+                                        <rect key="frame" x="0.0" y="113" width="600" height="323"/>
                                         <animations/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xyL-fv-O4T">
@@ -900,7 +900,7 @@
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="tLM-7u-amG">
-                                                <rect key="frame" x="0.0" y="0.0" width="167" height="159"/>
+                                                <rect key="frame" x="0.0" y="82" width="167" height="159"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="167" height="159"/>
@@ -927,21 +927,20 @@
                                             <constraint firstAttribute="height" constant="2" id="IzN-AR-tbR"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iUm-mY-2ze">
-                                        <rect key="frame" x="278" y="466" width="45" height="45"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iUm-mY-2ze">
+                                        <rect key="frame" x="270" y="451" width="60" height="60"/>
                                         <animations/>
-                                        <color key="backgroundColor" red="0.8784313725490196" green="0.0" blue="0.5607843137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="45" id="gz0-me-A44"/>
-                                            <constraint firstAttribute="width" constant="45" id="tj9-S6-pCB"/>
+                                            <constraint firstAttribute="height" constant="60" id="gz0-me-A44"/>
+                                            <constraint firstAttribute="width" constant="60" id="tj9-S6-pCB"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
-                                        <state key="normal" title="+">
+                                        <state key="normal" title="+" image="plus@2x">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <real key="value" value="22.5"/>
+                                                <integer key="value" value="30"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.clipsToBounds" value="YES"/>
                                         </userDefinedRuntimeAttributes>
@@ -1530,6 +1529,7 @@
         <image name="back" width="16" height="23"/>
         <image name="logo@2x" width="50" height="50"/>
         <image name="notifications" width="363" height="363"/>
+        <image name="plus@2x" width="100" height="100"/>
         <image name="profile@2x" width="44" height="52"/>
         <image name="projectsPage" width="52" height="39"/>
     </resources>
