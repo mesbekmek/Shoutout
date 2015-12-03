@@ -80,6 +80,7 @@
 		DC386E141BF4290C00562543 /* SOSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC386E101BF4290C00562543 /* SOSignUpViewController.m */; };
 		DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E111BF4290C00562543 /* SOSignUpViewController.xib */; };
 		DC6B9DFB1C0D4F8B003890AC /* SOShoutout.m in Sources */ = {isa = PBXBuildFile; fileRef = DC6B9DFA1C0D4F8B003890AC /* SOShoutout.m */; };
+		DC6B9DFD1C10B464003890AC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6B9DFC1C10B463003890AC /* SystemConfiguration.framework */; };
 		DC74C0FF1C0B754D00FFCF45 /* SOFriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */; };
 		DC74C1001C0B754D00FFCF45 /* SOFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */; };
 		DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */; };
@@ -208,6 +209,7 @@
 		DC386E111BF4290C00562543 /* SOSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOSignUpViewController.xib; sourceTree = "<group>"; };
 		DC6B9DF91C0D4F8B003890AC /* SOShoutout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOShoutout.h; sourceTree = "<group>"; };
 		DC6B9DFA1C0D4F8B003890AC /* SOShoutout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOShoutout.m; sourceTree = "<group>"; };
+		DC6B9DFC1C10B463003890AC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DC74C0FC1C0B754D00FFCF45 /* SOFriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFriendsTableViewCell.h; sourceTree = "<group>"; };
 		DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFriendsTableViewCell.m; sourceTree = "<group>"; };
 		DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOFriendsTableViewCell.xib; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC6B9DFD1C10B464003890AC /* SystemConfiguration.framework in Frameworks */,
 				C7F4115B1C0BA81100287B0E /* MessageUI.framework in Frameworks */,
 				D49BF4971BEFF88100340627 /* CoreMedia.framework in Frameworks */,
 				D49BF4951BEFF83100340627 /* AssetsLibrary.framework in Frameworks */,
@@ -240,6 +243,7 @@
 		11B3947B65273DC1E22F89DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC6B9DFC1C10B463003890AC /* SystemConfiguration.framework */,
 				C7F4115A1C0BA81100287B0E /* MessageUI.framework */,
 				B31638C861E4996215CDACD0 /* libPods.a */,
 			);

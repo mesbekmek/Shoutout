@@ -88,7 +88,8 @@
         
         [User logOut];
         
-        User *thisUser = [[User alloc]initWithContacts];
+        //User *thisUser = [[User alloc]initWithContacts];
+        User *thisUser = [User user];
         
         thisUser.username = username;
         thisUser.password = password;

@@ -43,42 +43,36 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SOShoutout registerSubclass];
     
     //[self setupPushNotifications:application];
-    
-    [PFUser enableAutomaticUser];
-    PFACL *defaultACL = [PFACL ACL];
-    // Optionally enable public read access while disabling public write access.
-    // [defaultACL setPublicReadAccess:YES];
-    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-    
-    //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-    //[[PFInstallation currentInstallation] saveInBackground];
-    
-    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-    self.window.rootViewController = nc;
-    NSLog(@"Anonymous user logged in.");
-    
-//    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-//        if (error) {
-//            NSLog(@"Anonymous login failed.");
-//        } else {
-//            NSLog(@"Login succeded!");
-//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//            
-//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-//            
-//            [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-//            [[PFInstallation currentInstallation] saveInBackground];
-//            
-//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-//            self.window.rootViewController = nc;
-//            NSLog(@"Anonymous user logged in.");
-//        }
-//    }];
-    
     //[self setupSSKeyChain];
+    
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+       && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
+    {
+        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
+        
+        [self loginUserWithSSKeyChain:username :password];
+        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
+    }
+    else{
+        [PFUser enableAutomaticUser];
+        PFACL *defaultACL = [PFACL ACL];
+        // Optionally enable public read access while disabling public write access.
+        // [defaultACL setPublicReadAccess:YES];
+        [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+        
+        //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+        //[[PFInstallation currentInstallation] saveInBackground];
+        
+        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+        self.window.rootViewController = nc;
+        NSLog(@"Anonymous user logged in.");
+    }
+    
+    
     return YES;
 }
 
@@ -108,7 +102,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     {
         NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
         NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
-     
+        
         [self loginUserWithSSKeyChain:username :password];
         [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
     }
@@ -118,12 +112,12 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         // Set an access token for later use
         NSString *username = [[NSUUID UUID] UUIDString];
         NSString *password = [[NSUUID UUID] UUIDString];
-              [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
+        [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
         
         [SSKeychain setPassword:password forService:@"ShoutoutPasswordService" account:@"com.Shoutout.keychain"];
-
-            [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"username"];
-            [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"username"];
+        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
         
         
         [self signUpUserWithSSKeyChain:username :password];
@@ -138,37 +132,90 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.username = username;
     user.password = password;
     
-    NSError *error = nil;
-    [User logInWithUsername:username  password:password error:&error];
-    if(!error)
-    {
-        NSLog(@"Login succeded!");
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-        
-        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-        [[PFInstallation currentInstallation] saveInBackground];
-        
-        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-        self.window.rootViewController = nc;
-    }
-    else
-    {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error Connecting" preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [alert dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alert addAction:okAction];
-        
-        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-        NSLog(@"%@",[error localizedDescription]);
-    }
-
+    [User logInWithUsernameInBackground:username password:password target:self selector:@selector(logged)];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+    
+    //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+    //[[PFInstallation currentInstallation] saveInBackground];
+    
+    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+    self.window.rootViewController = nc;
+    
+   // NSError *error = nil;
+    // [User logInWithUsername:username  password:password error:&error];
+    //[User logInWithUsernameInBackground:username password:password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
+//        if(!error)
+//        {
+//            //NSLog(@"Logged in user in Background");
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            
+//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//            
+//           // [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+//           // [[PFInstallation currentInstallation] saveInBackground];
+//            
+//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//            self.window.rootViewController = nc;
+//        }
+//        else
+//        {
+//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error Connecting" preferredStyle:UIAlertControllerStyleAlert];
+//            
+//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                [alert dismissViewControllerAnimated:YES completion:nil];
+//            }];
+//            [alert addAction:okAction];
+//            
+//            [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+//            
+//            NSLog(@"%@",[error localizedDescription]);
+//        }
+//    }];
+    //    if(!error)
+    //    {
+    //        NSLog(@"Login succeded!");
+    //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //
+    //        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+    //
+    //        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+    //        [[PFInstallation currentInstallation] saveInBackground];
+    //
+    //        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+    //        self.window.rootViewController = nc;
+    //    }
+    //    else
+    //    {
+    //        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error Connecting" preferredStyle:UIAlertControllerStyleAlert];
+    //
+    //        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    //            [alert dismissViewControllerAnimated:YES completion:nil];
+    //        }];
+    //        [alert addAction:okAction];
+    //
+    //        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    //
+    //        NSLog(@"%@",[error localizedDescription]);
+    //    }
+    
 }
 
+-(void)logged{
+    NSLog(@"Logged in user in Background");
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    
+//    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"] ;
+//    
+//   // [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+//   // [[PFInstallation currentInstallation] saveInBackground];
+//    
+//    
+//    
+//    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//    self.window.rootViewController = nc;
+}
 
 -(void)signUpUserWithSSKeyChain:(NSString *)username :(NSString *)password
 {
@@ -176,19 +223,19 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.username = username;
     user.password = password;
     
-    NSError *error = nil;    
-
+    NSError *error = nil;
+    
     [user signUp:&error];
     if(!error){
         NSLog(@"Sign up succeded!");
-
+        
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-//        
-//        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-//        [[PFInstallation currentInstallation] saveInBackground];
-    
-        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;        
+        //
+        //        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+        //        [[PFInstallation currentInstallation] saveInBackground];
+        
+        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
         self.window.rootViewController = nc;
     }
 }
