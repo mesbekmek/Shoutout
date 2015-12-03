@@ -381,10 +381,10 @@ typedef enum eventsType{
     
     [project saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved currrent project in background");
+        [collectionView reloadData];
     }];
     //[self.projectsArray addObject:project];
     [self.projectsArray insertObject:project atIndex:0];
-    [collectionView reloadData];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
