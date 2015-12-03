@@ -304,7 +304,7 @@ typedef enum eventsType{
     if (indexPath.row > 0) {
         if ([self.projectsArray count] !=0) {
             SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
-            sortingVC.sortingProject = self.projectsArray[indexPath.row];
+            sortingVC.sortingProject = self.projectsArray[indexPath.row-1];
             
             //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
             
