@@ -11,4 +11,6 @@
 
 @interface SOLoginViewController : UIViewController<UITextFieldDelegate>
 
+@property (nonatomic) NSString *projectID;
+
 @end

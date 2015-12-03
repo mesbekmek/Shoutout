@@ -13,6 +13,7 @@
 #import "SOProjectsViewController.h"
 #import "SOCachedObject.h"
 #import "SOCachedProjects.h"
+#import "SOLoginViewController.h"
 #import "SOContactsViewController.h"
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
@@ -139,7 +140,6 @@
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:errorString preferredStyle:UIAlertControllerStyleAlert];
                 
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    self.nameTextField.text = @"";
                     [alertController dismissViewControllerAnimated:YES completion:nil];
                 }];
                 

@@ -42,8 +42,43 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SOContacts registerSubclass];
     [SOShoutout registerSubclass];
     
-    [self setupPushNotifications:application];
-    [self setupSSKeyChain];
+    //[self setupPushNotifications:application];
+    
+    [PFUser enableAutomaticUser];
+    PFACL *defaultACL = [PFACL ACL];
+    // Optionally enable public read access while disabling public write access.
+    // [defaultACL setPublicReadAccess:YES];
+    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+    
+    //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+    //[[PFInstallation currentInstallation] saveInBackground];
+    
+    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+    self.window.rootViewController = nc;
+    NSLog(@"Anonymous user logged in.");
+    
+//    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+//        if (error) {
+//            NSLog(@"Anonymous login failed.");
+//        } else {
+//            NSLog(@"Login succeded!");
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            
+//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//            
+//            [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+//            [[PFInstallation currentInstallation] saveInBackground];
+//            
+//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//            self.window.rootViewController = nc;
+//            NSLog(@"Anonymous user logged in.");
+//        }
+//    }];
+    
+    //[self setupSSKeyChain];
     return YES;
 }
 
@@ -120,6 +155,15 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     }
     else
     {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error Connecting" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alert addAction:okAction];
+        
+        [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+        
         NSLog(@"%@",[error localizedDescription]);
     }
 
