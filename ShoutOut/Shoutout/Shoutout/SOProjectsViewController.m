@@ -19,6 +19,7 @@
 #import <ChameleonFramework/Chameleon.h>
 #import "SONotificationsTableViewController.h"
 #import "NotificationsTableViewContainerViewController.h"
+#import "SOProjectsCollectionViewFlowLayout.h"
 
 const CGFloat aspectRatio = 1.77;
 
@@ -68,15 +69,16 @@ typedef enum eventsType{
     
     [self projectsQuery];
     
-    
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
-    
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"VideoCellIdentifier"];
+    
+    UINib *plusButtonNib = [UINib nibWithNibName:@"SOProjectsAddEventCollectionViewCell" bundle:nil];
+    [collectionView registerNib:plusButtonNib forCellWithReuseIdentifier:@"plusCellIdentifier"];
     
     // By turning off clipping, you'll see the prior and next items.
     collectionView.clipsToBounds = NO;
     
-    UICollectionViewFlowLayout *myLayout = [[UICollectionViewFlowLayout alloc] init];
+    UICollectionViewFlowLayout *myLayout = [[SOProjectsCollectionViewFlowLayout alloc] init];
     
     CGFloat margin = ((self.view.frame.size.width - collectionView.frame.size.width) / 2);
     
@@ -245,32 +247,40 @@ typedef enum eventsType{
     if (!self.initialFetchOfVideosComplete) {
         return 0;
     }
-    return [self.projectsArray count];
+    return [self.projectsArray count] + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)IndexPath
 {
-    SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
-    if (self.projectsArray[IndexPath.row].videos[0].thumbnail) {
-    
-    cell.videoImageView.file = nil;
-    
-    cell.videoImageView.file = self.projectsArray[IndexPath.row].videos[0].thumbnail;
-    
-    cell.videoImageView.frame = cell.bounds;
-    
-    cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    [cell.videoImageView loadInBackground];
-    }
-    if([self.projectsArray count] != 0){
-        SOProject *project = self.projectsArray[IndexPath.row];
+    if (IndexPath.row > 0) {
+        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
+        if (self.projectsArray[IndexPath.row - 1].videos[0].thumbnail) {
+            
+            cell.videoImageView.file = nil;
+            
+            cell.videoImageView.file = self.projectsArray[IndexPath.row - 1].videos[0].thumbnail;
+            
+            cell.videoImageView.frame = cell.bounds;
+            
+            cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+            
+            [cell.videoImageView loadInBackground];
+        }
+        if([self.projectsArray count] != 0){
+            SOProject *project = self.projectsArray[IndexPath.row - 1];
+            
+            NSString *projectTitle = project.title;
+            cell.projectTitle.text = projectTitle;
+        }
+        return cell;
+    } else {
+        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
+        return plusCell;
         
-        NSString *projectTitle = project.title;
-        cell.projectTitle.text = projectTitle;
     }
-    return cell;
+    
+
 }
 
 
@@ -291,14 +301,19 @@ typedef enum eventsType{
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.projectsArray count] !=0) {
-        SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
-        sortingVC.sortingProject = self.projectsArray[indexPath.row];
- 
-        //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
-        
-        [self.navigationController pushViewController:sortingVC animated:YES];
+    if (indexPath.row > 0) {
+        if ([self.projectsArray count] !=0) {
+            SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
+            sortingVC.sortingProject = self.projectsArray[indexPath.row-1];
+            
+            //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
+            
+            [self.navigationController pushViewController:sortingVC animated:YES];
+        }
+    } else {
+        [self modalCameraPopup];
     }
+
 }
 
 - (IBAction)changeEventTypeButtonsTapped:(UIButton *)sender{
@@ -381,10 +396,10 @@ typedef enum eventsType{
     
     [project saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved currrent project in background");
+        [collectionView reloadData];
     }];
     //[self.projectsArray addObject:project];
     [self.projectsArray insertObject:project atIndex:0];
-    [collectionView reloadData];
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 

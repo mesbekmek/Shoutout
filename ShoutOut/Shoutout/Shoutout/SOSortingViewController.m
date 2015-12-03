@@ -30,6 +30,8 @@
 #import "SOExportHandler.h"
 #import "SOShareViewController.h"
 const float kVideoLengthMax2 = 10.0;
+const float cellspacing = 10.0;
+
 
 @implementation NSMutableArray (BMAReordering)
 
@@ -402,10 +404,7 @@ UIGestureRecognizerDelegate
     
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return CGSizeMake(110, 110);
-}
+
 
 #pragma mark - Add video or invite people button
 
@@ -416,16 +415,10 @@ UIGestureRecognizerDelegate
 
 #pragma mark - UICollectionViewDataSourceDelegate
 
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 10.0;
-}
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 10.0;
-}
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 0, 0, 0);
+    return UIEdgeInsetsMake(0, cellspacing, 0, cellspacing);
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -441,38 +434,58 @@ UIGestureRecognizerDelegate
     return self.videoThumbnails.count+1;
 }
 
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CGFloat screenWidth = self.view.bounds.size.width;
+    CGFloat cellSpace = (screenWidth - cellspacing*4) / 3 ;
+    CGFloat cellsize = cellSpace ;
+    
+    
+    return CGSizeMake(cellsize, cellsize*4.0/3.0);
+}
+
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    return cellspacing;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return cellspacing;
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    if(self.videoThumbnails.count !=0 && indexPath.row != self.videoThumbnails.count){
-        SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
-        
-        cell.videoImageView.file = nil;
-        cell.videoImageView.image = nil;
-        cell.videoImageView.file = self.videoThumbnails[indexPath.row];
-        cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [cell.videoImageView loadInBackground];
-        
-        cell.backgroundColor = [UIColor clearColor];
-        return cell;
-    }
-    
-    else if(indexPath.row == self.videoThumbnails.count)
+    if(indexPath.row == 0)
     {
         SOSortingCVC *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
         cell2.videoImageView.image = nil;
         cell2.videoImageView.image = [UIImage imageNamed: @"PlusButtonCell" ];
         return cell2;
     }
-    else{
-        return nil;
+
+    
+    else {
+        SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
+        
+        cell.videoImageView.file = nil;
+        cell.videoImageView.image = nil;
+        cell.videoImageView.file = self.videoThumbnails[indexPath.row-1];
+        cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [cell.videoImageView loadInBackground];
+        
+        cell.backgroundColor = [UIColor blueColor];
+        return cell;
     }
+    
+   
     
 }
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == self.videoThumbnails.count && self.videoThumbnails)
+    if(indexPath.row == 0 )
     {
         [self alertView];
     }
@@ -493,7 +506,7 @@ UIGestureRecognizerDelegate
             self.avPlayer.rate = 0.0;
         }
         
-        avAsset = self.videoAssetsArray[indexPath.row];
+        avAsset = self.videoAssetsArray[indexPath.row-1];
         
         self.avPlayerItem =[[AVPlayerItem alloc]initWithAsset:avAsset];
         
@@ -518,14 +531,14 @@ UIGestureRecognizerDelegate
 #pragma mark - Reorderable layout
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canDragItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == self.videoThumbnails.count) {
+    if (indexPath.row == 0) {
         return NO;
     }
     return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    if (toIndexPath.row == self.videoThumbnails.count ) {
+    if (toIndexPath.row == 0 ) {
         return NO;
     }
     return YES;
@@ -550,7 +563,7 @@ UIGestureRecognizerDelegate
         [acollectionView bma_overlayView].alpha = 0.5;
         PFImageView *draggedImageView = [[PFImageView alloc]initWithFrame:draggedView.bounds];
         
-        draggedImageView.file = self.videoThumbnails[self.draggedIndex.row];
+        draggedImageView.file = self.videoThumbnails[self.draggedIndex.row-1];
         [draggedImageView loadInBackground];
         draggedImageView.transform = CGAffineTransformMakeScale(1.3f, 1.3f);
         
@@ -568,20 +581,20 @@ UIGestureRecognizerDelegate
 
 - (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
     
-    [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
     
-    [self.videoAssetsArray bma_moveItemAtIndex:(NSUInteger)indexPath.item toIndex:(NSUInteger)toIndexPath.item];
+    [self.videoAssetsArray bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
     
-    SOVideo *first = self.sortingProject.videos[indexPath.row];
-    [self.sortingProject.videos replaceObjectAtIndex:indexPath.row withObject:self.sortingProject.videos[toIndexPath.row]];
-    [self.sortingProject.videos replaceObjectAtIndex:toIndexPath.row withObject:first];
+    SOVideo *first = self.sortingProject.videos[indexPath.row-1];
+    [self.sortingProject.videos replaceObjectAtIndex:indexPath.row-1 withObject:self.sortingProject.videos[toIndexPath.row-1]];
+    [self.sortingProject.videos replaceObjectAtIndex:toIndexPath.row-1 withObject:first];
     [collectionView reloadData];
 }
 
 -(void)collectionViewBatchReload{
     
     NSMutableArray *indexPathArray = [NSMutableArray new];
-    for(int i =0; i <=self.videoThumbnails.count; i++)
+    for(int i =1; i <=self.videoThumbnails.count; i++)
     {
         [indexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
