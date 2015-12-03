@@ -81,6 +81,7 @@
 		DC386E151BF4290C00562543 /* SOSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC386E111BF4290C00562543 /* SOSignUpViewController.xib */; };
 		DC6B9DFB1C0D4F8B003890AC /* SOShoutout.m in Sources */ = {isa = PBXBuildFile; fileRef = DC6B9DFA1C0D4F8B003890AC /* SOShoutout.m */; };
 		DC6B9DFD1C10B464003890AC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6B9DFC1C10B463003890AC /* SystemConfiguration.framework */; };
+		DC6B9E001C10BA2E003890AC /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DC6B9DFF1C10BA2E003890AC /* Reachability.m */; };
 		DC74C0FF1C0B754D00FFCF45 /* SOFriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */; };
 		DC74C1001C0B754D00FFCF45 /* SOFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */; };
 		DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */; };
@@ -210,6 +211,8 @@
 		DC6B9DF91C0D4F8B003890AC /* SOShoutout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOShoutout.h; sourceTree = "<group>"; };
 		DC6B9DFA1C0D4F8B003890AC /* SOShoutout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOShoutout.m; sourceTree = "<group>"; };
 		DC6B9DFC1C10B463003890AC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DC6B9DFE1C10BA2E003890AC /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		DC6B9DFF1C10BA2E003890AC /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		DC74C0FC1C0B754D00FFCF45 /* SOFriendsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOFriendsTableViewCell.h; sourceTree = "<group>"; };
 		DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOFriendsTableViewCell.m; sourceTree = "<group>"; };
 		DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOFriendsTableViewCell.xib; sourceTree = "<group>"; };
@@ -451,6 +454,8 @@
 			children = (
 				DC386D831BEFEBA900562543 /* AppDelegate.h */,
 				DC386D841BEFEBA900562543 /* AppDelegate.m */,
+				DC6B9DFE1C10BA2E003890AC /* Reachability.h */,
+				DC6B9DFF1C10BA2E003890AC /* Reachability.m */,
 				DC386D861BEFEBA900562543 /* ViewController.h */,
 				DCDA4F121C08372F0090959E /* Main.Storyboard */,
 				DC386D871BEFEBA900562543 /* ViewController.m */,
@@ -729,6 +734,7 @@
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				DC6B9DFB1C0D4F8B003890AC /* SOShoutout.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
+				DC6B9E001C10BA2E003890AC /* Reachability.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,
 				C7FD67C11C0D3002008C436C /* NotificationsTableViewContainerViewController.m in Sources */,
 				C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */,

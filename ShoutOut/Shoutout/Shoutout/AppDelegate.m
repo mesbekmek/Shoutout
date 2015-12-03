@@ -19,6 +19,7 @@
 #import "User.h"
 #import "SOContacts.h"
 #import "SOShoutout.h"
+#import "Reachability.h"
 #import "SOCachedProjects.h"
 #import <SSKeychain/SSKeychain.h>
 #import <SSKeychain/SSKeychainQuery.h>
@@ -42,24 +43,21 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SOContacts registerSubclass];
     [SOShoutout registerSubclass];
     
+    [self reachability];
+    
     //[self setupPushNotifications:application];
     //[self setupSSKeyChain];
     
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
-       && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
-    {
-        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
-        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
-        
-        [self loginUserWithSSKeyChain:username :password];
-        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
-    }
-    else{
-        [PFUser enableAutomaticUser];
-        PFACL *defaultACL = [PFACL ACL];
-        // Optionally enable public read access while disabling public write access.
-        // [defaultACL setPublicReadAccess:YES];
-        [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+    //    if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+    //       && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
+    //    {
+    //        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+    //        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
+    //
+    //        [self loginUserWithSSKeyChain:username :password];
+    //        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
+    //    }
+    if([PFUser currentUser]){
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
@@ -69,12 +67,79 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         
         SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
         self.window.rootViewController = nc;
-        NSLog(@"Anonymous user logged in.");
+    }
+    else{
+        [self setupSSKeyChain];
+        //        [PFUser enableAutomaticUser];
+        //        PFACL *defaultACL = [PFACL ACL];
+        //        // Optionally enable public read access while disabling public write access.
+        //        // [defaultACL setPublicReadAccess:YES];
+        //        [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+        //        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        //
+        //        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+        //
+        //        //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+        //        //[[PFInstallation currentInstallation] saveInBackground];
+        //
+        //        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+        //        self.window.rootViewController = nc;
+        //        NSLog(@"Anonymous user logged in.");
     }
     
     
     return YES;
 }
+
+#pragma mark _ Reachability
+
+-(void)reachability{
+    // Allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Set the blocks
+    reach.reachableBlock = ^(Reachability*reach)
+    {
+        // keep in mind this is called on a background thread
+        // and if you are updating the UI it needs to happen
+        // on the main thread, like this:
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"REACHABLE!");
+        });
+    };
+    
+    reach.unreachableBlock = ^(Reachability*reach)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            //
+            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+            //
+            //        //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+            //        //[[PFInstallation currentInstallation] saveInBackground];
+            //
+            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+            self.window.rootViewController = nc;
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Network Error" message:@"Network currently unreachable" preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }];
+            
+            //[self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+            
+            [alert addAction:okAction];
+            [nc.visibleViewController presentViewController:alert animated:YES completion:nil];
+            
+        });
+        NSLog(@"UNREACHABLE!");
+    };
+    
+    // Start the notifier, which will cause the reachability object to retain itself!
+    [reach startNotifier];
+}
+
 
 #pragma mark -  Push Notifications
 
@@ -97,33 +162,33 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     // Specify how the keychain items can be accessed
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
-       && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
-    {
-        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
-        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
-        
-        [self loginUserWithSSKeyChain:username :password];
-        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
-    }
+    //    if([[NSUserDefaults standardUserDefaults] objectForKey:@"username"]
+    //       && [[NSUserDefaults standardUserDefaults] objectForKey:@"password"])
+    //    {
+    //        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+    //        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
+    //
+    //        [self loginUserWithSSKeyChain:username :password];
+    //        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
+    //    }
+    //
+    //    else
+    //    {
+    // Set an access token for later use
+    NSString *username = [[NSUUID UUID] UUIDString];
+    NSString *password = [[NSUUID UUID] UUIDString];
+    [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
     
-    else
-    {
-        // Set an access token for later use
-        NSString *username = [[NSUUID UUID] UUIDString];
-        NSString *password = [[NSUUID UUID] UUIDString];
-        [SSKeychain setPassword:username forService:@"ShoutoutUsernameService" account:@"com.Shoutout.keychain"];
-        
-        [SSKeychain setPassword:password forService:@"ShoutoutPasswordService" account:@"com.Shoutout.keychain"];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"username"];
-        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
-        
-        
-        [self signUpUserWithSSKeyChain:username :password];
-        
-        [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
-    }
+    [SSKeychain setPassword:password forService:@"ShoutoutPasswordService" account:@"com.Shoutout.keychain"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+    
+    
+    [self signUpUserWithSSKeyChain:username :password];
+    
+    [[SOCachedProjects sharedManager].cachedProjects setObject:username forKey:@"UUID"];
+    //}
 }
 
 -(void)loginUserWithSSKeyChain:(NSString *)username :(NSString *)password
@@ -143,36 +208,36 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
     self.window.rootViewController = nc;
     
-   // NSError *error = nil;
+    // NSError *error = nil;
     // [User logInWithUsername:username  password:password error:&error];
     //[User logInWithUsernameInBackground:username password:password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
-//        if(!error)
-//        {
-//            //NSLog(@"Logged in user in Background");
-//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//            
-//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-//            
-//           // [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-//           // [[PFInstallation currentInstallation] saveInBackground];
-//            
-//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-//            self.window.rootViewController = nc;
-//        }
-//        else
-//        {
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error Connecting" preferredStyle:UIAlertControllerStyleAlert];
-//            
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                [alert dismissViewControllerAnimated:YES completion:nil];
-//            }];
-//            [alert addAction:okAction];
-//            
-//            [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-//            
-//            NSLog(@"%@",[error localizedDescription]);
-//        }
-//    }];
+    //        if(!error)
+    //        {
+    //            //NSLog(@"Logged in user in Background");
+    //            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //
+    //            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+    //
+    //           // [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+    //           // [[PFInstallation currentInstallation] saveInBackground];
+    //
+    //            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+    //            self.window.rootViewController = nc;
+    //        }
+    //        else
+    //        {
+    //            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Error Connecting" preferredStyle:UIAlertControllerStyleAlert];
+    //
+    //            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    //                [alert dismissViewControllerAnimated:YES completion:nil];
+    //            }];
+    //            [alert addAction:okAction];
+    //
+    //            [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+    //
+    //            NSLog(@"%@",[error localizedDescription]);
+    //        }
+    //    }];
     //    if(!error)
     //    {
     //        NSLog(@"Login succeded!");
@@ -204,17 +269,17 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 
 -(void)logged{
     NSLog(@"Logged in user in Background");
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    
-//    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"] ;
-//    
-//   // [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-//   // [[PFInstallation currentInstallation] saveInBackground];
-//    
-//    
-//    
-//    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-//    self.window.rootViewController = nc;
+    //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //
+    //    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"] ;
+    //
+    //   // [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+    //   // [[PFInstallation currentInstallation] saveInBackground];
+    //
+    //
+    //
+    //    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+    //    self.window.rootViewController = nc;
 }
 
 -(void)signUpUserWithSSKeyChain:(NSString *)username :(NSString *)password
@@ -223,21 +288,35 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     user.username = username;
     user.password = password;
     
-    NSError *error = nil;
+    // NSError *error = nil;
     
-    [user signUp:&error];
-    if(!error){
-        NSLog(@"Sign up succeded!");
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-        //
-        //        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
-        //        [[PFInstallation currentInstallation] saveInBackground];
-        
-        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-        self.window.rootViewController = nc;
-    }
+    [user signUpInBackgroundWithTarget:self selector:@selector(signedUp)];
+    //    [user signUp:&error];
+    //    if(!error){
+    //        NSLog(@"Sign up succeded!");
+    //
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+            //
+            //        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+            //        [[PFInstallation currentInstallation] saveInBackground];
+    
+            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+            self.window.rootViewController = nc;
+    //    }
+}
+
+-(void)signedUp{
+    NSLog(@"Sign up succeded!");
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//    //
+//    //        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+//    //        [[PFInstallation currentInstallation] saveInBackground];
+//    
+//    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//    self.window.rootViewController = nc;
 }
 
 #pragma mark - Push notification
