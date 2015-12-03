@@ -239,10 +239,7 @@
     };
 }
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-      return 40.0;
-    
-}
+
 
 - (CGFloat)animationDuration {
     return 0.25f;

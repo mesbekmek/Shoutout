@@ -30,6 +30,8 @@
 #import "SOExportHandler.h"
 #import "SOShareViewController.h"
 const float kVideoLengthMax2 = 10.0;
+const cellspacing = 10;
+
 
 @implementation NSMutableArray (BMAReordering)
 
@@ -402,10 +404,7 @@ UIGestureRecognizerDelegate
     
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return CGSizeMake(110, 110);
-}
+
 
 #pragma mark - Add video or invite people button
 
@@ -416,16 +415,10 @@ UIGestureRecognizerDelegate
 
 #pragma mark - UICollectionViewDataSourceDelegate
 
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 10.0;
-}
 
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 10.0;
-}
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0, 0, 0, 0);
+    return UIEdgeInsetsMake(0, cellspacing, 0, cellspacing);
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -441,6 +434,26 @@ UIGestureRecognizerDelegate
     return self.videoThumbnails.count+1;
 }
 
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CGFloat screenWidth = self.view.bounds.size.width;
+    CGFloat cellSpace = (screenWidth - cellspacing*4) / 3 ;
+    CGFloat cellsize = cellSpace ;
+    
+    
+    return CGSizeMake(cellsize, cellsize*4.0/3.0);
+}
+
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    return cellspacing;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return cellspacing;
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -453,7 +466,7 @@ UIGestureRecognizerDelegate
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.videoImageView loadInBackground];
         
-        cell.backgroundColor = [UIColor clearColor];
+        cell.backgroundColor = [UIColor blueColor];
         return cell;
     }
     
