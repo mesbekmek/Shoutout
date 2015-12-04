@@ -103,8 +103,8 @@ typedef enum eventsType{
     NSLog(@"%@", self.phoneBookUserName[sender.tag]);
     
     [SORequest sendRequestTo:self.phoneBookUserName[sender.tag] withBlock:^(BOOL succeeded) {
-        NSString *failedTitle = @"Request Send Faild";
-        NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait untill %@ to respond before sending another one", self.phoneBookName[sender.tag]];
+        NSString *failedTitle = @"Request Send Failed";
+        NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait until %@ to respond before sending another one", self.phoneBookName[sender.tag]];
         NSString *succeededTitle = @"Awesome!";
         NSString *succeededMessage = @"Request Send";
         
