@@ -120,15 +120,22 @@ typedef enum eventsType{
 #pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-        [collectionView reloadData];
+    [collectionView reloadData];
     [self collectionViewBatchReload];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.navigationBarHidden = YES;
-    
+    //self.navigationController.navigationBarHidden = YES;
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    self.navigationItem.title = @"Shoutout";
+
+
 }
 -(void)videoQuery{
     
@@ -209,7 +216,7 @@ typedef enum eventsType{
 // Layout: Set cell size
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat width = self.view.frame.size.width * 0.6;
+    CGFloat width = self.view.frame.size.width * 0.8;
     CGFloat height = aspectRatio * width;
     
     
@@ -393,7 +400,7 @@ typedef enum eventsType{
     
     NSString *uuid = [[SOCachedProjects sharedManager].cachedProjects objectForKey:@"UUID"];
     
-    SOProject *project = [[SOProject alloc]initWithUUID:uuid];
+    SOProject *project = [[SOProject alloc]initWithUUID:[User currentUser].username];
     [project.videos addObject:video];
     self.currentProject = project;
     

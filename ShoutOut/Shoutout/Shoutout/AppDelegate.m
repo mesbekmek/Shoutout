@@ -33,7 +33,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
     [User registerSubclass];
@@ -42,9 +42,11 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SORequest registerSubclass];
     [SOContacts registerSubclass];
     [SOShoutout registerSubclass];
-    
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     [self reachability];
-    
+
     //Uncomment when we decide to implement Push Notifs
     //[self setupPushNotifications:application];
 
