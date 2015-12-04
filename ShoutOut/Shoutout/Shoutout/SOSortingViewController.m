@@ -452,7 +452,7 @@ UIGestureRecognizerDelegate
         
         cell.backgroundColor = [UIColor clearColor];
         
-        [cell.deleteItemButton addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.deleteItemButton addTarget:self action:@selector(deleteVideoAlertView:) forControlEvents:UIControlEventTouchUpInside];
 
         return cell;
     }
@@ -530,11 +530,46 @@ UIGestureRecognizerDelegate
     }
 }
 
-- (void)deletePhoto: (UIButton *)sender
+- (void)deleteVideo: (UIButton *)sender
 {
-    NSLog(@"deletePhoto");
-    [self.videoThumbnails removeObjectAtIndex:sender.tag-1];
-    [collectionView reloadData];
+    long index;
+    index = (sender.tag-1);
+    
+     [self.videoThumbnails removeObjectAtIndex:index];
+    [self.videoAssetsArray removeObjectAtIndex:index];
+
+    NSLog(@"count %lu", (unsigned long)self.videoThumbnails.count);
+    NSLog(@"index %ld",index);
+    NSLog(@"objectttt %@", [self.videoThumbnails objectAtIndex:index]);
+
+    
+//    [[sender.tag-1] deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            [self loadObjects];
+//        }
+//    }];
+    
+     [collectionView reloadData];
+    NSLog(@"count %lu", (unsigned long)self.videoThumbnails.count);
+
+}
+
+
+-(void) deleteVideoAlertView: (UIButton *)sender{
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Delete this video" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        
+        [self deleteVideo:sender];
+    }]];
+    
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 
