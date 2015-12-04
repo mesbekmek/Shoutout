@@ -475,7 +475,7 @@ UIGestureRecognizerDelegate
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.videoImageView loadInBackground];
         
-        cell.backgroundColor = [UIColor blueColor];
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     

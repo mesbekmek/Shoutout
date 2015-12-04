@@ -98,7 +98,7 @@ typedef enum eventsType{
 #pragma mark -Navigate to Profile after sign up
 
 -(void)popToProfile{
-
+    
     [self profileButtonTapped:self.profileButton];
     
 }
@@ -110,9 +110,9 @@ typedef enum eventsType{
 }
 
 - (IBAction)pushToNotifications:(UIButton *)sender {
-
-//    SONotificationsTableViewController *notifTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationTableViewController"];
-//    [self.navigationController pushViewController:notifTVC animated:YES];
+    
+    //    SONotificationsTableViewController *notifTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationTableViewController"];
+    //    [self.navigationController pushViewController:notifTVC animated:YES];
     NotificationsTableViewContainerViewController *notifContainer = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationsSection"];
     [self.navigationController pushViewController:notifContainer animated:YES];
 }
@@ -171,34 +171,36 @@ typedef enum eventsType{
 - (void)projectsQuery{
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
-    [query whereKey:@"createdBy" equalTo:[User currentUser].username];
-    NSLog(@"Current User: %@", [User currentUser].username);
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        
-        if (!error) {
+    if([User currentUser].username !=nil){
+        [query whereKey:@"createdBy" equalTo:[User currentUser].username];
+        NSLog(@"Current User: %@", [User currentUser].username);
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
-            //get an array of projects
-            self.projectsArray = [[NSMutableArray alloc]initWithArray:objects];
-            NSLog(@"projectsArray %@",self.projectsArray);
-            
-            self.videosArray = [[NSMutableArray alloc]init];
-            //for every project get an array of videos
-            for (SOProject *project in objects) {
-                self.project = project;
+            if (!error) {
                 
-                [self.videosArray addObjectsFromArray:project.videos];
-                if ([self.projectsArray count]==0){
-                    collectionView.hidden = YES;
+                //get an array of projects
+                self.projectsArray = [[NSMutableArray alloc]initWithArray:objects];
+                NSLog(@"projectsArray %@",self.projectsArray);
+                
+                self.videosArray = [[NSMutableArray alloc]init];
+                //for every project get an array of videos
+                for (SOProject *project in objects) {
+                    self.project = project;
+                    
+                    [self.videosArray addObjectsFromArray:project.videos];
+                    if ([self.projectsArray count]==0){
+                        collectionView.hidden = YES;
+                    }
                 }
+                [self videoQuery];
+                [collectionView reloadData];
+                //[self videoThumbnailQuery];
             }
-            [self videoQuery];
-            [collectionView reloadData];
-            //[self videoThumbnailQuery];
-        }
-        else{
-            NSLog(@"Error: %@",error);
-        }
-    }];
+            else{
+                NSLog(@"Error: %@",error);
+            }
+        }];
+    }
 }
 
 
@@ -245,7 +247,7 @@ typedef enum eventsType{
      numberOfItemsInSection:(NSInteger)aSection
 {
     if (!self.initialFetchOfVideosComplete) {
-        return 0;
+        return 1;
     }
     return [self.projectsArray count] + 1;
 }
@@ -280,7 +282,7 @@ typedef enum eventsType{
         
     }
     
-
+    
 }
 
 
@@ -313,7 +315,7 @@ typedef enum eventsType{
     } else {
         [self modalCameraPopup];
     }
-
+    
 }
 
 - (IBAction)changeEventTypeButtonsTapped:(UIButton *)sender{

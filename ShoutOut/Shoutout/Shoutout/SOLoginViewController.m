@@ -10,6 +10,7 @@
 #import "SOSignUpViewController.h"
 #import "SOProjectsViewController.h"
 #import "SOModel.h"
+#import "SOContactsAndFriendsViewController.h"
 
 @interface SOLoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -50,6 +51,7 @@
     
     if ((username && username.length) && (password && password.length))
     {
+        [User logOut];
         User *thisUser = [User user];
         
         thisUser.username = username;
@@ -65,7 +67,13 @@
                     
                     [[PFInstallation currentInstallation] saveInBackground];
                     
-                    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+                    //SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+                    
+                    SOContactsAndFriendsViewController *contactsVC = [SOContactsAndFriendsViewController new];
+                    contactsVC.projectID = self.projectID;
+                    [self presentViewController:contactsVC animated:YES completion:nil];
+                    
+                    
                     [self presentViewController:nc animated:YES completion:nil];
                 } else {
                     NSLog(@"Error: %@", error.localizedDescription);
