@@ -136,7 +136,8 @@ UIGestureRecognizerDelegate
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+//    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    self.tabBarController.tabBar.hidden = YES;
     [collectionView reloadData];
     
     if (self.videoThumbnails.count > 0) {
@@ -257,6 +258,11 @@ UIGestureRecognizerDelegate
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MoveToProfile" object:nil];
     }
     
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)reload:(NSNotification *)notif{

@@ -120,12 +120,13 @@ typedef enum eventsType{
 #pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [collectionView reloadData];
+        [collectionView reloadData];
     [self collectionViewBatchReload];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = YES;
     
 }
