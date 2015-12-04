@@ -14,15 +14,17 @@
 
 + (NSString*)parseClassName;
 
-
+@property (nonatomic) NSString *projectTitle;
 @property (nonatomic) NSMutableArray<SOVideo *> *videosArray;
-@property (nonatomic) NSMutableArray *collabortators;
-@property (nonatomic) NSMutableArray *receipients;
+@property (nonatomic) NSMutableArray <NSString *> *collaborators;
+@property (nonatomic) NSMutableArray <NSString *> *receipients;
 
 -(instancetype)init;
 
-+(void)sendVideo:(NSArray<SOVideo *> *)shoutout toCollaborators:(NSArray*)collaborators;
++(void)sendVideo:(NSArray<SOVideo *> *)videosArray withTitle:(NSString *)title toCollaborators:(NSArray<NSString *>*)collaborators toReceipents:(NSArray<NSString *>*)receipients;
 
-+(void)sendVideo:(NSArray<SOVideo *> *)shoutout toReceipents:(NSArray*)receipients;
+- (void)fetchAllShoutouts:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion;
+
+- (void)fetchIfUpdatesAvailable:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion;
 
 @end
