@@ -33,6 +33,12 @@ const float kVideoLengthMax2 = 10.0;
 const float cellspacing = 10.0;
 
 
+NS_ENUM(NSInteger, ProviderEditingState)
+{
+    ProviderEditStateNormal,
+    ProviderEditStateDelete
+};
+
 @implementation NSMutableArray (BMAReordering)
 
 - (void)bma_moveItemAtIndex:(NSUInteger)index toIndex:(NSUInteger)toIndex {
@@ -93,6 +99,9 @@ UIGestureRecognizerDelegate
 @property (nonatomic) UIView *dropDownPlayerView;
 
 @property (nonatomic) SOCameraOverlay *cameraOverlay;
+@property (assign) enum ProviderEditingState currentEditState;
+@property (weak, nonatomic) IBOutlet UIButton *editDoneButton;
+
 @end
 
 @implementation SOSortingViewController
@@ -115,7 +124,6 @@ UIGestureRecognizerDelegate
     
     self.videoPlayingViewCancelButton.hidden = YES;
     
-    
     UINib *myNib = [UINib nibWithNibName:@"SOSortingCollectionViewCell" bundle:nil];
     
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"sortingIdentifier"];
@@ -136,56 +144,13 @@ UIGestureRecognizerDelegate
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    [collectionView reloadData];
+     [collectionView reloadData];
     
     if (self.videoThumbnails.count > 0) {
         
         [self collectionViewBatchReload];
     }
 }
-
-
-
--(void) alertView {
-    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        
-        [self dismissViewControllerAnimated:YES completion:^{
-        }];
-    }]];
-    
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Invite a friend" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        
-        if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
-        {
-            SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
-            contactsAndFriendsVC.projectID = self.sortingProject.objectId;
-            [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
-//            SOContactsViewController *contactsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
-//            contactsVC.projectId = self.sortingProject.objectId;
-//            [self presentViewController:contactsVC animated:YES completion:nil];
-        }
-        else
-        {
-            SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
-            signUpViewController.projectID = self.sortingProject.objectId;
-            
-            [self presentViewController:signUpViewController animated:YES completion:nil];
-        }
-    }]];
-    
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Take a video" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        [self setupCamera];
-    }]];
-    
-    [self presentViewController:actionSheet animated:YES completion:nil];
-}
-
-
-
 
 -(void)fetch{
     UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
@@ -230,11 +195,6 @@ UIGestureRecognizerDelegate
     
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    // [collectionView reloadData];
-}
-
 - (void)viewWillDisappear:(BOOL)animated{
     
     [super viewWillDisappear:animated];
@@ -242,7 +202,6 @@ UIGestureRecognizerDelegate
     [self.sortingProject reindexVideos];
     
     [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"Saved new order of videos, assuming there is a new order");
     }];
     
     SOCachedObject *currentlyCached = [SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId];
@@ -256,7 +215,6 @@ UIGestureRecognizerDelegate
     if(self.hasRespondedToSignUp){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MoveToProfile" object:nil];
     }
-    
 }
 
 - (void)reload:(NSNotification *)notif{
@@ -285,31 +243,28 @@ UIGestureRecognizerDelegate
 }
 
 
-#pragma mark - Merging methods
-- (IBAction)previewButtonTapped:(UIButton *)sender {
-    [self mergeVideosInArray:self.videoAssetsArray];
+#pragma mark - Invite-Preview-Share
+
+
+- (IBAction)inviteButtonTapped:(UIButton *)sender {
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
+    {
+        SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
+        contactsAndFriendsVC.projectID = self.sortingProject.objectId;
+        [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
+        
+    }
+    else
+    {
+        SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
+        signUpViewController.projectID = self.sortingProject.objectId;
+        
+        [self presentViewController:signUpViewController animated:YES completion:nil];
+    }
 }
 
-
--(void)mergeVideosInArray:(NSMutableArray<AVAsset *> *)videosArray{
-    
-    [self.avPlayerLayer removeFromSuperlayer];
-    self.avPlayerLayer =nil;
-    self.avPlayerItem = nil;
-    self.avPlayer = nil;
-    
-    SOExportHandler *exportHandler = [SOExportHandler new];
-    AVPlayerItem * pi = [exportHandler playerItemFromVideosArray:videosArray];
-    
-    AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
-    
-    VideoViewController *videoVC = [VideoViewController new];
-    videoVC.avPlayer = player;
-    [self presentViewController:videoVC animated:YES completion:nil];
-    
-    //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
-    self.navigationController.navigationBar.hidden = YES;
-    
+- (IBAction)previewButtonTapped:(UIButton *)sender {
+    [self mergeVideosInArray:self.videoAssetsArray];
 }
 
 - (IBAction)shareButtonTapped:(UIButton *)sender{
@@ -351,6 +306,27 @@ UIGestureRecognizerDelegate
   
 }
 
+-(void)mergeVideosInArray:(NSMutableArray<AVAsset *> *)videosArray{
+    
+    [self.avPlayerLayer removeFromSuperlayer];
+    self.avPlayerLayer =nil;
+    self.avPlayerItem = nil;
+    self.avPlayer = nil;
+    
+    SOExportHandler *exportHandler = [SOExportHandler new];
+    AVPlayerItem * pi = [exportHandler playerItemFromVideosArray:videosArray];
+    
+    AVPlayer *player = [AVPlayer playerWithPlayerItem:pi];
+    
+    VideoViewController *videoVC = [VideoViewController new];
+    videoVC.avPlayer = player;
+    [self presentViewController:videoVC animated:YES completion:nil];
+    
+    //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
+    self.navigationController.navigationBar.hidden = YES;
+    
+}
+
 - (void)segueToShareViewControllerWithUrl:(NSString *)sharedUrl{
     
     SOShareViewController *shareVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
@@ -358,7 +334,6 @@ UIGestureRecognizerDelegate
     [self presentViewController:shareVC animated:YES completion:nil];
     
 }
-
 
 
 # pragma mark - Video camera setup
@@ -405,20 +380,27 @@ UIGestureRecognizerDelegate
 }
 
 
-
-#pragma mark - Add video or invite people button
-
-- (IBAction)plusButtonTapped:(UIButton *)sender {
-    
-}
-
-
 #pragma mark - UICollectionViewDataSourceDelegate
-
-
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, cellspacing, 0, cellspacing);
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    CGFloat screenWidth = self.view.bounds.size.width;
+    CGFloat cellSpace = (screenWidth - cellspacing*4) / 3 ;
+    CGFloat cellsize = cellSpace ;
+    
+    return CGSizeMake(cellsize, cellsize*4.0/3.0);
+}
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    return cellspacing;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return cellspacing;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -434,40 +416,33 @@ UIGestureRecognizerDelegate
     return self.videoThumbnails.count+1;
 }
 
-
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    CGFloat screenWidth = self.view.bounds.size.width;
-    CGFloat cellSpace = (screenWidth - cellspacing*4) / 3 ;
-    CGFloat cellsize = cellSpace ;
-    
-    
-    return CGSizeMake(cellsize, cellsize*4.0/3.0);
-}
-
-
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return cellspacing;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return cellspacing;
-}
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)aCollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     if(indexPath.row == 0)
     {
         SOSortingCVC *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
+    
+        cell2.deleteItemButton.hidden = YES;
         cell2.videoImageView.image = nil;
         cell2.videoImageView.image = [UIImage imageNamed: @"PlusButtonCell" ];
+ 
         return cell2;
     }
-
     
     else {
         SOSortingCVC *cell = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
+        
+        cell.deleteItemButton.tag = indexPath.row;
+        
+        if(self.currentEditState == ProviderEditStateNormal)
+        {
+            cell.deleteItemButton.hidden = YES;
+        }
+        else
+        {
+        cell.deleteItemButton.hidden = NO;
+        }
         
         cell.videoImageView.file = nil;
         cell.videoImageView.image = nil;
@@ -476,25 +451,23 @@ UIGestureRecognizerDelegate
         [cell.videoImageView loadInBackground];
         
         cell.backgroundColor = [UIColor clearColor];
+        
+        [cell.deleteItemButton addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+
         return cell;
     }
-    
-   
-    
 }
 
 - (void)collectionView:(UICollectionView *)aCollectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == 0 )
     {
-        [self alertView];
+        [self setupCamera];
     }
     
     else {
-        
         if (self.avPlayerLayer) {
-            
-            [self.avPlayerLayer removeFromSuperlayer];
+        [self.avPlayerLayer removeFromSuperlayer];
         }
         
         AVAsset *avAsset = nil;
@@ -524,6 +497,43 @@ UIGestureRecognizerDelegate
         [self.avPlayer play];
         
     }
+    [collectionView reloadData];
+}
+
+#pragma mark -- Edit Done Button
+
+- (IBAction)editDoneButtonTapped:(UIButton *)sender {
+    
+    if (self.currentEditState == ProviderEditStateNormal)
+    {
+        [self.editDoneButton setTitle:@"Done" forState:UIControlStateNormal];
+        
+        self.currentEditState = ProviderEditStateDelete;
+        for(SOSortingCVC *cell in collectionView.visibleCells)
+        {
+            NSIndexPath *indexPath = [collectionView indexPathForCell:cell];
+            if(indexPath.row == 0) {
+                //hide x button for plus button cell
+                [cell.deleteItemButton setHidden: YES];
+            }
+            else
+                [cell.deleteItemButton setHidden:NO];
+        }
+    }
+    else
+    {
+        SOSortingCVC *cell;
+        cell.deleteItemButton.hidden = NO;
+        [self.editDoneButton setTitle:@"Edit" forState:UIControlStateNormal];
+        self.currentEditState = ProviderEditStateNormal;
+        [collectionView reloadData];
+    }
+}
+
+- (void)deletePhoto: (UIButton *)sender
+{
+    NSLog(@"deletePhoto");
+    [self.videoThumbnails removeObjectAtIndex:sender.tag-1];
     [collectionView reloadData];
 }
 
