@@ -16,4 +16,24 @@
     cell.backgroundColor = self.backgroundColor;
     return cell;
 }
+
+
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self setBackgroundColor:[UIColor whiteColor]];
+        
+        self.deleteItemButton = [[UIButton alloc]init];
+        
+        [self.deleteItemButton setBackgroundImage:[UIImage imageNamed:@"deleteItemIcon"] forState:UIControlStateNormal];
+        
+        [self addSubview:self.videoImageView];
+        [self addSubview:self.deleteItemButton];
+    }
+    return self;
+}
+
 @end
