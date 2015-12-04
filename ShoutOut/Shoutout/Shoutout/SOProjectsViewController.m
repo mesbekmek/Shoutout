@@ -247,7 +247,7 @@ typedef enum eventsType{
      numberOfItemsInSection:(NSInteger)aSection
 {
     if (!self.initialFetchOfVideosComplete) {
-        return 0;
+        return 1;
     }
     return [self.projectsArray count] + 1;
 }
