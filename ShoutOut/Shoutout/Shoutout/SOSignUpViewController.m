@@ -13,6 +13,7 @@
 #import "SOProjectsViewController.h"
 #import "SOCachedObject.h"
 #import "SOCachedProjects.h"
+#import "SOLoginViewController.h"
 #import "SOContactsViewController.h"
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
@@ -87,7 +88,8 @@
         
         [User logOut];
         
-        User *thisUser = [[User alloc]initWithContacts];
+        //User *thisUser = [[User alloc]initWithContacts];
+        User *thisUser = [User user];
         
         thisUser.username = username;
         thisUser.password = password;
@@ -139,7 +141,6 @@
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:errorString preferredStyle:UIAlertControllerStyleAlert];
                 
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    self.nameTextField.text = @"";
                     [alertController dismissViewControllerAnimated:YES completion:nil];
                 }];
                 
