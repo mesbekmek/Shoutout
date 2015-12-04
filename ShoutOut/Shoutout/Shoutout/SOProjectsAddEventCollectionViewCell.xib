@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="300" height="569"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmY-mQ-aKo">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmY-mQ-aKo">
                         <rect key="frame" x="0.0" y="135" width="300" height="300"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="300" id="UKT-EX-GQw"/>
                             <constraint firstAttribute="height" constant="300" id="bNn-nY-kcW"/>
                         </constraints>
-                        <state key="normal" title="Button"/>
+                        <state key="normal" image="PlusButtonCell2"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value=""/>
                         </userDefinedRuntimeAttributes>
@@ -40,4 +40,7 @@
             <point key="canvasLocation" x="262" y="453.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="PlusButtonCell2" width="185" height="332"/>
+    </resources>
 </document>

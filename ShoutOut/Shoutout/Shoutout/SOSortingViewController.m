@@ -103,12 +103,7 @@ UIGestureRecognizerDelegate
     
     [super viewDidLoad];
     self.playStop = YES;
-    
-    UIScreenEdgePanGestureRecognizer * edgePan = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(popToRoot:)];
-    [edgePan setEdges:UIRectEdgeLeft];
-    edgePan.delegate = self;
-    [self.view addGestureRecognizer:edgePan];
-    
+
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
@@ -136,7 +131,14 @@ UIGestureRecognizerDelegate
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+//    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    self.tabBarController.tabBar.hidden = YES;
+
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
     [collectionView reloadData];
     
     if (self.videoThumbnails.count > 0) {
@@ -163,9 +165,7 @@ UIGestureRecognizerDelegate
             SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
             contactsAndFriendsVC.projectID = self.sortingProject.objectId;
             [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
-//            SOContactsViewController *contactsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
-//            contactsVC.projectId = self.sortingProject.objectId;
-//            [self presentViewController:contactsVC animated:YES completion:nil];
+
         }
         else
         {
@@ -259,6 +259,11 @@ UIGestureRecognizerDelegate
     
 }
 
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
 - (void)reload:(NSNotification *)notif{
     
     NSNumber *number = notif.object;
@@ -308,7 +313,7 @@ UIGestureRecognizerDelegate
     [self presentViewController:videoVC animated:YES completion:nil];
     
     //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
-    self.navigationController.navigationBar.hidden = YES;
+    //self.navigationController.navigationBar.hidden = YES;
     
 }
 
@@ -604,17 +609,6 @@ UIGestureRecognizerDelegate
     } completion:^(BOOL finished) {
         NSLog(@"Reloaded");
     }];
-    
-}
-
-#pragma mark - Gesture Recognizer
-- (void)popToRoot:(UIScreenEdgePanGestureRecognizer *)edgePan{
-    CGPoint translation = [edgePan translationInView:self.view];
-    
-    if (translation.x >= 100) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    
     
 }
 
