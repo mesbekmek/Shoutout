@@ -134,12 +134,12 @@ UIGestureRecognizerDelegate
     
     [self.editDoneButton setTitle:@"Diiiiii"];
 
-    self.editDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
-                                                           style:UIBarButtonItemStyleDone
-                                                          target:self
-                                                          action:@selector(editDoneButtonTapped)];
-    
-    self.navigationItem.rightBarButtonItem = self.editDoneButton;
+//    self.editDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+//                                                           style:UIBarButtonItemStyleDone
+//                                                          target:self
+//                                                          action:@selector(editDoneButtonTapped)];
+//    
+//    self.navigationItem.rightBarButtonItem = self.editDoneButton;
 }
 
 -(void)popToProfile
@@ -397,6 +397,8 @@ UIGestureRecognizerDelegate
     NSLog(@"sorting proj %@",self.sortingProject.objectId);
     
     [self.sortingProject.videos addObject:video];
+    
+    [self.collaboratorUsernameArray addObject:[User currentUser].username];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
