@@ -14,6 +14,7 @@
 #import "APContact.h"
 #import "APPhone.h"
 #import "SOCachedProjects.h"
+#import "ResultTableViewController.h"
 
 #import <Contacts/Contacts.h>
 #import <Parse/Parse.h>
@@ -26,20 +27,32 @@ typedef enum eventsType{
 } EventsType;
 
 
-@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic) NSMutableArray <NSString *>*currentUserContacts;
-@property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
-@property (nonatomic) BOOL isOnContact;
+@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,
+UISearchControllerDelegate, UISearchResultsUpdating>
 
-@property (nonatomic, strong) APAddressBook *addressBook;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+// friend's contact
+@property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
+@property (nonatomic) NSMutableArray <NSString *> *currentUserContacts;
 @property (nonatomic) NSMutableArray *phoneBookUserName;
 @property (nonatomic) NSMutableArray *phoneBookName;
+
+// filtered list
+@property (nonatomic) NSMutableArray <NSString *> *currentUserFilterContacts;
+@property (nonatomic) NSMutableArray *phoneBookFilterUserName;
+@property (nonatomic) NSMutableArray *phoneBookFilterName;
+
+@property (nonatomic, strong) APAddressBook *addressBook;
+@property (nonatomic) BOOL isOnContact;
 @property (nonatomic) BOOL isAnimating;
 @property (nonatomic) BOOL isFetching;
 
 @property (weak, nonatomic) IBOutlet UIView *underlineBar;
 
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+//@property (nonatomic, strong) UISearchController *searchController;
+//@property (nonatomic, strong) ResultTableViewController *resultTableViewController;
 
 @end
 
@@ -55,14 +68,25 @@ typedef enum eventsType{
     self.isOnContact = NO;
     self.isFetching = NO;
     
-//    if ([SOCachedProjects sharedManager].cachedUsernameForFriends.count > 0) {
-//        self.currentUserContacts = [SOCachedProjects sharedManager].cachedUsernameForFriends;
-//    } else {
-        [self queryCurrentUserContactsListOnParse];
-//
-//    }
+    // searchbar
+//    self.resultTableViewController = [[ResultTableViewController alloc] init];
+//    self.searchController = [UISearchController alloc]initWithSearchResultsController:self.resultTableViewController];
+//    self.searchController.searchResultsUpdater = self;
+//    self.searchController.searchBar.placeholder = @"Search by Name, Username, or Phone Number";
+//    [self.searchController.searchBar sizeToFit];
+//    self.tableView.tableHeaderView = self.searchController.searchBar;
+//    
+//    self.resultTableViewController.tableView.delegate = self;
+//    self.searchController.delegate = self;
+//    self.searchController.dimsBackgroundDuringPresentation = YES;
+//    self.searchController.searchBar.delegate = self;
+//    
+//    self.definesPresentationContext = YES;
     
-//    self.tableView.estimatedRowHeight = 12.0f;
+        [self queryCurrentUserContactsListOnParse];
+    self.contactsFromPhoneBook  = [NSMutableArray new];
+    
+    [self queryPhoneBookContact];
 }
 
 
@@ -431,33 +455,67 @@ typedef enum eventsType{
     self.isFetching =NO;
 }
 
-//-(void)addSelfToFromRequest:(SORequest *)request{
-//
-//
-//}
-
-
 
 #pragma - mark UITableView Delegate and DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.isOnContact) {
-        //        return self.contactsFromPhoneBook.count;
-        //        return self.phoneBookContactList.count;
-        return self.phoneBookName.count;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return 3;
     } else {
-        return self.currentUserContacts.count + 1;
+        return 2;
     }
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        switch (section) {
+            case 0:
+                return self.currentUserFilterContacts.count;
+                break;
+            case 1:
+                return self.phoneBookFilterName.count;
+                break;
+            default:
+                break;
+        }
+        
+    } else {
+        switch (section) {
+            case 0:
+                return self.currentUserContacts.count;
+                break;
+            case 1:
+                return self.phoneBookName.count;
+                break;
+            default:
+                break;
+        }
+    }
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    
+    switch (section) {
+        case 0:
+            return @"Friends List";
+            break;
+        case 1:
+            return @"PhoneBook Contacts";
+            break;
+        default:
+            return nil;
+            break;
+    }
+    
+}
+
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-        if (self.isOnContact) {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        
+        if (indexPath.section == 1) {
             
             PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
             
@@ -467,41 +525,92 @@ typedef enum eventsType{
             addButton.backgroundColor = [UIColor greenColor];
             [addButton setTitle:@"+" forState:UIControlStateNormal];
             [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:addButton];
             
+            cell.nameLabel.text = self.phoneBookFilterName[indexPath.row];
+            cell.phoneNumberLabel.text = self.phoneBookFilterUserName[indexPath.row];
+            return cell;
+            
+        } else if (indexPath.section == 0){
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
+            return cell;
+        }
+        
+    } else {
+        
+        if (indexPath.section == 1) {
+            
+            PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+            
+            UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [addButton setTag:indexPath.row];
+            addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
+            addButton.backgroundColor = [UIColor greenColor];
+            [addButton setTitle:@"+" forState:UIControlStateNormal];
+            [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:addButton];
             
             cell.nameLabel.text = self.phoneBookName[indexPath.row];
             cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
-            
-            
-            [cell addSubview:addButton];
             return cell;
-        } else {
-            if (indexPath.row == 0){
-                UITableViewCell *addFriendCell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
-                return addFriendCell;
-            } else {
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
-                cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
-                return cell;
-            }
+            
+        } else if (indexPath.section == 0){
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
+            return cell;
         }
-
+    }
+    return nil;
 }
-
-
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.isOnContact) {
-        return 50.0;
+    return 50;
+}
+
+
+
+#pragma mark - SearchFilter
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    [self filterContentForSearchText:searchText];
+    [self.tableView reloadData];
+}
+
+
+-(void)filterContentForSearchText:(NSString *)searchText{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",searchText];
+    // filter by username
+    self.currentUserFilterContacts = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
+    
+    self.phoneBookFilterName = [self.phoneBookName filteredArrayUsingPredicate:predicate];
+    
+    self.phoneBookFilterUserName = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
+    
+}
+
+
+
+
+
+
+#pragma mark - search result update
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController{
+    NSString *searchText = searchController.searchBar.text;
+    
+    if (searchText == nil) {
+        NSLog(@"DO NOTHING search textfield is empty");
     } else {
-        if (indexPath.row > 0) {
-            return 40.0;
-        } else {
-            return 70.0;
-        }
+        
     }
     
 }
+
+
+
+
+
 
 @end
