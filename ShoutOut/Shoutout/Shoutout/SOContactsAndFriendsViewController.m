@@ -25,7 +25,8 @@ typedef enum actionType{
 @interface SOContactsAndFriendsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic) BOOL isAnimating;
-@property (weak, nonatomic) IBOutlet UIView *underlineBar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) APAddressBook *addressBook;
 @property (nonatomic) NSMutableArray *phoneBookUserName;
@@ -81,6 +82,21 @@ typedef enum actionType{
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)friendsAndContactsButton:(UISegmentedControl *)sender {
+    
+    if (sender.selectedSegmentIndex == 0)
+    {
+        [self queryCurrentUserContactsListOnParse];
+        self.isOnContact = NO;
+    }
+    else
+    {
+        self.isOnContact = YES;
+        [self queryPhoneBookContacts];
+    }
+}
+
+
 #pragma mark Friends or Contacts Button Action
 - (IBAction)friendsAndContactsButtonTapped:(UIButton *)sender {
     
@@ -94,13 +110,12 @@ typedef enum actionType{
         self.isOnContact = YES;
         [self queryPhoneBookContacts];
     }
-    
-    
-    if (self.isAnimating || (sender.tag == 0 && actionType == MY_FRIENDS) || (sender.tag == 1 && actionType == MY_CONTACTS)) {
-        return;
-    }
-    
-    [self animateUnderlineBar];
+//    
+//    if (self.isAnimating || (sender.tag == 0 && actionType == MY_FRIENDS) || (sender.tag == 1 && actionType == MY_CONTACTS)) {
+//        return;
+//    }
+//    
+//    [self animateUnderlineBar];
 }
 #pragma mark Phone Book Query
 -(void)queryPhoneBookContacts{
@@ -252,29 +267,29 @@ typedef enum actionType{
 
 
 #pragma mark UnderLineBar Animation
-- (void)animateUnderlineBar{
-    
-    if (!self.isAnimating) {
-        
-        CGFloat newX = actionType == MY_FRIENDS? self.underlineBar.bounds.size.width : 0;
-        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
-        
-        self.isAnimating = YES;
-        
-        [UIView animateWithDuration:.25f animations:^{
-            
-            self.underlineBar.frame = newFrame;
-            
-        } completion:^(BOOL finished) {
-            
-            self.isAnimating = NO;
-            actionType = actionType == MY_FRIENDS? MY_CONTACTS : MY_FRIENDS;
-            
-        }];
-        
-    }
-    
-}
+//- (void)animateUnderlineBar{
+//    
+//    if (!self.isAnimating) {
+//        
+//        CGFloat newX = actionType == MY_FRIENDS? self.underlineBar.bounds.size.width : 0;
+//        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
+//        
+//        self.isAnimating = YES;
+//        
+//        [UIView animateWithDuration:.25f animations:^{
+//            
+//            self.underlineBar.frame = newFrame;
+//            
+//        } completion:^(BOOL finished) {
+//            
+//            self.isAnimating = NO;
+//            actionType = actionType == MY_FRIENDS? MY_CONTACTS : MY_FRIENDS;
+//            
+//        }];
+//        
+//    }
+//    
+//}
 #pragma mark Navigation
 - (IBAction)backButtonTapped:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -314,7 +329,26 @@ typedef enum actionType{
             {
                 SOContactsFormatter *contact = contactsWithShoutout[indexPath.row];
                 NSString *username = contact.username;
-                [SORequest sendRequestTo:username forProjectId:self.projectID andTitle:self.projectTitleTextField.text];
+                
+                //send collab request
+                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.projectTitleTextField.text];
+                
+                //add username to collaborators array in the project
+                if(![self.sortingProject.collaboratorsSentTo containsObject:username])
+                {
+                    [self.sortingProject.collaboratorsSentTo addObject:username];
+                }
+                [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    NSLog(@"Successfully added new username to collaborators array");
+                }];
+                
+                //send friend request
+                [SORequest sendRequestTo:username withBlock:^(BOOL succeeded) {
+                    if(succeeded)
+                    {
+                        NSLog(@"Successfully sent a friend request");
+                    }
+                }];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
@@ -347,7 +381,7 @@ typedef enum actionType{
             for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
             {
                 NSString *username = (NSString *)self.currentUserContacts[indexPath.row];
-                [SORequest sendRequestTo:username forProjectId:self.projectID andTitle:self.projectTitleTextField.text];
+                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.projectTitleTextField.text];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
@@ -374,7 +408,6 @@ typedef enum actionType{
         NSArray *array = section == 0 ? self.phoneBookDictionary[@"Contacts With Shoutout"]  : self.phoneBookDictionary[@"Contacts Without Shoutout"];
         
         return array.count;
-        
     }
     else
     {

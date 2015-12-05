@@ -69,13 +69,6 @@
     
     NSMutableArray<SOVideo *> *videoFilesArray = [[NSMutableArray alloc]init];
     
-    //    if (self.collaboratorHasAddedVideo)
-    //    {
-    //        [self.videos addObjectsFromArray:self.collaboratorSentVideos];
-    //        [self.collaboratorSentVideos removeAllObjects];
-    //        self.collaboratorHasAddedVideo = NO;
-    //    }
-    
     
     NSPredicate *pred = [NSPredicate predicateWithFormat: @"objectId IN %@ OR projectId == %@", [self.videos valueForKey:@"objectId"], self.objectId];
     PFQuery *query = [PFQuery queryWithClassName:@"SOVideo" predicate:pred];
@@ -89,6 +82,14 @@
                 if (vid.index == -1) {
                     vid.index = objects.count - i;
                     [self.videos addObject:vid];
+                    if(![self.collaboratorsReceivedFrom containsObject:vid.username])
+                    {
+                        [self.collaboratorsReceivedFrom addObject:vid.username];
+                    }
+                    if([self.collaboratorsSentTo containsObject:vid.username])
+                    {
+                        [self.collaboratorsSentTo removeObject:vid.username];
+                    }
                     vid.projectId = @"";
                     i++;
                 }
@@ -182,8 +183,8 @@
                     [self.videos addObject:video];
                     
                     //For now users arent stored in these arrays
-//                    [self.collaboratorsReceivedFrom addObject:video.username];
-//                    [self.collaboratorsSentTo removeObjectIdenticalTo:video.username];
+                    //                    [self.collaboratorsReceivedFrom addObject:video.username];
+                    //                    [self.collaboratorsSentTo removeObjectIdenticalTo:video.username];
                     
                     [cached.avassetsArray addObject:video.assetFromVideoFile];
                     [cached.thumbnailsArray addObject:video.thumbnail];

@@ -161,7 +161,8 @@ UIGestureRecognizerDelegate
         if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
         {
             SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
-            contactsAndFriendsVC.projectID = self.sortingProject.objectId;
+            
+            contactsAndFriendsVC.sortingProject = self.sortingProject;
             [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
 //            SOContactsViewController *contactsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
 //            contactsVC.projectId = self.sortingProject.objectId;
@@ -170,7 +171,7 @@ UIGestureRecognizerDelegate
         else
         {
             SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
-            signUpViewController.projectID = self.sortingProject.objectId;
+            signUpViewController.sortingProject = self.sortingProject;
             
             [self presentViewController:signUpViewController animated:YES completion:nil];
         }

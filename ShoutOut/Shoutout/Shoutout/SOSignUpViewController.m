@@ -15,6 +15,7 @@
 #import "SOCachedProjects.h"
 #import "SOLoginViewController.h"
 #import "SOContactsViewController.h"
+
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -117,7 +118,7 @@
                 [[PFInstallation currentInstallation] saveInBackground];
                 
                 
-                SOCachedObject *cached = [[SOCachedProjects sharedManager].cachedProjects objectForKey:self.projectID];
+                SOCachedObject *cached = [[SOCachedProjects sharedManager].cachedProjects objectForKey:self.sortingProject.objectId];
                 
                 cached.cachedProject.createdBy = thisUser.username;
                 
@@ -127,10 +128,11 @@
                 
                 [cached.cachedProject saveInBackground];
                 
-
                 
                 SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
-                contactsVC.projectId = self.projectID;
+                contactsVC.projectId = self.sortingProject.objectId;
+                
+                contactsVC.sortingProject = self.sortingProject;
                 [self presentViewController:contactsVC animated:YES completion:nil];
                 
             }else{
@@ -140,7 +142,7 @@
                 
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:errorString preferredStyle:UIAlertControllerStyleAlert];
                 
-                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
                     [alertController dismissViewControllerAnimated:YES completion:nil];
                 }];
                 
