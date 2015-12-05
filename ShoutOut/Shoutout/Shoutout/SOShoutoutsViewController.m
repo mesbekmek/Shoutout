@@ -8,8 +8,13 @@
 
 #import "SOShoutoutsViewController.h"
 #import <ChameleonFramework/Chameleon.h>
+#import <Parse/Parse.h>
+#import "User.h"
+#import "SOShoutout.h"
 
 @interface SOShoutoutsViewController ()
+
+@property (nonatomic) SOShoutout *shoutout;
 
 @end
 
@@ -18,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self fetch];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -28,7 +34,15 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Shoutouts";
+}
 
+- (void)fetch{
+    
+    [self.shoutout fetchAllShoutouts:^(NSMutableArray<SOShoutout *> *shoutoutsCollaborationsArray)
+    {
+        
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
