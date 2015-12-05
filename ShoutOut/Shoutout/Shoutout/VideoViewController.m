@@ -8,10 +8,13 @@
 
 #import "VideoViewController.h"
 @import AVFoundation;
+#import "SOCachedProjects.h"
+#import "SOExportHandler.h"
 
 @interface VideoViewController ()
 @property (strong, nonatomic) AVPlayerLayer *avPlayerLayer;
 @property (strong, nonatomic) UIButton *cancelButton;
+@property (nonatomic) UIView *spinnerView;
 @end
 
 @implementation VideoViewController
@@ -24,6 +27,58 @@
     
     // the video player
     //self.avPlayer = [AVPlayer playerWithURL:self.videoUrl];
+    
+    
+//    [self cancelButton];
+    // cancel button
+    if (self.shoutout) {
+        
+        NSString *shoutoutId = self.shoutout.objectId;
+        if(![[SOCachedProjects sharedManager].cachedProjects objectForKey:shoutoutId])
+        {
+            [self setUpActivityIndicator];
+            [self.shoutout fetchCompleteShoutoutVideosforShoutout:^(BOOL success) {
+                if(success)
+                {
+                    [[SOCachedProjects sharedManager].cachedProjects setObject:self.shoutout forKey:shoutoutId];
+                    [self completeAssetBuilding];
+                }
+                else{
+                    [self performFailureAlert];
+                }
+            }];
+        }
+        else
+        {
+            self.shoutout = [[SOCachedProjects sharedManager].cachedProjects objectForKey:shoutoutId];
+            [self completeAssetBuilding];
+        }
+
+        
+    }
+    
+    else{
+        [self performSetUpForAVPlayer];
+    }
+
+}
+
+- (void)completeAssetBuilding{
+    
+    NSMutableArray <AVAsset *>*assetsArray = [NSMutableArray new];
+    for (SOVideo *vid in self.shoutout.videosArray) {
+        [assetsArray addObject:[vid assetFromVideoFile]];
+    }
+    SOExportHandler *exportHandler = [[SOExportHandler alloc]init];
+    AVPlayerItem *pi = [exportHandler playerItemFromVideosArray:assetsArray];
+    self.avPlayer = [AVPlayer playerWithPlayerItem:pi];
+    [self dismissSpinnerView];
+    [self performSetUpForAVPlayer];
+    
+}
+
+
+- (void)performSetUpForAVPlayer{
     self.avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
     self.avPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
@@ -40,18 +95,40 @@
     self.avPlayerLayer.frame = screenRect;
     [self.view.layer addSublayer:self.avPlayerLayer];
     
-//    [self cancelButton];
-    // cancel button
-    
     [self.cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.cancelButton.frame = CGRectMake(0, 0, 44, 44);
     [self.view addSubview:self.cancelButton];
+    
+    [self.avPlayer play];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [self.avPlayer play];
+}
+
+- (void)setUpActivityIndicator{
+    self.spinnerView = [[UIView alloc] initWithFrame:self.view.bounds];
+    UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    activityIndicator.center= self.spinnerView.center;
+    activityIndicator.color = [UIColor blackColor];
+    self.spinnerView.backgroundColor = [UIColor whiteColor];
+    self.spinnerView.alpha = 0.6;
+    
+    [activityIndicator startAnimating];
+    [self.spinnerView addSubview:activityIndicator];
+    [self.view addSubview:self.spinnerView];
+    [self.view bringSubviewToFront:self.spinnerView];
+
+}
+
+- (void)dismissSpinnerView{
+    
+    if (self.spinnerView) {
+        [self.spinnerView removeFromSuperview];
+    }
+    
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
@@ -83,6 +160,18 @@
     
     return _cancelButton;
 }
+
+- (void)performFailureAlert{
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Could not load video. Check connection and try again later" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
+
 
 - (void)cancelButtonPressed:(UIButton *)button {
     NSLog(@"cancel button pressed!");

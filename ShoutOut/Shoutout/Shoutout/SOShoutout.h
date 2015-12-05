@@ -29,4 +29,6 @@
 
 - (void)fetchIfUpdatesAvailable:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion;
 
+-(void)fetchCompleteShoutoutVideosforShoutout:(void(^)(BOOL success))onCompletion;
+
 @end

@@ -8,6 +8,7 @@
 
 #import "SOShoutout.h"
 #import "User.h"
+#import "SOCachedProjects.h"
 
 @implementation SOShoutout
 
@@ -189,6 +190,38 @@
     }
     return correctShoutoutsArray;
 }
+
+-(void)fetchCompleteShoutoutVideosforShoutout:(void(^)(BOOL success))onCompletion;
+{
+    if(self.videosArray.count > 1){
+    
+    NSArray<NSString *> *videoIDsArray = [self.videosArray valueForKey:@"objectId"];
+    
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+    [query whereKey:@"objectId" containedIn:videoIDsArray];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!error)
+        {
+            NSMutableArray<SOVideo *> *videos = [NSMutableArray arrayWithArray:objects];
+            [videos sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]]];
+            
+            self.videosArray = videos;
+            [[SOCachedProjects sharedManager].cachedProjects setObject:self forKey:self.objectId];
+            onCompletion(YES);
+        }
+        else{
+            onCompletion(NO);
+        }
+    }];
+    
+    }
+    else{
+        onCompletion(YES);
+    }
+}
+
 
 - (void)fetchIfUpdatesAvailable:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion
 {
