@@ -14,6 +14,7 @@
 #import "APContact.h"
 #import "APPhone.h"
 #import "SOCachedProjects.h"
+#import "ResultTableViewController.h"
 
 #import <Contacts/Contacts.h>
 #import <ChameleonFramework/Chameleon.h>
@@ -28,19 +29,23 @@ typedef enum eventsType{
 } EventsType;
 
 
-@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic) NSMutableArray <NSString *>*currentUserContacts;
-@property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
-@property (nonatomic) BOOL isOnContact;
+@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,
+UISearchControllerDelegate, UISearchResultsUpdating>
 
-@property (nonatomic, strong) APAddressBook *addressBook;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+// friend's contact
+@property (nonatomic) NSMutableArray <Contact *> *contactsFromPhoneBook;
+@property (nonatomic) NSMutableArray <NSString *> *currentUserContacts;
 @property (nonatomic) NSMutableArray *phoneBookUserName;
 @property (nonatomic) NSMutableArray *phoneBookName;
-@property (nonatomic) BOOL isAnimating;
-@property (nonatomic) BOOL isFetching;
 
+// filtered list
+@property (nonatomic) NSMutableArray <NSString *> *currentUserFilterContacts;
+@property (nonatomic) NSMutableArray *phoneBookFilterUserName;
+@property (nonatomic) NSMutableArray *phoneBookFilterName;
 
+@property (nonatomic, strong) APAddressBook *addressBook;
 
 @end
 
@@ -53,17 +58,9 @@ typedef enum eventsType{
     self.tableView.allowsSelection = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.isOnContact = NO;
-    self.isFetching = NO;
     
-//    if ([SOCachedProjects sharedManager].cachedUsernameForFriends.count > 0) {
-//        self.currentUserContacts = [SOCachedProjects sharedManager].cachedUsernameForFriends;
-//    } else {
-        [self queryCurrentUserContactsListOnParse];
-//
-//    }
-    
-//    self.tableView.estimatedRowHeight = 12.0f;
+    [self queryCurrentUserContactsListOnParse];
+    [self queryPhoneBookContact];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -73,6 +70,9 @@ typedef enum eventsType{
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";
+    
+//    [self queryCurrentUserContactsListOnParse];
+//    [self queryPhoneBookContact];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,32 +81,7 @@ typedef enum eventsType{
 }
 
 #pragma - mark IBAction
-- (IBAction)backButtonTapped:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-- (IBAction)settingButtonTapped:(UIButton *)sender {
-    
-}
 
-- (IBAction)friendContactsButtonTapped:(UIButton *)sender {
-    if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
-        self.currentUserContacts = [NSMutableArray new];
-        [self queryCurrentUserContactsListOnParse];
-        self.isOnContact = NO;
-        
-    } else {
-        
-        self.isOnContact = YES;
-        self.contactsFromPhoneBook  = [NSMutableArray new];
-        
-        [self queryPhoneBookContact];
-        
-    }
-    if (self.isAnimating || (sender.tag ==0 && currentEventType == FRIENDS) || (sender.tag == 1 && currentEventType == CONTACTS_LIST)) {
-        return;
-    }
-//    [self animateUnderlineBar];
-}
 
 -(IBAction)addButtonTapped:(UIButton *)sender{
     NSLog(@"%@", self.phoneBookUserName[sender.tag]);
@@ -135,36 +110,9 @@ typedef enum eventsType{
     [self presentViewController:requestSendStatus animated:YES completion:nil];
 }
 
-#pragma mark - Animation
-//- (void)animateUnderlineBar{
-//    
-//    if (!self.isAnimating) {
-//        
-//        CGFloat newX = currentEventType == FRIENDS? self.underlineBar.bounds.size.width : 0;
-//        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
-//        
-//        self.isAnimating = YES;
-//        
-//        [UIView animateWithDuration:.25f animations:^{
-//            
-//            self.underlineBar.frame = newFrame;
-//            
-//        } completion:^(BOOL finished) {
-//            
-//            self.isAnimating = NO;
-//            currentEventType = currentEventType == FRIENDS? CONTACTS_LIST : FRIENDS;
-//        }];
-//        
-//    }
-//    
-//}
-
-
 
 -(void)queryPhoneBookContact{
-    
-    if (self.isFetching == NO) {
-        self.isFetching = YES;
+    self.contactsFromPhoneBook  = [NSMutableArray new];
         self.addressBook = [[APAddressBook alloc]init];
         self.addressBook.fieldsMask = APContactFieldAll;
         self.addressBook.filterBlock = ^BOOL(APContact *contact) {
@@ -187,14 +135,12 @@ typedef enum eventsType{
                         [self.phoneBookName addObject:phoneBookName];
                     }
                     [self.tableView reloadData];
-                    self.isFetching = NO;
                 }];
             } else {
                 NSLog(@"Error!!! == %@",error);
             }
             
         }];
-    }
     
 }
 
@@ -324,11 +270,10 @@ typedef enum eventsType{
 
 
 -(void)queryCurrentUserContactsListOnParse{
-
+    self.currentUserContacts = [NSMutableArray new];
     User *currentUser = [User currentUser];
     
-    if(currentUser.contacts != nil && self.isFetching == NO){
-        self.isFetching = YES;
+    if(currentUser.contacts != nil){
         PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
         [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
         
@@ -337,12 +282,12 @@ typedef enum eventsType{
                 SOContacts *contact = objects[0];
                 
                 self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+                
                 [self.tableView reloadData];
             }
             else{
                 NSLog(@"query contacts ERROR == %@",error);
             }
-            self.isFetching = NO;
         }];
         [self checkSORequestStatus];
     }
@@ -350,8 +295,6 @@ typedef enum eventsType{
 
 -(void)checkSORequestStatus {
     
-    if (self.isFetching == NO) {
-        self.isFetching = YES;
         PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
         [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
         [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
@@ -373,7 +316,6 @@ typedef enum eventsType{
                     
                 }
             }
-            self.isFetching = NO;
         }];
         
         PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
@@ -382,7 +324,6 @@ typedef enum eventsType{
         [queryRequestResult whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
         [queryRequestResult whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
         [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            self.isFetching = YES;
             for (SORequest *requestResult in objects) {
                 for (NSString *username in self.currentUserContacts) {
                     if (![requestResult.requestSentTo isEqualToString:username]) {
@@ -392,9 +333,7 @@ typedef enum eventsType{
                 
             }
             [self pushContactListToParse];
-            self.isFetching = NO;
         }];
-    }
 
     
 }
@@ -428,45 +367,75 @@ typedef enum eventsType{
 }
 
 -(void)pushContactListToParse{
-    if (self.isFetching == NO) {
-        self.isFetching = YES;
         [User currentUser].contacts.contactsList = self.currentUserContacts;
         [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             NSLog(@"new contact list saved to parse");
         }];
         [self.tableView reloadData];
 
-    }
-    self.isFetching =NO;
 }
-
-//-(void)addSelfToFromRequest:(SORequest *)request{
-//
-//
-//}
-
 
 
 #pragma - mark UITableView Delegate and DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.isOnContact) {
-        //        return self.contactsFromPhoneBook.count;
-        //        return self.phoneBookContactList.count;
-        return self.phoneBookName.count;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return 3;
     } else {
-        return self.currentUserContacts.count + 1;
+        return 2;
     }
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        switch (section) {
+            case 0:
+                return self.currentUserFilterContacts.count;
+                break;
+            case 1:
+                return self.phoneBookFilterName.count;
+                break;
+            default:
+                break;
+        }
+        
+    } else {
+        switch (section) {
+            case 0:
+                return self.currentUserContacts.count;
+                break;
+            case 1:
+                return self.phoneBookName.count;
+                break;
+            default:
+                break;
+        }
+    }
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    
+    switch (section) {
+        case 0:
+            return @"Friends List";
+            break;
+        case 1:
+            return @"PhoneBook Contacts";
+            break;
+        default:
+            return nil;
+            break;
+    }
+    
+}
+
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-        if (self.isOnContact) {
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        
+        if (indexPath.section == 1) {
             
             PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
             
@@ -476,41 +445,92 @@ typedef enum eventsType{
             addButton.backgroundColor = [UIColor greenColor];
             [addButton setTitle:@"+" forState:UIControlStateNormal];
             [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:addButton];
             
+            cell.nameLabel.text = self.phoneBookFilterName[indexPath.row];
+            cell.phoneNumberLabel.text = self.phoneBookFilterUserName[indexPath.row];
+            return cell;
+            
+        } else if (indexPath.section == 0){
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row];
+            return cell;
+        }
+        
+    } else {
+        
+        if (indexPath.section == 1) {
+            
+            PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+            
+            UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [addButton setTag:indexPath.row];
+            addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
+            addButton.backgroundColor = [UIColor greenColor];
+            [addButton setTitle:@"+" forState:UIControlStateNormal];
+            [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:addButton];
             
             cell.nameLabel.text = self.phoneBookName[indexPath.row];
             cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
-            
-            
-            [cell addSubview:addButton];
             return cell;
-        } else {
-            if (indexPath.row == 0){
-                UITableViewCell *addFriendCell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
-                return addFriendCell;
-            } else {
-                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
-                cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
-                return cell;
-            }
+            
+        } else if (indexPath.section == 0){
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row];
+            return cell;
         }
-
+    }
+    return nil;
 }
-
-
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.isOnContact) {
-        return 50.0;
+    return 50;
+}
+
+
+
+#pragma mark - SearchFilter
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    [self filterContentForSearchText:searchText];
+    [self.tableView reloadData];
+}
+
+
+-(void)filterContentForSearchText:(NSString *)searchText{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",searchText];
+    // filter by username
+    self.currentUserFilterContacts = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
+    
+    self.phoneBookFilterName = [self.phoneBookName filteredArrayUsingPredicate:predicate];
+    
+    self.phoneBookFilterUserName = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
+    
+}
+
+
+
+
+
+
+#pragma mark - search result update
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController{
+    NSString *searchText = searchController.searchBar.text;
+    
+    if (searchText == nil) {
+        NSLog(@"DO NOTHING search textfield is empty");
     } else {
-        if (indexPath.row > 0) {
-            return 40.0;
-        } else {
-            return 70.0;
-        }
+        
     }
     
 }
+
+
+
+
+
 
 @end

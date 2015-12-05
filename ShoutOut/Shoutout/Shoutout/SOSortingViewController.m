@@ -341,7 +341,6 @@ UIGestureRecognizerDelegate
     [self presentViewController:videoVC animated:YES completion:nil];
     
     //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
-    self.navigationController.navigationBar.hidden = YES;
     
 }
 

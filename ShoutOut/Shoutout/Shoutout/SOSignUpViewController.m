@@ -89,13 +89,14 @@
         
         [User logOut];
         
-        //User *thisUser = [[User alloc]initWithContacts];
+//        User *thisUser = [[User alloc]initWithContacts];
         User *thisUser = [User user];
         
         thisUser.username = username;
         thisUser.password = password;
         thisUser.email = email;
         thisUser.phoneNumber = phoneNumber;
+        thisUser.contacts = [SOContacts new];
         
         [thisUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if(!error){
@@ -109,9 +110,28 @@
                 [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"signedUpAlready"];
                 
                 NSLog(@"Sign up succeded!");
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
-                UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+                PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
+                NSString *uuid = [[SOCachedProjects sharedManager].cachedProjects objectForKey:@"UUID"];
+                [query whereKey:@"createdBy" containsString:uuid];
+                
+               __block NSMutableArray<SOProject *> *projects = [NSMutableArray<SOProject *> new];
+
+                [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                    if(!error){
+                        projects = [NSMutableArray arrayWithArray:objects];
+                        
+                    }
+                }];
+                if(projects.count > 0){
+                    for(int i = 0; i < projects.count ; i++)
+                    {
+                        SOProject *currentProject = projects[i];
+                        currentProject.createdBy = thisUser.username;
+                    }
+                }
+                
+                
                 
                 [[PFInstallation currentInstallation] setObject:thisUser forKey:@"user"];
                 
@@ -128,6 +148,7 @@
                 
                 [cached.cachedProject saveInBackground];
                 
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
                 SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
                 contactsVC.projectId = self.sortingProject.objectId;

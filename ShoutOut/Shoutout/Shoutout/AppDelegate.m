@@ -49,25 +49,27 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 
     //Uncomment when we decide to implement Push Notifs
     //[self setupPushNotifications:application];
+    
+   
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+
+    UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
+    self.window.rootViewController = tabBC;
 
     if([PFUser currentUser])
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-
-        UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
-        self.window.rootViewController = tabBC;
-
-//        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
 
         //Uncomment when we decide to implement Push Notifs
         //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
         //[[PFInstallation currentInstallation] saveInBackground];
-        
-       // SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-       // self.window.rootViewController = nc;
+
     }
     else
     {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
+        self.window.rootViewController = tabBC;
         [self setupSSKeyChain];
     }
     
