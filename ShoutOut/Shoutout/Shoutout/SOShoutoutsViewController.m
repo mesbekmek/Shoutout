@@ -36,6 +36,9 @@ const CGFloat aspectRatio2 = 1.77;
     [super viewDidLoad];
     self.shoutoutsArray = [NSMutableArray<SOShoutout *> new];
     self.shoutout = [[SOShoutout alloc]initShoutout];
+    
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
 
     // Do any additional setup after loading the view.
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
@@ -64,6 +67,7 @@ const CGFloat aspectRatio2 = 1.77;
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
