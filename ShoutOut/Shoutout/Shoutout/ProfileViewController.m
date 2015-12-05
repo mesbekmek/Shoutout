@@ -46,9 +46,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 @property (nonatomic) NSMutableArray *phoneBookFilterName;
 
 @property (nonatomic, strong) APAddressBook *addressBook;
-@property (nonatomic) BOOL isOnContact;
-@property (nonatomic) BOOL isAnimating;
-@property (nonatomic) BOOL isFetching;
 
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -66,8 +63,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
     self.tableView.allowsSelection = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.isOnContact = NO;
-    self.isFetching = NO;
     
     // searchbar
 //    self.resultTableViewController = [[ResultTableViewController alloc] init];
@@ -84,9 +79,7 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 //    
 //    self.definesPresentationContext = YES;
     
-        [self queryCurrentUserContactsListOnParse];
-    self.contactsFromPhoneBook  = [NSMutableArray new];
-    
+    [self queryCurrentUserContactsListOnParse];
     [self queryPhoneBookContact];
 }
 
@@ -114,22 +107,14 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 
 - (IBAction)friendContactsButtonTapped:(UIButton *)sender {
     if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
-        self.currentUserContacts = [NSMutableArray new];
         [self queryCurrentUserContactsListOnParse];
-        self.isOnContact = NO;
         
     } else {
-        
-        self.isOnContact = YES;
         self.contactsFromPhoneBook  = [NSMutableArray new];
         
         [self queryPhoneBookContact];
         
     }
-    if (self.isAnimating || (sender.tag ==0 && currentEventType == FRIENDS) || (sender.tag == 1 && currentEventType == CONTACTS_LIST)) {
-        return;
-    }
-//    [self animateUnderlineBar];
 }
 
 -(IBAction)addButtonTapped:(UIButton *)sender{
@@ -159,36 +144,9 @@ UISearchControllerDelegate, UISearchResultsUpdating>
     [self presentViewController:requestSendStatus animated:YES completion:nil];
 }
 
-#pragma mark - Animation
-//- (void)animateUnderlineBar{
-//    
-//    if (!self.isAnimating) {
-//        
-//        CGFloat newX = currentEventType == FRIENDS? self.underlineBar.bounds.size.width : 0;
-//        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
-//        
-//        self.isAnimating = YES;
-//        
-//        [UIView animateWithDuration:.25f animations:^{
-//            
-//            self.underlineBar.frame = newFrame;
-//            
-//        } completion:^(BOOL finished) {
-//            
-//            self.isAnimating = NO;
-//            currentEventType = currentEventType == FRIENDS? CONTACTS_LIST : FRIENDS;
-//        }];
-//        
-//    }
-//    
-//}
-
-
 
 -(void)queryPhoneBookContact{
-    
-    if (self.isFetching == NO) {
-        self.isFetching = YES;
+    self.contactsFromPhoneBook  = [NSMutableArray new];
         self.addressBook = [[APAddressBook alloc]init];
         self.addressBook.fieldsMask = APContactFieldAll;
         self.addressBook.filterBlock = ^BOOL(APContact *contact) {
@@ -211,14 +169,12 @@ UISearchControllerDelegate, UISearchResultsUpdating>
                         [self.phoneBookName addObject:phoneBookName];
                     }
                     [self.tableView reloadData];
-                    self.isFetching = NO;
                 }];
             } else {
                 NSLog(@"Error!!! == %@",error);
             }
             
         }];
-    }
     
 }
 
@@ -348,11 +304,10 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 
 
 -(void)queryCurrentUserContactsListOnParse{
-
+    self.currentUserContacts = [NSMutableArray new];
     User *currentUser = [User currentUser];
     
-    if(currentUser.contacts != nil && self.isFetching == NO){
-        self.isFetching = YES;
+    if(currentUser.contacts != nil){
         PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
         [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
         
@@ -366,7 +321,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
             else{
                 NSLog(@"query contacts ERROR == %@",error);
             }
-            self.isFetching = NO;
         }];
         [self checkSORequestStatus];
     }
@@ -374,8 +328,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 
 -(void)checkSORequestStatus {
     
-    if (self.isFetching == NO) {
-        self.isFetching = YES;
         PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
         [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
         [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
@@ -397,7 +349,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
                     
                 }
             }
-            self.isFetching = NO;
         }];
         
         PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
@@ -406,7 +357,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
         [queryRequestResult whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
         [queryRequestResult whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
         [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            self.isFetching = YES;
             for (SORequest *requestResult in objects) {
                 for (NSString *username in self.currentUserContacts) {
                     if (![requestResult.requestSentTo isEqualToString:username]) {
@@ -416,9 +366,7 @@ UISearchControllerDelegate, UISearchResultsUpdating>
                 
             }
             [self pushContactListToParse];
-            self.isFetching = NO;
         }];
-    }
 
     
 }
@@ -452,16 +400,12 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 }
 
 -(void)pushContactListToParse{
-    if (self.isFetching == NO) {
-        self.isFetching = YES;
         [User currentUser].contacts.contactsList = self.currentUserContacts;
         [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             NSLog(@"new contact list saved to parse");
         }];
         [self.tableView reloadData];
 
-    }
-    self.isFetching =NO;
 }
 
 
