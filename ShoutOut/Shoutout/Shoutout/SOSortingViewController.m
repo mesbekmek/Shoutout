@@ -100,7 +100,8 @@ UIGestureRecognizerDelegate
 
 @property (nonatomic) SOCameraOverlay *cameraOverlay;
 @property (assign) enum ProviderEditingState currentEditState;
-@property (weak, nonatomic) IBOutlet UIButton *editDoneButton;
+@property (nonatomic) UIBarButtonItem *editDoneButton;
+
 
 @end
 
@@ -127,6 +128,15 @@ UIGestureRecognizerDelegate
     [self fetch];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"SignUpComplete" object:nil];
+    
+    [self.editDoneButton setTitle:@"Diiiiii"];
+
+    self.editDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                                           style:UIBarButtonItemStyleDone
+                                                          target:self
+                                                          action:@selector(editDoneButtonTapped)];
+    
+    self.navigationItem.rightBarButtonItem = self.editDoneButton;
 }
 
 -(void)popToProfile
@@ -510,12 +520,13 @@ UIGestureRecognizerDelegate
 
 #pragma mark -- Edit Done Button
 
-- (IBAction)editDoneButtonTapped:(UIButton *)sender {
-    
+//- (IBAction)editDoneButtonTapped:(UIButton *)sender {
+-(void) editDoneButtonTapped {
     if (self.currentEditState == ProviderEditStateNormal)
     {
-        [self.editDoneButton setTitle:@"Done" forState:UIControlStateNormal];
-        
+      
+        self.navigationItem.rightBarButtonItem.title = @"Done";
+
         self.currentEditState = ProviderEditStateDelete;
         for(SOSortingCVC *cell in collectionView.visibleCells)
         {
@@ -531,8 +542,10 @@ UIGestureRecognizerDelegate
     else
     {
         SOSortingCVC *cell;
+        
         cell.deleteItemButton.hidden = NO;
-        [self.editDoneButton setTitle:@"Edit" forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem.title = @"Edit";
+
         self.currentEditState = ProviderEditStateNormal;
         [collectionView reloadData];
     }
