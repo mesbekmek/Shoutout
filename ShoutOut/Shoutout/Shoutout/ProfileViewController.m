@@ -16,6 +16,8 @@
 #import "SOCachedProjects.h"
 
 #import <Contacts/Contacts.h>
+#import <ChameleonFramework/Chameleon.h>
+
 #import <Parse/Parse.h>
 
 typedef enum eventsType{
@@ -38,7 +40,6 @@ typedef enum eventsType{
 @property (nonatomic) BOOL isAnimating;
 @property (nonatomic) BOOL isFetching;
 
-@property (weak, nonatomic) IBOutlet UIView *underlineBar;
 
 
 @end
@@ -46,12 +47,12 @@ typedef enum eventsType{
 @implementation ProfileViewController{
     EventsType currentEventType;
 }
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.allowsSelection = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.navigationController.navigationBarHidden = YES;
     self.isOnContact = NO;
     self.isFetching = NO;
     
@@ -65,6 +66,14 @@ typedef enum eventsType{
 //    self.tableView.estimatedRowHeight = 12.0f;
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    self.navigationItem.title = @"Friends";
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -96,15 +105,15 @@ typedef enum eventsType{
     if (self.isAnimating || (sender.tag ==0 && currentEventType == FRIENDS) || (sender.tag == 1 && currentEventType == CONTACTS_LIST)) {
         return;
     }
-    [self animateUnderlineBar];
+//    [self animateUnderlineBar];
 }
 
 -(IBAction)addButtonTapped:(UIButton *)sender{
     NSLog(@"%@", self.phoneBookUserName[sender.tag]);
     
     [SORequest sendRequestTo:self.phoneBookUserName[sender.tag] withBlock:^(BOOL succeeded) {
-        NSString *failedTitle = @"Request Send Faild";
-        NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait untill %@ to respond before sending another one", self.phoneBookName[sender.tag]];
+        NSString *failedTitle = @"Request Send Failed";
+        NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait until %@ to respond before sending another one", self.phoneBookName[sender.tag]];
         NSString *succeededTitle = @"Awesome!";
         NSString *succeededMessage = @"Request Send";
         
@@ -127,28 +136,28 @@ typedef enum eventsType{
 }
 
 #pragma mark - Animation
-- (void)animateUnderlineBar{
-    
-    if (!self.isAnimating) {
-        
-        CGFloat newX = currentEventType == FRIENDS? self.underlineBar.bounds.size.width : 0;
-        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
-        
-        self.isAnimating = YES;
-        
-        [UIView animateWithDuration:.25f animations:^{
-            
-            self.underlineBar.frame = newFrame;
-            
-        } completion:^(BOOL finished) {
-            
-            self.isAnimating = NO;
-            currentEventType = currentEventType == FRIENDS? CONTACTS_LIST : FRIENDS;
-        }];
-        
-    }
-    
-}
+//- (void)animateUnderlineBar{
+//    
+//    if (!self.isAnimating) {
+//        
+//        CGFloat newX = currentEventType == FRIENDS? self.underlineBar.bounds.size.width : 0;
+//        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
+//        
+//        self.isAnimating = YES;
+//        
+//        [UIView animateWithDuration:.25f animations:^{
+//            
+//            self.underlineBar.frame = newFrame;
+//            
+//        } completion:^(BOOL finished) {
+//            
+//            self.isAnimating = NO;
+//            currentEventType = currentEventType == FRIENDS? CONTACTS_LIST : FRIENDS;
+//        }];
+//        
+//    }
+//    
+//}
 
 
 

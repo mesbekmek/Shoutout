@@ -12,6 +12,7 @@
 #import "SONotificationsHeader.h"
 #import "SOVideo.h"
 #import "SORequest.h"
+#import <ChameleonFramework/Chameleon.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
 typedef enum hasFetched{
@@ -48,7 +49,6 @@ typedef enum hasFetched{
         fetchingStatus = FETCHINGCOMPLETE;
         [self.tableView reloadData];
     }];
-    self.navigationController.navigationBarHidden = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
     self.tableView.estimatedRowHeight = 20.0f;
 }
@@ -58,6 +58,15 @@ typedef enum hasFetched{
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    self.navigationItem.title = @"Notifications";
+
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
