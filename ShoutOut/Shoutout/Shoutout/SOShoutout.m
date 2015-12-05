@@ -53,7 +53,7 @@
     }
 }
 
-- (void)fetchAllCollabs:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion{
+- (void)fetchAllCollabs:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray))onCompletion{
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"collaborators == %@",[User currentUser].username];
     PFQuery *query = [PFQuery queryWithClassName:@"SOShoutout" predicate:pred];
@@ -95,7 +95,7 @@
                  {
                      NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
                      
-                     onCompletion(shoutoutsArray, shoutoutsArray);
+                     onCompletion(shoutoutsArray);
                  }
              }
              else
@@ -106,7 +106,7 @@
      }];
 }
 
-- (void)fetchAllShoutouts:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion{
+- (void)fetchAllShoutouts:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray))onCompletion{
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"receipients == %@",[User currentUser].username];
     PFQuery *query = [PFQuery queryWithClassName:@"SOShoutout" predicate:pred];
@@ -148,7 +148,7 @@
                  {
                     NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
                      
-                     onCompletion(shoutoutsArray, shoutoutsArray);
+                     onCompletion(shoutoutsArray);
                  }
              }
              else
@@ -159,7 +159,8 @@
      }];
 }
 
--(NSMutableArray<SOShoutout *> *)matchVideosArray:(NSMutableArray<NSMutableArray<SOVideo *> *> *) videosArray withShoutoutArray:(NSMutableArray<SOShoutout *> *)shoutoutArray{
+-(NSMutableArray<SOShoutout *> *)matchVideosArray:(NSMutableArray<NSMutableArray<SOVideo *> *> *) videosArray withShoutoutArray:(NSMutableArray<SOShoutout *> *)shoutoutArray
+{
     
     NSMutableArray<SOShoutout *> *correctShoutoutsArray = [NSMutableArray<SOShoutout *> new];
     
