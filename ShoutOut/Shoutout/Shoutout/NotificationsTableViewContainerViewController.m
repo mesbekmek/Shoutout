@@ -32,6 +32,7 @@ typedef enum hasFetched{
 @property (nonatomic)NSString *currentProjectId;
 @property (nonatomic)SORequest *currentRequest;
 @property (nonatomic)IBOutlet UITableView *tableView;
+@property (nonatomic) IBOutlet UISegmentedControl *segmentedController;
 
 @end
 
@@ -47,7 +48,6 @@ typedef enum hasFetched{
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Notifications";
 
-    
 }
 
 - (void)viewDidLoad {
@@ -55,8 +55,15 @@ typedef enum hasFetched{
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.allowsMultipleSelection = NO;
-    SORequest *request = [SORequest new];
+    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
+    self.tableView.estimatedRowHeight = 20.0f;
     fetchingStatus = FETCHING;
+    [self fetchFirstBatch];
+}
+
+- (void)fetchFirstBatch{
+
+    SORequest *request = [SORequest new];
     [request fetchAllRequests:^(NSMutableArray<SORequest *> *collaborationRequests, NSMutableArray<SORequest *> *friendRequests, NSMutableArray<SORequest *> *responseRequests) {
         self.collaborationRequests = [NSMutableArray arrayWithArray:collaborationRequests];
         self.friendRequests = friendRequests;
@@ -64,14 +71,11 @@ typedef enum hasFetched{
         fetchingStatus = FETCHINGCOMPLETE;
         [self.tableView reloadData];
     }];
-    self.navigationController.navigationBarHidden = NO;
-    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
-    self.tableView.estimatedRowHeight = 20.0f;
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)updateDataSource{
+
 }
 
 - (IBAction)backButtonTapped:(UIButton *)sender {
