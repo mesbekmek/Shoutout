@@ -178,13 +178,22 @@
             if (objects.count>0) {
                 
                 for (SOVideo *video in objects) {
-                    
-                    video.projectId = @"";
-                    [self.videos addObject:video];
-                    
-                    //For now users arent stored in these arrays
-                    //                    [self.collaboratorsReceivedFrom addObject:video.username];
-                    //                    [self.collaboratorsSentTo removeObjectIdenticalTo:video.username];
+                
+                        if (video.index == -1) {
+                            video.index = self.videos.count;
+                            [self.videos addObject:video];
+                            if(![self.collaboratorsReceivedFrom containsObject:video.username])
+                            {
+                                [self.collaboratorsReceivedFrom addObject:video.username];
+                            }
+                            if([self.collaboratorsSentTo containsObject:video.username])
+                            {
+                                [self.collaboratorsSentTo removeObject:video.username];
+                            }
+                            video.projectId = @"";
+                            
+                        }
+
                     
                     [cached.avassetsArray addObject:video.assetFromVideoFile];
                     [cached.thumbnailsArray addObject:video.thumbnail];

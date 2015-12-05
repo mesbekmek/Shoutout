@@ -56,6 +56,9 @@
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="addUser@2x"/>
+                                        <connections>
+                                            <action selector="inviteButtonTapped:" destination="arh-7s-JC3" eventType="touchUpInside" id="3su-Se-FV4"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuy-VU-fau">
                                         <rect key="frame" x="87" y="34" width="27" height="12"/>
@@ -133,6 +136,9 @@
                                             <constraint firstAttribute="width" constant="70" id="oOv-3s-CHt"/>
                                         </constraints>
                                         <state key="normal" image="upload@2x"/>
+                                        <connections>
+                                            <action selector="shareButtonTapped:" destination="arh-7s-JC3" eventType="touchUpInside" id="a9Z-Sv-uOm"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJ3-Ga-rvS">
                                         <rect key="frame" x="86" y="34" width="28" height="12"/>
@@ -503,6 +509,9 @@
                                 <state key="normal" title="Share">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="shareButtonTapped:" destination="i0I-r9-sX5" eventType="touchUpInside" id="SwS-rV-Xah"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send to:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QkB-Gl-R9z">
                                 <rect key="frame" x="252" y="24" width="96" height="35"/>
@@ -515,6 +524,18 @@
                                 <rect key="frame" x="0.0" y="59" width="600" height="451"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SOShareCellID" id="DUh-9x-DUW">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DUh-9x-DUW" id="ijz-ej-ie0">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2sS-Cn-V8I">
                                 <rect key="frame" x="10" y="24" width="25" height="35"/>
@@ -568,6 +589,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="tableview" destination="WfK-O5-ckx" id="qP8-X2-1al"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cvi-vb-D0f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
