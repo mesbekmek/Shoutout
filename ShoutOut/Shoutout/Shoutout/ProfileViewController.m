@@ -35,11 +35,7 @@ UITableViewDelegate,
 UISearchBarDelegate,
 UISearchDisplayDelegate,
 UISearchControllerDelegate
-> {
-    NSMutableArray <NSString *> *currentUserFilterContacts;
-    NSMutableArray *phoneBookFilterUserName;
-    NSMutableArray *phoneBookFilterName;
-}
+>
 
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -56,8 +52,9 @@ UISearchControllerDelegate
 @property (nonatomic) UISearchController *resultSearchController;
 
 @property (nonatomic, strong) APAddressBook *addressBook;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic) UITapGestureRecognizer *tapReconizer;
+@property (nonatomic) UIRefreshControl *refresh;
 
 @end
 
@@ -72,15 +69,22 @@ UISearchControllerDelegate
     self.tableView.dataSource = self;
     
     self.searchBar.delegate = self;
+    self.refresh = [[UIRefreshControl alloc]init];
     
+    [self.refresh addTarget:self action:@selector(refreshParsePhoneBook:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refresh];
     
-    currentUserFilterContacts = [NSMutableArray new];
-    phoneBookFilterName = [NSMutableArray new];
-    phoneBookFilterUserName = [NSMutableArray new];
-    
-    
+    [self keyboardGestureRecognizer];
     [self queryCurrentUserContactsListOnParse];
     [self queryPhoneBookContact];
+}
+
+-(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
+    [self queryCurrentUserContactsListOnParse];
+    [self queryPhoneBookContact];
+    if ([self.refresh isRefreshing]) {
+        [self.refresh endRefreshing];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -91,8 +95,6 @@ UISearchControllerDelegate
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";
     
-    //    [self queryCurrentUserContactsListOnParse];
-    //    [self queryPhoneBookContact];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -324,7 +326,7 @@ UISearchControllerDelegate
         NSLog(@"SORequest %@",objects);
         for (SORequest *newRequest in objects){
             
-            if (!newRequest.hasDecided && !newRequest.isAccepted){
+            if (newRequest.hasDecided && newRequest.isAccepted && newRequest.isFriendRequest){
                 
                 for (NSString *friend in self.currentUserContacts) {
                     if ([newRequest.requestSentFrom isEqualToString:friend]) {
@@ -352,7 +354,7 @@ UISearchControllerDelegate
             }
             
         }
-        [self pushContactListToParse];
+//        [self pushContactListToParse];
     }];
     
     
@@ -423,17 +425,11 @@ UISearchControllerDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsListID" forIndexPath:indexPath];
-        NSString *textLabel;
-        if (self.resultSearchController.active) {
-            textLabel = currentUserFilterContacts[indexPath.row];
-        }else {
-            textLabel = self.currentUserContacts[indexPath.row];
-        }
-        cell.textLabel.text = textLabel;
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsListCellID" forIndexPath:indexPath];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row];
         return cell;
     } else {
-        PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
+        PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"phoneContactCellID" forIndexPath:indexPath];
         
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [addButton setTag:indexPath.row];
