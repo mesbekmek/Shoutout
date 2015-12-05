@@ -65,6 +65,7 @@
 
 -(void)fetchVideos:(void (^)(NSMutableArray <SOVideo *> *fetchedVideos,
                              NSMutableArray <AVAsset *> *fetchedVideoAssets,
+                             NSMutableArray *usernames,
                              NSMutableArray <PFFile *>* thumbnails) )onCompletion{
     
     NSMutableArray<SOVideo *> *videoFilesArray = [[NSMutableArray alloc]init];
@@ -111,7 +112,7 @@
                 
                 [[SOCachedProjects sharedManager].cachedProjects setObject:newCache forKey:self.objectId];
                 [self saveInBackground];
-                onCompletion(self.videos, newCache.avassetsArray, [sortedVideoFilesArray valueForKey: @"thumbnail"]);
+                onCompletion(self.videos, newCache.avassetsArray,[sortedVideoFilesArray valueForKey: @"username"] ,[sortedVideoFilesArray valueForKey: @"thumbnail"]);
             }
         }
         else{
@@ -167,7 +168,7 @@
     return sortedMutableArray;
 }
 
-- (void)getNewVideosIfNeeded:(void (^)(NSMutableArray <SOVideo *>*fetchedVideos, NSMutableArray <AVAsset *> *avAssets, NSMutableArray <PFFile *>*allThumbnails)) onCompletion{
+- (void)getNewVideosIfNeeded:(void (^)(NSMutableArray <SOVideo *>*fetchedVideos, NSMutableArray <AVAsset *> *avAssets, NSMutableArray *usernames,NSMutableArray <PFFile *>*allThumbnails)) onCompletion{
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
     [query whereKey:@"projectId" containsString:self.objectId];
@@ -208,11 +209,11 @@
                 [[SOCachedProjects sharedManager].cachedProjects setObject:cached forKey:self.objectId];
                 
                 [self saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                    onCompletion(self.videos, cached.avassetsArray, cached.thumbnailsArray);
+                    onCompletion(self.videos, cached.avassetsArray, cached.collaboratorsArray, cached.thumbnailsArray);
                 }];
             }
             else{
-                onCompletion(self.videos, cached.avassetsArray, cached.thumbnailsArray);
+                onCompletion(self.videos, cached.avassetsArray, cached.collaboratorsArray, cached.thumbnailsArray);
             }
         }
         else{

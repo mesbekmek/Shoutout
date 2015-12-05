@@ -41,7 +41,6 @@ typedef enum eventsType{
 @property (nonatomic) NSMutableArray <SOProject*> *projectsArray;
 @property (nonatomic) NSMutableArray <SOVideo*> *videosArray;
 @property (nonatomic) NSMutableArray <PFFile *>*videoThumbnailsArray;
-//@property (weak, nonatomic) IBOutlet UITextView *noProjectsTextView;
 @property (nonatomic) SOProject *project;
 @property (nonatomic, assign) CGFloat previousOffset;
 @property (nonatomic, assign) NSInteger currentPage;
@@ -58,10 +57,6 @@ typedef enum eventsType{
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //    self.noProjectsTextView.hidden = YES;
-    //    self.noProjectsTextView.text = @"You don't have any projects. \nClick + to create a new one!";
-    
-    //self.view.backgroundColor = [UIColor flatTealColorDark];
     
     self.videoThumbnailsArray = [NSMutableArray new];
     self.plusButton.layer.cornerRadius = 22.5;
@@ -111,9 +106,7 @@ typedef enum eventsType{
 
 - (IBAction)pushToNotifications:(UIButton *)sender {
     
-    //    SONotificationsTableViewController *notifTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationTableViewController"];
-    //    [self.navigationController pushViewController:notifTVC animated:YES];
-    NotificationsTableViewContainerViewController *notifContainer = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationsSection"];
+     NotificationsTableViewContainerViewController *notifContainer = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationsSection"];
     [self.navigationController pushViewController:notifContainer animated:YES];
 }
 
@@ -261,16 +254,16 @@ typedef enum eventsType{
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)IndexPath
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (IndexPath.row > 0) {
-        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
-        if (self.projectsArray[IndexPath.row - 1].videos[0].thumbnail) {
+    if (indexPath.row > 0) {
+        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+        if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail) {
 
             cell.videoImageView.image = nil;
             cell.videoImageView.file = nil;
             
-            cell.videoImageView.file = self.projectsArray[IndexPath.row - 1].videos[0].thumbnail;
+            cell.videoImageView.file = self.projectsArray[indexPath.row - 1].videos[0].thumbnail;
             
             cell.videoImageView.frame = cell.bounds;
             
@@ -279,7 +272,7 @@ typedef enum eventsType{
             [cell.videoImageView loadInBackground];
         }
         if([self.projectsArray count] != 0){
-            SOProject *project = self.projectsArray[IndexPath.row - 1];
+            SOProject *project = self.projectsArray[indexPath.row - 1];
             
             NSString *projectTitle = project.title;
             cell.projectTitle.text = projectTitle;
@@ -287,7 +280,7 @@ typedef enum eventsType{
         return cell;
     } else {
 //        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
-        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
+        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
         plusCell.videoImageView.file = nil;
         plusCell.videoImageView.image = nil;
         plusCell.videoImageView.frame = plusCell.bounds;

@@ -101,6 +101,7 @@ UIGestureRecognizerDelegate
 @property (nonatomic) SOCameraOverlay *cameraOverlay;
 @property (assign) enum ProviderEditingState currentEditState;
 @property (nonatomic) UIBarButtonItem *editDoneButton;
+@property (nonatomic) NSMutableArray *collaboratorUsernameArray;
 
 
 @end
@@ -117,6 +118,8 @@ UIGestureRecognizerDelegate
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
+    self.collaboratorUsernameArray = [NSMutableArray new];
+    
     
     self.videoPlayingViewCancelButton.hidden = YES;
     
@@ -180,10 +183,11 @@ UIGestureRecognizerDelegate
     [self.view bringSubviewToFront:activityIndicatorView];
     if (![SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId]) {
         
-        [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets, NSMutableArray<PFFile *> *thumbnails) {
+        [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets,NSMutableArray *usernames , NSMutableArray<PFFile *> *thumbnails) {
             
             self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
             self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
+            self.collaboratorUsernameArray = [NSMutableArray arrayWithArray:usernames];
             NSLog(@"VIDEO THUMBNAILS ARRAY: %@",self.videoThumbnails);
             
             self.doneFetching = YES;
@@ -194,9 +198,10 @@ UIGestureRecognizerDelegate
             [activityIndicatorView removeFromSuperview];
         }];
     }else{
-        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *avAssets, NSMutableArray<PFFile *> *allThumbnails) {
+        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos,                              NSMutableArray<AVAsset *> *avAssets, NSMutableArray *usernames, NSMutableArray<PFFile *> *allThumbnails) {
             self.videoThumbnails = allThumbnails;
             self.videoAssetsArray = avAssets;
+            self.collaboratorUsernameArray = usernames;
             self.doneFetching = YES;
             [collectionView reloadData];
             [self collectionViewBatchReload];
@@ -445,7 +450,7 @@ UIGestureRecognizerDelegate
         cell2.videoImageView.image = nil;
         cell2.videoImageView.contentMode = UIViewContentModeScaleAspectFill;
         cell2.videoImageView.image = [UIImage imageNamed: @"pinkPlus" ];
- 
+        cell2.collaboratorUsernameLabel.hidden = YES;
         return cell2;
     }
     
@@ -468,7 +473,9 @@ UIGestureRecognizerDelegate
         cell.videoImageView.file = self.videoThumbnails[indexPath.row-1];
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         [cell.videoImageView loadInBackground];
-        
+        cell.collaboratorUsernameLabel.hidden = NO;
+        cell.collaboratorUsernameLabel.text = self.collaboratorUsernameArray[indexPath.row-1];
+
         cell.backgroundColor = [UIColor clearColor];
         
         [cell.deleteItemButton addTarget:self action:@selector(deleteVideoAlertView:) forControlEvents:UIControlEventTouchUpInside];
