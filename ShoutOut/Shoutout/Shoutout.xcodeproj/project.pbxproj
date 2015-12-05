@@ -51,8 +51,6 @@
 		D40F78B31C029AAD004D14F0 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F78B21C029AAD004D14F0 /* Contact.m */; };
 		D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F0A1BF8566100C674AC /* SOContacts.m */; };
 		D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */; };
-		D43E71F51C124DAE008B5CF8 /* ResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D43E71F31C124DAE008B5CF8 /* ResultTableViewController.m */; };
-		D43E71F61C124DAE008B5CF8 /* ResultTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D43E71F41C124DAE008B5CF8 /* ResultTableViewController.xib */; };
 		D46D4D2E1C0FE0F0006A850F /* SOProjectsAddEventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D46D4D2B1C0FE0F0006A850F /* SOProjectsAddEventCollectionViewCell.xib */; };
 		D46D4D2F1C0FE0F0006A850F /* SOProjectsCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D46D4D2D1C0FE0F0006A850F /* SOProjectsCollectionViewFlowLayout.m */; };
 		D49BF48D1BEFF6B500340627 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D49BF48C1BEFF6B500340627 /* AVFoundation.framework */; };
@@ -168,9 +166,6 @@
 		D4115F0A1BF8566100C674AC /* SOContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContacts.m; sourceTree = "<group>"; };
 		D41C75111C040C2500125CE7 /* PhoneContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneContactTableViewCell.h; sourceTree = "<group>"; };
 		D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneContactTableViewCell.m; sourceTree = "<group>"; };
-		D43E71F21C124DAE008B5CF8 /* ResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultTableViewController.h; sourceTree = "<group>"; };
-		D43E71F31C124DAE008B5CF8 /* ResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultTableViewController.m; sourceTree = "<group>"; };
-		D43E71F41C124DAE008B5CF8 /* ResultTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultTableViewController.xib; sourceTree = "<group>"; };
 		D46D4D2B1C0FE0F0006A850F /* SOProjectsAddEventCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOProjectsAddEventCollectionViewCell.xib; sourceTree = "<group>"; };
 		D46D4D2C1C0FE0F0006A850F /* SOProjectsCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOProjectsCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		D46D4D2D1C0FE0F0006A850F /* SOProjectsCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOProjectsCollectionViewFlowLayout.m; sourceTree = "<group>"; };
@@ -570,9 +565,6 @@
 			children = (
 				DC386D9D1BEFF89500562543 /* ProfileViewController.h */,
 				DC386D9E1BEFF89500562543 /* ProfileViewController.m */,
-				D43E71F21C124DAE008B5CF8 /* ResultTableViewController.h */,
-				D43E71F31C124DAE008B5CF8 /* ResultTableViewController.m */,
-				D43E71F41C124DAE008B5CF8 /* ResultTableViewController.xib */,
 				D41C75111C040C2500125CE7 /* PhoneContactTableViewCell.h */,
 				D41C75121C040C2500125CE7 /* PhoneContactTableViewCell.m */,
 				D40F78B11C029AAD004D14F0 /* Contact.h */,
@@ -698,7 +690,6 @@
 				DC360E8A1C0B6584001B958E /* SOContactsAndFriendsViewController.xib in Resources */,
 				84E5CFA01BF4CA7C00A587E1 /* video3.jpg in Resources */,
 				84E5CF9E1BF4CA7C00A587E1 /* video1.jpg in Resources */,
-				D43E71F61C124DAE008B5CF8 /* ResultTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,7 +774,6 @@
 				84E5CFA81BF4E87D00A587E1 /* SOVideoCVC.m in Sources */,
 				C7F4115E1C0BA8F400287B0E /* SOShareViewController.m in Sources */,
 				84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */,
-				D43E71F51C124DAE008B5CF8 /* ResultTableViewController.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
