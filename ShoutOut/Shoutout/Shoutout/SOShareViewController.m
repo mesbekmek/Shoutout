@@ -136,6 +136,8 @@
     if (self.sharedTo.count>0) {
         
         [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedTo toReceipents:@[]];
+
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     
 }

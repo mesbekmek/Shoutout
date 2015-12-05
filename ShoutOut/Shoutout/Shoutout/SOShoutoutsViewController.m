@@ -16,7 +16,7 @@
 #import "SOExportHandler.h"
 #import "VideoViewController.h"
 
-@interface SOShoutoutsViewController ()< UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout>
+@interface SOShoutoutsViewController ()< UINavigationControllerDelegate,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) SOShoutout *shoutout;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -24,13 +24,20 @@
 
 @end
 
+const CGFloat aspectRatio2 = 1.77;
+
+
 @implementation SOShoutoutsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.shoutoutsArray = [NSMutableArray<SOShoutout *> new];
+    self.shoutout = [[SOShoutout alloc]initShoutout];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+
     // Do any additional setup after loading the view.
-    [self fetch];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -41,11 +48,12 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Shoutouts";
+    [self fetch];
 }
 
 - (void)fetch{
     
-    [self.shoutout fetchAllShoutouts:^(NSMutableArray<SOShoutout *> *shoutoutsCollaborationsArray)
+    [self.shoutout fetchAllCollabs:^(NSMutableArray<SOShoutout *> *shoutoutsCollaborationsArray)
      {
          self.shoutoutsArray = shoutoutsCollaborationsArray;
          [self.collectionView reloadData];
@@ -74,11 +82,12 @@
     SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
     if (self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail)
     {
+        cell.videoImageView = [[PFImageView alloc]init];
         
         cell.videoImageView.file = nil;
         
         cell.videoImageView.file = self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail;
-        
+        NSLog(@"Thumbnail : %@", self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail);
         cell.videoImageView.frame = cell.bounds;
         
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -108,6 +117,16 @@
     videoVC.shoutout = self.shoutoutsArray[indexPath.row];
     [self presentViewController:videoVC animated:YES completion:nil];
     
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    CGFloat width = self.view.frame.size.width * 0.8;
+    CGFloat height = aspectRatio2 * width;
+
+
+    CGSize mElementSize = CGSizeMake(width, height);
+    return mElementSize;
 }
 
 

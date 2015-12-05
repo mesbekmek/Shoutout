@@ -19,7 +19,7 @@
 @property (nonatomic) NSMutableArray <NSString *> *collaborators;
 @property (nonatomic) NSMutableArray <NSString *> *receipients;
 
--(instancetype)init;
+-(instancetype)initShoutout;
 
 +(void)sendVideo:(NSArray<SOVideo *> *)videosArray withTitle:(NSString *)title toCollaborators:(NSArray<NSString *>*)collaborators toReceipents:(NSArray<NSString *>*)receipients;
 

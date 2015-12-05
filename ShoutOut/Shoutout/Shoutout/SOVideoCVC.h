@@ -11,7 +11,7 @@
 #import <ParseUI/ParseUI.h>
 
 @interface SOVideoCVC : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet PFImageView *videoImageView;
+@property (strong, nonatomic) IBOutlet PFImageView *videoImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *projectTitle;
 
