@@ -14,7 +14,6 @@
 #import "APContact.h"
 #import "APPhone.h"
 #import "SOCachedProjects.h"
-#import "ResultTableViewController.h"
 
 #import <Contacts/Contacts.h>
 #import <ChameleonFramework/Chameleon.h>
@@ -29,8 +28,19 @@ typedef enum eventsType{
 } EventsType;
 
 
-@interface ProfileViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,
-UISearchControllerDelegate, UISearchResultsUpdating>
+@interface ProfileViewController ()
+<
+UITableViewDataSource,
+UITableViewDelegate,
+UISearchResultsUpdating,
+UISearchBarDelegate,
+UISearchDisplayDelegate,
+UISearchControllerDelegate
+> {
+    NSMutableArray <NSString *> *currentUserFilterContacts;
+    NSMutableArray *phoneBookFilterUserName;
+    NSMutableArray *phoneBookFilterName;
+}
 
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -41,11 +51,13 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 @property (nonatomic) NSMutableArray *phoneBookName;
 
 // filtered list
-@property (nonatomic) NSMutableArray <NSString *> *currentUserFilterContacts;
-@property (nonatomic) NSMutableArray *phoneBookFilterUserName;
-@property (nonatomic) NSMutableArray *phoneBookFilterName;
+//@property (nonatomic) NSMutableArray <NSString *> *currentUserFilterContacts;
+//@property (nonatomic) NSMutableArray *phoneBookFilterUserName;
+//@property (nonatomic) NSMutableArray *phoneBookFilterName;
+@property (nonatomic) UISearchController *resultSearchController;
 
 @property (nonatomic, strong) APAddressBook *addressBook;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -58,6 +70,21 @@ UISearchControllerDelegate, UISearchResultsUpdating>
     self.tableView.allowsSelection = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    self.searchBar.delegate = self;
+    
+    self.resultSearchController = [UISearchController new];
+    self.resultSearchController.searchResultsUpdater = self;
+    self.resultSearchController.dimsBackgroundDuringPresentation = NO;
+    [self.resultSearchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.resultSearchController.searchBar;
+    
+    currentUserFilterContacts = [NSMutableArray new];
+    phoneBookFilterName = [NSMutableArray new];
+    phoneBookFilterUserName = [NSMutableArray new];
+    
+    [self.tableView reloadData];
+    
     
     [self queryCurrentUserContactsListOnParse];
     [self queryPhoneBookContact];
@@ -338,7 +365,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
     
 }
 
-//-(void)newRequestReceivedAlert:(NSString *)newFriend withSORequestObject: (SORequest *)parseObject{
 -(void)newRequestReceivedAlertWithSORequestObject: (SORequest *)parseObject{
     UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:[NSString stringWithFormat:@"%@ wants to add you",parseObject.requestSentFrom] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -387,13 +413,13 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
+    if (self.resultSearchController.active) {
         switch (section) {
             case 0:
-                return self.currentUserFilterContacts.count;
+                return currentUserFilterContacts.count;
                 break;
             case 1:
-                return self.phoneBookFilterName.count;
+                return phoneBookFilterName.count;
                 break;
             default:
                 break;
@@ -433,58 +459,42 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        
-        if (indexPath.section == 1) {
-            
-            PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-            
-            UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [addButton setTag:indexPath.row];
-            addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
-            addButton.backgroundColor = [UIColor greenColor];
-            [addButton setTitle:@"+" forState:UIControlStateNormal];
-            [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:addButton];
-            
-            cell.nameLabel.text = self.phoneBookFilterName[indexPath.row];
-            cell.phoneNumberLabel.text = self.phoneBookFilterUserName[indexPath.row];
-            return cell;
-            
-        } else if (indexPath.section == 0){
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
-            cell.textLabel.text = self.currentUserContacts[indexPath.row];
-            return cell;
+    
+    if (indexPath.section == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
+        NSString *textLabel;
+        if (self.resultSearchController.active) {
+            textLabel = currentUserFilterContacts[indexPath.row];
+        }else {
+            textLabel = self.currentUserContacts[indexPath.row];
         }
-        
+        cell.textLabel.text = textLabel;
+        return cell;
     } else {
+        PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
         
-        if (indexPath.section == 1) {
-            
-            PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"currentUserContactsCellID" forIndexPath:indexPath];
-            
-            UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [addButton setTag:indexPath.row];
-            addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
-            addButton.backgroundColor = [UIColor greenColor];
-            [addButton setTitle:@"+" forState:UIControlStateNormal];
-            [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:addButton];
-            
-            cell.nameLabel.text = self.phoneBookName[indexPath.row];
-            cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
-            return cell;
-            
-        } else if (indexPath.section == 0){
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
-            cell.textLabel.text = self.currentUserContacts[indexPath.row];
-            return cell;
+        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [addButton setTag:indexPath.row];
+        addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
+        addButton.backgroundColor = [UIColor greenColor];
+        [addButton setTitle:@"+" forState:UIControlStateNormal];
+        [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [cell addSubview:addButton];
+        NSString *nameLabel;
+        NSString *phoneNumberLabel;
+        if (self.resultSearchController.active) {
+            nameLabel = phoneBookFilterName[indexPath.row];
+            phoneNumberLabel = phoneBookFilterUserName[indexPath.row];
+        } else {
+            nameLabel = self.phoneBookName[indexPath.row];
+            phoneNumberLabel = self.phoneBookUserName[indexPath.row];
         }
+        cell.nameLabel.text = nameLabel;
+        cell.phoneNumberLabel.text = phoneNumberLabel;
+        return cell;
     }
-    return nil;
+    
 }
-
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;
 }
@@ -493,40 +503,36 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 
 #pragma mark - SearchFilter
 
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self filterContentForSearchText:searchText];
-    [self.tableView reloadData];
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    [phoneBookFilterName removeAllObjects];
+    [phoneBookFilterUserName removeAllObjects];
+    [currentUserFilterContacts removeAllObjects];
+    
+    [self filterContentForSearchText:searchController.searchBar.text];
 }
 
 
 -(void)filterContentForSearchText:(NSString *)searchText{
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",searchText];
     // filter by username
-    self.currentUserFilterContacts = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
     
-    self.phoneBookFilterName = [self.phoneBookName filteredArrayUsingPredicate:predicate];
     
-    self.phoneBookFilterUserName = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
+    NSArray *array = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
+    currentUserFilterContacts = (NSMutableArray<NSString *> *)array;
     
-}
-
-
-
-
-
-
-#pragma mark - search result update
-
--(void)updateSearchResultsForSearchController:(UISearchController *)searchController{
-    NSString *searchText = searchController.searchBar.text;
+    NSArray *pbfn = [self.phoneBookName filteredArrayUsingPredicate:predicate];
+    phoneBookFilterName = (NSMutableArray *)pbfn;
     
-    if (searchText == nil) {
-        NSLog(@"DO NOTHING search textfield is empty");
-    } else {
-        
-    }
+    NSArray *pbfun = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
+    
+    phoneBookFilterUserName = (NSMutableArray *)pbfun;
+    
+    
+    [self.tableView reloadData];
     
 }
+
+
 
 
 
