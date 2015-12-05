@@ -157,16 +157,16 @@ typedef enum actionType{
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     }
-//    else if (!(title && title.length))
-//    {
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Please title your event " preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//            
-//            [alert dismissViewControllerAnimated:YES completion:nil];
-//        }]];
-//        [self presentViewController:alert animated:YES completion:nil];
-//    }
+    //    else if (!(title && title.length))
+    //    {
+    //        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait..." message:@"Please title your event " preferredStyle:UIAlertControllerStyleAlert];
+    //
+    //        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    //
+    //            [alert dismissViewControllerAnimated:YES completion:nil];
+    //        }]];
+    //        [self presentViewController:alert animated:YES completion:nil];
+    //    }
     else
     {
         NSArray *selectedFriendsIndexPaths = [selectedCellIndexes allObjects];
@@ -229,15 +229,12 @@ typedef enum actionType{
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [self.usernamesForNames objectForKey:keys[indexPath.row]]];
     }
     else{
-        
+        cell.textLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
+        if(self.phoneBookContactList[indexPath.row].phones[0] != nil)
+        {
+            cell.detailTextLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
+        }
     }
-    //    else{
-    //        cell.textLabel.text = self.phoneBookContactList[indexPath.row].name.firstName;
-    //        if(self.phoneBookContactList[indexPath.row].phones[0] != nil)
-    //        {
-    //            cell.detailTextLabel.text = self.phoneBookContactList[indexPath.row].phones[0].number;
-    //        }
-    //    }
     return cell;
 }
 

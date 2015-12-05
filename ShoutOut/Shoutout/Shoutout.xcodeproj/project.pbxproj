@@ -86,6 +86,7 @@
 		DC74C0FF1C0B754D00FFCF45 /* SOFriendsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C0FD1C0B754D00FFCF45 /* SOFriendsTableViewCell.m */; };
 		DC74C1001C0B754D00FFCF45 /* SOFriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */; };
 		DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */; };
+		DCB684D61C135A40005AAE2F /* SOShoutoutsCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB684D51C135A3F005AAE2F /* SOShoutoutsCollectionViewFlowLayout.m */; };
 		DCDA4F131C08372F0090959E /* Main.Storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCDA4F121C08372F0090959E /* Main.Storyboard */; };
 		DCF5EF791C0A33020021B135 /* SOContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCF5EF781C0A33020021B135 /* SOContactsViewController.m */; };
 		F386A2585F70466F066DA368 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B31638C861E4996215CDACD0 /* libPods.a */; };
@@ -221,6 +222,8 @@
 		DC74C0FE1C0B754D00FFCF45 /* SOFriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SOFriendsTableViewCell.xib; sourceTree = "<group>"; };
 		DC74C1011C0BE57700FFCF45 /* SOContactsFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContactsFormatter.h; sourceTree = "<group>"; };
 		DC74C1021C0BE57700FFCF45 /* SOContactsFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContactsFormatter.m; sourceTree = "<group>"; };
+		DCB684D41C135A3F005AAE2F /* SOShoutoutsCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOShoutoutsCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		DCB684D51C135A3F005AAE2F /* SOShoutoutsCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOShoutoutsCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		DCDA4F121C08372F0090959E /* Main.Storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.Storyboard; sourceTree = "<group>"; };
 		DCF5EF771C0A33020021B135 /* SOContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOContactsViewController.h; sourceTree = "<group>"; };
 		DCF5EF781C0A33020021B135 /* SOContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOContactsViewController.m; sourceTree = "<group>"; };
@@ -386,6 +389,8 @@
 			children = (
 				C7AA9B1E1C124D29008A65AF /* SOShoutoutsViewController.h */,
 				C7AA9B1F1C124D29008A65AF /* SOShoutoutsViewController.m */,
+				DCB684D41C135A3F005AAE2F /* SOShoutoutsCollectionViewFlowLayout.h */,
+				DCB684D51C135A3F005AAE2F /* SOShoutoutsCollectionViewFlowLayout.m */,
 			);
 			name = SOShoutoutsViewController;
 			sourceTree = "<group>";
@@ -764,6 +769,7 @@
 				C7F411621C0BB6C700287B0E /* SOExportHandler.m in Sources */,
 				DC386D881BEFEBA900562543 /* ViewController.m in Sources */,
 				C7DED4971C05271700C04510 /* VideoViewController.m in Sources */,
+				DCB684D61C135A40005AAE2F /* SOShoutoutsCollectionViewFlowLayout.m in Sources */,
 				DC386DFD1BF4230200562543 /* User.m in Sources */,
 				D46D4D2F1C0FE0F0006A850F /* SOProjectsCollectionViewFlowLayout.m in Sources */,
 				DC386D851BEFEBA900562543 /* AppDelegate.m in Sources */,
