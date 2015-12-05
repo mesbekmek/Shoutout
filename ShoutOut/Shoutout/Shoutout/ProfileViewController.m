@@ -47,11 +47,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 
 @property (nonatomic, strong) APAddressBook *addressBook;
 
-
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-//@property (nonatomic, strong) UISearchController *searchController;
-//@property (nonatomic, strong) ResultTableViewController *resultTableViewController;
-
 @end
 
 @implementation ProfileViewController{
