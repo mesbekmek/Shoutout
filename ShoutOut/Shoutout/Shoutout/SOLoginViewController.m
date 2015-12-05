@@ -70,7 +70,7 @@
                     //SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
                     
                     SOContactsAndFriendsViewController *contactsVC = [SOContactsAndFriendsViewController new];
-                    contactsVC.projectID = self.projectID;
+                    contactsVC.sortingProject = self.sortingProject;
                     [self presentViewController:contactsVC animated:YES completion:nil];
                     
                     

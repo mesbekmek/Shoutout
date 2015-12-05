@@ -14,6 +14,7 @@
 #import "SORequest.h"
 #import "Contact.h"
 
+
 typedef enum actionType{
     
     ADD_FRIENDS = 0,
@@ -113,7 +114,26 @@ typedef enum actionType{
         for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
         {
             NSString *username = (NSString *)self.usernamesForNames[keys[indexPath.row]];
-            [SORequest sendRequestTo:username forProjectId:self.projectId andTitle:self.titleTextField.text];
+            //collab request
+            [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.titleTextField.text];
+            
+            //add username to sorting project
+            if(![self.sortingProject.collaboratorsSentTo containsObject:username])
+            {
+                [self.sortingProject.collaboratorsSentTo addObject:username];
+            }
+            
+            [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                NSLog(@"Successfully added new username to collaborators array");
+            }];
+            
+            //friend request
+            [SORequest sendRequestTo:username withBlock:^(BOOL succeeded) {
+                if(succeeded)
+                {
+                    NSLog(@"Successfully sent friend request");
+                }
+            }];
             
             [self dismissViewControllerAnimated:YES completion:nil];
         }
@@ -248,8 +268,6 @@ typedef enum actionType{
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    //[self.titleTextField resignFirstResponder];
-    
     [self.titleTextField endEditing:YES];
 }
 

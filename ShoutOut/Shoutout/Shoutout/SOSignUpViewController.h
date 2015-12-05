@@ -8,9 +8,11 @@
 
 #import <ParseUI/ParseUI.h>
 #import <Parse/Parse.h>
+#import "SOProject.h"
+
 
 @interface SOSignUpViewController : UIViewController<UITextFieldDelegate>
 
-@property (nonatomic) NSString *projectID;
+@property (nonatomic) SOProject *sortingProject;
 
 @end
