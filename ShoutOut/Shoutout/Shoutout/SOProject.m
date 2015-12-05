@@ -65,8 +65,8 @@
 
 -(void)fetchVideos:(void (^)(NSMutableArray <SOVideo *> *fetchedVideos,
                              NSMutableArray <AVAsset *> *fetchedVideoAssets,
-                             NSMutableArray *usernames,
-                             NSMutableArray <PFFile *>* thumbnails) )onCompletion{
+                             NSMutableArray <NSString *>*usernames,
+                             NSMutableArray <PFFile *>* thumbnails))onCompletion{
     
     NSMutableArray<SOVideo *> *videoFilesArray = [[NSMutableArray alloc]init];
     
@@ -109,6 +109,8 @@
                 newCache.cachedProject = self;
                 newCache.avassetsArray = [self videoAssestsArray:sortedVideoFilesArray];
                 newCache.thumbnailsArray = [sortedVideoFilesArray valueForKey:@"thumbnail"];
+                newCache.collaboratorsArray = [sortedVideoFilesArray valueForKey:@"username"];
+
                 
                 [[SOCachedProjects sharedManager].cachedProjects setObject:newCache forKey:self.objectId];
                 [self saveInBackground];
@@ -119,9 +121,6 @@
             NSLog(@"Error: %@",[error localizedDescription]);
         }
     }];
-    
-    
-    
 }
 
 - (NSMutableArray<SOVideo *> *)resortVideoFilesArray:(NSArray <SOVideo *>*)videoFilesArray{
@@ -168,7 +167,7 @@
     return sortedMutableArray;
 }
 
-- (void)getNewVideosIfNeeded:(void (^)(NSMutableArray <SOVideo *>*fetchedVideos, NSMutableArray <AVAsset *> *avAssets, NSMutableArray *usernames,NSMutableArray <PFFile *>*allThumbnails)) onCompletion{
+- (void)getNewVideosIfNeeded:(void (^)(NSMutableArray <SOVideo *>*fetchedVideos, NSMutableArray <AVAsset *> *avAssets, NSMutableArray <NSString * > *usernames,NSMutableArray <PFFile *>*allThumbnails)) onCompletion{
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
     [query whereKey:@"projectId" containsString:self.objectId];
@@ -198,6 +197,8 @@
                     
                     [cached.avassetsArray addObject:video.assetFromVideoFile];
                     [cached.thumbnailsArray addObject:video.thumbnail];
+                    [cached.collaboratorsArray addObject:video.username];
+                    
                     
                 }
                 
