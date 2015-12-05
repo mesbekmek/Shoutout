@@ -268,14 +268,14 @@ UIGestureRecognizerDelegate
     if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
     {
         SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
-        contactsAndFriendsVC.projectID = self.sortingProject.objectId;
+        contactsAndFriendsVC.sortingProject = self.sortingProject;
         [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
         
     }
     else
     {
         SOSignUpViewController *signUpViewController = [SOSignUpViewController new];
-        signUpViewController.projectID = self.sortingProject.objectId;
+        signUpViewController.sortingProject = self.sortingProject;
         
         [self presentViewController:signUpViewController animated:YES completion:nil];
     }
@@ -542,6 +542,7 @@ UIGestureRecognizerDelegate
     else
     {
         SOSortingCVC *cell;
+        
         cell.deleteItemButton.hidden = NO;
         self.navigationItem.rightBarButtonItem.title = @"Edit";
 
