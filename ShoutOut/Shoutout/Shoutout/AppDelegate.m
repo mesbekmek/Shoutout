@@ -50,46 +50,18 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     //Uncomment when we decide to implement Push Notifs
     //[self setupPushNotifications:application];
 
-    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    UITabBar *tabBar = tabBarController.tabBar;
-    UITabBarItem *tabBarItem1 = [tabBar.items objectAtIndex:0];
-    UITabBarItem *tabBarItem2 = [tabBar.items objectAtIndex:1];
-    UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
-    UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
 
-    tabBarItem1 = [[UITabBarItem alloc]initWithTitle:@"Home" image:[UIImage imageNamed:@"Home_stroked"] selectedImage:[UIImage imageNamed:@"Home"]];
-    tabBarItem2 = [[UITabBarItem alloc]initWithTitle:@"Notifications" image:[UIImage imageNamed:@"notifications_stroked"] selectedImage:[UIImage imageNamed:@"notifications"]];
-    tabBarItem3 = [[UITabBarItem alloc]initWithTitle:@"Friends" image:[UIImage imageNamed:@"friends_stroked"] selectedImage:[UIImage imageNamed:@"friends"]];
-//    tabBarItem4.title = [[UITabBarItem alloc]initWithTitle:@"Shoutouts" image:[UIImage imageNamed:@"Home_stroked"] selectedImage:[UIImage imageNamed:@"Home"]];
-
-
-    // Change the title color of tab bar items
-//    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-//                                                       [UIColor whiteColor], UITextAttributeTextColor,
-//                                                       nil] forState:UIControlStateNormal];
-//    UIColor *titleHighlightedColor = [UIColor colorWithRed:153/255.0 green:192/255.0 blue:48/255.0 alpha:1.0];
-//    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-//                                                       titleHighlightedColor, UITextAttributeTextColor,
-//                                                       nil] forState:UIControlStateHighlighted];
-
-
-
+    UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
+    self.window.rootViewController = tabBC;
 
     if([PFUser currentUser])
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-
-        UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
-        self.window.rootViewController = tabBC;
-
-//        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
 
         //Uncomment when we decide to implement Push Notifs
         //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
         //[[PFInstallation currentInstallation] saveInBackground];
-        
-       // SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-       // self.window.rootViewController = nc;
+
     }
     else
     {
