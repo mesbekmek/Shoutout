@@ -64,21 +64,6 @@ UISearchControllerDelegate, UISearchResultsUpdating>
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    // searchbar
-//    self.resultTableViewController = [[ResultTableViewController alloc] init];
-//    self.searchController = [UISearchController alloc]initWithSearchResultsController:self.resultTableViewController];
-//    self.searchController.searchResultsUpdater = self;
-//    self.searchController.searchBar.placeholder = @"Search by Name, Username, or Phone Number";
-//    [self.searchController.searchBar sizeToFit];
-//    self.tableView.tableHeaderView = self.searchController.searchBar;
-//    
-//    self.resultTableViewController.tableView.delegate = self;
-//    self.searchController.delegate = self;
-//    self.searchController.dimsBackgroundDuringPresentation = YES;
-//    self.searchController.searchBar.delegate = self;
-//    
-//    self.definesPresentationContext = YES;
-    
     [self queryCurrentUserContactsListOnParse];
     [self queryPhoneBookContact];
 }
@@ -90,6 +75,9 @@ UISearchControllerDelegate, UISearchResultsUpdating>
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";
+    
+//    [self queryCurrentUserContactsListOnParse];
+//    [self queryPhoneBookContact];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,24 +86,7 @@ UISearchControllerDelegate, UISearchResultsUpdating>
 }
 
 #pragma - mark IBAction
-- (IBAction)backButtonTapped:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-- (IBAction)settingButtonTapped:(UIButton *)sender {
-    
-}
 
-- (IBAction)friendContactsButtonTapped:(UIButton *)sender {
-    if ([sender.titleLabel.text isEqualToString:@"Friends"]) {
-        [self queryCurrentUserContactsListOnParse];
-        
-    } else {
-        self.contactsFromPhoneBook  = [NSMutableArray new];
-        
-        [self queryPhoneBookContact];
-        
-    }
-}
 
 -(IBAction)addButtonTapped:(UIButton *)sender{
     NSLog(@"%@", self.phoneBookUserName[sender.tag]);
@@ -316,6 +287,7 @@ UISearchControllerDelegate, UISearchResultsUpdating>
                 SOContacts *contact = objects[0];
                 
                 self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+                
                 [self.tableView reloadData];
             }
             else{
@@ -486,7 +458,7 @@ UISearchControllerDelegate, UISearchResultsUpdating>
             
         } else if (indexPath.section == 0){
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
-            cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row];
             return cell;
         }
         
@@ -510,7 +482,7 @@ UISearchControllerDelegate, UISearchResultsUpdating>
             
         } else if (indexPath.section == 0){
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID2" forIndexPath:indexPath];
-            cell.textLabel.text = self.currentUserContacts[indexPath.row - 1];
+            cell.textLabel.text = self.currentUserContacts[indexPath.row];
             return cell;
         }
     }
