@@ -266,7 +266,8 @@ typedef enum eventsType{
     if (IndexPath.row > 0) {
         SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
         if (self.projectsArray[IndexPath.row - 1].videos[0].thumbnail) {
-            
+
+            cell.videoImageView.image = nil;
             cell.videoImageView.file = nil;
             
             cell.videoImageView.file = self.projectsArray[IndexPath.row - 1].videos[0].thumbnail;
@@ -285,7 +286,13 @@ typedef enum eventsType{
         }
         return cell;
     } else {
-        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
+//        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
+        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:IndexPath];
+        plusCell.videoImageView.file = nil;
+        plusCell.videoImageView.image = nil;
+        plusCell.videoImageView.frame = plusCell.bounds;
+        plusCell.videoImageView.image = [UIImage imageNamed:@"yellowPlus"];
+        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         return plusCell;
         
     }
