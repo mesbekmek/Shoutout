@@ -917,6 +917,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="NWJ-72-fCX"/>
                     <navigationItem key="navigationItem" id="jOn-ED-255"/>
+                    <connections>
+                        <outlet property="collectionView" destination="V81-z0-z43" id="dBs-L6-j3t"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rnj-ee-i5a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

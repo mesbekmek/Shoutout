@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @import AVFoundation;
+#import "SOShoutout.h"
+
 
 @interface VideoViewController : UIViewController
 
 @property (strong, nonatomic) AVPlayer *avPlayer;
+@property (nonatomic) SOShoutout *shoutout;
 
 @end

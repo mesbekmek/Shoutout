@@ -8,6 +8,7 @@
 
 #import "SOShoutout.h"
 #import "User.h"
+#import "SOCachedProjects.h"
 
 @implementation SOShoutout
 
@@ -53,7 +54,7 @@
     }
 }
 
-- (void)fetchAllCollabs:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion{
+- (void)fetchAllCollabs:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray))onCompletion{
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"collaborators == %@",[User currentUser].username];
     PFQuery *query = [PFQuery queryWithClassName:@"SOShoutout" predicate:pred];
@@ -95,7 +96,7 @@
                  {
                      NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
                      
-                     onCompletion(shoutoutsArray, shoutoutsArray);
+                     onCompletion(shoutoutsArray);
                  }
              }
              else
@@ -106,7 +107,7 @@
      }];
 }
 
-- (void)fetchAllShoutouts:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion{
+- (void)fetchAllShoutouts:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray))onCompletion{
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"receipients == %@",[User currentUser].username];
     PFQuery *query = [PFQuery queryWithClassName:@"SOShoutout" predicate:pred];
@@ -148,7 +149,7 @@
                  {
                     NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
                      
-                     onCompletion(shoutoutsArray, shoutoutsArray);
+                     onCompletion(shoutoutsArray);
                  }
              }
              else
@@ -159,7 +160,8 @@
      }];
 }
 
--(NSMutableArray<SOShoutout *> *)matchVideosArray:(NSMutableArray<NSMutableArray<SOVideo *> *> *) videosArray withShoutoutArray:(NSMutableArray<SOShoutout *> *)shoutoutArray{
+-(NSMutableArray<SOShoutout *> *)matchVideosArray:(NSMutableArray<NSMutableArray<SOVideo *> *> *) videosArray withShoutoutArray:(NSMutableArray<SOShoutout *> *)shoutoutArray
+{
     
     NSMutableArray<SOShoutout *> *correctShoutoutsArray = [NSMutableArray<SOShoutout *> new];
     
@@ -188,6 +190,38 @@
     }
     return correctShoutoutsArray;
 }
+
+-(void)fetchCompleteShoutoutVideosforShoutout:(void(^)(BOOL success))onCompletion;
+{
+    if(self.videosArray.count > 1){
+    
+    NSArray<NSString *> *videoIDsArray = [self.videosArray valueForKey:@"objectId"];
+    
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"SOVideo"];
+    [query whereKey:@"objectId" containedIn:videoIDsArray];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!error)
+        {
+            NSMutableArray<SOVideo *> *videos = [NSMutableArray arrayWithArray:objects];
+            [videos sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]]];
+            
+            self.videosArray = videos;
+            [[SOCachedProjects sharedManager].cachedProjects setObject:self forKey:self.objectId];
+            onCompletion(YES);
+        }
+        else{
+            onCompletion(NO);
+        }
+    }];
+    
+    }
+    else{
+        onCompletion(YES);
+    }
+}
+
 
 - (void)fetchIfUpdatesAvailable:(void (^) (NSMutableArray <SOShoutout *> *shoutoutsCollaborationsArray, NSMutableArray <SOShoutout *> *shoutoutsReceipientsArray))onCompletion
 {
