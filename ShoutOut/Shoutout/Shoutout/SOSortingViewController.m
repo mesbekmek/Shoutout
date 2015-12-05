@@ -112,12 +112,7 @@ UIGestureRecognizerDelegate
     
     [super viewDidLoad];
     self.playStop = YES;
-    
-    UIScreenEdgePanGestureRecognizer * edgePan = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(popToRoot:)];
-    [edgePan setEdges:UIRectEdgeLeft];
-    edgePan.delegate = self;
-    [self.view addGestureRecognizer:edgePan];
-    
+
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
@@ -144,7 +139,15 @@ UIGestureRecognizerDelegate
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-     [collectionView reloadData];
+//    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    self.tabBarController.tabBar.hidden = YES;
+
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+    [collectionView reloadData];
     
     if (self.videoThumbnails.count > 0) {
         
@@ -215,6 +218,11 @@ UIGestureRecognizerDelegate
     if(self.hasRespondedToSignUp){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"MoveToProfile" object:nil];
     }
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)reload:(NSNotification *)notif{
@@ -452,7 +460,7 @@ UIGestureRecognizerDelegate
         
         cell.backgroundColor = [UIColor clearColor];
         
-        [cell.deleteItemButton addTarget:self action:@selector(deletePhoto:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.deleteItemButton addTarget:self action:@selector(deleteVideoAlertView:) forControlEvents:UIControlEventTouchUpInside];
 
         return cell;
     }
@@ -530,11 +538,46 @@ UIGestureRecognizerDelegate
     }
 }
 
-- (void)deletePhoto: (UIButton *)sender
+- (void)deleteVideo: (UIButton *)sender
 {
-    NSLog(@"deletePhoto");
-    [self.videoThumbnails removeObjectAtIndex:sender.tag-1];
-    [collectionView reloadData];
+    long index;
+    index = (sender.tag-1);
+    
+     [self.videoThumbnails removeObjectAtIndex:index];
+    [self.videoAssetsArray removeObjectAtIndex:index];
+
+    NSLog(@"count %lu", (unsigned long)self.videoThumbnails.count);
+    NSLog(@"index %ld",index);
+    NSLog(@"objectttt %@", [self.videoThumbnails objectAtIndex:index]);
+
+    
+//    [[sender.tag-1] deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if (succeeded) {
+//            [self loadObjects];
+//        }
+//    }];
+    
+     [collectionView reloadData];
+    NSLog(@"count %lu", (unsigned long)self.videoThumbnails.count);
+
+}
+
+
+-(void) deleteVideoAlertView: (UIButton *)sender{
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }]];
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Delete this video" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        
+        [self deleteVideo:sender];
+    }]];
+    
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 
@@ -614,17 +657,6 @@ UIGestureRecognizerDelegate
     } completion:^(BOOL finished) {
         NSLog(@"Reloaded");
     }];
-    
-}
-
-#pragma mark - Gesture Recognizer
-- (void)popToRoot:(UIScreenEdgePanGestureRecognizer *)edgePan{
-    CGPoint translation = [edgePan translationInView:self.view];
-    
-    if (translation.x >= 100) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    
     
 }
 

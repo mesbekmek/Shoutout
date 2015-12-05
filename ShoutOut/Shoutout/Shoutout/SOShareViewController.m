@@ -8,6 +8,8 @@
 
 #import "SOShareViewController.h"
 #import <MessageUI/MessageUI.h>
+#import <ChameleonFramework/Chameleon.h>
+
 
 @interface SOShareViewController () <MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
@@ -23,6 +25,15 @@
     self.tableview.dataSource = self;
     
     self.shareContactsDict = [NSMutableDictionary new];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    self.navigationItem.title = @"Notifications";
 }
 
 - (void)didReceiveMemoryWarning {

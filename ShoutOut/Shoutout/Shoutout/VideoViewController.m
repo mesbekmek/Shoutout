@@ -27,6 +27,7 @@
     self.avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
     self.avPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
+    self.avPlayerLayer.frame = self.view.bounds;
     self.avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -35,7 +36,7 @@
                                                object:[self.avPlayer currentItem]];
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    screenRect = CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-128);
+    screenRect = self.view.bounds;
     self.avPlayerLayer.frame = screenRect;
     [self.view.layer addSublayer:self.avPlayerLayer];
     
@@ -55,7 +56,7 @@
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
     AVPlayerItem *p = [notification object];
-    [p seekToTime:kCMTimeZero];
+    //[p seekToTime:kCMTimeZero];
 }
 
 - (BOOL)prefersStatusBarHidden {

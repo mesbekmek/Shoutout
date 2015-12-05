@@ -33,7 +33,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
     [User registerSubclass];
@@ -42,24 +42,29 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     [SORequest registerSubclass];
     [SOContacts registerSubclass];
     [SOShoutout registerSubclass];
-    
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     [self reachability];
-    
+
     //Uncomment when we decide to implement Push Notifs
     //[self setupPushNotifications:application];
 
     if([PFUser currentUser])
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-        
+
+        UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
+        self.window.rootViewController = tabBC;
+
+//        UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+
         //Uncomment when we decide to implement Push Notifs
         //[[PFInstallation currentInstallation] setObject:user forKey:@"user"];
         //[[PFInstallation currentInstallation] saveInBackground];
         
-        SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-        self.window.rootViewController = nc;
+       // SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+       // self.window.rootViewController = nc;
     }
     else
     {
@@ -92,10 +97,12 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         dispatch_async(dispatch_get_main_queue(), ^{
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             //
-            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-           
-            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-            self.window.rootViewController = nc;
+//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+
+
+
+//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//            self.window.rootViewController = nc;
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Network Error" message:@"Network currently unreachable" preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -103,7 +110,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
             }];
             
             [alert addAction:okAction];
-            [nc.visibleViewController presentViewController:alert animated:YES completion:nil];
+            //[tabBC.visibleViewController presentViewController:alert animated:YES completion:nil];
             
         });
         NSLog(@"UNREACHABLE!");
