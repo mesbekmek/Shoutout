@@ -42,6 +42,9 @@ typedef enum hasFetched{
 @implementation NotificationsTableViewContainerViewController{
     FetchingStatus fetchingStatus;
 }
+- (IBAction)segmentedControllerChanged:(UISegmentedControl *)sender {
+    [self.tableView reloadData];
+}
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

@@ -32,7 +32,6 @@ typedef enum eventsType{
 <
 UITableViewDataSource,
 UITableViewDelegate,
-UISearchResultsUpdating,
 UISearchBarDelegate,
 UISearchDisplayDelegate,
 UISearchControllerDelegate
@@ -58,6 +57,7 @@ UISearchControllerDelegate
 
 @property (nonatomic, strong) APAddressBook *addressBook;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic) UITapGestureRecognizer *tapReconizer;
 
 @end
 
@@ -73,17 +73,10 @@ UISearchControllerDelegate
     
     self.searchBar.delegate = self;
     
-    self.resultSearchController = [UISearchController new];
-    self.resultSearchController.searchResultsUpdater = self;
-    self.resultSearchController.dimsBackgroundDuringPresentation = NO;
-    [self.resultSearchController.searchBar sizeToFit];
-    self.tableView.tableHeaderView = self.resultSearchController.searchBar;
     
     currentUserFilterContacts = [NSMutableArray new];
     phoneBookFilterName = [NSMutableArray new];
     phoneBookFilterUserName = [NSMutableArray new];
-    
-    [self.tableView reloadData];
     
     
     [self queryCurrentUserContactsListOnParse];
@@ -98,8 +91,8 @@ UISearchControllerDelegate
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";
     
-//    [self queryCurrentUserContactsListOnParse];
-//    [self queryPhoneBookContact];
+    //    [self queryCurrentUserContactsListOnParse];
+    //    [self queryPhoneBookContact];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -125,7 +118,7 @@ UISearchControllerDelegate
             [self friendRequestSendSucceededWithTitle:failedTitle andMessage:failedMessage];
         }
     }];
-
+    
 }
 
 -(void)friendRequestSendSucceededWithTitle:(NSString *)title  andMessage:(NSString *)message{
@@ -140,34 +133,34 @@ UISearchControllerDelegate
 
 -(void)queryPhoneBookContact{
     self.contactsFromPhoneBook  = [NSMutableArray new];
-        self.addressBook = [[APAddressBook alloc]init];
-        self.addressBook.fieldsMask = APContactFieldAll;
-        self.addressBook.filterBlock = ^BOOL(APContact *contact) {
-            return contact.phones.count > 0;
-        };
-        self.addressBook.sortDescriptors = @[
-                                             [NSSortDescriptor sortDescriptorWithKey:@"name.firstName" ascending:YES],
-                                             [NSSortDescriptor sortDescriptorWithKey:@"name.lastName" ascending:YES]];
+    self.addressBook = [[APAddressBook alloc]init];
+    self.addressBook.fieldsMask = APContactFieldAll;
+    self.addressBook.filterBlock = ^BOOL(APContact *contact) {
+        return contact.phones.count > 0;
+    };
+    self.addressBook.sortDescriptors = @[
+                                         [NSSortDescriptor sortDescriptorWithKey:@"name.firstName" ascending:YES],
+                                         [NSSortDescriptor sortDescriptorWithKey:@"name.lastName" ascending:YES]];
+    
+    [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
+        if (!error) {
+            self.phoneBookName = [NSMutableArray new];
+            self.phoneBookUserName = [NSMutableArray new];
+            Contact *queryParse = [Contact new];
+            [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
+                for (User *user in users) {
+                    NSString *phoneNumber = user.phoneNumber;
+                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
+                    [self.phoneBookUserName addObject:user.username];
+                    [self.phoneBookName addObject:phoneBookName];
+                }
+                [self.tableView reloadData];
+            }];
+        } else {
+            NSLog(@"Error!!! == %@",error);
+        }
         
-        [self.addressBook loadContacts:^(NSArray<APContact *> * _Nullable contacts, NSError * _Nullable error) {
-            if (!error) {
-                self.phoneBookName = [NSMutableArray new];
-                self.phoneBookUserName = [NSMutableArray new];
-                Contact *queryParse = [Contact new];
-                [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
-                    for (User *user in users) {
-                        NSString *phoneNumber = user.phoneNumber;
-                        NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
-                        [self.phoneBookUserName addObject:user.username];
-                        [self.phoneBookName addObject:phoneBookName];
-                    }
-                    [self.tableView reloadData];
-                }];
-            } else {
-                NSLog(@"Error!!! == %@",error);
-            }
-            
-        }];
+    }];
     
 }
 
@@ -322,46 +315,46 @@ UISearchControllerDelegate
 
 -(void)checkSORequestStatus {
     
-        PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
-        [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
-        [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-        [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
-        [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
-        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"SORequest %@",objects);
-            for (SORequest *newRequest in objects){
+    PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
+    [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
+    [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+    [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
+    [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        NSLog(@"SORequest %@",objects);
+        for (SORequest *newRequest in objects){
+            
+            if (!newRequest.hasDecided && !newRequest.isAccepted){
                 
-                if (!newRequest.hasDecided && !newRequest.isAccepted){
-                    
-                    for (NSString *friend in self.currentUserContacts) {
-                        if ([newRequest.requestSentFrom isEqualToString:friend]) {
-                            NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
-                        } else {
-                            [self newRequestReceivedAlertWithSORequestObject:newRequest];
-                        }
-                    }
-                    
-                }
-            }
-        }];
-        
-        PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
-        [queryRequestResult whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
-        [queryRequestResult whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-        [queryRequestResult whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
-        [queryRequestResult whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
-        [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            for (SORequest *requestResult in objects) {
-                for (NSString *username in self.currentUserContacts) {
-                    if (![requestResult.requestSentTo isEqualToString:username]) {
-                        [self.currentUserContacts addObject:requestResult.requestSentTo];
+                for (NSString *friend in self.currentUserContacts) {
+                    if ([newRequest.requestSentFrom isEqualToString:friend]) {
+                        NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
+                    } else {
+                        [self newRequestReceivedAlertWithSORequestObject:newRequest];
                     }
                 }
                 
             }
-            [self pushContactListToParse];
-        }];
-
+        }
+    }];
+    
+    PFQuery *queryRequestResult = [PFQuery queryWithClassName:@"SORequest"];
+    [queryRequestResult whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+    [queryRequestResult whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+    [queryRequestResult whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
+    [queryRequestResult whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
+    [queryRequestResult findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (SORequest *requestResult in objects) {
+            for (NSString *username in self.currentUserContacts) {
+                if (![requestResult.requestSentTo isEqualToString:username]) {
+                    [self.currentUserContacts addObject:requestResult.requestSentTo];
+                }
+            }
+            
+        }
+        [self pushContactListToParse];
+    }];
+    
     
 }
 
@@ -393,67 +386,36 @@ UISearchControllerDelegate
 }
 
 -(void)pushContactListToParse{
-        [User currentUser].contacts.contactsList = self.currentUserContacts;
-        [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            NSLog(@"new contact list saved to parse");
-        }];
-        [self.tableView reloadData];
-
+    [User currentUser].contacts.contactsList = self.currentUserContacts;
+    [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        NSLog(@"new contact list saved to parse");
+    }];
+    [self.tableView reloadData];
+    
 }
 
 
 #pragma - mark UITableView Delegate and DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        return 3;
-    } else {
-        return 2;
-    }
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.resultSearchController.active) {
-        switch (section) {
-            case 0:
-                return currentUserFilterContacts.count;
-                break;
-            case 1:
-                return phoneBookFilterName.count;
-                break;
-            default:
-                break;
-        }
-        
+    if (section == 0) {
+        return self.currentUserContacts.count;
     } else {
-        switch (section) {
-            case 0:
-                return self.currentUserContacts.count;
-                break;
-            case 1:
-                return self.phoneBookName.count;
-                break;
-            default:
-                break;
-        }
+        return self.phoneBookName.count;
     }
-    return 1;
+    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    
-    switch (section) {
-        case 0:
-            return @"Friends List";
-            break;
-        case 1:
-            return @"PhoneBook Contacts";
-            break;
-        default:
-            return nil;
-            break;
+    if (section == 0) {
+        return @"Friends List";
+    } else {
+        return @"PhoneBook Contacts";
     }
-    
 }
 
 
@@ -461,7 +423,7 @@ UISearchControllerDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"addByUserNameCellID" forIndexPath:indexPath];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsListID" forIndexPath:indexPath];
         NSString *textLabel;
         if (self.resultSearchController.active) {
             textLabel = currentUserFilterContacts[indexPath.row];
@@ -480,17 +442,9 @@ UISearchControllerDelegate
         [addButton setTitle:@"+" forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:addButton];
-        NSString *nameLabel;
-        NSString *phoneNumberLabel;
-        if (self.resultSearchController.active) {
-            nameLabel = phoneBookFilterName[indexPath.row];
-            phoneNumberLabel = phoneBookFilterUserName[indexPath.row];
-        } else {
-            nameLabel = self.phoneBookName[indexPath.row];
-            phoneNumberLabel = self.phoneBookUserName[indexPath.row];
-        }
-        cell.nameLabel.text = nameLabel;
-        cell.phoneNumberLabel.text = phoneNumberLabel;
+        cell.nameLabel.text = self.phoneBookName[indexPath.row];
+        cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
+        
         return cell;
     }
     
@@ -503,39 +457,58 @@ UISearchControllerDelegate
 
 #pragma mark - SearchFilter
 
--(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    [phoneBookFilterName removeAllObjects];
-    [phoneBookFilterUserName removeAllObjects];
-    [currentUserFilterContacts removeAllObjects];
-    
-    [self filterContentForSearchText:searchController.searchBar.text];
+//-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+//    [phoneBookFilterName removeAllObjects];
+//    [phoneBookFilterUserName removeAllObjects];
+//    [currentUserFilterContacts removeAllObjects];
+//
+//    [self filterContentForSearchText:searchController.searchBar.text];
+//}
+//
+//
+//-(void)filterContentForSearchText:(NSString *)searchText{
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",searchText];
+//    // filter by username
+//
+//
+//    NSArray *array = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
+//    currentUserFilterContacts = (NSMutableArray<NSString *> *)array;
+//
+//    NSArray *pbfn = [self.phoneBookName filteredArrayUsingPredicate:predicate];
+//    phoneBookFilterName = (NSMutableArray *)pbfn;
+//
+//    NSArray *pbfun = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
+//
+//    phoneBookFilterUserName = (NSMutableArray *)pbfun;
+//
+//
+//    [self.tableView reloadData];
+//
+//}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self checkUsernameInParseWithName:searchBar.text];
 }
 
-
--(void)filterContentForSearchText:(NSString *)searchText{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",searchText];
-    // filter by username
+-(void)keyboardGestureRecognizer {
+    NSNotificationCenter *keyboard = [NSNotificationCenter defaultCenter];
+    [keyboard addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [keyboard addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    
-    NSArray *array = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
-    currentUserFilterContacts = (NSMutableArray<NSString *> *)array;
-    
-    NSArray *pbfn = [self.phoneBookName filteredArrayUsingPredicate:predicate];
-    phoneBookFilterName = (NSMutableArray *)pbfn;
-    
-    NSArray *pbfun = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
-    
-    phoneBookFilterUserName = (NSMutableArray *)pbfun;
-    
-    
-    [self.tableView reloadData];
-    
+    self.tapReconizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapAnyWhere:)];
 }
 
+-(void)keyboardWillShow: (NSNotification *)show {
+    [self.view addGestureRecognizer:self.tapReconizer];
+}
 
+-(void)keyboardWillHide: (NSNotification *)hide {
+    [self.view removeGestureRecognizer:self.tapReconizer];
+}
 
-
-
+-(void)didTapAnyWhere: (UITapGestureRecognizer *)reconizer {
+    [self.searchBar resignFirstResponder];
+}
 
 
 
