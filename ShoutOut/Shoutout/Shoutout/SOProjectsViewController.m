@@ -134,8 +134,8 @@ typedef enum eventsType{
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Shoutout";
-
-
+    
+    
 }
 -(void)videoQuery{
     
@@ -398,9 +398,15 @@ typedef enum eventsType{
     
     [self.videoThumbnailsArray addObject:video.thumbnail];
     
-    NSString *uuid = [[SOCachedProjects sharedManager].cachedProjects objectForKey:@"UUID"];
-    
-    SOProject *project = [[SOProject alloc]initWithUUID:[User currentUser].username];
+    SOProject *project = nil;
+    if([[SOCachedProjects sharedManager].cachedProjects objectForKey:@"UUID"])
+    {
+        NSString *uuid = [[SOCachedProjects sharedManager].cachedProjects objectForKey:@"UUID"];
+        project = [[SOProject alloc] initWithUUID:uuid];
+    }
+    else{
+        project = [[SOProject alloc]initWithUUID:[User currentUser].username];
+    }
     [project.videos addObject:video];
     self.currentProject = project;
     
