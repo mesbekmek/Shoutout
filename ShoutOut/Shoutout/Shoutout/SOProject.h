@@ -39,10 +39,12 @@
 
 -(void)fetchVideos:(void (^)(NSMutableArray <SOVideo *> *fetchedVideos,
                              NSMutableArray <AVAsset *> *fetchedVideoAssets,
+                             NSMutableArray *usernames,
                              NSMutableArray <PFFile *>* thumbnails) )onCompletion;
 
 - (void)getNewVideosIfNeeded:(void (^)(NSMutableArray <SOVideo *>*fetchedVideos,
                                        NSMutableArray <AVAsset *> *avAssets,
+                                       NSMutableArray *usernames,
                                        NSMutableArray <PFFile *>*allThumbnails)) onCompletion;
 
 @end

@@ -13,5 +13,6 @@
 @interface SOSortingCVC : UICollectionViewCell <NSCopying>
 @property (weak, nonatomic) IBOutlet PFImageView *videoImageView;
 @property (strong, nonatomic) IBOutlet UIButton *deleteItemButton;
+@property (weak, nonatomic) IBOutlet UILabel *collaboratorUsernameLabel;
 
 @end
