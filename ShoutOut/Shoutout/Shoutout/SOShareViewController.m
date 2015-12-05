@@ -9,11 +9,13 @@
 #import "SOShareViewController.h"
 #import <MessageUI/MessageUI.h>
 #import <ChameleonFramework/Chameleon.h>
+#import "SOShoutout.h"
 
 
 @interface SOShareViewController () <MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (nonatomic) NSMutableDictionary *shareContactsDict;
+@property (nonatomic) NSMutableArray <NSString *> *sharedTo;
 
 @end
 
@@ -23,8 +25,9 @@
     [super viewDidLoad];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
-    
+    self.tableview.allowsMultipleSelection = YES;
     self.shareContactsDict = [NSMutableDictionary new];
+    self.sharedTo = [NSMutableArray new];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -105,23 +108,36 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOShareCellID" forIndexPath:indexPath];
-    
+    cell.textLabel.text = self.sharedProject.collaboratorsReceivedFrom[indexPath.row];
     return cell;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.sharedProject.collaboratorsReceivedFrom.count;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.shareContactsDict allKeys].count;
+    //    return [self.shareContactsDict allKeys].count;
+    return 1;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self.sharedTo addObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
 }
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self.sharedTo removeObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
+}
 
+- (IBAction)shareButtonTapped:(id)sender{
+    
+    if (self.sharedTo.count>0) {
+        
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedTo toReceipents:@[]];
+    }
+    
+}
 
 @end

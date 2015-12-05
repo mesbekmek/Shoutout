@@ -353,6 +353,7 @@ UIGestureRecognizerDelegate
     
     SOShareViewController *shareVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
     shareVC.shareUrl = sharedUrl;
+    shareVC.sharedProject = self.sortingProject;
     [self presentViewController:shareVC animated:YES completion:nil];
     
 }

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SOProject.h"
 
 @interface SOShareViewController : UIViewController
 
 @property (nonatomic) NSString *shareUrl;
+@property (nonatomic) SOProject *sharedProject;
 
 @end

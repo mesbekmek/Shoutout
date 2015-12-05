@@ -309,16 +309,16 @@ typedef enum actionType{
             }]];
             [self presentViewController:alert animated:YES completion:nil];
         }
-        else if(!(title && title.length))
-        {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
-            
-            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-                [alert dismissViewControllerAnimated:YES completion:nil];
-            }]];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
+//        else if(!(title && title.length))
+//        {
+//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
+//            
+//            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//                
+//                [alert dismissViewControllerAnimated:YES completion:nil];
+//            }]];
+//            [self presentViewController:alert animated:YES completion:nil];
+//        }
         else
         {
             NSArray *selectedFriendsIndexPaths = [selectedCellIndexesOnContactSection allObjects];
