@@ -13,27 +13,30 @@
 #import "SOVideo.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <ChameleonFramework/Chameleon.h>
+#import "NotificationsTableViewCell.h"
+#import "FriendRequestTableViewCell.h"
 
 typedef enum hasFetched{
-    
+
     FETCHING = 0,
     FETCHINGCOMPLETE = 1
-    
+
 } FetchingStatus;
 
-@interface NotificationsTableViewContainerViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface NotificationsTableViewContainerViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, NotificationsTableViewCellDelegate, FriendRequestTableViewCellDelegate>
 
 @property (nonatomic) SONotificationsTableViewController *notifTVC;
 @property (weak, nonatomic) IBOutlet UIView *tableViewHolder;
-@property (nonatomic)NSMutableArray *collaborationRequests;
-@property (nonatomic)NSMutableArray *friendRequests;
-@property (nonatomic)NSMutableArray *responseRequests;
-@property (nonatomic)UIImagePickerController *imagePicker;
-@property (nonatomic)NSString *currentProjectId;
-@property (nonatomic)SORequest *currentRequest;
-@property (nonatomic)IBOutlet UITableView *tableView;
+@property (nonatomic) NSMutableArray *collaborationRequests;
+@property (nonatomic) NSMutableArray *friendRequests;
+@property (nonatomic) NSMutableArray *responseRequests;
+@property (nonatomic) UIImagePickerController *imagePicker;
+@property (nonatomic) NSString *currentProjectId;
+@property (nonatomic) SORequest *currentRequest;
+@property (nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) IBOutlet UISegmentedControl *segmentedController;
-
+@property (nonatomic) NSMutableArray <SORequest *> *collabAndFriendRequests;
+@property (nonatomic) UIRefreshControl *refresh;
 @end
 
 @implementation NotificationsTableViewContainerViewController{
@@ -57,6 +60,15 @@ typedef enum hasFetched{
     self.tableView.allowsMultipleSelection = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
     self.tableView.estimatedRowHeight = 20.0f;
+    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsCollaborationCell" bundle:nil] forCellReuseIdentifier:@"CollaborationRequestIdentifier"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsFriendCell" bundle:nil] forCellReuseIdentifier:@"FriendRequestIdentifier"];
+
+    self.refresh = [[UIRefreshControl alloc]init];
+
+    [self.refresh addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+
+    [self.tableView addSubview:self.refresh];
+
     fetchingStatus = FETCHING;
     [self fetchFirstBatch];
 }
@@ -68,82 +80,143 @@ typedef enum hasFetched{
         self.collaborationRequests = [NSMutableArray arrayWithArray:collaborationRequests];
         self.friendRequests = friendRequests;
         self.responseRequests = responseRequests;
+
+        self.collabAndFriendRequests = [NSMutableArray arrayWithArray:self.collaborationRequests];
+        [self.collabAndFriendRequests addObjectsFromArray:self.friendRequests];
+        [self.collabAndFriendRequests sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]];
+
         fetchingStatus = FETCHINGCOMPLETE;
+
+        if ([self.refresh isRefreshing]) {
+            [self.refresh endRefreshing];
+        }
+
         [self.tableView reloadData];
     }];
 
 }
 
-- (void)updateDataSource{
-
+- (void)refresh:(UIRefreshControl *)refControl{
+    if (fetchingStatus==FETCHINGCOMPLETE) {
+        [self fetchFirstBatch];
+    }
 }
 
 - (IBAction)backButtonTapped:(UIButton *)sender {
-    
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    return 3;
+
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (fetchingStatus == FETCHING) {
         return 0;
     }
+    //    else{
+    //        switch (section) {
+    //            case 0:
+    //            {
+    //                return self.collaborationRequests.count;
+    //                break;
+    //            }
+    //            case 1:
+    //                return self.responseRequests.count;
+    //                break;
+    //            case 2:
+    //                return self.friendRequests.count;
+    //                break;
+    //            default:
+    //                return 0;
+    //                break;
+    //        }
     else{
-        switch (section) {
+        switch (self.segmentedController.selectedSegmentIndex) {
             case 0:
-            {
-                return self.collaborationRequests.count;
+                return self.collabAndFriendRequests.count;
                 break;
-            }
             case 1:
                 return self.responseRequests.count;
-                break;
-            case 2:
-                return self.friendRequests.count;
                 break;
             default:
                 return 0;
                 break;
         }
+
     }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
-    
-    if (indexPath.section == 0) {
-        
-        SORequest *req = self.collaborationRequests[indexPath.row];
-        
-        cell.textLabel.text = req.projectTitle;
-        cell.detailTextLabel.text = req.requestSentFrom;
-        
-        return cell;
-        
+
+    //    if (indexPath.section == 0) {
+    //
+    //        SORequest *req = self.collaborationRequests[indexPath.row];
+    //
+    //        cell.textLabel.text = req.projectTitle;
+    //        cell.detailTextLabel.text = req.requestSentFrom;
+    //
+    //        return cell;
+    //
+    //    }
+    //
+    //    if (indexPath.section == 1) {
+    //        SORequest *req = self.responseRequests[indexPath.row];
+    //        NSString *response = [NSString stringWithFormat:@"%@ has %@ %@", req.requestSentTo, req.isAccepted? @"submitted a video to":@"declined your invite to collaborate on",req.projectTitle?req.projectTitle:req.projectId];
+    //        cell.textLabel.text = response;
+    //        return cell;
+    //    }
+    //    else{
+    //        cell.textLabel.text = @"Some friend Request";
+    //    }
+    switch (self.segmentedController.selectedSegmentIndex) {
+        case 0:
+        {
+            SORequest *req = self.collabAndFriendRequests[indexPath.row];
+            if (req.isFriendRequest) {
+                FriendRequestTableViewCell *frTVC = [tableView dequeueReusableCellWithIdentifier:@"FriendRequestIdentifier" forIndexPath:indexPath];
+                frTVC.indexValue = indexPath.row;
+                frTVC.mainLabel.text = [NSString stringWithFormat:@"%@ wants to add you",req.requestSentFrom];
+                frTVC.delegate = self;
+                return  frTVC;
+            }
+            else{
+                NotificationsTableViewCell *notifTVC = [tableView dequeueReusableCellWithIdentifier:@"CollaborationRequestIdentifier" forIndexPath:indexPath];
+
+                notifTVC.mainLabel.text = @"";
+                notifTVC.usernameLabel.text = req.requestSentFrom;
+                if (req.projectTitle) {
+
+                    notifTVC.mainLabel.text = [NSString stringWithFormat:@"Collaborate on %@",req.projectTitle];
+                }
+                notifTVC.delegate = self;
+                return notifTVC;
+            }
+            break;
+        }
+            case 1:
+        {
+            
+        }
+        default:
+            break;
     }
-    
-    if (indexPath.section == 1) {
-        SORequest *req = self.responseRequests[indexPath.row];
-        NSString *response = [NSString stringWithFormat:@"%@ has %@ %@", req.requestSentTo, req.isAccepted? @"submitted a video to":@"declined your invite to collaborate on",req.projectTitle?req.projectTitle:req.projectId];
-        cell.textLabel.text = response;
-        return cell;
-    }
-    else{
-        cell.textLabel.text = @"Some friend Request";
-    }
+
+
+
+
     return cell;
 }
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    
+
     switch (section) {
         case 0:
             return @"Collaboration Requests";
@@ -158,21 +231,21 @@ typedef enum hasFetched{
             return nil;
             break;
     }
-    
+
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.section == 0) {
-        self.currentRequest = self.collaborationRequests[indexPath.row];
-        self.currentProjectId = self.currentRequest.projectId;
-        [self setupCamera];
-    }
-    
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//
+//    if (indexPath.section == 0) {
+//        self.currentRequest = self.collaborationRequests[indexPath.row];
+//        self.currentProjectId = self.currentRequest.projectId;
+//        [self setupCamera];
+//    }
+//
+//}
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
+
     SONotificationsHeader *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SOHeaderIdentifier"];
     switch (section) {
         case 0:
@@ -187,20 +260,20 @@ typedef enum hasFetched{
         default:
             break;
     }
-    
+
     return header;
-    
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
+
     return 80.0f;
 }
 
 # pragma mark - Video camera setup
 
 - (void)setupCamera{
-    
+
     self.imagePicker = [[UIImagePickerController alloc]init];
     self.imagePicker.delegate = self;
     self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -214,7 +287,7 @@ typedef enum hasFetched{
 # pragma mark - Image Picker Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    
+
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL] andProjectId:self.currentProjectId];
     self.currentRequest.isAccepted = YES;
     self.currentRequest.hasDecided = YES;
@@ -223,49 +296,50 @@ typedef enum hasFetched{
         [self.collaborationRequests removeObject:self.currentRequest];
         [self.tableView reloadData];
     }];
-    
+
     [self.currentRequest saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"Saved current request");
     }];
-    
+
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.section ==0 || indexPath.section ==2) {
-        return YES;
-    }
-    return NO;
-    
+
+//    if (indexPath.section ==0 || indexPath.section ==2) {
+//        return YES;
+//    }
+//    return NO;
+
+    return YES;
+
+
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    switch (indexPath.section) {
+
+    switch (self.segmentedController.selectedSegmentIndex) {
         case 0:{
-            
-            SORequest *req = self.collaborationRequests[indexPath.row];
+
+            SORequest *req = self.collabAndFriendRequests[indexPath.row];
             req.isAccepted = NO;
             req.hasDecided = YES;
             [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                
+
                 [self.collaborationRequests removeObject:req];
                 [self.tableView reloadData];
-                
+
             }];
             break;
         }
 
-        case 2:{
-            SORequest *req = self.friendRequests[indexPath.row];
-            req.isAccepted = NO;
-            req.hasDecided = YES;
-            [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                
+        case 1:{
+            SORequest *req = self.responseRequests[indexPath.row];
+            [req deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+
                 [self.friendRequests removeObject:req];
                 [self.tableView reloadData];
-                
+
             }];
             break;
             
@@ -282,6 +356,25 @@ typedef enum hasFetched{
     return 60.0f;
 }
 
+- (void)didTapActionButtonAtRow:(NSInteger)row{
 
+    SORequest *req = self.collabAndFriendRequests[row];
+    req.hasDecided = YES;
+    req.isAccepted = YES;
+    [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        [self.collabAndFriendRequests removeObject:req];
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)didTapButtonAtRow:(NSInteger)row{
+
+    if (self.segmentedController.selectedSegmentIndex == 0) {
+        self.currentRequest = self.collabAndFriendRequests[row];
+        self.currentProjectId = self.currentRequest.projectId;
+        [self setupCamera];
+    }
+
+}
 
 @end
