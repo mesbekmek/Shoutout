@@ -176,6 +176,14 @@
                         </mask>
                     </variation>
                 </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo@3x" translatesAutoresizingMaskIntoConstraints="NO" id="ZPV-eM-WtQ">
+                    <rect key="frame" x="264" y="8" width="72" height="65"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="0Yt-Ed-v9B"/>
+                        <constraint firstAttribute="width" constant="72" id="rH6-XB-1XU"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -196,12 +204,14 @@
                 <constraint firstItem="MeZ-ik-0ba" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CkA-Ny-6vh"/>
                 <constraint firstItem="Qkc-tr-6EI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="FBm-eS-cPR"/>
                 <constraint firstItem="EEu-Xu-5qX" firstAttribute="width" secondItem="xwm-4M-1gZ" secondAttribute="width" constant="42" id="FDt-QM-V4V"/>
+                <constraint firstItem="ZPV-eM-WtQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="IJt-eh-fuV"/>
                 <constraint firstItem="Rb2-9f-cba" firstAttribute="top" secondItem="MeZ-ik-0ba" secondAttribute="bottom" constant="27" id="IQy-KZ-UKT"/>
                 <constraint firstItem="Rb2-9f-cba" firstAttribute="top" secondItem="gRl-il-Tuu" secondAttribute="bottom" constant="40" id="LUR-4h-bLo"/>
                 <constraint firstItem="Mfx-7J-hkw" firstAttribute="top" secondItem="gRl-il-Tuu" secondAttribute="bottom" constant="2" id="MDb-6U-19W"/>
                 <constraint firstItem="e6r-c1-TMR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MW5-De-UtN"/>
                 <constraint firstItem="cad-Mf-Nms" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="NsM-n3-gg0"/>
                 <constraint firstItem="cad-Mf-Nms" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="8" id="O2y-gH-Dow"/>
+                <constraint firstItem="ZPV-eM-WtQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="OZU-cD-Tvc"/>
                 <constraint firstItem="e6r-c1-TMR" firstAttribute="top" secondItem="8hP-YF-GCJ" secondAttribute="bottom" constant="2" id="QXd-kd-gXP"/>
                 <constraint firstItem="EEu-Xu-5qX" firstAttribute="height" secondItem="xwm-4M-1gZ" secondAttribute="height" id="QzM-0n-aat"/>
                 <constraint firstItem="ayT-zH-wq2" firstAttribute="leading" secondItem="EEu-Xu-5qX" secondAttribute="leading" constant="11" id="SoX-Ax-fIO"/>
@@ -271,4 +281,7 @@
             <point key="canvasLocation" x="254" y="295"/>
         </view>
     </objects>
+    <resources>
+        <image name="logo@3x" width="50" height="50"/>
+    </resources>
 </document>

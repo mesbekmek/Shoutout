@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SOProject.h"
+
+
 
 @interface SOContactsViewController : UIViewController
 
 @property (nonatomic) NSString *projectId;
+
+@property (nonatomic) SOProject *sortingProject;
 
 @end

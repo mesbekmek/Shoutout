@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import "SOProject.h"
 #import "SORequest.h"
+#import "SOProject.h"
 #import "SOCachedProjects.h"
 
 @interface SOCachedObject : NSObject
