@@ -14,8 +14,10 @@
 
 @interface SOShareViewController () <MFMailComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
-@property (nonatomic) NSMutableDictionary *shareContactsDict;
-@property (nonatomic) NSMutableArray <NSString *> *sharedTo;
+@property (nonatomic) NSMutableArray <NSString *> *sharedToCollaborators;
+@property (nonatomic) NSMutableArray <NSString *> *sharedToRecipients;
+@property (nonatomic) NSMutableArray<NSString *> *shoutoutFriends;
+@property (nonatomic) SOContacts *contact;
 
 @end
 
@@ -26,8 +28,10 @@
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.allowsMultipleSelection = YES;
-    self.shareContactsDict = [NSMutableDictionary new];
-    self.sharedTo = [NSMutableArray new];
+    self.sharedToCollaborators = [NSMutableArray new];
+    self.sharedToRecipients = [NSMutableArray new];
+    self.shoutoutFriends = [NSMutableArray new];
+    self.contact = [SOContacts new];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -37,6 +41,7 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Notifications";
+    [self contactsQuery];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,10 +49,56 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)contactsQuery{
+    
+    if([User currentUser].contacts != nil)
+    {
+        PFQuery *query = [PFQuery queryWithClassName:@"SOContacts"];
+        [query whereKey:@"objectId" containsString:[User currentUser].contacts.objectId];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            
+            if(!error)
+            {
+                self.contact = (SOContacts *)objects[0];
+                if(self.contact.contactsList.count > 0)
+                {
+                    self.shoutoutFriends = self.contact.contactsList;
+                    
+                    [self.shoutoutFriends sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+                    
+                    //change sort descriptor nsarry result into mutable version
+                    self.shoutoutFriends = [NSMutableArray arrayWithArray:self.shoutoutFriends];
+                    
+                    NSMutableIndexSet *indexesToBeRemoved = [NSMutableIndexSet new];
+                    for(int i = 0; i < self.sharedProject.collaboratorsReceivedFrom.count; i++)
+                    {
+                        NSString *collabString = self.sharedProject.collaboratorsReceivedFrom[i];
+                        NSString *friendString = self.shoutoutFriends[i];
+                        if([collabString isEqualToString:friendString]){
+                            [indexesToBeRemoved addIndex:i];
+                        }
+                    }
+                    if(indexesToBeRemoved.count > 0)
+                    {
+                        [self.shoutoutFriends removeObjectsAtIndexes:indexesToBeRemoved];
+                    }
+                    
+                    
+                    [self.tableview reloadData];
+                }
+            }
+            else
+            {
+                NSLog(@"%@",[error localizedDescription]);
+            }
+        }];
+    }
+    
+}
+
 - (IBAction)backButtonTapped:(UIButton *)sender{
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 - (IBAction)sendAsEmailButtonTapped:(UIButton *)sender{
@@ -108,38 +159,74 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOShareCellID" forIndexPath:indexPath];
-    cell.textLabel.text = self.sharedProject.collaboratorsReceivedFrom[indexPath.row];
+    if (indexPath.section == 0)
+    {
+        cell.textLabel.text = self.shoutoutFriends[indexPath.row];
+    }
+    else
+    {
+        cell.textLabel.text = self.sharedProject.collaboratorsReceivedFrom[indexPath.row];
+    }
     return cell;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    return section == 0 ? @"Friends" : @"Collaborators";
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.sharedProject.collaboratorsReceivedFrom.count;
+    return section == 0 ? self.shoutoutFriends.count : self.sharedProject.collaboratorsReceivedFrom.count;
+    
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //    return [self.shareContactsDict allKeys].count;
-    return 1;
+    return 2;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.sharedTo addObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
+    if(indexPath.section == 0)
+    {
+        [self.sharedToRecipients addObject:self.shoutoutFriends[indexPath.row]];
+    }
+    else
+    {
+        [self.sharedToCollaborators addObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self.sharedTo removeObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
+    if(indexPath.section == 0)
+    {
+        [self.sharedToRecipients removeObject:self.shoutoutFriends[indexPath.row]];
+    }
+    else
+    {
+        [self.sharedToCollaborators removeObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
+    }
 }
 
 - (IBAction)shareButtonTapped:(id)sender{
     
-    if (self.sharedTo.count>0) {
+    if (self.sharedToCollaborators.count>0 && self.sharedToRecipients.count > 0)
+    {
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedToCollaborators toReceipents:self.sharedToRecipients];
         
-        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedTo toReceipents:@[]];
-
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-    
+    else if (self.sharedToRecipients.count > 0)
+    {
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:@[] toReceipents:self.sharedToRecipients];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else if (self.sharedToCollaborators.count > 0)
+    {
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedToCollaborators toReceipents:@[]];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

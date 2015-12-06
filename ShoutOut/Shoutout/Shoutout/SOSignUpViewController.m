@@ -64,13 +64,18 @@
 
 
 - (IBAction)joinButtonTapped:(UIButton *)sender {
-    UIView *view = [[UIView alloc] initWithFrame:self.view.bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(view.center.x, view.center.y, 100, 100)];
-    [view addSubview:label];
+    UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+    UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
-    label.text = @"Registering... This may take a few seconds";
-    label.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:view];
+    activityIndicator.center= activityIndicatorView.center;
+    activityIndicator.color = [UIColor blackColor];
+    activityIndicatorView.backgroundColor = [UIColor whiteColor];
+    activityIndicatorView.alpha = 0.6;
+    
+    [activityIndicator startAnimating];
+    [activityIndicatorView addSubview:activityIndicator];
+    [self.view addSubview:activityIndicatorView];
+    [self.view bringSubviewToFront:activityIndicatorView];
     
     NSString *username = [self.nameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -87,7 +92,7 @@
     {
         User *oldUser = [User currentUser];
         
-        [User logOut];
+        //[User logOut];
         
 //        User *thisUser = [[User alloc]initWithContacts];
         User *thisUser = [User user];
@@ -126,12 +131,17 @@
                 if(projects.count > 0){
                     for(int i = 0; i < projects.count ; i++)
                     {
-                        SOProject *currentProject = projects[i];
-                        currentProject.createdBy = thisUser.username;
+                        
+                            SOProject *currentProject = projects[i];
+                            currentProject.createdBy = thisUser.username;
+                        for(int i = 0; i < currentProject.videos.count; i++)
+                        {
+                            SOVideo *currentVideo = currentProject.videos[i];
+                            currentVideo.username = thisUser.username;
+                        }
+                        [currentProject saveInBackground];
                     }
                 }
-                
-                
                 
                 [[PFInstallation currentInstallation] setObject:thisUser forKey:@"user"];
                 
@@ -148,6 +158,10 @@
                 
                 [cached.cachedProject saveInBackground];
                 
+                [activityIndicator stopAnimating];
+                [activityIndicator removeFromSuperview];
+                [activityIndicatorView removeFromSuperview];
+                
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
                 SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
@@ -157,6 +171,9 @@
                 [self presentViewController:contactsVC animated:YES completion:nil];
                 
             }else{
+                [activityIndicator stopAnimating];
+                [activityIndicator removeFromSuperview];
+                [activityIndicatorView removeFromSuperview];
                 NSString *errorString = [error userInfo][@"error"];
                 NSLog(@"%@",errorString);
                 
@@ -176,6 +193,9 @@
     }
     else
     {
+        [activityIndicator stopAnimating];
+        [activityIndicator removeFromSuperview];
+        [activityIndicatorView removeFromSuperview];
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Please enter proper value for all fields" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
