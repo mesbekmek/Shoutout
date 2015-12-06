@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "pinkPlus.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "SLR Camera-100.png",
       "scale" : "2x"
     },
     {

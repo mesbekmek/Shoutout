@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "orangePlus.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Add Camera-100.png",
       "scale" : "2x"
     },
     {

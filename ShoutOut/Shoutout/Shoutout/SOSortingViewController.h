@@ -15,5 +15,6 @@
 
 @property (nonatomic) SOProject *sortingProject;
 @property (nonatomic) NSMutableArray <PFFile *>*videoThumbnails;
+@property (nonatomic) NSMutableArray *collaboratorUsernameArray;
 
 @end

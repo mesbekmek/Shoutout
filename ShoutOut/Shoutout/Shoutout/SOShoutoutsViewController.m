@@ -16,6 +16,7 @@
 #import "SOExportHandler.h"
 #import "SOShoutoutsCollectionViewFlowLayout.h"
 #import "VideoViewController.h"
+#import <ChameleonFramework/Chameleon.h>
 
 @interface SOShoutoutsViewController ()< UINavigationControllerDelegate,UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 

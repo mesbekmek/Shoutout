@@ -9,6 +9,7 @@
 #import "ContactsTableViewController.h"
 #import <Parse/Parse.h>
 #import "SOModel.h"
+#import <ChameleonFramework/Chameleon.h>
 
 
 @interface ContactsTableViewController ()

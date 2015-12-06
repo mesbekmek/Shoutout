@@ -48,6 +48,8 @@ typedef enum eventsType{
 @property (nonatomic) BOOL isAnimating;
 @property (nonatomic) BOOL initialFetchOfVideosComplete;
 @property (weak, nonatomic) IBOutlet UIButton *profileButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *myEventsCollabsSegmentedControl;
+@property (nonatomic) NSString *appColor;
 
 @end
 
@@ -56,12 +58,13 @@ typedef enum eventsType{
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.appColor = @"F07179";
     
     self.videoThumbnailsArray = [NSMutableArray new];
     self.plusButton.layer.cornerRadius = 22.5;
     self.plusButton.clipsToBounds = YES;
+    [self projectsQuery];
     
-
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"VideoCellIdentifier"];
     
@@ -121,8 +124,19 @@ typedef enum eventsType{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     //self.navigationController.navigationBarHidden = YES;
+    
+    
+    //UI color stuff
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:self.appColor];
+    self.myEventsCollabsSegmentedControl.tintColor = [UIColor colorWithHexString:self.appColor];
+//    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:self.appColor]];
+//    self.navigationController.navigationBar.backgroundColor = [UIColor redColor];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor redColor]];
+
+    
+    
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
@@ -295,6 +309,16 @@ typedef enum eventsType{
             cell.projectTitle.text = projectTitle;
         }
         return cell;
+    } else {
+//        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
+        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+        plusCell.videoImageView.file = nil;
+        plusCell.videoImageView.image = nil;
+        plusCell.videoImageView.frame = plusCell.bounds;
+        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
+        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        return plusCell;
+        
     }
     
 }
@@ -312,8 +336,6 @@ typedef enum eventsType{
     
     return myInsets;
 }
-
-
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -393,12 +415,16 @@ typedef enum eventsType{
     self.imagePicker.videoMaximumDuration = 10.0;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
+    
+  
+    
 }
 
 
 # pragma mark - Image Picker Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+ 
     
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
     

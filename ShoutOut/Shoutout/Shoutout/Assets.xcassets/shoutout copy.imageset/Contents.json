@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "PlusButtonCell.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "shoutout copy.png",
       "scale" : "2x"
     },
     {
