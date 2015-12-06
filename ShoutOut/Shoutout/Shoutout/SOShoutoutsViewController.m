@@ -90,7 +90,7 @@ const CGFloat aspectRatio2 = 1.77;
 
 - (void)fetch{
     
-    [self.shoutout fetchAllCollabs:^(NSMutableArray<SOShoutout *> *shoutoutsCollaborationsArray)
+    [self.shoutout fetchAllShoutouts:^(NSMutableArray<SOShoutout *> *shoutoutsCollaborationsArray)
      {
          self.shoutoutsArray = shoutoutsCollaborationsArray;
          [self.collectionView reloadData];

@@ -20,6 +20,8 @@
 #import "SONotificationsTableViewController.h"
 #import "NotificationsTableViewContainerViewController.h"
 #import "SOProjectsCollectionViewFlowLayout.h"
+#import "SOShoutout.h"
+#import "VideoViewController.h"
 
 const CGFloat aspectRatio = 1.77;
 
@@ -50,6 +52,8 @@ typedef enum eventsType{
 @property (weak, nonatomic) IBOutlet UIButton *profileButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *myEventsCollabsSegmentedControl;
 @property (nonatomic) BOOL isOnEvent;
+@property (nonatomic) NSMutableArray<SOShoutout *> *collaborationsArray;
+@property (nonatomic) SOShoutout *shoutout;
 
 @end
 
@@ -63,6 +67,9 @@ typedef enum eventsType{
     self.plusButton.layer.cornerRadius = 22.5;
     self.plusButton.clipsToBounds = YES;
     [self projectsQuery];
+    self.shoutout = [[SOShoutout alloc]initShoutout];
+    self.isOnEvent = YES;
+    self.collaborationsArray = [NSMutableArray<SOShoutout *> new];
     
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"VideoCellIdentifier"];
@@ -118,12 +125,12 @@ typedef enum eventsType{
     if (sender.selectedSegmentIndex == 0)
     {
         self.isOnEvent = YES;
-        
+        [collectionView reloadData];
     }
     else
     {
         self.isOnEvent = NO;
-        
+        [self getCollabs];
     }
 }
 
@@ -276,50 +283,79 @@ typedef enum eventsType{
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection
 {
-    if (!self.initialFetchOfVideosComplete) {
-        return 1;
+    if(self.isOnEvent)
+    {
+        if (!self.initialFetchOfVideosComplete)
+        {
+            return 1;
+        }
+        return [self.projectsArray count] + 1;
     }
-    return [self.projectsArray count] + 1;
+    else
+    {
+        return self.collaborationsArray.count;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (indexPath.row == 0)
+    if(self.isOnEvent)
     {
-        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-        plusCell.videoImageView.file = nil;
-        plusCell.videoImageView.image = nil;
-        plusCell.videoImageView.frame = plusCell.bounds;
-        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
-        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        return plusCell;
-    }
-    else
-    {
-        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-        if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail)
+        if (indexPath.row == 0)
         {
-            
+            SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+            plusCell.videoImageView.file = nil;
+            plusCell.videoImageView.image = nil;
+            plusCell.videoImageView.frame = plusCell.bounds;
+            plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
+            plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+            return plusCell;
+        }
+        else
+        {
+            SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+            if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail)
+            {
+                
+                cell.videoImageView.image = nil;
+                cell.videoImageView.file = nil;
+                
+                cell.videoImageView.file = self.projectsArray[indexPath.row - 1].videos[0].thumbnail;
+                
+                cell.videoImageView.frame = cell.bounds;
+                
+                cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+                
+                [cell.videoImageView loadInBackground];
+            }
+            if([self.projectsArray count] != 0){
+                SOProject *project = self.projectsArray[indexPath.row - 1];
+                
+                NSString *projectTitle = project.title;
+                cell.projectTitle.text = projectTitle;
+            }
+            return cell;
+        }
+    }
+    else{
+        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+        if (self.collaborationsArray[indexPath.row].videosArray[0].thumbnail)
+        {
+            //cell.videoImageView = [[PFImageView alloc]init];
             cell.videoImageView.image = nil;
             cell.videoImageView.file = nil;
             
-            cell.videoImageView.file = self.projectsArray[indexPath.row - 1].videos[0].thumbnail;
-            
+            cell.videoImageView.file = self.collaborationsArray[indexPath.row].videosArray[0].thumbnail;
+            NSLog(@"Thumbnail : %@", self.collaborationsArray[indexPath.row].videosArray[0].thumbnail);
             cell.videoImageView.frame = cell.bounds;
             
             cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
             
             [cell.videoImageView loadInBackground];
         }
-        if([self.projectsArray count] != 0){
-            SOProject *project = self.projectsArray[indexPath.row - 1];
-            
-            NSString *projectTitle = project.title;
-            cell.projectTitle.text = projectTitle;
-        }
         return cell;
+    
     }
 }
 
@@ -339,17 +375,26 @@ typedef enum eventsType{
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row > 0) {
-        if ([self.projectsArray count] !=0) {
-            SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
-            sortingVC.sortingProject = self.projectsArray[indexPath.row-1];
-            
-            //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
-            
-            [self.navigationController pushViewController:sortingVC animated:YES];
+    if(self.isOnEvent)
+    {
+        if (indexPath.row > 0) {
+            if ([self.projectsArray count] !=0) {
+                SOSortingViewController *sortingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SOSortingVideoID"];
+                sortingVC.sortingProject = self.projectsArray[indexPath.row-1];
+                
+                //  sortingVC.videoThumbnails =  self.videoThumbnailsArray;
+                
+                [self.navigationController pushViewController:sortingVC animated:YES];
+            }
+        } else {
+            [self modalCameraPopup];
         }
-    } else {
-        [self modalCameraPopup];
+    }
+    else
+    {
+        VideoViewController *videoVC = [VideoViewController new];
+        videoVC.shoutout = self.collaborationsArray[indexPath.row];
+        [self presentViewController:videoVC animated:YES completion:nil];
     }
     
 }
@@ -415,11 +460,16 @@ typedef enum eventsType{
     self.imagePicker.videoMaximumDuration = 10.0;
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
-    
-    
-    
 }
 
+#pragma mark - Complete Collaboration Videos
+
+-(void)getCollabs{
+    [self.shoutout fetchAllCollabs:^(NSMutableArray<SOShoutout *> *shoutoutsCollaborationsArray) {
+        self.collaborationsArray = shoutoutsCollaborationsArray;
+        [collectionView reloadData];
+    }];
+}
 
 # pragma mark - Image Picker Delegate
 
