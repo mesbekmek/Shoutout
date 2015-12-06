@@ -89,8 +89,15 @@ UISearchControllerDelegate
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
-    [self.navigationController.navigationBar setTitleTextAttributes:
+    
+    
+    //UI color stuff
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:@"F07179"]];
+    
+     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";

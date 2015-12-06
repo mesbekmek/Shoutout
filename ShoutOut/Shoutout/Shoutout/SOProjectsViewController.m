@@ -49,7 +49,6 @@ typedef enum eventsType{
 @property (nonatomic) BOOL initialFetchOfVideosComplete;
 @property (weak, nonatomic) IBOutlet UIButton *profileButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *myEventsCollabsSegmentedControl;
-@property (nonatomic) NSString *appColor;
 
 @end
 
@@ -58,7 +57,6 @@ typedef enum eventsType{
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.appColor = @"F07179";
     
     self.videoThumbnailsArray = [NSMutableArray new];
     self.plusButton.layer.cornerRadius = 22.5;
@@ -126,15 +124,8 @@ typedef enum eventsType{
     
     //UI color stuff
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:self.appColor];
-    self.myEventsCollabsSegmentedControl.tintColor = [UIColor colorWithHexString:self.appColor];
-//    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:self.appColor]];
-//    self.navigationController.navigationBar.backgroundColor = [UIColor redColor];
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor redColor]];
-
-    
-    
-
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    self.myEventsCollabsSegmentedControl.tintColor = [UIColor colorWithHexString:@"F07179"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];

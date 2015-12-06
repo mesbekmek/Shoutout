@@ -605,7 +605,13 @@
         <scene sceneID="bLt-v1-TNd">
             <objects>
                 <navigationController storyboardIdentifier="SOMainNavigationControllerIdentifier" id="d7K-jH-a9w" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="Home_stroked@2x" selectedImage="Home@2x" id="9I4-Q4-Wty"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="Home_stroked@2x" selectedImage="Home@2x" id="9I4-Q4-Wty">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4N6-Fg-T7e">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -718,7 +724,13 @@
         <scene sceneID="hV0-0j-P73">
             <objects>
                 <navigationController id="bT3-9m-2BZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" image="friends_stroked@2x" selectedImage="friends@2x" id="uWv-N2-Ysl"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="friends_stroked@2x" selectedImage="friends@2x" id="uWv-N2-Ysl">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1l8-Ft-khP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1072,10 +1084,10 @@
         <scene sceneID="Mx4-LP-jdY">
             <objects>
                 <navigationController id="0hb-RR-mzu" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Notifications" image="notifications_stroked@2x" selectedImage="notifications@2x" id="l6z-we-CS5">
+                    <tabBarItem key="tabBarItem" title="Notifications" image="notifications_stroked@2x" selectedImage="notifications" id="l6z-we-CS5">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" red="0.20392156859999999" green="0.65098039220000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="value" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
@@ -1096,7 +1108,13 @@
         <scene sceneID="nUd-Fb-VVb">
             <objects>
                 <navigationController id="5Nq-Nn-KNP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Shoutouts" image="upload@2x" id="Wji-97-HLY"/>
+                    <tabBarItem key="tabBarItem" title="Shoutouts" image="shoutout copy" selectedImage="shoutout copy" id="Wji-97-HLY">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zru-fm-jpG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1161,8 +1179,9 @@
         <image name="back" width="16" height="23"/>
         <image name="friends@2x" width="25" height="25"/>
         <image name="friends_stroked@2x" width="25" height="25"/>
-        <image name="notifications@2x" width="25" height="25"/>
+        <image name="notifications" width="25" height="25"/>
         <image name="notifications_stroked@2x" width="25" height="25"/>
+        <image name="shoutout copy" width="25" height="25"/>
         <image name="upload@2x" width="25" height="25"/>
     </resources>
 </document>
