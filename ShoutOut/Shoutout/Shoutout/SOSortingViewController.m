@@ -101,7 +101,6 @@ UIGestureRecognizerDelegate
 @property (nonatomic) SOCameraOverlay *cameraOverlay;
 @property (assign) enum ProviderEditingState currentEditState;
 @property (nonatomic) UIBarButtonItem *editDoneButton;
-@property (nonatomic) NSMutableArray *collaboratorUsernameArray;
 
 
 @end
@@ -132,7 +131,6 @@ UIGestureRecognizerDelegate
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"SignUpComplete" object:nil];
     
-    [self.editDoneButton setTitle:@"Diiiiii"];
 
 //    self.editDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
 //                                                           style:UIBarButtonItemStyleDone
@@ -198,7 +196,7 @@ UIGestureRecognizerDelegate
             [activityIndicatorView removeFromSuperview];
         }];
     }else{
-        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos,                              NSMutableArray<AVAsset *> *avAssets, NSMutableArray *usernames, NSMutableArray<PFFile *> *allThumbnails) {
+        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos,                              NSMutableArray<AVAsset *> *avAssets, NSMutableArray <NSString * > *usernames, NSMutableArray<PFFile *> *allThumbnails) {
             self.videoThumbnails = allThumbnails;
             self.videoAssetsArray = avAssets;
             self.collaboratorUsernameArray = usernames;
@@ -226,6 +224,7 @@ UIGestureRecognizerDelegate
     currentlyCached.cachedProject = self.sortingProject;
     currentlyCached.avassetsArray = self.videoAssetsArray;
     currentlyCached.thumbnailsArray = self.videoThumbnails;
+    currentlyCached.cachedCollaboratorsArray = self.collaboratorUsernameArray;
     
     [[SOCachedProjects sharedManager].cachedProjects removeObjectForKey:self.sortingProject.objectId];
     [[SOCachedProjects sharedManager].cachedProjects setObject:currentlyCached forKey:self.sortingProject.objectId];
@@ -393,12 +392,13 @@ UIGestureRecognizerDelegate
     self.videoThumbnails  = [NSMutableArray arrayWithArray:self.videoThumbnails];
     [self.videoThumbnails addObject:video.thumbnail];
     
+//    self.collaboratorUsernameArray = [NSMutableArray arrayWithArray:self.collaboratorUsernameArray];
+    [self.collaboratorUsernameArray addObject:[User currentUser].username];
+    
     [self.videoAssetsArray addObject:[AVAsset assetWithURL:info[UIImagePickerControllerMediaURL]]];
     NSLog(@"sorting proj %@",self.sortingProject.objectId);
     
     [self.sortingProject.videos addObject:video];
-    
-    [self.collaboratorUsernameArray addObject:[User currentUser].username];
     
     [picker dismissViewControllerAnimated:YES completion:nil];
     
@@ -473,10 +473,12 @@ UIGestureRecognizerDelegate
         cell.videoImageView.file = nil;
         cell.videoImageView.image = nil;
         cell.videoImageView.file = self.videoThumbnails[indexPath.row-1];
-        cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        [cell.videoImageView loadInBackground];
+        
         cell.collaboratorUsernameLabel.hidden = NO;
         cell.collaboratorUsernameLabel.text = self.collaboratorUsernameArray[indexPath.row-1];
+        cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [cell.videoImageView loadInBackground];
+        
 
         cell.backgroundColor = [UIColor clearColor];
         
@@ -658,6 +660,8 @@ UIGestureRecognizerDelegate
 - (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
     
     [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
+    
+    [self.collaboratorUsernameArray bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
     
     [self.videoAssetsArray bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
     
