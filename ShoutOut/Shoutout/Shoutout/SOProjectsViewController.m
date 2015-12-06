@@ -145,7 +145,6 @@ typedef enum eventsType{
 }
 -(void)videoQuery{
     
-    
     NSMutableArray<NSString *> *videoObjectIDArray = [NSMutableArray new];
     NSMutableArray<SOProject *> *correctOrderArray = [NSMutableArray arrayWithArray:[self.projectsArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]]];
     self.projectsArray = correctOrderArray;
@@ -185,13 +184,14 @@ typedef enum eventsType{
 - (void)projectsQuery{
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
-    if([User currentUser].username !=nil){
+    if([User currentUser].username !=nil)
+    {
         [query whereKey:@"createdBy" equalTo:[User currentUser].username];
         NSLog(@"Current User: %@", [User currentUser].username);
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
-            if (!error) {
-                
+            if (!error)
+            {
                 if(objects.count == 0)
                 {
                     self.initialFetchOfVideosComplete = YES;
@@ -289,7 +289,8 @@ typedef enum eventsType{
     else
     {
         SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-        if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail) {
+        if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail)
+        {
             
             cell.videoImageView.image = nil;
             cell.videoImageView.file = nil;
@@ -309,18 +310,18 @@ typedef enum eventsType{
             cell.projectTitle.text = projectTitle;
         }
         return cell;
-    } else {
-//        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
-        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-        plusCell.videoImageView.file = nil;
-        plusCell.videoImageView.image = nil;
-        plusCell.videoImageView.frame = plusCell.bounds;
-        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
-        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        return plusCell;
-        
+//     else {
+////        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
+//        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+//        plusCell.videoImageView.file = nil;
+//        plusCell.videoImageView.image = nil;
+//        plusCell.videoImageView.frame = plusCell.bounds;
+//        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
+//        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        return plusCell;
+//        
+//    }
     }
-    
 }
 
 

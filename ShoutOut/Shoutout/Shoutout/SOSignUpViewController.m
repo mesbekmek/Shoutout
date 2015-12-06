@@ -90,7 +90,7 @@
     
     if ((username && username.length) && (password && password.length) && (email && email.length) && ([phoneNumber length] == 10))
     {
-        User *oldUser = [User currentUser];
+//        User *oldUser = [User currentUser];
         
         //[User logOut];
         
