@@ -451,7 +451,7 @@ UIGestureRecognizerDelegate
         cell2.deleteItemButton.hidden = YES;
         cell2.videoImageView.image = nil;
         cell2.videoImageView.contentMode = UIViewContentModeScaleAspectFill;
-        cell2.videoImageView.image = [UIImage imageNamed: @"pinkPlus" ];
+        cell2.videoImageView.image = [UIImage imageNamed: @"plusWatermelon" ];
         cell2.collaboratorUsernameLabel.hidden = YES;
         return cell2;
     }
