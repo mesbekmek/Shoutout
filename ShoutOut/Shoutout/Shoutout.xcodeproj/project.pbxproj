@@ -36,6 +36,10 @@
 		C7127B761BF6793A0069CF76 /* CollaborateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7127B751BF6793A0069CF76 /* CollaborateViewController.m */; };
 		C767BFC01C02AAB0000DB883 /* SOCachedProjects.m in Sources */ = {isa = PBXBuildFile; fileRef = C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */; };
 		C7AA9B201C124D29008A65AF /* SOShoutoutsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AA9B1F1C124D29008A65AF /* SOShoutoutsViewController.m */; };
+		C7AA9B231C134CD1008A65AF /* NotificationsCollaborationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7AA9B221C134CD1008A65AF /* NotificationsCollaborationCell.xib */; };
+		C7AA9B251C13505E008A65AF /* NotificationsFriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7AA9B241C13505E008A65AF /* NotificationsFriendCell.xib */; };
+		C7AA9B281C135270008A65AF /* NotificationsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AA9B271C135270008A65AF /* NotificationsTableViewCell.m */; };
+		C7AA9B2E1C1355D3008A65AF /* FriendRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AA9B2D1C1355D3008A65AF /* FriendRequestTableViewCell.m */; };
 		C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */; };
 		C7D1F3B61C0A6161001E99FE /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		C7DED4971C05271700C04510 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4961C05271700C04510 /* VideoViewController.m */; };
@@ -140,6 +144,12 @@
 		C767BFBF1C02AAB0000DB883 /* SOCachedProjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedProjects.m; sourceTree = "<group>"; };
 		C7AA9B1E1C124D29008A65AF /* SOShoutoutsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOShoutoutsViewController.h; sourceTree = "<group>"; };
 		C7AA9B1F1C124D29008A65AF /* SOShoutoutsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOShoutoutsViewController.m; sourceTree = "<group>"; };
+		C7AA9B221C134CD1008A65AF /* NotificationsCollaborationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsCollaborationCell.xib; sourceTree = "<group>"; };
+		C7AA9B241C13505E008A65AF /* NotificationsFriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsFriendCell.xib; sourceTree = "<group>"; };
+		C7AA9B261C135270008A65AF /* NotificationsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsTableViewCell.h; sourceTree = "<group>"; };
+		C7AA9B271C135270008A65AF /* NotificationsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsTableViewCell.m; sourceTree = "<group>"; };
+		C7AA9B2C1C1355D3008A65AF /* FriendRequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRequestTableViewCell.h; sourceTree = "<group>"; };
+		C7AA9B2D1C1355D3008A65AF /* FriendRequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRequestTableViewCell.m; sourceTree = "<group>"; };
 		C7D1F3B31C0A60B9001E99FE /* SOCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedObject.h; sourceTree = "<group>"; };
 		C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedObject.m; sourceTree = "<group>"; };
 		C7DED4951C05271700C04510 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
@@ -415,6 +425,12 @@
 				C7F3C8351C0B604F00B834C7 /* NotificationsHeader.xib */,
 				C7FD67BF1C0D3002008C436C /* NotificationsTableViewContainerViewController.h */,
 				C7FD67C01C0D3002008C436C /* NotificationsTableViewContainerViewController.m */,
+				C7AA9B261C135270008A65AF /* NotificationsTableViewCell.h */,
+				C7AA9B271C135270008A65AF /* NotificationsTableViewCell.m */,
+				C7AA9B221C134CD1008A65AF /* NotificationsCollaborationCell.xib */,
+				C7AA9B241C13505E008A65AF /* NotificationsFriendCell.xib */,
+				C7AA9B2C1C1355D3008A65AF /* FriendRequestTableViewCell.h */,
+				C7AA9B2D1C1355D3008A65AF /* FriendRequestTableViewCell.m */,
 			);
 			name = SONotifications;
 			sourceTree = "<group>";
@@ -673,6 +689,7 @@
 				84E9D5571BFB8B0D005ACE00 /* Caviar_Dreams_Bold.ttf in Resources */,
 				84D61C1E1C050AD300E3D284 /* loaded.ttf in Resources */,
 				84E9D5601BFB9B8F005ACE00 /* Vic Fieger License.txt in Resources */,
+				C7AA9B251C13505E008A65AF /* NotificationsFriendCell.xib in Resources */,
 				84E9D55F1BFB9B8F005ACE00 /* boston_traffic.ttf in Resources */,
 				84E5CF971BF4C9A300A587E1 /* SOVideoCollectionViewCell.xib in Resources */,
 				DCDA4F131C08372F0090959E /* Main.Storyboard in Resources */,
@@ -680,6 +697,7 @@
 				84E9D55B1BFB8B0D005ACE00 /* Nymphont License.txt in Resources */,
 				84E9D5591BFB8B0D005ACE00 /* CaviarDreams_BoldItalic.ttf in Resources */,
 				84E9D5581BFB8B0D005ACE00 /* CaviarDreams.ttf in Resources */,
+				C7AA9B231C134CD1008A65AF /* NotificationsCollaborationCell.xib in Resources */,
 				84E9D55A1BFB8B0D005ACE00 /* CaviarDreams_Italic.ttf in Resources */,
 				DC386E131BF4290C00562543 /* SOLoginViewController.xib in Resources */,
 				84E5CF9F1BF4CA7C00A587E1 /* video2.jpg in Resources */,
@@ -764,6 +782,7 @@
 				DC74C0FF1C0B754D00FFCF45 /* SOFriendsTableViewCell.m in Sources */,
 				DC74C1031C0BE57700FFCF45 /* SOContactsFormatter.m in Sources */,
 				DC386DF91BF4223C00562543 /* SOProject.m in Sources */,
+				C7AA9B281C135270008A65AF /* NotificationsTableViewCell.m in Sources */,
 				D41C75131C040C2500125CE7 /* PhoneContactTableViewCell.m in Sources */,
 				C7AA9B201C124D29008A65AF /* SOShoutoutsViewController.m in Sources */,
 				C7F411621C0BB6C700287B0E /* SOExportHandler.m in Sources */,
@@ -781,6 +800,7 @@
 				C7F4115E1C0BA8F400287B0E /* SOShareViewController.m in Sources */,
 				84E9D53A1BF9375D005ACE00 /* SOAddMyVideoViewController.m in Sources */,
 				DC386D9F1BEFF89500562543 /* ProfileViewController.m in Sources */,
+				C7AA9B2E1C1355D3008A65AF /* FriendRequestTableViewCell.m in Sources */,
 				DC386D821BEFEBA900562543 /* main.m in Sources */,
 				DC386DFA1BF4223C00562543 /* SOVideo.m in Sources */,
 				84E9D5371BF8F2C6005ACE00 /* SOSortingCVC.m in Sources */,
