@@ -132,7 +132,7 @@
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
-    AVPlayerItem *p = [notification object];
+    //AVPlayerItem *p = [notification object];
     //[p seekToTime:kCMTimeZero];
 }
 

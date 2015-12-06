@@ -101,7 +101,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     reach.unreachableBlock = ^(Reachability*reach)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+       //     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             //
 //            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
 
@@ -152,7 +152,7 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
     User *user = [User user];
     user.username = username;
     user.password = password;
-    
+    user.contacts = [SOContacts new];
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if(!error)
         {
@@ -160,12 +160,18 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
         }
         else
         {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            //
-            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            //
+//            UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//            
+//            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//            self.window.rootViewController = nc;
             
-            SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-            self.window.rootViewController = nc;
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            UITabBarController *tabBC = [storyboard instantiateViewControllerWithIdentifier:@"SOTabBarController"];
+            self.window.rootViewController = tabBC;
+            
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Signup Error" message:@"Couldn't signup automatic user, Please re-run the app!" preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -173,14 +179,14 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
             }];
             
             [alert addAction:okAction];
-            [nc.visibleViewController presentViewController:alert animated:YES completion:nil];
+            [tabBC presentViewController:alert animated:YES completion:nil];
         }
     }];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-    
-    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
-    self.window.rootViewController = nc;
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+//    
+//    SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
+//    self.window.rootViewController = nc;
 }
 
 #pragma mark -  Push Notifications

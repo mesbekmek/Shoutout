@@ -350,7 +350,10 @@ typedef enum actionType{
                 NSString *username = contact.username;
                 
                 //send collab request
-                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.projectTitleTextField.text];
+                
+                NSString *title = self.sortingProject.title? self.sortingProject.title : @"Event";
+                
+                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:title];
                 
                 //add username to collaborators array in the project
                 if(![self.sortingProject.collaboratorsSentTo containsObject:username])
@@ -522,7 +525,8 @@ typedef enum actionType{
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if(self.isOnContact){
+    if(self.isOnContact)
+    {
         return section == 0 ? @"Contacts With Shoutout" : @"Contacts Without Shoutout";
     }
     return nil;

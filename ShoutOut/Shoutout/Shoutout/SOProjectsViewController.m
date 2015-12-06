@@ -30,7 +30,7 @@ typedef enum eventsType{
     
 } EventsType;
 
-@interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout>
+@interface SOProjectsViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout,UITextFieldDelegate>
 {
     //    IBOutlet UIView *centerView;
     IBOutlet UICollectionView *collectionView;
@@ -87,6 +87,8 @@ typedef enum eventsType{
     [collectionView setCollectionViewLayout:myLayout];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"MoveToProfile" object:nil];
+    
+    [self projectsQuery];
 }
 
 #pragma mark -Navigate to Profile after sign up
@@ -105,7 +107,7 @@ typedef enum eventsType{
 
 - (IBAction)pushToNotifications:(UIButton *)sender {
     
-     NotificationsTableViewContainerViewController *notifContainer = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationsSection"];
+    NotificationsTableViewContainerViewController *notifContainer = [self.storyboard instantiateViewControllerWithIdentifier:@"NotificationsSection"];
     [self.navigationController pushViewController:notifContainer animated:YES];
 }
 
@@ -139,10 +141,8 @@ typedef enum eventsType{
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Shoutout";
     
-    
 }
 -(void)videoQuery{
-    
     
     NSMutableArray<NSString *> *videoObjectIDArray = [NSMutableArray new];
     NSMutableArray<SOProject *> *correctOrderArray = [NSMutableArray arrayWithArray:[self.projectsArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]]];
@@ -183,29 +183,37 @@ typedef enum eventsType{
 - (void)projectsQuery{
     
     PFQuery *query = [PFQuery queryWithClassName:@"SOProject"];
-    if([User currentUser].username !=nil){
+    if([User currentUser].username !=nil)
+    {
         [query whereKey:@"createdBy" equalTo:[User currentUser].username];
         NSLog(@"Current User: %@", [User currentUser].username);
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             
-            if (!error) {
-                
-                //get an array of projects
-                self.projectsArray = [[NSMutableArray alloc]initWithArray:objects];
-                NSLog(@"projectsArray %@",self.projectsArray);
-                
-                self.videosArray = [[NSMutableArray alloc]init];
-                //for every project get an array of videos
-                for (SOProject *project in objects) {
-                    self.project = project;
-                    
-                    [self.videosArray addObjectsFromArray:project.videos];
-                    if ([self.projectsArray count]==0){
-                        collectionView.hidden = YES;
-                    }
+            if (!error)
+            {
+                if(objects.count == 0)
+                {
+                    self.initialFetchOfVideosComplete = YES;
                 }
-                [self videoQuery];
-                [collectionView reloadData];
+                //get an array of projects
+                else{
+                    self.projectsArray = [[NSMutableArray alloc]initWithArray:objects];
+                    NSLog(@"projectsArray %@",self.projectsArray);
+                    
+                    self.videosArray = [[NSMutableArray alloc]init];
+                    //for every project get an array of videos
+                    for (SOProject *project in objects)
+                    {
+                        self.project = project;
+                        
+                        [self.videosArray addObjectsFromArray:project.videos];
+                        if ([self.projectsArray count]==0){
+                            collectionView.hidden = YES;
+                        }
+                    }
+                    [self videoQuery];
+                    [collectionView reloadData];
+                }
                 //[self videoThumbnailQuery];
             }
             else{
@@ -267,12 +275,23 @@ typedef enum eventsType{
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    if (indexPath.row > 0) {
-        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-        if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail) {
 
+    if (indexPath.row == 0)
+    {
+        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+        plusCell.videoImageView.file = nil;
+        plusCell.videoImageView.image = nil;
+        plusCell.videoImageView.frame = plusCell.bounds;
+        plusCell.videoImageView.image = [UIImage imageNamed:@"yellowPlus"];
+        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        return plusCell;
+    }
+    else
+    {
+        SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+        if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail)
+        {
+            
             cell.videoImageView.image = nil;
             cell.videoImageView.file = nil;
             
@@ -291,19 +310,18 @@ typedef enum eventsType{
             cell.projectTitle.text = projectTitle;
         }
         return cell;
-    } else {
-//        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
-        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-        plusCell.videoImageView.file = nil;
-        plusCell.videoImageView.image = nil;
-        plusCell.videoImageView.frame = plusCell.bounds;
-        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
-        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        return plusCell;
-        
+//     else {
+////        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
+//        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+//        plusCell.videoImageView.file = nil;
+//        plusCell.videoImageView.image = nil;
+//        plusCell.videoImageView.frame = plusCell.bounds;
+//        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
+//        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        return plusCell;
+//        
+//    }
     }
-    
-    
 }
 
 
@@ -426,12 +444,30 @@ typedef enum eventsType{
     self.currentProject = project;
     
     [project saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"Saved currrent project in background");
-        [collectionView reloadData];
+        if(succeeded)
+        {
+            NSLog(@"Saved currrent project in background");
+            if(!self.projectsArray)
+            {
+                self.projectsArray = [NSMutableArray new];
+            }
+            [self.projectsArray insertObject:project atIndex:0];
+            self.initialFetchOfVideosComplete = YES;
+            [collectionView reloadData];
+        }else{
+            NSLog(@"Error saving project in background :%@",[error localizedDescription]);
+        }
     }];
-    //[self.projectsArray addObject:project];
-    [self.projectsArray insertObject:project atIndex:0];
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Event Title" message:@"Please title Event" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.delegate = self;
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:okAction];
+    
+    [picker presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)collectionViewBatchReload{
@@ -448,6 +484,23 @@ typedef enum eventsType{
         NSLog(@"Reloaded");
     }];
     
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSString *finalString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    self.currentProject.title = finalString;
+    [self.currentProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if(succeeded)
+        {
+            NSLog(@"Successfully updated current proj in parse");
+        }
+        else
+        {
+            NSLog(@"%@",[error localizedDescription]);
+        }
+    }];
+    return YES;
 }
 
 @end
