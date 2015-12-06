@@ -63,8 +63,6 @@ typedef enum hasFetched{
     self.tableView.allowsMultipleSelection = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
     self.tableView.estimatedRowHeight = 20.0f;
-    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsCollaborationCell" bundle:nil] forCellReuseIdentifier:@"CollaborationRequestIdentifier"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsFriendCell" bundle:nil] forCellReuseIdentifier:@"FriendRequestIdentifier"];
 
     self.refresh = [[UIRefreshControl alloc]init];
 
@@ -121,23 +119,7 @@ typedef enum hasFetched{
     if (fetchingStatus == FETCHING) {
         return 0;
     }
-    //    else{
-    //        switch (section) {
-    //            case 0:
-    //            {
-    //                return self.collaborationRequests.count;
-    //                break;
-    //            }
-    //            case 1:
-    //                return self.responseRequests.count;
-    //                break;
-    //            case 2:
-    //                return self.friendRequests.count;
-    //                break;
-    //            default:
-    //                return 0;
-    //                break;
-    //        }
+
     else{
         switch (self.segmentedController.selectedSegmentIndex) {
             case 0:
@@ -156,122 +138,64 @@ typedef enum hasFetched{
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
 
-    //    if (indexPath.section == 0) {
-    //
-    //        SORequest *req = self.collaborationRequests[indexPath.row];
-    //
-    //        cell.textLabel.text = req.projectTitle;
-    //        cell.detailTextLabel.text = req.requestSentFrom;
-    //
-    //        return cell;
-    //
-    //    }
-    //
-    //    if (indexPath.section == 1) {
-    //        SORequest *req = self.responseRequests[indexPath.row];
-    //        NSString *response = [NSString stringWithFormat:@"%@ has %@ %@", req.requestSentTo, req.isAccepted? @"submitted a video to":@"declined your invite to collaborate on",req.projectTitle?req.projectTitle:req.projectId];
-    //        cell.textLabel.text = response;
-    //        return cell;
-    //    }
-    //    else{
-    //        cell.textLabel.text = @"Some friend Request";
-    //    }
+
     switch (self.segmentedController.selectedSegmentIndex) {
         case 0:
         {
             SORequest *req = self.collabAndFriendRequests[indexPath.row];
             if (req.isFriendRequest) {
-                FriendRequestTableViewCell *frTVC = [tableView dequeueReusableCellWithIdentifier:@"FriendRequestIdentifier" forIndexPath:indexPath];
+                FriendRequestTableViewCell *frTVC = [tableView dequeueReusableCellWithIdentifier:@"FriendRequestIdentifier"];
+                if (!frTVC) {
+                    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsFriendCell" bundle:nil] forCellReuseIdentifier:@"FriendRequestIdentifier"];
+                    frTVC = [tableView dequeueReusableCellWithIdentifier:@"FriendRequestIdentifier"];
+                }
                 frTVC.indexValue = indexPath.row;
                 frTVC.mainLabel.text = [NSString stringWithFormat:@"%@ wants to add you",req.requestSentFrom];
                 frTVC.delegate = self;
                 return  frTVC;
             }
             else{
-                NotificationsTableViewCell *notifTVC = [tableView dequeueReusableCellWithIdentifier:@"CollaborationRequestIdentifier" forIndexPath:indexPath];
+                NotificationsTableViewCell *notifTVC = [tableView dequeueReusableCellWithIdentifier:@"CollaborationRequestIdentifier"];
+
+                if(!notifTVC){
+                    [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsCollaborationCell" bundle:nil] forCellReuseIdentifier:@"CollaborationRequestIdentifier"];
+                    notifTVC = [tableView dequeueReusableCellWithIdentifier:@"CollaborationRequestIdentifier"];
+                }
 
                 notifTVC.mainLabel.text = @"";
                 notifTVC.usernameLabel.text = req.requestSentFrom;
+                //                CGRect origFrame = notifTVC.frame;
+                //                origFrame.origin.y = 0;
+                //                notifTVC.frame = origFrame;
                 if (req.projectTitle) {
 
                     notifTVC.mainLabel.text = [NSString stringWithFormat:@"Collaborate on %@",req.projectTitle];
                 }
+                notifTVC.indexValue = indexPath.row;
                 notifTVC.delegate = self;
                 return notifTVC;
             }
             break;
         }
-            case 1:
+        case 1:
         {
-            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
+            SORequest * req = self.responseRequests[indexPath.row];
+            NSString *response = [NSString stringWithFormat:@"%@ has %@ %@", req.requestSentTo, req.isAccepted? @"submitted a video to":@"declined your invite to collaborate on",req.projectTitle?req.projectTitle:req.projectId];
+            cell.textLabel.text = response;
+            return cell;
         }
         default:
             break;
     }
 
 
-
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
 
     return cell;
 }
 
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-
-    switch (section) {
-        case 0:
-            return @"Collaboration Requests";
-            break;
-        case 1:
-            return @"Invite Replies";
-            break;
-        case 2:
-            return @"Friend Requests";
-            break;
-        default:
-            return nil;
-            break;
-    }
-
-}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//
-//    if (indexPath.section == 0) {
-//        self.currentRequest = self.collaborationRequests[indexPath.row];
-//        self.currentProjectId = self.currentRequest.projectId;
-//        [self setupCamera];
-//    }
-//
-//}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-
-    SONotificationsHeader *header = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:@"SOHeaderIdentifier"];
-    switch (section) {
-        case 0:
-            header.headerTitle.text = @"Collaboration Requests";
-            break;
-        case 1:
-            header.headerTitle.text = @"Collaboration Replies";
-            break;
-        case 2:
-            header.headerTitle.text = @"Friend Requests";
-            break;
-        default:
-            break;
-    }
-
-    return header;
-
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-
-    return 80.0f;
-}
 
 # pragma mark - Video camera setup
 
@@ -294,10 +218,11 @@ typedef enum hasFetched{
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL] andProjectId:self.currentProjectId];
     self.currentRequest.isAccepted = YES;
     self.currentRequest.hasDecided = YES;
+    [self.collabAndFriendRequests removeObject:self.currentRequest];
+    [self.tableView reloadData];
     [video saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         NSLog(@"New Video Submitted");
-        [self.collaborationRequests removeObject:self.currentRequest];
-        [self.tableView reloadData];
+
     }];
 
     [self.currentRequest saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -309,14 +234,7 @@ typedef enum hasFetched{
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
 
-//    if (indexPath.section ==0 || indexPath.section ==2) {
-//        return YES;
-//    }
-//    return NO;
-
     return YES;
-
-
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -327,10 +245,9 @@ typedef enum hasFetched{
             SORequest *req = self.collabAndFriendRequests[indexPath.row];
             req.isAccepted = NO;
             req.hasDecided = YES;
+            [self.collabAndFriendRequests removeObject:req];
+            [self.tableView reloadData];
             [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-
-                [self.collaborationRequests removeObject:req];
-                [self.tableView reloadData];
 
             }];
             break;
@@ -338,24 +255,21 @@ typedef enum hasFetched{
 
         case 1:{
             SORequest *req = self.responseRequests[indexPath.row];
+            [self.responseRequests removeObject:req];
+            [self.tableView reloadData];
             [req deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-
-                [self.friendRequests removeObject:req];
-                [self.tableView reloadData];
-
             }];
             break;
-            
+
         }
         default:
             break;
     }
-    
-    
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     return 60.0f;
 }
 
@@ -364,20 +278,21 @@ typedef enum hasFetched{
     SORequest *req = self.collabAndFriendRequests[row];
     req.hasDecided = YES;
     req.isAccepted = YES;
+    [self.collabAndFriendRequests removeObject:req];
+    [self.tableView reloadData];
     [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        [self.collabAndFriendRequests removeObject:req];
-        [self.tableView reloadData];
+        
     }];
 }
 
 - (void)didTapButtonAtRow:(NSInteger)row{
-
+    
     if (self.segmentedController.selectedSegmentIndex == 0) {
         self.currentRequest = self.collabAndFriendRequests[row];
         self.currentProjectId = self.currentRequest.projectId;
         [self setupCamera];
     }
-
+    
 }
 
 @end

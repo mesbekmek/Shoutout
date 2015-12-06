@@ -17,21 +17,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Sz-Km-rbn">
-                        <rect key="frame" x="8" y="8" width="78" height="23"/>
-                        <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                        <rect key="frame" x="8" y="8" width="75" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaboration Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xE-dt-PSy">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Collaboration Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xE-dt-PSy">
                         <rect key="frame" x="16" y="39" width="299" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOb-ov-Ggj">
-                        <rect key="frame" x="340" y="16" width="45" height="45"/>
+                        <rect key="frame" x="342" y="21" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="hOb-ov-Ggj" secondAttribute="height" multiplier="1:1" id="cob-N9-Y2b"/>
-                            <constraint firstAttribute="width" constant="45" id="jg1-bl-MHq"/>
+                            <constraint firstAttribute="width" constant="35" id="jg1-bl-MHq"/>
                         </constraints>
                         <state key="normal" title="Button" image="cameraNavy@2x"/>
                         <connections>
@@ -43,7 +43,7 @@
                     <constraint firstItem="4Sz-Km-rbn" firstAttribute="leading" secondItem="IR7-zo-6Us" secondAttribute="leadingMargin" id="5lD-VD-bIG"/>
                     <constraint firstItem="4Sz-Km-rbn" firstAttribute="top" secondItem="IR7-zo-6Us" secondAttribute="topMargin" id="EOA-64-gWW"/>
                     <constraint firstItem="hOb-ov-Ggj" firstAttribute="top" secondItem="IR7-zo-6Us" secondAttribute="topMargin" id="HUv-wA-CqS"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="hOb-ov-Ggj" secondAttribute="trailing" id="RuL-Hd-9Pf"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="hOb-ov-Ggj" secondAttribute="trailing" constant="8" id="RuL-Hd-9Pf"/>
                     <constraint firstItem="9xE-dt-PSy" firstAttribute="leading" secondItem="IR7-zo-6Us" secondAttribute="leadingMargin" constant="8" id="TF5-6I-KzT"/>
                     <constraint firstItem="9xE-dt-PSy" firstAttribute="top" secondItem="4Sz-Km-rbn" secondAttribute="bottom" constant="8" id="ZVp-w0-bWo"/>
                     <constraint firstAttribute="trailingMargin" secondItem="9xE-dt-PSy" secondAttribute="trailing" constant="70" id="jp4-Ff-Hma"/>
