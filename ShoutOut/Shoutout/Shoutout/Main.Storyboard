@@ -1111,7 +1111,7 @@
         <scene sceneID="nUd-Fb-VVb">
             <objects>
                 <navigationController id="5Nq-Nn-KNP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Shoutouts" image="shoutout copy" selectedImage="shoutout" id="Wji-97-HLY">
+                    <tabBarItem key="tabBarItem" title="Shoutouts" image="shoutout copy" selectedImage="shoutoutFilled" id="Wji-97-HLY">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1184,8 +1184,8 @@
         <image name="friends_stroked@2x" width="25" height="25"/>
         <image name="notifications" width="25" height="25"/>
         <image name="notifications_stroked@2x" width="25" height="25"/>
-        <image name="shoutout" width="25" height="24"/>
         <image name="shoutout copy" width="25" height="25"/>
+        <image name="shoutoutFilled" width="50" height="50"/>
         <image name="upload@2x" width="25" height="25"/>
     </resources>
 </document>
