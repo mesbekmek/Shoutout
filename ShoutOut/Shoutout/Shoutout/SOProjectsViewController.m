@@ -109,6 +109,14 @@ typedef enum eventsType{
     [self.navigationController pushViewController:notifContainer animated:YES];
 }
 
+
+- (IBAction)myEventsCollabsTapped:(UISegmentedControl *)sender {
+    
+    
+}
+
+
+
 #pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -259,6 +267,8 @@ typedef enum eventsType{
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
     if (indexPath.row > 0) {
         SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
         if (self.projectsArray[indexPath.row - 1].videos[0].thumbnail) {

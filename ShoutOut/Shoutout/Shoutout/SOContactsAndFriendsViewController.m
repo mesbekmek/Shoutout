@@ -14,6 +14,8 @@
 #import "APPhone.h"
 #import "Contact.h"
 #import "SOContactsFormatter.h"
+#import <ChameleonFramework/Chameleon.h>
+
 
 typedef enum actionType{
     
@@ -56,6 +58,23 @@ typedef enum actionType{
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setup];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+    //self.navigationController.navigationBarHidden = YES;
+    
+    
+    //UI color stuff
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    self.navigationItem.title = @"Shoutout";
+    
+    
 }
 
 -(void)setup
