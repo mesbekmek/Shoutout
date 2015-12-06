@@ -122,7 +122,14 @@ typedef enum eventsType{
     self.tabBarController.tabBar.hidden = NO;
     //self.navigationController.navigationBarHidden = YES;
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"02C39A"];
+    /*
+     BrightBlue 34A6FF
+     Seafoam Green 02C39A
+     Teal 028090
+     Flat red E63946
+     */
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
