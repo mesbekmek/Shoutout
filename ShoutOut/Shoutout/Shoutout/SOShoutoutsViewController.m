@@ -69,10 +69,16 @@ const CGFloat aspectRatio2 = 1.77;
     [super viewWillAppear:animated];
     
     self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    //UI color stuff
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:@"F07179"]];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    
     self.navigationItem.title = @"Shoutouts";
     [self fetch];
 }

@@ -29,6 +29,9 @@
 #import "SOContactsViewController.h"
 #import "SOExportHandler.h"
 #import "SOShareViewController.h"
+#import <ChameleonFramework/Chameleon.h>
+
+
 const float kVideoLengthMax2 = 10.0;
 const float cellspacing = 10.0;
 
@@ -161,6 +164,19 @@ UITextFieldDelegate
     [super viewWillAppear:animated];
     //    self.tabBarController.hidesBottomBarWhenPushed = YES;
     self.tabBarController.tabBar.hidden = YES;
+
+    //UI color stuff
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:@"F07179"]];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    
+    
+    
     
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
