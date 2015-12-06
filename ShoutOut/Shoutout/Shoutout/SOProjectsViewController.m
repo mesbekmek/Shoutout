@@ -49,6 +49,7 @@ typedef enum eventsType{
 @property (nonatomic) BOOL initialFetchOfVideosComplete;
 @property (weak, nonatomic) IBOutlet UIButton *profileButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *myEventsCollabsSegmentedControl;
+@property (nonatomic) BOOL isOnEvent;
 
 @end
 
@@ -111,10 +112,19 @@ typedef enum eventsType{
     [self.navigationController pushViewController:notifContainer animated:YES];
 }
 
-
+#pragma mark - Segmented Control Method
 - (IBAction)myEventsCollabsTapped:(UISegmentedControl *)sender {
     
-    
+    if (sender.selectedSegmentIndex == 0)
+    {
+        self.isOnEvent = YES;
+        
+    }
+    else
+    {
+        self.isOnEvent = NO;
+        
+    }
 }
 
 
@@ -275,14 +285,14 @@ typedef enum eventsType{
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     if (indexPath.row == 0)
     {
         SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
         plusCell.videoImageView.file = nil;
         plusCell.videoImageView.image = nil;
         plusCell.videoImageView.frame = plusCell.bounds;
-        plusCell.videoImageView.image = [UIImage imageNamed:@"yellowPlus"];
+        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
         plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
         return plusCell;
     }
@@ -310,17 +320,6 @@ typedef enum eventsType{
             cell.projectTitle.text = projectTitle;
         }
         return cell;
-//     else {
-////        UICollectionViewCell *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"plusCellIdentifier" forIndexPath:IndexPath];
-//        SOVideoCVC *plusCell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-//        plusCell.videoImageView.file = nil;
-//        plusCell.videoImageView.image = nil;
-//        plusCell.videoImageView.frame = plusCell.bounds;
-//        plusCell.videoImageView.image = [UIImage imageNamed:@"plusWatermelon"];
-//        plusCell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-//        return plusCell;
-//        
-//    }
     }
 }
 
@@ -417,7 +416,7 @@ typedef enum eventsType{
     self.imagePicker.videoQuality = UIImagePickerControllerQualityTypeMedium;
     [self presentViewController:self.imagePicker animated:YES completion:NULL];
     
-  
+    
     
 }
 
@@ -425,7 +424,7 @@ typedef enum eventsType{
 # pragma mark - Image Picker Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
- 
+    
     
     SOVideo *video = [[SOVideo alloc]initWithVideoUrl:info [UIImagePickerControllerMediaURL]];
     
