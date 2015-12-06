@@ -53,13 +53,13 @@
 - (IBAction)sendAsEmailButtonTapped:(UIButton *)sender{
     if ([MFMailComposeViewController canSendMail]){
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-        
+
         // Email Subject
-        NSString *emailTitle = @"Test Email";
+        NSString *emailTitle = @"Shoutout!";
         // Email Content
-        NSString *messageBody = [NSString stringWithFormat: @"iOS programming is so fun! Message from Shoutout: %@", self.shareUrl];
+        NSString *messageBody = [NSString stringWithFormat: @"Video Message from Shoutout: %@", self.shareUrl];
         // To address
-        NSArray *toRecipents = [NSArray arrayWithObject:@"varindrahart@gmail.com"];
+        NSArray *toRecipents = @[];
         
         
         mc.mailComposeDelegate = self;

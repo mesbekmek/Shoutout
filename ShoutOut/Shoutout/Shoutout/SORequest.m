@@ -107,10 +107,12 @@
                     }
                 }
                 else{
-                    [friendReq addObject:req];
+                    if(req.hasDecided == 0){
+                        [friendReq addObject:req];
+                    }
                 }
             }
-            [self cacheCollaborationArray:collaborationReq friendRequests:friendReq andResponseRequests:responseReq];
+            //[self cacheCollaborationArray:collaborationReq friendRequests:friendReq andResponseRequests:responseReq];
             onCompletion(collaborationReq,friendReq,responseReq);
         }
         else{

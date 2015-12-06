@@ -20,6 +20,7 @@
 @property (nonatomic) NSMutableArray <AVAsset*> *avassetsArray;
 @property (nonatomic) NSMutableArray <PFFile *> *thumbnailsArray;
 @property (nonatomic) NSMutableArray *collaboratorsArray;
+@property (nonatomic) NSMutableArray *cachedCollaboratorsArray;
 
 @property (nonatomic) SOVideo *video;
 

@@ -23,7 +23,7 @@
 #import "SOCachedProjects.h"
 #import <SSKeychain/SSKeychain.h>
 #import <SSKeychain/SSKeychainQuery.h>
-
+ #import <ChameleonFramework/Chameleon.h>
 
 @interface AppDelegate ()
 
@@ -33,6 +33,10 @@ NSString * const parseClientKey = @"SIHgxMqG6dEFfIiEcJOied8zI1WEn2GuCLarvP1l";
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+ 
+    
+  //  [Chameleon setGlobalThemeUsingPrimaryColor:[UIColor flatWatermelonColorDark] withContentStyle:UIContentStyleLight];
+    
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [Parse setApplicationId:parseApplicationId clientKey:parseClientKey];
