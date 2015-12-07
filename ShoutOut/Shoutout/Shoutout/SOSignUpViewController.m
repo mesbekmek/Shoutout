@@ -15,6 +15,7 @@
 #import "SOCachedProjects.h"
 #import "SOLoginViewController.h"
 #import "SOContactsViewController.h"
+#import "SOContactsAndFriendsViewController.h"
 
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
@@ -162,13 +163,17 @@
                 [activityIndicator removeFromSuperview];
                 [activityIndicatorView removeFromSuperview];
                 
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//                
+//                SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
+//                contactsVC.projectId = self.sortingProject.objectId;
                 
-                SOContactsViewController *contactsVC = [storyboard instantiateViewControllerWithIdentifier:@"SOContactsViewControllerID"];
-                contactsVC.projectId = self.sortingProject.objectId;
+//                contactsVC.sortingProject = self.sortingProject;
+//                [self presentViewController:contactsVC animated:YES completion:nil];
                 
-                contactsVC.sortingProject = self.sortingProject;
-                [self presentViewController:contactsVC animated:YES completion:nil];
+                SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] initWithNibName:@"SOContactsAndFriendsViewController" bundle:nil];
+                contactsAndFriendsVC.sortingProject = self.sortingProject;
+                [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
                 
             }else{
                 [activityIndicator stopAnimating];
