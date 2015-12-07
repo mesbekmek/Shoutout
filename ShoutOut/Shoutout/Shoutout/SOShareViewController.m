@@ -37,48 +37,33 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    //create Back Button Item
     NSString *shareProjectTitle = [NSString stringWithFormat: @"%@",self.projectTitle];
+    UIButton* customBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customBackButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
+    [customBackButton setTitle:shareProjectTitle forState:UIControlStateNormal];
+    [customBackButton sizeToFit];
     
-    
-    
-    
-    UIButton* customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [customButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
-    [customButton setTitle:shareProjectTitle forState:UIControlStateNormal];
-    [customButton sizeToFit];
-    
- 
-    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
-    
-    [customBarButtonItem setAction:@selector(backBarButtonTapped)];
-
+     [customBackButton addTarget:self
+                     action:@selector(backBarButtonTapped)
+       forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customBackButton];
     self.navigationItem.leftBarButtonItem = customBarButtonItem;
     
     
+    //create Email Button Item
+     UIButton* customEmailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customEmailButton setImage:[UIImage imageNamed:@"email"] forState:UIControlStateNormal];
+    [customEmailButton sizeToFit];
     
-//    
-//    UIBarButtonItem *backButton =
-//    [[UIBarButtonItem alloc] initWithTitle: shareProjectTitle
-//                                     style:UIBarButtonItemStylePlain
-//                                    target:self
-//                                    action:@selector(backBarButtonTapped)];
-//     
-//     
-//     
-//     
-//     
-//     
-////     initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-////                                                  target:self
-////                                                  action:@selector(backBarButtonTapped)];
-//    
-//    backButton.image = [UIImage imageNamed:@"back"];
-//    
+    [customEmailButton addTarget:self
+                     action:@selector(sendAsEmailButtonTapped)
+           forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* customBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:customEmailButton];
+    self.navigationItem.rightBarButtonItem = customBarButtonItem2;
     
     
-  //  self.navigationItem.leftBarButtonItem = backButton;
-    
-    
+    //UI Stuff
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
@@ -145,15 +130,10 @@
 
 }
 
-- (IBAction)backButtonTapped:(UIButton *)sender{
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)sendAsEmailButtonTapped:(UIButton *)sender{
+-(void) sendAsEmailButtonTapped{
     if ([MFMailComposeViewController canSendMail]){
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-
+        
         // Email Subject
         NSString *emailTitle = @"Shoutout!";
         // Email Content
@@ -177,6 +157,19 @@
         }]];
         [self presentViewController:alert animated:YES completion:nil];
     }
+    
+}
+
+
+
+
+- (IBAction)backButtonTapped:(UIButton *)sender{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)sendAsEmailButtonTapped:(UIButton *)sender{
+    
 }
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
