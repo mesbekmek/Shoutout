@@ -29,5 +29,21 @@
     return nil;
 }
 
+- (void)fetchAndReturn:(void (^)(BOOL success))onCompletion{
+
+    PFQuery *query = [PFQuery queryWithClassName:@"SOContacts"];
+    [query whereKey:@"objectId" containsString:self.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!error) {
+            SOContacts *cont = objects[0];
+            self.contactsList = cont.contactsList;
+            onCompletion(YES);
+        }
+        else{
+            NSLog(@"error in SOContacts");
+        }
+    }];
+
+}
 
 @end

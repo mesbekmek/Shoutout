@@ -16,5 +16,6 @@
 
 - (instancetype)initWithNewList;
 
+- (void)fetchAndReturn:(void (^)(BOOL success))onCompletion;
 
 @end
