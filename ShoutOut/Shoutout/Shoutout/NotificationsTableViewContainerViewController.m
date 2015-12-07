@@ -38,6 +38,8 @@ typedef enum hasFetched{
 @property (nonatomic) IBOutlet UISegmentedControl *segmentedController;
 @property (nonatomic) NSMutableArray <SORequest *> *collabAndFriendRequests;
 @property (nonatomic) UIRefreshControl *refresh;
+@property (nonatomic) BOOL sentCollabResponse;
+
 @end
 
 @implementation NotificationsTableViewContainerViewController{
@@ -56,6 +58,20 @@ typedef enum hasFetched{
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Notifications";
 
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.sentCollabResponse) {
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Success!" message:@"Succesfully submitted video" preferredStyle:UIAlertControllerStyleAlert];
+        NSLog(@"Saved current request");
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [controller dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [controller addAction:okAction];
+        [self presentViewController:controller animated:YES completion:nil];
+        self.sentCollabResponse = NO;
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -229,10 +245,16 @@ typedef enum hasFetched{
     }];
 
     [self.currentRequest saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"Saved current request");
+        if(succeeded)
+        {
+            NSLog(@"Saved request");
+        }else{
+            NSLog(@"Failed to send request, error:%@",[error localizedDescription]);
+        }
     }];
-
+    self.sentCollabResponse = YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
