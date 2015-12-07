@@ -40,7 +40,7 @@ const CGFloat aspectRatio2 = 1.77;
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-
+    
     // Do any additional setup after loading the view.
     UINib *myNib = [UINib nibWithNibName:@"SOVideoCollectionViewCell" bundle:nil];
     [self.collectionView registerNib:myNib forCellWithReuseIdentifier:@"VideoCellIdentifier"];
@@ -61,8 +61,8 @@ const CGFloat aspectRatio2 = 1.77;
     myLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     [self.collectionView setCollectionViewLayout:myLayout];
-
-
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -109,26 +109,42 @@ const CGFloat aspectRatio2 = 1.77;
 - (NSInteger)collectionView:(UICollectionView *)aCollectionView
      numberOfItemsInSection:(NSInteger)aSection
 {
-    return self.shoutoutsArray.count;
+    if(self.shoutoutsArray.count > 0)
+    {
+        return self.shoutoutsArray.count;
+    }
+    return 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)CollectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
     SOVideoCVC *cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
-    if (self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail)
+    if(self.shoutoutsArray.count > 0)
     {
-        //cell.videoImageView = [[PFImageView alloc]init];
-        cell.videoImageView.image = nil;
+        if (self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail)
+        {
+            //cell.videoImageView = [[PFImageView alloc]init];
+            cell.videoImageView.image = nil;
+            cell.videoImageView.file = nil;
+            
+            cell.videoImageView.file = self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail;
+            NSLog(@"Thumbnail : %@", self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail);
+            cell.videoImageView.frame = cell.bounds;
+            
+            cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+            
+            [cell.videoImageView loadInBackground];
+        }
+    }
+    else
+    {
+        cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
         cell.videoImageView.file = nil;
-        
-        cell.videoImageView.file = self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail;
-        NSLog(@"Thumbnail : %@", self.shoutoutsArray[indexPath.row].videosArray[0].thumbnail);
+        cell.videoImageView.image = nil;
         cell.videoImageView.frame = cell.bounds;
-        
+        cell.videoImageView.image = [UIImage imageNamed:@"sorryNoShoutouts"];
         cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
-        
-        [cell.videoImageView loadInBackground];
     }
     return cell;
 }
@@ -147,18 +163,21 @@ const CGFloat aspectRatio2 = 1.77;
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    VideoViewController *videoVC = [VideoViewController new];
-    videoVC.shoutout = self.shoutoutsArray[indexPath.row];
-    [self presentViewController:videoVC animated:YES completion:nil];
+    if(self.shoutoutsArray.count > 0)
+    {
+        VideoViewController *videoVC = [VideoViewController new];
+        videoVC.shoutout = self.shoutoutsArray[indexPath.row];
+        [self presentViewController:videoVC animated:YES completion:nil];
+    }
     
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     CGFloat width = self.view.frame.size.width * 0.8;
     CGFloat height = aspectRatio2 * width;
-
-
+    
+    
     CGSize mElementSize = CGSizeMake(width, height);
     return mElementSize;
 }

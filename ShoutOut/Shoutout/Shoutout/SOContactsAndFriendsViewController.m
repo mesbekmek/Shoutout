@@ -15,6 +15,7 @@
 #import "Contact.h"
 #import "SOContactsFormatter.h"
 #import <ChameleonFramework/Chameleon.h>
+#import <MessageUI/MessageUI.h>
 
 
 typedef enum actionType{
@@ -24,7 +25,7 @@ typedef enum actionType{
 } ActionType;
 
 
-@interface SOContactsAndFriendsViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface SOContactsAndFriendsViewController ()<UITableViewDelegate, UITableViewDataSource,MFMessageComposeViewControllerDelegate>
 
 @property (nonatomic) BOOL isAnimating;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -60,6 +61,9 @@ typedef enum actionType{
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setup];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SetViewToHidden" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SOContactsLoaded" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -469,8 +473,6 @@ typedef enum actionType{
         else
         {
             SOContactsFormatter *object = [self.phoneBookDictionary objectForKey:@"Contacts Without Shoutout"][indexPath.row];
-            
-            
             cell.nameLabel.text = object.name;
             cell.usernameLabel.text = object.phoneNumber;
         }
@@ -513,7 +515,9 @@ typedef enum actionType{
             }
         }
         else{
-            //Code goes here for messaging contacts to invite them to join Shoutout
+            SOContactsFormatter *contact = [self.phoneBookDictionary objectForKey:@"Contacts Without Shoutout"][indexPath.row];
+            
+            [self sendSMSToPerson:contact.name andPhoneNumber:contact.phoneNumber];
         }
     }
     else
@@ -544,6 +548,54 @@ typedef enum actionType{
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     [self.projectTitleTextField endEditing:YES];
+}
+
+#pragma mark - Messaging
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+            break;
+            
+        case MessageComposeResultFailed:
+        {
+            UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Error" message:@"Failed to send SMS" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [controller dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [controller addAction:okAction];
+            [self presentViewController:controller animated:YES completion:nil];
+            break;
+        }
+            
+        case MessageComposeResultSent:
+            break;
+            
+        default:
+            break;
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)sendSMSToPerson:(NSString *)person andPhoneNumber:(NSString *)phoneNumber{
+    
+    if(![MFMessageComposeViewController canSendText]) {
+        UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Your device doesn't support SMS!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [warningAlert show];
+        return;
+    }
+    
+    NSArray *recipents = @[phoneNumber];
+    NSString *message = [NSString stringWithFormat:@"Hey, %@. Please download Shoutout from the app store so that we can collaborate. ", person];
+    
+    MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
+    messageController.messageComposeDelegate = self;
+    [messageController setRecipients:recipents];
+    [messageController setBody:message];
+    
+    // Present message view controller on screen
+    [self presentViewController:messageController animated:YES completion:nil];
 }
 
 @end
