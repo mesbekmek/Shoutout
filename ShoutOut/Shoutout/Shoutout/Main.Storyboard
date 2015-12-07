@@ -291,7 +291,7 @@
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="slz-0U-Jdh">
-                                <rect key="frame" x="0.0" y="114" width="600" height="457"/>
+                                <rect key="frame" x="0.0" y="114" width="600" height="437"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -335,7 +335,7 @@
                             <constraint firstItem="9yF-hb-Ymb" firstAttribute="leading" secondItem="ssi-s1-0dS" secondAttribute="leadingMargin" constant="-20" id="UuS-1O-26e"/>
                             <constraint firstAttribute="trailingMargin" secondItem="slz-0U-Jdh" secondAttribute="trailing" constant="-20" id="bAS-5R-6Ez"/>
                             <constraint firstItem="ml1-uL-gog" firstAttribute="top" secondItem="egN-0p-vvM" secondAttribute="bottom" constant="20" id="dOh-Dq-syZ"/>
-                            <constraint firstItem="eka-Uo-czv" firstAttribute="top" secondItem="slz-0U-Jdh" secondAttribute="bottom" constant="-20" id="ePz-gU-to7"/>
+                            <constraint firstItem="eka-Uo-czv" firstAttribute="top" secondItem="slz-0U-Jdh" secondAttribute="bottom" id="ePz-gU-to7"/>
                             <constraint firstItem="9yF-hb-Ymb" firstAttribute="top" secondItem="egN-0p-vvM" secondAttribute="bottom" id="j75-5U-UGE"/>
                             <constraint firstItem="slz-0U-Jdh" firstAttribute="top" secondItem="egN-0p-vvM" secondAttribute="bottom" constant="50" id="jgw-uE-xwK"/>
                             <constraint firstItem="slz-0U-Jdh" firstAttribute="top" secondItem="ml1-uL-gog" secondAttribute="bottom" id="zgH-6f-k6Z"/>
@@ -518,7 +518,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WfK-O5-ckx">
-                                <rect key="frame" x="0.0" y="64" width="600" height="446"/>
+                                <rect key="frame" x="0.0" y="114" width="600" height="396"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -541,7 +541,7 @@
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="1HJ-vg-C3y"/>
                             <constraint firstItem="Qhv-jp-Piz" firstAttribute="top" secondItem="ZbD-np-9IG" secondAttribute="bottom" id="4ER-u0-wGT"/>
                             <constraint firstItem="WfK-O5-ckx" firstAttribute="leading" secondItem="n1v-Qp-vIq" secondAttribute="leading" id="BZ5-8x-mqm"/>
-                            <constraint firstItem="WfK-O5-ckx" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" id="EJv-S6-d1l"/>
+                            <constraint firstItem="WfK-O5-ckx" firstAttribute="top" secondItem="9Ng-Bo-MNa" secondAttribute="bottom" constant="50" id="EJv-S6-d1l"/>
                             <constraint firstAttribute="trailing" secondItem="WfK-O5-ckx" secondAttribute="trailing" id="K5Z-aP-eHL"/>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="top" secondItem="WfK-O5-ckx" secondAttribute="bottom" constant="30" id="X8A-Wk-7Pr"/>
                             <constraint firstItem="ZbD-np-9IG" firstAttribute="centerX" secondItem="n1v-Qp-vIq" secondAttribute="centerX" id="Z56-wT-rtR"/>
@@ -638,6 +638,7 @@
                                             <segment title="My Events"/>
                                             <segment title="Collaborations"/>
                                         </segments>
+                                        <color key="tintColor" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <action selector="myEventsCollabsTapped:" destination="0RR-dZ-2M0" eventType="valueChanged" id="HZs-BS-Uyi"/>
                                         </connections>
