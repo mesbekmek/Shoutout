@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JUx-2z-7nE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JUx-2z-7nE">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -556,6 +556,75 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cvi-vb-D0f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-27" y="3196"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="KAT-zX-Ube">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" id="wJS-Ji-7gR" customClass="SOSettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8Sq-40-VFQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="QNt-g4-hGb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xoC-y4-bul">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not Signed In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RLx-hK-Taa">
+                                <rect key="frame" x="248" y="120" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.094117656350135803" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCG-PO-07y">
+                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
+                                <color key="backgroundColor" red="0.94117647058823528" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="feS-fP-xsN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" red="0.9960784912109375" green="0.9960784912109375" blue="0.99215692281723022" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="logInLogOut:" destination="wJS-Ji-7gR" eventType="touchUpInside" id="hFm-E2-qcV"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check us out at Shoutout.tech!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0mH-bB-nUp">
+                                <rect key="frame" x="181" y="290" width="238" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wCG-PO-07y" firstAttribute="centerY" secondItem="xoC-y4-bul" secondAttribute="centerY" id="Ei9-w8-c4t"/>
+                            <constraint firstItem="wCG-PO-07y" firstAttribute="centerX" secondItem="xoC-y4-bul" secondAttribute="centerX" id="IPg-4S-ioB"/>
+                            <constraint firstItem="QNt-g4-hGb" firstAttribute="top" secondItem="wCG-PO-07y" secondAttribute="bottom" id="Kz3-pT-lI7"/>
+                            <constraint firstItem="0mH-bB-nUp" firstAttribute="centerX" secondItem="xoC-y4-bul" secondAttribute="centerX" id="LuJ-Li-TGD"/>
+                            <constraint firstItem="RLx-hK-Taa" firstAttribute="leading" secondItem="xoC-y4-bul" secondAttribute="leadingMargin" id="OYz-7K-am6"/>
+                            <constraint firstItem="0mH-bB-nUp" firstAttribute="centerY" secondItem="xoC-y4-bul" secondAttribute="centerY" id="hVk-bQ-AOH"/>
+                            <constraint firstItem="RLx-hK-Taa" firstAttribute="centerX" secondItem="xoC-y4-bul" secondAttribute="centerX" id="jZ9-99-AtT"/>
+                            <constraint firstItem="wCG-PO-07y" firstAttribute="leading" secondItem="xoC-y4-bul" secondAttribute="leadingMargin" constant="-20" id="mJa-dc-s4S"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wCG-PO-07y" secondAttribute="trailing" constant="-20" id="mw4-IL-A8S"/>
+                            <constraint firstItem="RLx-hK-Taa" firstAttribute="top" secondItem="8Sq-40-VFQ" secondAttribute="bottom" constant="100" id="qBp-Gh-i4M"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="OYz-7K-am6"/>
+                                <exclude reference="Ei9-w8-c4t"/>
+                                <exclude reference="IPg-4S-ioB"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="logInLogOut" destination="wCG-PO-07y" id="LM8-a5-GpV"/>
+                        <outlet property="signedInAs" destination="RLx-hK-Taa" id="cpi-5l-ih5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="skn-Ch-Z4M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="824" y="3375"/>
         </scene>
         <!--Home-->
         <scene sceneID="bLt-v1-TNd">

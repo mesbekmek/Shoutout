@@ -96,7 +96,7 @@ typedef enum eventsType{
     [collectionView setCollectionViewLayout:myLayout];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wipeAndFetch) name:@"UserSignedOutNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllData) name:@"UserDidSignIn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllData) name:@"UserDidLogIn" object:nil];
 
 
 
@@ -122,7 +122,7 @@ typedef enum eventsType{
 
     self.collaborationsArray = [NSMutableArray new];
     self.projectsArray = [NSMutableArray new];
-    if (!self.isOnEvent) {
+    if (self.myEventsCollabsSegmentedControl.selectedSegmentIndex == 1) {
         [self getCollabs];
     }
     [self projectsQuery];
@@ -178,10 +178,11 @@ typedef enum eventsType{
     self.navigationItem.title = @"Shoutout";
 
 
-     BOOL hasSignedUp = [[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"];
+     BOOL hasSignedUp = [[[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"]boolValue];
     if (hasSignedUp) {
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonTapped:)];
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
 
     }
     
@@ -604,7 +605,6 @@ typedef enum eventsType{
 }
 
 - (void)wipeAndFetch{
-
 
     [[SOCachedProjects sharedManager] wipe:[self.projectsArray valueForKey:@"objectId"]];
     self.projectsArray = [NSMutableArray new];
