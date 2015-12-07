@@ -294,7 +294,7 @@ UITextFieldDelegate
 
 
 - (IBAction)inviteButtonTapped:(UIButton *)sender {
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"]boolValue])
     {
         SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] initWithNibName:@"SOContactsAndFriendsViewController" bundle:nil];
         contactsAndFriendsVC.sortingProject = self.sortingProject;

@@ -87,7 +87,8 @@ typedef enum hasFetched{
     [self.refresh addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
 
     [self.tableView addSubview:self.refresh];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newUser) name:@"UserDidLogIn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newUser) name:@"UserSignedOutNotification" object:nil];
     fetchingStatus = FETCHING;
     [self fetchFirstBatch];
 }
@@ -323,8 +324,11 @@ typedef enum hasFetched{
     [self.collabAndFriendRequests removeObject:req];
     [self.tableView reloadData];
     [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
-        [[User currentUser] saveInBackground];
+        [[User currentUser].contacts fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
+            [[User currentUser] saveInBackground];
+        }];
+
     }];
 }
 
@@ -336,6 +340,14 @@ typedef enum hasFetched{
         [self setupCamera];
     }
     
+}
+
+- (void)newUser{
+
+    if (fetchingStatus == FETCHINGCOMPLETE) {
+        [self fetchFirstBatch];
+    }
+
 }
 
 @end

@@ -16,4 +16,5 @@
 
 + (instancetype)sharedManager;
 
+- (void)wipe:(NSArray *)keys;
 @end

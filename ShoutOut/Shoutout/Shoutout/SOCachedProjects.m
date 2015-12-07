@@ -24,4 +24,10 @@
 
 }
 
+- (void)wipe:(NSArray *)keys{
+
+    [self.cachedProjects removeObjectsForKeys:keys];
+    self.cachedProjects = [NSMutableDictionary new];
+}
+
 @end
