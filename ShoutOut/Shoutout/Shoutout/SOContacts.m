@@ -36,7 +36,11 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (!error) {
             SOContacts *cont = objects[0];
+            if (!cont.contactsList) {
+                cont.contactsList = [NSMutableArray new];
+            }
             self.contactsList = cont.contactsList;
+            
             onCompletion(YES);
         }
         else{

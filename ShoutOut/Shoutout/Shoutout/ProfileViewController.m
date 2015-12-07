@@ -50,6 +50,7 @@ UISearchControllerDelegate
 @property (nonatomic) UITapGestureRecognizer *tapReconizer;
 @property (nonatomic) UIRefreshControl *refresh;
 @property (nonatomic) BOOL isContactLoaded;
+@property (nonatomic) NSMutableArray <NSString *> *friendsByUsername;
 
 @end
 
@@ -65,11 +66,15 @@ UISearchControllerDelegate
     
     self.searchBar.delegate = self;
     
+    self.friendsByUsername = [NSMutableArray new];
+    
     self.refresh = [[UIRefreshControl alloc]init];
     [self.refresh addTarget:self action:@selector(refreshParsePhoneBook:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
     self.currentUserContacts = [NSMutableArray new];
-    
+    [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
+        [self fetchAcceptedRequestUsernames];
+    }];
     fetchingStatus = FETCHINGCOMPLETED;
     self.isContactLoaded = NO;
     [self keyboardGestureRecognizer];
@@ -79,6 +84,7 @@ UISearchControllerDelegate
 
 -(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
     [self queryCurrentUserContactsListOnParse];
+    [self fetchAcceptedRequestUsernames];
     //    [self queryPhoneBookContact];
     if ([self.refresh isRefreshing]) {
         [self.refresh endRefreshing];
@@ -321,7 +327,7 @@ UISearchControllerDelegate
                 if (objects.count > 0) {
                     SOContacts *contact = objects[0];
                     self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
-                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
+//                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
                     self.isContactLoaded = YES;
                     [self.tableView reloadData];
                     fetchingStatus = FETCHINGCOMPLETED;
@@ -422,7 +428,7 @@ UISearchControllerDelegate
     if (fetchingStatus == FETCHINGCOMPLETED) {
         fetchingStatus = FETCHING;
         
-        [User currentUser].contacts.contactsList = self.currentUserContacts;
+        //[User currentUser].contacts.contactsList = self.currentUserContacts;
         [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             NSLog(@"new contact list saved to parse");
         }];
@@ -442,7 +448,7 @@ UISearchControllerDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return self.currentUserContacts.count;
+        return self.friendsByUsername.count;
     } else {
         return self.phoneBookName.count;
     }
@@ -463,7 +469,7 @@ UISearchControllerDelegate
     
     if (indexPath.section == 0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsListCellID" forIndexPath:indexPath];
-        cell.textLabel.text = self.currentUserContacts[indexPath.row];
+        cell.textLabel.text = self.friendsByUsername[indexPath.row];
         return cell;
     } else {
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"phoneContactCellID" forIndexPath:indexPath];
@@ -572,6 +578,23 @@ UISearchControllerDelegate
     [self.searchBar resignFirstResponder];
 }
 
-
+- (void)fetchAcceptedRequestUsernames{
+    
+    SORequest *req = [SORequest new];
+    
+    [req fetchAllFriendRequests:^(NSMutableArray<NSString *> *friendRequestsAcceptedUsernames) {
+        
+        [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
+            if (success) {
+                [[User currentUser].contacts.contactsList addObjectsFromArray:friendRequestsAcceptedUsernames];
+                self.friendsByUsername = [User currentUser].contacts.contactsList;
+                [[User currentUser]saveInBackground];
+                [self.tableView reloadData];
+            }
+        }];
+        
+    }];
+    
+}
 
 @end

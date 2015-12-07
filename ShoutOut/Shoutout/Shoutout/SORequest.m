@@ -139,4 +139,35 @@
     
 }
 
+- (void)fetchAllFriendRequests:(void (^)( NSMutableArray<NSString *> *friendRequestsAcceptedUsernames))onCompletion{
+    
+    NSMutableArray <NSString*> *friendReq = [NSMutableArray new];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"requestSentFrom == %@", [User currentUser].username, [User currentUser].username] ;
+    
+    PFQuery *reqQuery = [PFQuery queryWithClassName:@"SORequest" predicate:predicate];
+    [reqQuery orderByDescending:@"updatedAt"];
+    
+    [reqQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!error ) {
+            
+            for (SORequest *req in objects) {
+                if ([req.requestSentFrom isEqualToString:[User currentUser].username]) {
+                    if (req.hasDecided == YES && req.isAccepted == YES && req.isFriendRequest) {
+                        [friendReq addObject:req.requestSentTo];
+                        [req deleteInBackground];
+                    }
+                }
+            }
+                       onCompletion(friendReq);
+        }
+        else{
+            NSLog(@"Error: %@",[error localizedDescription]);
+            
+        }
+    }];
+    
+}
+
+
 @end

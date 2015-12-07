@@ -34,4 +34,6 @@
 
 - (void)fetchForUpdates:(void (^)(NSMutableArray <SORequest *> *collaborationRequests,NSMutableArray <SORequest *> *friendRequests, NSMutableArray <SORequest *> *responseRequests))onCompletion;
 
+- (void)fetchAllFriendRequests:(void (^)( NSMutableArray<NSString *> *friendRequestsAcceptedUsernames))onCompletion;
+
 @end
