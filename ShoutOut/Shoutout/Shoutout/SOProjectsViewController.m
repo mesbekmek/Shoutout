@@ -358,7 +358,7 @@ typedef enum eventsType{
             [cell.videoImageView loadInBackground];
         }
         return cell;
-    
+        
     }
 }
 
@@ -395,9 +395,12 @@ typedef enum eventsType{
     }
     else
     {
-        VideoViewController *videoVC = [VideoViewController new];
-        videoVC.shoutout = self.collaborationsArray[indexPath.row];
-        [self presentViewController:videoVC animated:YES completion:nil];
+        if(self.collaborationsArray[indexPath.row])
+        {
+            VideoViewController *videoVC = [VideoViewController new];
+            videoVC.shoutout = self.collaborationsArray[indexPath.row];
+            [self presentViewController:videoVC animated:YES completion:nil];
+        }
     }
     
 }

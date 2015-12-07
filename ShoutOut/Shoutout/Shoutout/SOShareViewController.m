@@ -211,22 +211,31 @@
     
     if (self.sharedToCollaborators.count>0 && self.sharedToRecipients.count > 0)
     {
-        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedToCollaborators toReceipents:self.sharedToRecipients];
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:self.sharedProject.title toCollaborators:self.sharedToCollaborators toReceipents:self.sharedToRecipients];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if (self.sharedToRecipients.count > 0)
     {
-        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:@[] toReceipents:self.sharedToRecipients];
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:self.sharedProject.title toCollaborators:@[] toReceipents:self.sharedToRecipients];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if (self.sharedToCollaborators.count > 0)
     {
-        [SOShoutout sendVideo:self.sharedProject.videos withTitle:@"FirstShoutout" toCollaborators:self.sharedToCollaborators toReceipents:@[]];
+        [SOShoutout sendVideo:self.sharedProject.videos withTitle:self.sharedProject.title toCollaborators:self.sharedToCollaborators toReceipents:@[]];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+    else{
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Wait" message:@"You need to select a person to share the video message with" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [controller dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [controller addAction:okAction];
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+    
 }
 
 @end
