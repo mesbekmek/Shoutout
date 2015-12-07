@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -17,10 +17,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="efA-pm-SQn">
-                        <rect key="frame" x="312" y="28" width="35" height="34"/>
+                        <rect key="frame" x="309" y="26" width="38" height="38"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="35" id="4EN-DQ-Fd3"/>
-                            <constraint firstAttribute="width" secondItem="efA-pm-SQn" secondAttribute="height" multiplier="30:29" id="ZWt-Ir-lhV"/>
+                            <constraint firstAttribute="width" constant="38" id="4EN-DQ-Fd3"/>
+                            <constraint firstAttribute="width" secondItem="efA-pm-SQn" secondAttribute="height" multiplier="1:1" id="ZWt-Ir-lhV"/>
                         </constraints>
                         <state key="normal" backgroundImage="plusButtonIcon"/>
                         <connections>
