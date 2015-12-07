@@ -18,6 +18,7 @@
 @property (nonatomic) NSMutableArray <NSString *> *sharedToRecipients;
 @property (nonatomic) NSMutableArray<NSString *> *shoutoutFriends;
 @property (nonatomic) SOContacts *contact;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 
 @end
 
@@ -65,6 +66,7 @@
     
     //UI Stuff
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    self.shareButton.backgroundColor = [UIColor colorWithHexString:@"F07179"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
@@ -75,7 +77,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)contactsQuery{

@@ -505,7 +505,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZbD-np-9IG">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ZQd-bQ-4S2"/>
                                 </constraints>
@@ -550,6 +549,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="xaU-v7-vld"/>
                     <connections>
+                        <outlet property="shareButton" destination="ZbD-np-9IG" id="NMd-lG-S4X"/>
                         <outlet property="tableview" destination="WfK-O5-ckx" id="qP8-X2-1al"/>
                     </connections>
                 </viewController>
