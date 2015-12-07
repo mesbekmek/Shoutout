@@ -468,11 +468,11 @@ UISearchControllerDelegate
     } else {
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"phoneContactCellID" forIndexPath:indexPath];
         
-        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [addButton setTag:indexPath.row];
         addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
-        [addButton setTitle:@"+" forState:UIControlStateNormal];
-        [addButton setImage:[UIImage imageNamed:@"Plus Math-100"] forState:UIControlStateNormal];
+        [addButton setImage:[UIImage imageNamed:@"plusButtonIcon"] forState:UIControlStateNormal];
+        
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         if (self.isContactLoaded) {
             if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
