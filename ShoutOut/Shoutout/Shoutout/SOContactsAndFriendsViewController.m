@@ -36,6 +36,7 @@ typedef enum actionType{
 @property (nonatomic) BOOL isOnContact;
 @property (nonatomic) NSMutableArray *currentUserContacts;
 @property (weak, nonatomic) IBOutlet UITextField *projectTitleTextField;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @property (nonatomic) NSArray<APContact *> *phoneBookContacts;
 
@@ -45,6 +46,7 @@ typedef enum actionType{
 
 @property (nonatomic) NSMutableDictionary *phoneBookDictionary;
 
+@property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (nonatomic) NSMutableDictionary *usernamesForNames;
 @end
 
@@ -74,7 +76,13 @@ typedef enum actionType{
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Shoutout";
     
+    [[UIView appearance] setTintColor:[UIColor colorWithHexString:@"F07179"]];
     
+    self.segmentedControl.tintColor = [UIColor colorWithHexString:@"F07179"];
+    [self.backButton setTitleColor:[UIColor colorWithHexString:@"F07179"] forState:UIControlStateNormal ]  ;
+    self.doneButton.tintColor = [UIColor colorWithHexString:@"F07179"];
+    
+   
 }
 
 -(void)setup
@@ -448,7 +456,7 @@ typedef enum actionType{
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         if([selectedCellIndexesOnContactSection containsObject:indexPath]){
-            [cell.buttonView setBackgroundColor:[UIColor redColor]];
+            [cell.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
         }
         
         if(indexPath.section == 0)
