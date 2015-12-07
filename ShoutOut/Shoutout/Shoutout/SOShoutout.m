@@ -37,7 +37,7 @@
 {
     if (videosArray.count>0) {
 
-        SOShoutout *shoutout = [[SOShoutout alloc] init];
+        SOShoutout *shoutout = [[SOShoutout alloc] initShoutout];
 
         shoutout.videosArray = [NSMutableArray arrayWithArray:videosArray];
         if (collaborators.count > 0) {
@@ -66,9 +66,9 @@
              if (objects.count >0)
              {
                  NSMutableArray<SOShoutout *> *orderedShoutouts = [NSMutableArray arrayWithArray:[objects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]]];
-
-                 NSMutableArray<NSMutableArray <SOVideo *> *> * shoutoutArrayOfUnassignedVideosArray = [NSMutableArray<NSMutableArray <SOVideo *> *> new];
-
+                 
+                 NSMutableArray <SOVideo *> * shoutoutArrayOfUnassignedVideosArray = [NSMutableArray <SOVideo *> new];
+                 
                  NSMutableArray<NSString *> *firstVideoIds = [NSMutableArray<NSString *> new];
                  for (SOShoutout *shoutout in orderedShoutouts)
                  {
@@ -81,19 +81,17 @@
                   {
                       if(!error)
                       {
+                          
                           for(int i = 0; i < objects.count ; i++)
                           {
-                              NSMutableArray<SOVideo *> *videoArray = [NSMutableArray<SOVideo *> new];
                               SOVideo *firstVideo = (SOVideo *)objects[i];
-                              [videoArray addObject:firstVideo];
-                              [shoutoutArrayOfUnassignedVideosArray addObject:videoArray];
+                              [shoutoutArrayOfUnassignedVideosArray addObject:firstVideo];
                           }
-                          if(shoutoutArrayOfUnassignedVideosArray.count == orderedShoutouts.count)
-                          {
-                              NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
-
-                              onCompletion(shoutoutsArray);
-                          }
+                          
+                          NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
+                          
+                          onCompletion(shoutoutsArray);
+                          
                       }
                       else{
                           NSLog(@"Error %@",[error localizedDescription]);
@@ -119,7 +117,7 @@
              {
                  NSMutableArray<SOShoutout *> *orderedShoutouts = [NSMutableArray arrayWithArray:[objects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]]]];
                  
-                 NSMutableArray<NSMutableArray <SOVideo *> *> * shoutoutArrayOfUnassignedVideosArray = [NSMutableArray<NSMutableArray <SOVideo *> *> new];
+                 NSMutableArray <SOVideo *> * shoutoutArrayOfUnassignedVideosArray = [NSMutableArray <SOVideo *> new];
                  
                  NSMutableArray<NSString *> *firstVideoIds = [NSMutableArray<NSString *> new];
                  for (SOShoutout *shoutout in orderedShoutouts)
@@ -133,19 +131,17 @@
                   {
                       if(!error)
                       {
+                          
                           for(int i = 0; i < objects.count ; i++)
                           {
-                              NSMutableArray<SOVideo *> *videoArray = [NSMutableArray<SOVideo *> new];
                               SOVideo *firstVideo = (SOVideo *)objects[i];
-                              [videoArray addObject:firstVideo];
-                              [shoutoutArrayOfUnassignedVideosArray addObject:videoArray];
+                              [shoutoutArrayOfUnassignedVideosArray addObject:firstVideo];
                           }
-                          if(shoutoutArrayOfUnassignedVideosArray.count == orderedShoutouts.count)
-                          {
+                          
                               NSMutableArray<SOShoutout *> *shoutoutsArray =  [self matchVideosArray:shoutoutArrayOfUnassignedVideosArray withShoutoutArray:orderedShoutouts];
                               
                               onCompletion(shoutoutsArray);
-                          }
+                          
                       }
                       else{
                           NSLog(@"Error %@",[error localizedDescription]);
@@ -160,7 +156,7 @@
      }];
 }
 
--(NSMutableArray<SOShoutout *> *)matchVideosArray:(NSMutableArray<NSMutableArray<SOVideo *> *> *) videosArray withShoutoutArray:(NSMutableArray<SOShoutout *> *)shoutoutArray
+-(NSMutableArray<SOShoutout *> *)matchVideosArray:(NSMutableArray<SOVideo *> *) videosArray withShoutoutArray:(NSMutableArray<SOShoutout *> *)shoutoutArray
 {
     NSMutableArray<SOShoutout *> *correctShoutoutsArray = [NSMutableArray<SOShoutout *> new];
     for(int i=0; i < shoutoutArray.count ; i++)
@@ -170,16 +166,13 @@
 
         for(int j=0 ; j < videosArray.count ; j++)
         {
-            NSMutableArray<SOVideo *> *currentArrayOfSOVideos = videosArray[j];
-
-            SOVideo *firstVideo = currentArrayOfSOVideos[0];
-            NSString *firstVideoObjectID = firstVideo.objectId;
+            SOVideo *video = videosArray[j];
+            
+            NSString *firstVideoObjectID = video.objectId;
 
             if([firstVideoInShoutoutObjectID isEqualToString:firstVideoObjectID])
             {
-                [shoutout.videosArray replaceObjectAtIndex:0 withObject:firstVideo];
-
-                [videosArray removeObject:currentArrayOfSOVideos];
+                [shoutout.videosArray replaceObjectAtIndex:0 withObject:video];
 
                 [correctShoutoutsArray addObject:shoutout];
                 break;

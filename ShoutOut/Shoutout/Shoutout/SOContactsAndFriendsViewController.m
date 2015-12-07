@@ -404,7 +404,6 @@ typedef enum actionType{
                 NSString *username = contact.username;
                 
                 //send collab request
-                
                 NSString *title = self.sortingProject.title? self.sortingProject.title : @"Event";
                 
                 [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:title];
@@ -459,8 +458,17 @@ typedef enum actionType{
                 NSString *username = (NSString *)self.currentUserContacts[indexPath.row];
                 [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.projectTitleTextField.text];
                 
-                [self dismissViewControllerAnimated:YES completion:nil];
+                if(![self.sortingProject.collaboratorsSentTo containsObject:username])
+                {
+                    [self.sortingProject.collaboratorsSentTo addObject:username];
+                }
+                [self.sortingProject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                    NSLog(@"Successfully added new username to collaborators array");
+                }];
+                
             }
+            [self dismissViewControllerAnimated:YES completion:nil];
+
         }
     }
 }
