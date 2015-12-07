@@ -105,7 +105,13 @@
         
         [thisUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if(!error){
-                
+
+                NSString *uuidUsername = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+                NSString *uuidPassword = [[NSUserDefaults standardUserDefaults] objectForKey:@"password"];
+
+                [[NSUserDefaults standardUserDefaults] setObject:uuidUsername forKey:@"uuidUsername"];
+                [[NSUserDefaults standardUserDefaults] setObject:uuidPassword forKey:@"uuidPassword"];
+
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
                 
@@ -113,6 +119,7 @@
                 [[NSUserDefaults standardUserDefaults] setObject:thisUser.password forKey:@"password"];
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"signedUpAlready"];
+                [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"signedIn"];
                 
                 NSLog(@"Sign up succeded!");
                 

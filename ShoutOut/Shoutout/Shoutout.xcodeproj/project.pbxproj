@@ -41,6 +41,7 @@
 		C7AA9B251C13505E008A65AF /* NotificationsFriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7AA9B241C13505E008A65AF /* NotificationsFriendCell.xib */; };
 		C7AA9B281C135270008A65AF /* NotificationsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AA9B271C135270008A65AF /* NotificationsTableViewCell.m */; };
 		C7AA9B2E1C1355D3008A65AF /* FriendRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AA9B2D1C1355D3008A65AF /* FriendRequestTableViewCell.m */; };
+		C7AA9B311C15311F008A65AF /* SOSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7AA9B301C15311F008A65AF /* SOSettingsViewController.m */; };
 		C7D1F3B51C0A60B9001E99FE /* SOCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */; };
 		C7D1F3B61C0A6161001E99FE /* SORequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4115F071BF850ED00C674AC /* SORequest.m */; };
 		C7DED4971C05271700C04510 /* VideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7DED4961C05271700C04510 /* VideoViewController.m */; };
@@ -152,6 +153,8 @@
 		C7AA9B271C135270008A65AF /* NotificationsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsTableViewCell.m; sourceTree = "<group>"; };
 		C7AA9B2C1C1355D3008A65AF /* FriendRequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRequestTableViewCell.h; sourceTree = "<group>"; };
 		C7AA9B2D1C1355D3008A65AF /* FriendRequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRequestTableViewCell.m; sourceTree = "<group>"; };
+		C7AA9B2F1C15311F008A65AF /* SOSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOSettingsViewController.h; sourceTree = "<group>"; };
+		C7AA9B301C15311F008A65AF /* SOSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOSettingsViewController.m; sourceTree = "<group>"; };
 		C7D1F3B31C0A60B9001E99FE /* SOCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOCachedObject.h; sourceTree = "<group>"; };
 		C7D1F3B41C0A60B9001E99FE /* SOCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOCachedObject.m; sourceTree = "<group>"; };
 		C7DED4951C05271700C04510 /* VideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoViewController.h; sourceTree = "<group>"; };
@@ -444,6 +447,8 @@
 			children = (
 				C7F4115C1C0BA8F400287B0E /* SOShareViewController.h */,
 				C7F4115D1C0BA8F400287B0E /* SOShareViewController.m */,
+				C7AA9B2F1C15311F008A65AF /* SOSettingsViewController.h */,
+				C7AA9B301C15311F008A65AF /* SOSettingsViewController.m */,
 			);
 			name = SOSharing;
 			sourceTree = "<group>";
@@ -773,6 +778,7 @@
 				84E9D5341BF8F2B6005ACE00 /* SOSortingViewController.m in Sources */,
 				DC386DAB1BF005EE00562543 /* ContactsTableViewController.m in Sources */,
 				DC6B9DFB1C0D4F8B003890AC /* SOShoutout.m in Sources */,
+				C7AA9B311C15311F008A65AF /* SOSettingsViewController.m in Sources */,
 				C7127B721BF678D60069CF76 /* CollaborationsTableViewController.m in Sources */,
 				DC6B9E001C10BA2E003890AC /* Reachability.m in Sources */,
 				D4115F0B1BF8566100C674AC /* SOContacts.m in Sources */,

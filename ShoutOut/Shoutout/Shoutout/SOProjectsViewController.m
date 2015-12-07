@@ -95,6 +95,8 @@ typedef enum eventsType{
     [collectionView setCollectionViewLayout:myLayout];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"MoveToProfile" object:nil];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonTapped:)];
     
     [self projectsQuery];
 }
@@ -567,4 +569,8 @@ typedef enum eventsType{
     return YES;
 }
 
+
+- (void)settingsButtonTapped{
+    
+}
 @end
