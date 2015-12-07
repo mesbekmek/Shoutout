@@ -21,19 +21,19 @@
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Collaboration Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xE-dt-PSy">
-                        <rect key="frame" x="16" y="39" width="299" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaboration Details" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xE-dt-PSy">
+                        <rect key="frame" x="16" y="36" width="299" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOb-ov-Ggj">
-                        <rect key="frame" x="342" y="21" width="35" height="35"/>
+                        <rect key="frame" x="350" y="25" width="27" height="27"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="hOb-ov-Ggj" secondAttribute="height" multiplier="1:1" id="cob-N9-Y2b"/>
-                            <constraint firstAttribute="width" constant="35" id="jg1-bl-MHq"/>
+                            <constraint firstAttribute="width" constant="27" id="jg1-bl-MHq"/>
                         </constraints>
-                        <state key="normal" title="Button" image="cameraNavy@2x"/>
+                        <state key="normal" backgroundImage="cameraIcon"/>
                         <connections>
                             <action selector="buttonTapped:" destination="axC-Qf-dXu" eventType="touchUpInside" id="ESW-Fp-c2v"/>
                         </connections>
@@ -66,6 +66,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="cameraNavy@2x" width="50" height="50"/>
+        <image name="cameraIcon" width="50" height="50"/>
     </resources>
 </document>
