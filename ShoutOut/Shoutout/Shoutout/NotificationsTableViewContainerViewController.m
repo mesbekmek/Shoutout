@@ -79,6 +79,7 @@ typedef enum hasFetched{
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.allowsMultipleSelection = NO;
+    self.tableView.allowsSelection = NO;
     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsHeader" bundle:nil] forHeaderFooterViewReuseIdentifier:@"SOHeaderIdentifier"];
     self.tableView.estimatedRowHeight = 20.0f;
 
