@@ -15,6 +15,7 @@
 #import <ChameleonFramework/Chameleon.h>
 #import "NotificationsTableViewCell.h"
 #import "FriendRequestTableViewCell.h"
+#import "User.h"
 
 typedef enum hasFetched{
 
@@ -281,7 +282,8 @@ typedef enum hasFetched{
     [self.collabAndFriendRequests removeObject:req];
     [self.tableView reloadData];
     [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        
+        [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
+        [[User currentUser] saveInBackground];
     }];
 }
 
