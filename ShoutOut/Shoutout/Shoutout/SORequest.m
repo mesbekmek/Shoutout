@@ -72,7 +72,8 @@
             }];
         } else {
             NSLog(@"Friend request is still pending");
-            onCompletion(NO);
+            BOOL isSucceeded = NO;
+            onCompletion(isSucceeded);
         }
     }];
     
