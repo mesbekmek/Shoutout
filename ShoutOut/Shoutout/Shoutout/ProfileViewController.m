@@ -22,10 +22,10 @@
 
 typedef enum eventsType{
     
-    FRIENDS = 0,
-    CONTACTS_LIST
+    FETCHING = 0,
+    FETCHINGCOMPLETED = 1,
     
-} EventsType;
+} FetchingType;
 
 
 @interface ProfileViewController ()
@@ -45,21 +45,16 @@ UISearchControllerDelegate
 @property (nonatomic) NSMutableArray *phoneBookUserName;
 @property (nonatomic) NSMutableArray *phoneBookName;
 
-// filtered list
-//@property (nonatomic) NSMutableArray <NSString *> *currentUserFilterContacts;
-//@property (nonatomic) NSMutableArray *phoneBookFilterUserName;
-//@property (nonatomic) NSMutableArray *phoneBookFilterName;
-@property (nonatomic) UISearchController *resultSearchController;
-
 @property (nonatomic, strong) APAddressBook *addressBook;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic) UITapGestureRecognizer *tapReconizer;
 @property (nonatomic) UIRefreshControl *refresh;
+@property (nonatomic) BOOL isContactLoaded;
 
 @end
 
 @implementation ProfileViewController{
-    EventsType currentEventType;
+    FetchingType fetchingStatus;
 }
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
@@ -74,6 +69,9 @@ UISearchControllerDelegate
     [self.refresh addTarget:self action:@selector(refreshParsePhoneBook:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
     self.currentUserContacts = [NSMutableArray new];
+    
+    fetchingStatus = FETCHINGCOMPLETED;
+    self.isContactLoaded = NO;
     [self keyboardGestureRecognizer];
     [self queryCurrentUserContactsListOnParse];
     [self queryPhoneBookContact];
@@ -81,7 +79,7 @@ UISearchControllerDelegate
 
 -(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
     [self queryCurrentUserContactsListOnParse];
-    [self queryPhoneBookContact];
+    //    [self queryPhoneBookContact];
     if ([self.refresh isRefreshing]) {
         [self.refresh endRefreshing];
     }
@@ -109,7 +107,7 @@ UISearchControllerDelegate
     NSLog(@"%@", self.phoneBookUserName[sender.tag]);
     
     [SORequest sendRequestTo:self.phoneBookUserName[sender.tag] withBlock:^(BOOL succeeded) {
-        NSString *failedTitle = @"Pending Request";
+        NSString *failedTitle = @"Request Pending";
         NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait until %@ to respond before sending another one", self.phoneBookName[sender.tag]];
         NSString *succeededTitle = @"Awesome!";
         NSString *succeededMessage = @"Request Send";
@@ -222,7 +220,7 @@ UISearchControllerDelegate
 }
 
 -(void)confirmAddUser:(User *)user{
- 
+    
     UIAlertController *confirmAdd = [UIAlertController alertControllerWithTitle:@"User Found" message:[NSString stringWithFormat:@"Add %@",user.username] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (![self checkDuplicateConctact:user.username]) {
@@ -304,72 +302,86 @@ UISearchControllerDelegate
 
 
 -(void)queryCurrentUserContactsListOnParse{
-    User *currentUser = [User currentUser];
-    
-    if(currentUser.contacts != nil){
-        PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
-        [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+    if (fetchingStatus == FETCHINGCOMPLETED) {
+        fetchingStatus = FETCHING;
+        self.isContactLoaded = NO;
         
-        [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            if (objects.count > 0) {
-                SOContacts *contact = objects[0];
-                
-                self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
-                
-                [self.tableView reloadData];
-            }
-            else{
-                NSLog(@"query contacts ERROR == %@",error);
-            }
-        }];
-        [self checkSORequestStatus];
+        User *currentUser = [User currentUser];
+        
+        if(currentUser.contacts != nil){
+            PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
+            [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+            
+            [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                if (objects.count > 0) {
+                    SOContacts *contact = objects[0];
+                    self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
+                    self.isContactLoaded = YES;
+                    [self.tableView reloadData];
+                    fetchingStatus = FETCHINGCOMPLETED;
+                } else {
+                    NSLog(@"query contacts ERROR == %@",error);
+                }
+            }];
+            [self checkSORequestStatus];
+        }
     }
+    
 }
 
 -(void)checkSORequestStatus {
     
-    PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
-    [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
-    [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-    [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
-    [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        NSLog(@"SORequest %@",objects);
-        for (SORequest *newRequest in objects){
-            
-            if (!newRequest.hasDecided && !newRequest.isAccepted && newRequest.isFriendRequest){
+    if (fetchingStatus == FETCHINGCOMPLETED) {
+        fetchingStatus = FETCHING;
+        PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
+        [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
+        [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+        [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
+        [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            NSLog(@"SORequest %@",objects);
+            for (SORequest *newRequest in objects){
                 
-                for (NSString *friend in self.currentUserContacts) {
-                    if ([newRequest.requestSentFrom isEqualToString:friend]) {
-                        NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
-                    } else {
-                        [self newRequestReceivedAlertWithSORequestObject:newRequest];
+                if (!newRequest.hasDecided && !newRequest.isAccepted && newRequest.isFriendRequest){
+                    
+                    for (NSString *friend in self.currentUserContacts) {
+                        if ([newRequest.requestSentFrom isEqualToString:friend]) {
+                            NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
+                        } else {
+                            [self newRequestReceivedAlertWithSORequestObject:newRequest];
+                        }
                     }
+                    
                 }
-                
             }
-        }
-    }];
-    
-    PFQuery *queryRequestResponse = [PFQuery queryWithClassName:@"SORequest"];
-    [queryRequestResponse whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
-    [queryRequestResponse whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-    [queryRequestResponse whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
-    [queryRequestResponse whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
-    [queryRequestResponse findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            fetchingStatus = FETCHINGCOMPLETED;
+        }];
         
-        for (SORequest *requestResult in objects) {
-            for (NSString *username in self.currentUserContacts) {
-                if (![requestResult.requestSentTo isEqualToString:username]) {
-                    [self.currentUserContacts addObject:requestResult.requestSentTo];
-                }
-            }
+        fetchingStatus = FETCHING;
+        if (fetchingStatus == FETCHINGCOMPLETED) {
+            fetchingStatus = FETCHING;
             
+            PFQuery *queryRequestResponse = [PFQuery queryWithClassName:@"SORequest"];
+            [queryRequestResponse whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+            [queryRequestResponse whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+            [queryRequestResponse whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
+            [queryRequestResponse whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
+            [queryRequestResponse findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                
+                for (SORequest *requestResult in objects) {
+                    for (NSString *username in self.currentUserContacts) {
+                        if (![requestResult.requestSentTo isEqualToString:username]) {
+                            [self.currentUserContacts addObject:requestResult.requestSentTo];
+                        }
+                    }
+                    
+                }
+                fetchingStatus = FETCHINGCOMPLETED;
+                [self pushContactListToParse];
+            }];
         }
-        [self pushContactListToParse];
-    }];
-    
-    
+    }
 }
 
 
@@ -392,7 +404,7 @@ UISearchControllerDelegate
             [self.currentUserContacts addObject:parseObject.requestSentFrom];
             [self pushContactListToParse];
         }];
-
+        
     }];
     
     [newFriendRequest addAction:ignore];
@@ -402,12 +414,17 @@ UISearchControllerDelegate
 }
 
 -(void)pushContactListToParse{
-//    [User currentUser].contacts.contactsList = [NSMutableArray new];
-    [User currentUser].contacts.contactsList = self.currentUserContacts;
-    [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        NSLog(@"new contact list saved to parse");
-    }];
-    [self.tableView reloadData];
+    if (fetchingStatus == FETCHINGCOMPLETED) {
+        fetchingStatus = FETCHING;
+        
+        [User currentUser].contacts.contactsList = self.currentUserContacts;
+        [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            NSLog(@"new contact list saved to parse");
+        }];
+        [self.tableView reloadData];
+        fetchingStatus = FETCHINGCOMPLETED;
+    }
+    
     
 }
 
@@ -441,7 +458,7 @@ UISearchControllerDelegate
     
     if (indexPath.section == 0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsListCellID" forIndexPath:indexPath];
-            cell.textLabel.text = self.currentUserContacts[indexPath.row];
+        cell.textLabel.text = self.currentUserContacts[indexPath.row];
         return cell;
     } else {
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"phoneContactCellID" forIndexPath:indexPath];
@@ -449,10 +466,14 @@ UISearchControllerDelegate
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [addButton setTag:indexPath.row];
         addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
-        addButton.backgroundColor = [UIColor greenColor];
         [addButton setTitle:@"+" forState:UIControlStateNormal];
+        [addButton setImage:[UIImage imageNamed:@"Plus Math-100"] forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [cell addSubview:addButton];
+        if (self.isContactLoaded) {
+            if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
+                [cell addSubview:addButton];
+            }
+        }
         cell.nameLabel.text = self.phoneBookName[indexPath.row];
         cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
         
@@ -466,59 +487,40 @@ UISearchControllerDelegate
 
 
 
-#pragma mark - SearchFilter
-
-//-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-//    [phoneBookFilterName removeAllObjects];
-//    [phoneBookFilterUserName removeAllObjects];
-//    [currentUserFilterContacts removeAllObjects];
-//
-//    [self filterContentForSearchText:searchController.searchBar.text];
-//}
-//
-//
-//-(void)filterContentForSearchText:(NSString *)searchText{
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",searchText];
-//    // filter by username
-//
-//
-//    NSArray *array = [self.currentUserContacts filteredArrayUsingPredicate:predicate];
-//    currentUserFilterContacts = (NSMutableArray<NSString *> *)array;
-//
-//    NSArray *pbfn = [self.phoneBookName filteredArrayUsingPredicate:predicate];
-//    phoneBookFilterName = (NSMutableArray *)pbfn;
-//
-//    NSArray *pbfun = [self.phoneBookUserName filteredArrayUsingPredicate:predicate];
-//
-//    phoneBookFilterUserName = (NSMutableArray *)pbfun;
-//
-//
-//    [self.tableView reloadData];
-//
-//}
+#pragma mark - SearchBar
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     // check self contact list
     if (![self checkDuplicateConctact:searchBar.text]) {
         // check parse pending
-        PFQuery *checkPending = [PFQuery queryWithClassName:@"SORequest"];
-        [checkPending whereKey:@"requestSentTo" equalTo:searchBar.text];
-        [checkPending whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
-        [checkPending whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-        [checkPending whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
-        [checkPending whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
-        [checkPending findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        PFQuery *userQuery = [User query];
+        [userQuery whereKey:@"username" equalTo:searchBar.text];
+        [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
             
             if (objects.count == 0) {
+                
+                NSString *failedTitle = @"No User Found";
+                NSString *failedMessage = @"Please check your spelling";
+                [self friendRequestSendSucceededAlertWithTitle:failedTitle andMessage:failedMessage];
+                searchBar.text = @"";
+                
+            } else {
                 // alert to user to add
                 
                 UIAlertController *addUser = [UIAlertController alertControllerWithTitle:@"User Found" message:[NSString stringWithFormat:@"Add user %@?",searchBar.text] preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *add = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [SORequest sendRequestTo:searchBar.text withBlock:^(BOOL succeeded) {
-                        NSString *succeededTitle = @"Awesome!";
-                        NSString *succeededMessage = @"Request Send";
-                        [self friendRequestSendSucceededAlertWithTitle:succeededTitle andMessage:succeededMessage];
-                    searchBar.text = @"";
+                        if (succeeded) {
+                            NSString *succeededTitle = @"Awesome!";
+                            NSString *succeededMessage = @"Request Send";
+                            [self friendRequestSendSucceededAlertWithTitle:succeededTitle andMessage:succeededMessage];
+                        } else {
+                            NSString *failedTitle = @"Request Pending";
+                            NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait until %@ to respond before sending another one",searchBar.text];
+                            [self friendRequestSendSucceededAlertWithTitle:failedTitle andMessage:failedMessage];
+                        }
+                        
+                        searchBar.text = @"";
                     }];
                 }];
                 UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -530,13 +532,7 @@ UISearchControllerDelegate
                 [self presentViewController:addUser animated:YES completion:nil];
                 
                 
-            } else {
-                // alert request is still pending
                 
-                NSString *failedTitle = @"Pending Request";
-                NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait until %@ to respond before sending another one",searchBar.text];
-                [self friendRequestSendSucceededAlertWithTitle:failedTitle andMessage:failedMessage];
-                searchBar.text = @"";
             }
             
             
