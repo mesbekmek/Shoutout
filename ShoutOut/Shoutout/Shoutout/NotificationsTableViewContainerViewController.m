@@ -71,7 +71,7 @@ typedef enum hasFetched{
         [self presentViewController:controller animated:YES completion:nil];
         self.sentCollabResponse = NO;
     }
-    
+
 }
 
 - (void)viewDidLoad {
@@ -219,7 +219,7 @@ typedef enum hasFetched{
 
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     switch (self.segmentedController.selectedSegmentIndex) {
         case 1: {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
@@ -228,7 +228,7 @@ typedef enum hasFetched{
             }
         }
     }
-    
+
     return indexPath;
 }
 
@@ -324,16 +324,27 @@ typedef enum hasFetched{
     [self.collabAndFriendRequests removeObject:req];
     [self.tableView reloadData];
     [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        [[User currentUser].contacts fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-            [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
-            [[User currentUser] saveInBackground];
-        }];
 
     }];
+    if ([User currentUser].contacts == nil) {
+        SOContacts *contacts = [[SOContacts alloc]initWithNewList];
+        [User currentUser].contacts = contacts;
+    }
+    [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
+        if (success) {
+
+            [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
+
+            [[User currentUser] saveInBackground];
+        }
+    }];
+
+
+
 }
 
 - (void)didTapButtonAtRow:(NSInteger)row{
-    
+
     if (self.segmentedController.selectedSegmentIndex == 0) {
         self.currentRequest = self.collabAndFriendRequests[row];
         self.currentProjectId = self.currentRequest.projectId;
@@ -343,11 +354,11 @@ typedef enum hasFetched{
 }
 
 - (void)newUser{
-
+    
     if (fetchingStatus == FETCHINGCOMPLETE) {
         [self fetchFirstBatch];
     }
-
+    
 }
 
 @end
