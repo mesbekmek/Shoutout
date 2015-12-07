@@ -99,7 +99,7 @@
     [self.view.layer addSublayer:self.avPlayerLayer];
     
     [self.cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    self.cancelButton.frame = CGRectMake(0, 20, 44, 44);
+    self.cancelButton.frame = CGRectMake(0, 20, 35, 35);
     [self.view addSubview:self.cancelButton];
     [self.cancelButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
     
