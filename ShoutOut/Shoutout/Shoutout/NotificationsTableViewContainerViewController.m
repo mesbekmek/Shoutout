@@ -306,8 +306,11 @@ typedef enum hasFetched{
     [self.collabAndFriendRequests removeObject:req];
     [self.tableView reloadData];
     [req saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
-        [[User currentUser] saveInBackground];
+        [[User currentUser].contacts fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            [[User currentUser].contacts.contactsList addObject:req.requestSentFrom];
+            [[User currentUser] saveInBackground];
+        }];
+
     }];
 }
 
