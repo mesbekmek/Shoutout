@@ -131,6 +131,7 @@ typedef enum eventsType{
     {
         self.isOnEvent = NO;
         [self getCollabs];
+        [collectionView reloadData];
     }
 }
 

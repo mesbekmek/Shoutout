@@ -11,12 +11,14 @@
 @implementation SOFriendsTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    [self.collaborateButton addTarget:self action:@selector(checkButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
+    
+    
     // Configure the view for the selected state
 }
 - (IBAction)collaborateButtonTapped:(UIButton *)sender {
@@ -28,5 +30,8 @@
         self.isHighlighted = NO;
     }
 }
+
+
+
 
 @end
