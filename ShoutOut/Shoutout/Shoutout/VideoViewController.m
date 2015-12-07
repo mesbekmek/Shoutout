@@ -15,7 +15,9 @@
 @property (strong, nonatomic) AVPlayerLayer *avPlayerLayer;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (nonatomic) UIView *spinnerView;
+@property (nonatomic) AVPlayerItem *playerItem;
 @property (nonatomic) BOOL isPlaying;
+@property (nonatomic) UIButton *replay;
 @end
 
 @implementation VideoViewController
@@ -135,8 +137,31 @@
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
-    //AVPlayerItem *p = [notification object];
-    //[p seekToTime:kCMTimeZero];
+    self.isPlaying = NO;
+
+    if (!self.replay) {
+        [self setUpReplayButton];
+    }
+    self.replay.hidden = NO;
+    self.playerItem = [notification object];
+}
+
+- (void)setUpReplayButton{
+    
+    self.replay = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [self.replay addTarget:self action:@selector(replayVideo:) forControlEvents:UIControlEventAllTouchEvents];
+    self.replay.center = self.view.center;
+    [self.replay setBackgroundImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+    [self.view addSubview:self.replay];
+    
+}
+
+- (void)replayVideo:(UIButton *)replayButton{
+    
+    self.replay.hidden = YES;
+    self.isPlaying = NO;
+    [self.playerItem seekToTime:kCMTimeZero];
+    
 }
 
 - (BOOL)prefersStatusBarHidden {
