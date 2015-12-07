@@ -689,7 +689,13 @@ UITextFieldDelegate
 }
 
 - (void)collectionView:(UICollectionView *)acollectionView didMoveItemFromIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    
+
+    self.videoAssetsArray = (NSMutableArray <AVAsset*>*)[NSMutableArray arrayWithArray:self.videoAssetsArray];
+
+    self.videoThumbnails = (NSMutableArray <PFFile*>*)[NSMutableArray arrayWithArray:self.videoThumbnails];
+
+    self.collaboratorUsernameArray = (NSMutableArray <NSString*>*)[NSMutableArray arrayWithArray:self.collaboratorUsernameArray];
+
     [self.videoThumbnails bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
     
     [self.collaboratorUsernameArray bma_moveItemAtIndex:(NSUInteger)indexPath.item-1 toIndex:(NSUInteger)toIndexPath.item-1];
