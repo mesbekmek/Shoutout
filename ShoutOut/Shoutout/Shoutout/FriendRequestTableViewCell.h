@@ -20,5 +20,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
 @property (nonatomic) NSInteger indexValue;
 @property (nonatomic,weak) id <FriendRequestTableViewCellDelegate> delegate;
-
+- (IBAction)actionButtonTapped:(id)sender;
 @end
