@@ -48,11 +48,11 @@
                                 <rect key="frame" x="0.0" y="551" width="200" height="49"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eNg-gi-oJA">
-                                        <rect key="frame" x="65" y="4" width="70" height="30"/>
+                                        <rect key="frame" x="50" y="4" width="100" height="30"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="1DZ-fC-vW4"/>
-                                            <constraint firstAttribute="width" constant="70" id="Dgg-hQ-CvF"/>
+                                            <constraint firstAttribute="width" constant="100" id="Dgg-hQ-CvF"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="addUser@2x"/>
@@ -90,11 +90,11 @@
                                 <rect key="frame" x="200" y="551" width="200" height="49"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQJ-T3-0m8">
-                                        <rect key="frame" x="65" y="4" width="70" height="30"/>
+                                        <rect key="frame" x="50" y="4" width="100" height="30"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="1bc-H5-bdN"/>
-                                            <constraint firstAttribute="width" constant="70" id="URc-lJ-JKf"/>
+                                            <constraint firstAttribute="width" constant="100" id="URc-lJ-JKf"/>
                                         </constraints>
                                         <state key="normal" image="PlayFilled@2x"/>
                                         <connections>
@@ -129,11 +129,11 @@
                                 <rect key="frame" x="400" y="551" width="200" height="49"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WPV-Gs-oru">
-                                        <rect key="frame" x="65" y="4" width="70" height="30"/>
+                                        <rect key="frame" x="50" y="4" width="100" height="30"/>
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="MZM-4k-aa1"/>
-                                            <constraint firstAttribute="width" constant="70" id="oOv-3s-CHt"/>
+                                            <constraint firstAttribute="width" constant="100" id="oOv-3s-CHt"/>
                                         </constraints>
                                         <state key="normal" image="upload@2x"/>
                                         <connections>
@@ -970,23 +970,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="baC-Ke-Vah">
-                                <rect key="frame" x="108" y="20" width="150" height="30"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="3EN-V4-VdZ"/>
-                                    <constraint firstAttribute="width" constant="150" id="amv-PM-pGl"/>
-                                    <constraint firstAttribute="width" constant="150" id="x58-Ld-tdQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="3EN-V4-VdZ"/>
-                                        <exclude reference="amv-PM-pGl"/>
-                                    </mask>
-                                </variation>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TO3-xV-f6h">
                                 <rect key="frame" x="0.0" y="564" width="600" height="30"/>
                                 <animations/>
@@ -995,13 +978,6 @@
                                     <action selector="nextButtonTapped:" destination="fCj-qE-le0" eventType="touchUpInside" id="qep-cg-NTN"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Project :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuY-LA-1we">
-                                <rect key="frame" x="20" y="22" width="63" height="24"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD FRIENDS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoi-MZ-AWq">
                                 <rect key="frame" x="0.0" y="53" width="600" height="24"/>
                                 <animations/>
@@ -1021,7 +997,6 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="yoi-MZ-AWq" firstAttribute="top" secondItem="baC-Ke-Vah" secondAttribute="bottom" constant="3" id="2gc-KR-TTi"/>
                             <constraint firstItem="akG-0z-ggh" firstAttribute="top" secondItem="yoi-MZ-AWq" secondAttribute="bottom" constant="3" id="5ig-SH-cuV"/>
                             <constraint firstItem="TO3-xV-f6h" firstAttribute="leading" secondItem="7vP-H1-G2N" secondAttribute="leading" id="9IT-PU-XKX"/>
                             <constraint firstItem="yoi-MZ-AWq" firstAttribute="leading" secondItem="7vP-H1-G2N" secondAttribute="leading" id="A0m-WX-NBF"/>
@@ -1029,15 +1004,9 @@
                             <constraint firstAttribute="trailing" secondItem="TO3-xV-f6h" secondAttribute="trailing" id="EDb-5w-rU1"/>
                             <constraint firstItem="yoi-MZ-AWq" firstAttribute="trailing" secondItem="7vP-H1-G2N" secondAttribute="trailingMargin" id="IzZ-RO-66L"/>
                             <constraint firstItem="yoi-MZ-AWq" firstAttribute="centerX" secondItem="7vP-H1-G2N" secondAttribute="centerX" id="KNy-Vm-jhx"/>
-                            <constraint firstItem="tuY-LA-1we" firstAttribute="leading" secondItem="7vP-H1-G2N" secondAttribute="leading" constant="20" id="NQX-pJ-EUF"/>
-                            <constraint firstItem="yoi-MZ-AWq" firstAttribute="leading" secondItem="baC-Ke-Vah" secondAttribute="trailing" constant="95" id="ZXQ-E9-2aQ"/>
-                            <constraint firstItem="baC-Ke-Vah" firstAttribute="leading" secondItem="tuY-LA-1we" secondAttribute="trailing" constant="25" id="bb8-ym-YWN"/>
-                            <constraint firstItem="yoi-MZ-AWq" firstAttribute="leading" secondItem="baC-Ke-Vah" secondAttribute="trailing" constant="25" id="ces-7m-owA"/>
-                            <constraint firstItem="akG-0z-ggh" firstAttribute="top" secondItem="baC-Ke-Vah" secondAttribute="bottom" constant="30" id="cgA-gv-fZt"/>
-                            <constraint firstItem="baC-Ke-Vah" firstAttribute="top" secondItem="SLP-V7-1Sm" secondAttribute="bottom" id="k7z-oH-8J1"/>
+                            <constraint firstItem="yoi-MZ-AWq" firstAttribute="top" secondItem="SLP-V7-1Sm" secondAttribute="bottom" constant="33" id="TS2-xH-YfF"/>
                             <constraint firstItem="aMD-4L-m7T" firstAttribute="top" secondItem="TO3-xV-f6h" secondAttribute="bottom" constant="6" id="l7s-J7-mJ9"/>
                             <constraint firstItem="TO3-xV-f6h" firstAttribute="top" secondItem="akG-0z-ggh" secondAttribute="bottom" constant="8" id="pGw-3d-lol"/>
-                            <constraint firstItem="tuY-LA-1we" firstAttribute="top" secondItem="SLP-V7-1Sm" secondAttribute="bottom" constant="2" id="rHm-TQ-UWi"/>
                             <constraint firstAttribute="trailing" secondItem="yoi-MZ-AWq" secondAttribute="trailing" id="w73-oA-Osr"/>
                             <constraint firstAttribute="trailing" secondItem="akG-0z-ggh" secondAttribute="trailing" id="xwm-9p-NqG"/>
                             <constraint firstItem="akG-0z-ggh" firstAttribute="leading" secondItem="7vP-H1-G2N" secondAttribute="leading" id="zb5-ow-aiP"/>
@@ -1046,8 +1015,6 @@
                             <mask key="constraints">
                                 <exclude reference="Cew-bq-am1"/>
                                 <exclude reference="IzZ-RO-66L"/>
-                                <exclude reference="ZXQ-E9-2aQ"/>
-                                <exclude reference="ces-7m-owA"/>
                             </mask>
                         </variation>
                     </view>
@@ -1055,7 +1022,6 @@
                         <outlet property="actionLabel" destination="yoi-MZ-AWq" id="YxI-i6-Xat"/>
                         <outlet property="contactsTableView" destination="akG-0z-ggh" id="LL9-Tl-7wf"/>
                         <outlet property="nextButton" destination="TO3-xV-f6h" id="Vnm-jV-Itu"/>
-                        <outlet property="titleTextField" destination="baC-Ke-Vah" id="xh8-C6-5ha"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ioA-QH-L8x" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1111,7 +1077,7 @@
         <scene sceneID="nUd-Fb-VVb">
             <objects>
                 <navigationController id="5Nq-Nn-KNP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Shoutouts" image="shoutout copy" selectedImage="shoutout" id="Wji-97-HLY">
+                    <tabBarItem key="tabBarItem" title="Shoutouts" image="shoutout copy" selectedImage="shoutoutFilled" id="Wji-97-HLY">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" red="0.92477911710739136" green="0.44768726825714111" blue="0.46965104341506958" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1184,8 +1150,8 @@
         <image name="friends_stroked@2x" width="25" height="25"/>
         <image name="notifications" width="25" height="25"/>
         <image name="notifications_stroked@2x" width="25" height="25"/>
-        <image name="shoutout" width="25" height="24"/>
         <image name="shoutout copy" width="25" height="25"/>
+        <image name="shoutoutFilled" width="50" height="50"/>
         <image name="upload@2x" width="25" height="25"/>
     </resources>
 </document>
