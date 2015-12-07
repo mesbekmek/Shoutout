@@ -357,6 +357,15 @@ typedef enum eventsType{
             
             [cell.videoImageView loadInBackground];
         }
+        else
+        {
+           cell = [CollectionView dequeueReusableCellWithReuseIdentifier:@"VideoCellIdentifier" forIndexPath:indexPath];
+            cell.videoImageView.file = nil;
+            cell.videoImageView.image = nil;
+            cell.videoImageView.frame = cell.bounds;
+            cell.videoImageView.image = [UIImage imageNamed:@"sorry"];
+            cell.videoImageView.contentMode = UIViewContentModeScaleAspectFit;
+        }
         return cell;
         
     }
