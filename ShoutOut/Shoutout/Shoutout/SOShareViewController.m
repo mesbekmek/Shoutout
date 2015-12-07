@@ -69,7 +69,7 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     
-    self.navigationItem.title = @"Share";
+    self.navigationItem.title = @"Send to";
     [self contactsQuery];
 }
 
