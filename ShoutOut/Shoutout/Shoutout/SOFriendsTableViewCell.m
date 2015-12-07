@@ -7,11 +7,13 @@
 //
 
 #import "SOFriendsTableViewCell.h"
+#import <ChameleonFramework/Chameleon.h>
+
 
 @implementation SOFriendsTableViewCell
 
 - (void)awakeFromNib {
-    [self.collaborateButton addTarget:self action:@selector(checkButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+   
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -24,11 +26,13 @@
 - (IBAction)collaborateButtonTapped:(UIButton *)sender {
     if(!self.isHighlighted){
         self.isHighlighted = YES;
-        [self.buttonView setBackgroundColor:[UIColor redColor]];
+        [self.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
     }else{
         [self.buttonView setBackgroundColor:[UIColor clearColor]];
         self.isHighlighted = NO;
     }
+    [self.delegate didTapButtonAtFriendRow:self.indexValue];
+
 }
 
 

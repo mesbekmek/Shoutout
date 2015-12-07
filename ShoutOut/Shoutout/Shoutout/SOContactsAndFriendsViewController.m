@@ -25,7 +25,7 @@ typedef enum actionType{
 } ActionType;
 
 
-@interface SOContactsAndFriendsViewController ()<UITableViewDelegate, UITableViewDataSource,MFMessageComposeViewControllerDelegate>
+@interface SOContactsAndFriendsViewController ()<UITableViewDelegate, UITableViewDataSource,MFMessageComposeViewControllerDelegate,SOContactsTableViewCellDelegate,SOFriendsTableViewCellDelegate>
 
 @property (nonatomic) BOOL isAnimating;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -504,6 +504,8 @@ typedef enum actionType{
     if(self.isOnContact)
     {
         SOContactsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactsCell" forIndexPath:indexPath];
+        cell.delegate = self;
+        cell.indexValue = indexPath.row;
         
         [cell.buttonView setBackgroundColor:[UIColor clearColor]];
         //So that the cell won't be highlighted when it's tapped
@@ -531,7 +533,7 @@ typedef enum actionType{
     else
     {
         SOFriendsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOFriendsCell" forIndexPath:indexPath];
-        
+        cell.delegate = self;
         [cell.buttonView setBackgroundColor:[UIColor clearColor]];
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -555,7 +557,9 @@ typedef enum actionType{
         if(indexPath.section == 0)
         {
             SOContactsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            
             [cell addButtonTapped:cell.addButton];
+            
             if(cell.isHighlighted ){
                 [selectedCellIndexesOnContactSection addObject:indexPath];
             }
@@ -646,6 +650,35 @@ typedef enum actionType{
     
     // Present message view controller on screen
     [self presentViewController:messageController animated:YES completion:nil];
+}
+
+
+#pragma mark - SOContactsTableViewCellDelegate
+
+- (void)didTapButtonAtRow:(NSInteger)row{
+    
+    if (self.isOnContact)
+    {
+        if(![selectedCellIndexesOnContactSection containsObject:[NSIndexPath indexPathForRow:row inSection:0]])
+        {
+            [selectedCellIndexesOnContactSection addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+        }
+        else{
+            [selectedCellIndexesOnContactSection removeObject:[NSIndexPath indexPathForRow:row inSection:0]];
+        }
+    }
+    
+}
+
+-(void)didTapButtonAtFriendRow:(NSInteger)row
+{
+        if(![selectedCellIndexesOnFriendsSection containsObject:[NSIndexPath indexPathForRow:row inSection:0]])
+        {
+            [selectedCellIndexesOnFriendsSection addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+        }
+        else{
+            [selectedCellIndexesOnFriendsSection removeObject:[NSIndexPath indexPathForRow:row inSection:0]];
+        }
 }
 
 @end

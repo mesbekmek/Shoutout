@@ -21,6 +21,7 @@
     // Configure the view for the selected state
 }
 - (IBAction)addButtonTapped:(UIButton *)sender {
+    
     if(!self.isHighlighted){
         self.isHighlighted = YES;
         [self.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
@@ -28,6 +29,7 @@
         [self.buttonView setBackgroundColor:[UIColor clearColor]];
         self.isHighlighted = NO;
     }
+    [self.delegate didTapButtonAtRow:self.indexValue];
 }
 
 @end

@@ -8,13 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SOContactsTableViewCellDelegate <NSObject>
+
+- (void)didTapButtonAtRow:(NSInteger)row;
+
+
+@end
+
 @interface SOContactsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UIView *buttonView;
 @property (nonatomic) BOOL isHighlighted;
+@property (nonatomic) NSInteger indexValue;
+
 
 - (IBAction)addButtonTapped:(UIButton *)sender;
+
+@property (weak,nonatomic) id<SOContactsTableViewCellDelegate> delegate;
 
 @end
