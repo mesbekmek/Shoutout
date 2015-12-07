@@ -72,6 +72,48 @@ typedef enum actionType{
     //self.navigationController.navigationBarHidden = YES;
     
     
+    
+    
+    
+    
+//    //create Back Button Item
+//    NSString *shareProjectTitle = [NSString stringWithFormat: @"%@",self.projectTitle];
+//    UIButton* customBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [customBackButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
+//    [customBackButton setTitle:shareProjectTitle forState:UIControlStateNormal];
+//    [customBackButton sizeToFit];
+//    
+//    [customBackButton addTarget:self
+//                         action:@selector(backBarButtonTapped)
+//               forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customBackButton];
+//    self.navigationItem.leftBarButtonItem = customBarButtonItem;
+//    
+//    
+//    //create Email Button Item
+//    UIButton* customEmailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [customEmailButton setImage:[UIImage imageNamed:@"email"] forState:UIControlStateNormal];
+//    [customEmailButton sizeToFit];
+//    
+//    [customEmailButton addTarget:self
+//                          action:@selector(sendAsEmailButtonTapped)
+//                forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem* customBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:customEmailButton];
+//    self.navigationItem.rightBarButtonItem = customBarButtonItem2;
+//    
+//    
+//    //UI Stuff
+//    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+//    self.shareButton.backgroundColor = [UIColor colorWithHexString:@"F07179"];
+//    [self.navigationController.navigationBar setTitleTextAttributes:
+//     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+//       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+//    
+//    self.navigationItem.title = @"Send to";
+    
+    
+    
+    
     //UI color stuff
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
@@ -84,7 +126,7 @@ typedef enum actionType{
     
     self.segmentedControl.tintColor = [UIColor colorWithHexString:@"F07179"];
     [self.backButton setTitleColor:[UIColor colorWithHexString:@"F07179"] forState:UIControlStateNormal ]  ;
-    self.doneButton.tintColor = [UIColor colorWithHexString:@"F07179"];
+//    self.doneButton.tintColor = [UIColor colorWithHexString:@"FFFFFF"];
     
    
 }
