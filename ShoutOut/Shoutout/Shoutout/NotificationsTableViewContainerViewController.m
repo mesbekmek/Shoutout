@@ -68,7 +68,9 @@ typedef enum hasFetched{
         }];
         [controller addAction:okAction];
         [self presentViewController:controller animated:YES completion:nil];
+        self.sentCollabResponse = NO;
     }
+    
 }
 
 - (void)viewDidLoad {
