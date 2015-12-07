@@ -378,7 +378,13 @@ UITextFieldDelegate
     SOShareViewController *shareVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
     shareVC.shareUrl = sharedUrl;
     shareVC.sharedProject = self.sortingProject;
-    [self presentViewController:shareVC animated:YES completion:nil];
+    shareVC.projectTitle = self.sortingProject.title;
+    
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareVC];
+    
+    // And now you want to present the view in a modal fashion
+    [self presentViewController :navigationController animated:YES completion:nil];
     
 }
 

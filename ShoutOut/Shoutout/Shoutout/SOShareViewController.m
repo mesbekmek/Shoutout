@@ -36,11 +36,55 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"34A6FF"];
+    
+    NSString *shareProjectTitle = [NSString stringWithFormat: @"%@",self.projectTitle];
+    
+    
+    
+    
+    UIButton* customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
+    [customButton setTitle:shareProjectTitle forState:UIControlStateNormal];
+    [customButton sizeToFit];
+    
+ 
+    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
+    
+    [customBarButtonItem setAction:@selector(backBarButtonTapped)];
+
+    self.navigationItem.leftBarButtonItem = customBarButtonItem;
+    
+    
+    
+//    
+//    UIBarButtonItem *backButton =
+//    [[UIBarButtonItem alloc] initWithTitle: shareProjectTitle
+//                                     style:UIBarButtonItemStylePlain
+//                                    target:self
+//                                    action:@selector(backBarButtonTapped)];
+//     
+//     
+//     
+//     
+//     
+//     
+////     initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+////                                                  target:self
+////                                                  action:@selector(backBarButtonTapped)];
+//    
+//    backButton.image = [UIImage imageNamed:@"back"];
+//    
+    
+    
+  //  self.navigationItem.leftBarButtonItem = backButton;
+    
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
-    self.navigationItem.title = @"Notifications";
+    
+    self.navigationItem.title = @"Share";
     [self contactsQuery];
 }
 
@@ -94,6 +138,11 @@
         }];
     }
     
+}
+
+-(void) backBarButtonTapped {
+    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 - (IBAction)backButtonTapped:(UIButton *)sender{
