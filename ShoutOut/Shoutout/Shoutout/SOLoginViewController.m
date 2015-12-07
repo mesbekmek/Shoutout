@@ -59,22 +59,39 @@
         
         [User logInWithUsernameInBackground:thisUser.username password:thisUser.password block:^(PFUser * _Nullable user, NSError * _Nullable error) {
                 if (!error) {
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    
-                    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
-                    
+//                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//                    
+//                    UINavigationController *nc = [storyboard instantiateViewControllerWithIdentifier:@"SOMainNavigationControllerIdentifier"];
+
                     [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
                     
                     [[PFInstallation currentInstallation] saveInBackground];
+
+
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"signedIn"];
+                    [[NSUserDefaults standardUserDefaults]setObject:@YES forKey:@"signedIn"];
+
+
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"username"];
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+
+                    [[NSUserDefaults standardUserDefaults] setObject:thisUser.username forKey:@"username"];
+                    [[NSUserDefaults standardUserDefaults] setObject:thisUser.password forKey:@"password"];
+
+
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"UserDidLogIn" object:nil];
                     
                     //SOProjectsViewController *vc = (SOProjectsViewController *)nc.topViewController;
                     
-                    SOContactsAndFriendsViewController *contactsVC = [SOContactsAndFriendsViewController new];
-                    contactsVC.sortingProject = self.sortingProject;
-                    [self presentViewController:contactsVC animated:YES completion:nil];
+//                    SOContactsAndFriendsViewController *contactsVC = [SOContactsAndFriendsViewController new];
+//                    contactsVC.sortingProject = self.sortingProject;
+//                    [self presentViewController:contactsVC animated:YES completion:nil];
+
                     
+//                    [self presentViewController:nc animated:YES completion:nil];
+
+                    [self.navigationController popViewControllerAnimated:YES];
                     
-                    [self presentViewController:nc animated:YES completion:nil];
                 } else {
                     NSLog(@"Error: %@", error.localizedDescription);
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Invalid sign in parameters. Please re-enter your username and password." preferredStyle:UIAlertControllerStyleAlert];

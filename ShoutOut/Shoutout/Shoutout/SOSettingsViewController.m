@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *signedInAs;
 @property (nonatomic, weak) IBOutlet UIButton *logInLogOut;
 @property (nonatomic) BOOL signedInStatus;
+@property (nonatomic) UIView *activityView;
 
 @end
 
@@ -67,14 +68,48 @@
                 [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"signedIn"];
 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UserSignedOutNotification" object:nil];
+
             }
+            else{
+                NSLog(@"%@", [error localizedDescription]);
+            }
+
+            [self.activityView removeFromSuperview];
+            self.activityView = nil;
+            [self setup];
 
         }];
 
     }
+    else{
 
+        SOLoginViewController *loginVC = [[SOLoginViewController alloc]initWithNibName:@"SOLoginViewController" bundle:nil];
+        [self.navigationController pushViewController:loginVC animated:YES];
+
+    }
 }
 
+- (void)setupActivityIndicator{
+
+    if (!self.activityView) {
+        self.activityView = [[UIView alloc] initWithFrame:self.view.bounds];
+        [self.activityView setBackgroundColor:[UIColor whiteColor]];
+        self.activityView.alpha = .6f;
+
+        UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+
+        activityIndicator.center= self.activityView.center;
+        activityIndicator.color = [UIColor blackColor];
+
+        [activityIndicator startAnimating];
+        [self.activityView addSubview:activityIndicator];
+        [self.view addSubview:self.activityView];
+        [self.view bringSubviewToFront:activityIndicator];
+
+    }
+
+
+}
 
 
 

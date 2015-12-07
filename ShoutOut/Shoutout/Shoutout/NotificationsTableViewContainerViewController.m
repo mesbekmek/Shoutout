@@ -70,7 +70,8 @@ typedef enum hasFetched{
     [self.refresh addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
 
     [self.tableView addSubview:self.refresh];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newUser) name:@"UserDidLogIn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newUser) name:@"UserSignedOutNotification" object:nil];
     fetchingStatus = FETCHING;
     [self fetchFirstBatch];
 }
@@ -295,6 +296,14 @@ typedef enum hasFetched{
         [self setupCamera];
     }
     
+}
+
+- (void)newUser{
+
+    if (fetchingStatus == FETCHINGCOMPLETE) {
+        [self fetchFirstBatch];
+    }
+
 }
 
 @end

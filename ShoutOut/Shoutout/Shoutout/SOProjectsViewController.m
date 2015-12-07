@@ -22,6 +22,7 @@
 #import "SOProjectsCollectionViewFlowLayout.h"
 #import "SOShoutout.h"
 #import "VideoViewController.h"
+#import "SOSettingsViewController.h"
 
 const CGFloat aspectRatio = 1.77;
 
@@ -94,10 +95,12 @@ typedef enum eventsType{
     
     [collectionView setCollectionViewLayout:myLayout];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"MoveToProfile" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wipeAndFetch) name:@"UserSignedOutNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAllData) name:@"UserDidSignIn" object:nil];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonTapped:)];
-    
+
+
+
     [self projectsQuery];
 }
 
@@ -113,6 +116,17 @@ typedef enum eventsType{
     ProfileViewController *profileVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileVC"];
     [self.navigationController pushViewController:profileVC animated:YES];
     
+}
+
+- (void)refreshAllData{
+
+    self.collaborationsArray = [NSMutableArray new];
+    self.projectsArray = [NSMutableArray new];
+    if (!self.isOnEvent) {
+        [self getCollabs];
+    }
+    [self projectsQuery];
+
 }
 
 - (IBAction)pushToNotifications:(UIButton *)sender {
@@ -162,6 +176,14 @@ typedef enum eventsType{
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Shoutout";
+
+
+     BOOL hasSignedUp = [[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"];
+    if (hasSignedUp) {
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsButtonTapped:)];
+
+    }
     
 }
 -(void)videoQuery{
@@ -570,7 +592,22 @@ typedef enum eventsType{
 }
 
 
-- (void)settingsButtonTapped{
-    
+- (void)settingsButtonTapped:(UIBarButtonItem *)settings{
+
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SOSettingsViewController *settingsVC = [storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+     UINavigationController *navCont = [[UINavigationController alloc]initWithRootViewController:settingsVC];
+
+    [self presentViewController:navCont animated:YES completion:nil];
+
+}
+
+- (void)wipeAndFetch{
+
+
+    [[SOCachedProjects sharedManager] wipe:[self.projectsArray valueForKey:@"objectId"]];
+    self.projectsArray = [NSMutableArray new];
+
 }
 @end
