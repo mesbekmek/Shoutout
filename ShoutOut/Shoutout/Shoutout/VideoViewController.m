@@ -15,6 +15,7 @@
 @property (strong, nonatomic) AVPlayerLayer *avPlayerLayer;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (nonatomic) UIView *spinnerView;
+@property (nonatomic) BOOL isPlaying;
 @end
 
 @implementation VideoViewController
@@ -96,10 +97,12 @@
     [self.view.layer addSublayer:self.avPlayerLayer];
     
     [self.cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    self.cancelButton.frame = CGRectMake(0, 0, 44, 44);
+    self.cancelButton.frame = CGRectMake(0, 20, 44, 44);
     [self.view addSubview:self.cancelButton];
+    [self.cancelButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
     
     [self.avPlayer play];
+    self.isPlaying = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -132,7 +135,7 @@
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
-    AVPlayerItem *p = [notification object];
+    //AVPlayerItem *p = [notification object];
     //[p seekToTime:kCMTimeZero];
 }
 

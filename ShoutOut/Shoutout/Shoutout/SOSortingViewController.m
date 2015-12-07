@@ -29,6 +29,9 @@
 #import "SOContactsViewController.h"
 #import "SOExportHandler.h"
 #import "SOShareViewController.h"
+#import <ChameleonFramework/Chameleon.h>
+
+
 const float kVideoLengthMax2 = 10.0;
 const float cellspacing = 10.0;
 
@@ -65,7 +68,8 @@ UIImagePickerControllerDelegate,
 UINavigationControllerDelegate,
 BMAReorderableDelegateFlowLayout,
 UICollectionViewDataSource,
-UIGestureRecognizerDelegate
+UIGestureRecognizerDelegate,
+UITextFieldDelegate
 >
 {
     IBOutlet UICollectionView *collectionView;
@@ -113,12 +117,20 @@ UIGestureRecognizerDelegate
     
     [super viewDidLoad];
     self.playStop = YES;
-
+    
     self.videoAssetsArray = [NSMutableArray new];
     self.videoFilesArray = [NSMutableArray new];
     self.videoThumbnails = [NSMutableArray new];
     self.collaboratorUsernameArray = [NSMutableArray new];
     
+    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, 200, 22)];
+    textField.text = self.sortingProject.title;
+    textField.font = [UIFont fontWithName:@"futura" size:25];
+    textField.textColor = [UIColor whiteColor];
+    textField.textAlignment = NSTextAlignmentCenter;
+    self.navigationItem.titleView = textField;
+    
+    textField.delegate = self;
     
     self.videoPlayingViewCancelButton.hidden = YES;
     
@@ -150,14 +162,27 @@ UIGestureRecognizerDelegate
 #pragma mark - Query block called
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    self.tabBarController.hidesBottomBarWhenPushed = YES;
+    //    self.tabBarController.hidesBottomBarWhenPushed = YES;
     self.tabBarController.tabBar.hidden = YES;
 
+    //UI color stuff
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:@"F07179"]];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    
+    
+    
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-
+    
     [collectionView reloadData];
     
     if (self.videoThumbnails.count > 0) {
@@ -208,7 +233,6 @@ UIGestureRecognizerDelegate
             [activityIndicatorView removeFromSuperview];
         }];
     }
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -221,6 +245,7 @@ UIGestureRecognizerDelegate
     }];
     
     SOCachedObject *currentlyCached = [SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId];
+    
     currentlyCached.cachedProject = self.sortingProject;
     currentlyCached.avassetsArray = self.videoAssetsArray;
     currentlyCached.thumbnailsArray = self.videoThumbnails;
@@ -271,7 +296,7 @@ UIGestureRecognizerDelegate
 - (IBAction)inviteButtonTapped:(UIButton *)sender {
     if([[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"])
     {
-        SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] init];
+        SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] initWithNibName:@"SOContactsAndFriendsViewController" bundle:nil];
         contactsAndFriendsVC.sortingProject = self.sortingProject;
         [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
         
@@ -325,7 +350,7 @@ UIGestureRecognizerDelegate
             [activityIndicatorView removeFromSuperview];
         }
     }];
-  
+    
 }
 
 -(void)mergeVideosInArray:(NSMutableArray<AVAsset *> *)videosArray{
@@ -447,7 +472,7 @@ UIGestureRecognizerDelegate
     if(indexPath.row == 0)
     {
         SOSortingCVC *cell2 = [aCollectionView dequeueReusableCellWithReuseIdentifier:@"sortingIdentifier" forIndexPath:indexPath];
-    
+        
         cell2.deleteItemButton.hidden = YES;
         cell2.videoImageView.image = nil;
         cell2.videoImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -467,7 +492,7 @@ UIGestureRecognizerDelegate
         }
         else
         {
-        cell.deleteItemButton.hidden = NO;
+            cell.deleteItemButton.hidden = NO;
         }
         
         cell.videoImageView.file = nil;
@@ -483,7 +508,7 @@ UIGestureRecognizerDelegate
         cell.backgroundColor = [UIColor clearColor];
         
         [cell.deleteItemButton addTarget:self action:@selector(deleteVideoAlertView:) forControlEvents:UIControlEventTouchUpInside];
-
+        
         return cell;
     }
 }
@@ -497,7 +522,7 @@ UIGestureRecognizerDelegate
     
     else {
         if (self.avPlayerLayer) {
-        [self.avPlayerLayer removeFromSuperlayer];
+            [self.avPlayerLayer removeFromSuperlayer];
         }
         
         AVAsset *avAsset = nil;
@@ -536,9 +561,9 @@ UIGestureRecognizerDelegate
 -(void) editDoneButtonTapped {
     if (self.currentEditState == ProviderEditStateNormal)
     {
-      
+        
         self.navigationItem.rightBarButtonItem.title = @"Done";
-
+        
         self.currentEditState = ProviderEditStateDelete;
         for(SOSortingCVC *cell in collectionView.visibleCells)
         {
@@ -557,7 +582,7 @@ UIGestureRecognizerDelegate
         
         cell.deleteItemButton.hidden = NO;
         self.navigationItem.rightBarButtonItem.title = @"Edit";
-
+        
         self.currentEditState = ProviderEditStateNormal;
         [collectionView reloadData];
     }
@@ -568,23 +593,23 @@ UIGestureRecognizerDelegate
     long index;
     index = (sender.tag-1);
     
-     [self.videoThumbnails removeObjectAtIndex:index];
+    [self.videoThumbnails removeObjectAtIndex:index];
     [self.videoAssetsArray removeObjectAtIndex:index];
-
+    
     NSLog(@"count %lu", (unsigned long)self.videoThumbnails.count);
     NSLog(@"index %ld",index);
     NSLog(@"objectttt %@", [self.videoThumbnails objectAtIndex:index]);
-
     
-//    [[sender.tag-1] deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//        if (succeeded) {
-//            [self loadObjects];
-//        }
-//    }];
     
-     [collectionView reloadData];
+    //    [[sender.tag-1] deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    //        if (succeeded) {
+    //            [self loadObjects];
+    //        }
+    //    }];
+    
+    [collectionView reloadData];
     NSLog(@"count %lu", (unsigned long)self.videoThumbnails.count);
-
+    
 }
 
 
@@ -685,6 +710,15 @@ UIGestureRecognizerDelegate
         NSLog(@"Reloaded");
     }];
     
+}
+
+#pragma mark - TextField Delegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField endEditing:YES];
+    self.sortingProject.title = textField.text;
+    return YES;
 }
 
 @end

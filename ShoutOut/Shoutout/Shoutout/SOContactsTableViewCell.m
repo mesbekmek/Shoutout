@@ -7,6 +7,7 @@
 //
 
 #import "SOContactsTableViewCell.h"
+#import <ChameleonFramework/Chameleon.h>
 
 @implementation SOContactsTableViewCell
 
@@ -22,7 +23,7 @@
 - (IBAction)addButtonTapped:(UIButton *)sender {
     if(!self.isHighlighted){
         self.isHighlighted = YES;
-        [self.buttonView setBackgroundColor:[UIColor redColor]];
+        [self.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
     }else{
         [self.buttonView setBackgroundColor:[UIColor clearColor]];
         self.isHighlighted = NO;

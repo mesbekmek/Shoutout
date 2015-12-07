@@ -14,6 +14,8 @@
 #import "APPhone.h"
 #import "Contact.h"
 #import "SOContactsFormatter.h"
+#import <ChameleonFramework/Chameleon.h>
+
 
 typedef enum actionType{
     
@@ -34,6 +36,7 @@ typedef enum actionType{
 @property (nonatomic) BOOL isOnContact;
 @property (nonatomic) NSMutableArray *currentUserContacts;
 @property (weak, nonatomic) IBOutlet UITextField *projectTitleTextField;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @property (nonatomic) NSArray<APContact *> *phoneBookContacts;
 
@@ -43,6 +46,7 @@ typedef enum actionType{
 
 @property (nonatomic) NSMutableDictionary *phoneBookDictionary;
 
+@property (weak, nonatomic) IBOutlet UIButton *doneButton;
 @property (nonatomic) NSMutableDictionary *usernamesForNames;
 @end
 
@@ -56,6 +60,29 @@ typedef enum actionType{
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setup];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = NO;
+    //self.navigationController.navigationBarHidden = YES;
+    
+    
+    //UI color stuff
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
+    self.navigationItem.title = @"Shoutout";
+    
+    [[UIView appearance] setTintColor:[UIColor colorWithHexString:@"F07179"]];
+    
+    self.segmentedControl.tintColor = [UIColor colorWithHexString:@"F07179"];
+    [self.backButton setTitleColor:[UIColor colorWithHexString:@"F07179"] forState:UIControlStateNormal ]  ;
+    self.doneButton.tintColor = [UIColor colorWithHexString:@"F07179"];
+    
+   
 }
 
 -(void)setup
@@ -331,7 +358,10 @@ typedef enum actionType{
                 NSString *username = contact.username;
                 
                 //send collab request
-                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.projectTitleTextField.text];
+                
+                NSString *title = self.sortingProject.title? self.sortingProject.title : @"Event";
+                
+                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:title];
                 
                 //add username to collaborators array in the project
                 if(![self.sortingProject.collaboratorsSentTo containsObject:username])
@@ -426,7 +456,7 @@ typedef enum actionType{
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         if([selectedCellIndexesOnContactSection containsObject:indexPath]){
-            [cell.buttonView setBackgroundColor:[UIColor redColor]];
+            [cell.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
         }
         
         if(indexPath.section == 0)
@@ -503,7 +533,8 @@ typedef enum actionType{
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if(self.isOnContact){
+    if(self.isOnContact)
+    {
         return section == 0 ? @"Contacts With Shoutout" : @"Contacts Without Shoutout";
     }
     return nil;
