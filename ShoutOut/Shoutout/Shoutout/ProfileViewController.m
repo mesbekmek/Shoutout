@@ -519,7 +519,7 @@ UISearchControllerDelegate
                     [SORequest sendRequestTo:searchBar.text withBlock:^(BOOL succeeded) {
                         if (succeeded) {
                             NSString *succeededTitle = @"Awesome!";
-                            NSString *succeededMessage = @"Request Send";
+                            NSString *succeededMessage = @"Request Sent";
                             [self friendRequestSendSucceededAlertWithTitle:succeededTitle andMessage:succeededMessage];
                         } else {
                             NSString *failedTitle = @"Request Pending";
