@@ -139,8 +139,11 @@ typedef enum eventsType{
 #pragma mark - Life Cycle
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [collectionView reloadData];
-    [self collectionViewBatchReload];
+    if (self.isOnEvent) {
+        [collectionView reloadData];
+        [self collectionViewBatchReload];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
