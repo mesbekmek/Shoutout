@@ -208,7 +208,6 @@ UISearchControllerDelegate
         
         [query whereKey:@"username" equalTo:enteredName];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"object count = %lu",objects.count);
             if (objects.count == 0) {
                 NSLog(@"NO USER FOUND");
                 [self noUserFoundAlert];
@@ -256,7 +255,6 @@ UISearchControllerDelegate
         
         [query whereKey:@"phoneNumber" equalTo:phoneNumber];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"object count = %lu",objects.count);
             if (objects.count == 0) {
                 NSLog(@"NO USER FOUND");
                 [self noUserFoundAlert];

@@ -51,7 +51,6 @@
             NSLog(@"Object count is == 0 for phoneNumber query");
         }
         if (!error) {
-            NSLog(@"phoneBook Query Object %ld", objects.count);
             NSMutableArray <User *> *allUser = [NSMutableArray new];
             allUser =[NSMutableArray arrayWithArray: objects];
             
