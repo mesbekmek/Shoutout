@@ -199,6 +199,8 @@ typedef enum hasFetched{
         case 1:
         {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
             SORequest * req = self.responseRequests[indexPath.row];
             NSString *response = [NSString stringWithFormat:@"%@ has %@ %@", req.requestSentTo, req.isAccepted? @"submitted a video to":@"declined your invite to collaborate on",req.projectTitle?req.projectTitle:req.projectId];
             cell.textLabel.text = response;
@@ -213,6 +215,22 @@ typedef enum hasFetched{
 
     return cell;
 }
+
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    switch (self.segmentedController.selectedSegmentIndex) {
+        case 1: {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
+            if(cell.selectionStyle == UITableViewCellSelectionStyleNone){
+                return nil;
+            }
+        }
+    }
+    
+    return indexPath;
+}
+
 
 
 # pragma mark - Video camera setup
