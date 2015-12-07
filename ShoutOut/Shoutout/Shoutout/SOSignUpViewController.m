@@ -102,7 +102,7 @@
         thisUser.password = password;
         thisUser.email = email;
         thisUser.phoneNumber = phoneNumber;
-        thisUser.contacts = [SOContacts new];
+        thisUser.contacts = [[SOContacts alloc] initWithNewList];
         
         [thisUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if(!error){
