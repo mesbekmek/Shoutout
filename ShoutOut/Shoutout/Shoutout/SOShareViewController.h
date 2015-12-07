@@ -13,5 +13,6 @@
 
 @property (nonatomic) NSString *shareUrl;
 @property (nonatomic) SOProject *sharedProject;
+@property (nonatomic) NSString *projectTitle;
 
 @end
