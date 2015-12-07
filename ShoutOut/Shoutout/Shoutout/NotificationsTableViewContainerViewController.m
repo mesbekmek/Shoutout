@@ -165,6 +165,8 @@ typedef enum hasFetched{
             SORequest *req = self.collabAndFriendRequests[indexPath.row];
             if (req.isFriendRequest) {
                 FriendRequestTableViewCell *frTVC = [tableView dequeueReusableCellWithIdentifier:@"FriendRequestIdentifier"];
+                frTVC.selectionStyle = UITableViewCellSelectionStyleNone;
+
                 if (!frTVC) {
                     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsFriendCell" bundle:nil] forCellReuseIdentifier:@"FriendRequestIdentifier"];
                     frTVC = [tableView dequeueReusableCellWithIdentifier:@"FriendRequestIdentifier"];
@@ -176,6 +178,8 @@ typedef enum hasFetched{
             }
             else{
                 NotificationsTableViewCell *notifTVC = [tableView dequeueReusableCellWithIdentifier:@"CollaborationRequestIdentifier"];
+                notifTVC.selectionStyle = UITableViewCellSelectionStyleNone;
+
 
                 if(!notifTVC){
                     [self.tableView registerNib:[UINib nibWithNibName:@"NotificationsCollaborationCell" bundle:nil] forCellReuseIdentifier:@"CollaborationRequestIdentifier"];
@@ -207,15 +211,31 @@ typedef enum hasFetched{
             cell.textLabel.text = response;
             return cell;
         }
-        default:
-            break;
+        
     }
 
-
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
-
-    return cell;
+    return nil;
 }
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (self.segmentedController.selectedSegmentIndex == 0) {
+        SORequest *req = self.collabAndFriendRequests[indexPath.row];
+        if (req.isFriendRequest) {
+            
+            NSLog(@"111");
+        }
+        else {
+        [self setupCamera];
+        NSLog(@"222");
+        }
+
+    }
+    
+}
+
 
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
