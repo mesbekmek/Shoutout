@@ -202,6 +202,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOShareCellID" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     if (indexPath.section == 0)
     {
         cell.textLabel.text = self.shoutoutFriends[indexPath.row];
@@ -228,6 +230,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UIImageView *checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmarkIcon"]];
+    [tableView cellForRowAtIndexPath:indexPath].accessoryView = checkmark;
+    
     if(indexPath.section == 0)
     {
         [self.sharedToRecipients addObject:self.shoutoutFriends[indexPath.row]];
@@ -248,7 +253,17 @@
     {
         [self.sharedToCollaborators removeObject:self.sharedProject.collaboratorsReceivedFrom[indexPath.row]];
     }
+    [tableView cellForRowAtIndexPath:indexPath].accessoryView = nil;
+    
 }
+
+//- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SOShareCellID" forIndexPath:indexPath];
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    
+//    return indexPath;
+//}
 
 - (IBAction)shareButtonTapped:(id)sender{
     
