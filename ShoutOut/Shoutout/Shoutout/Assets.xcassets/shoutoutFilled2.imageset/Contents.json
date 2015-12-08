@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Icon-Small-50.png",
+      "filename" : "shoutoutFilled.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Icon-Small-51.png",
+      "filename" : "shoutoutFilled-1.png",
       "scale" : "2x"
     },
     {

@@ -69,6 +69,7 @@ SOFriendsTableViewCellDelegate
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SetViewToHidden" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SOContactsLoaded" object:nil];
+    self.tableView.allowsMultipleSelection = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -106,7 +107,7 @@ SOFriendsTableViewCellDelegate
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     
-//    self.navigationItem.title = @"Invite";
+     self.navigationItem.title = @"Invite";
     
     
     
@@ -479,9 +480,9 @@ SOFriendsTableViewCellDelegate
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        if([selectedCellIndexesOnContactSection containsObject:indexPath]){
-            [cell.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
-        }
+//        if([selectedCellIndexesOnContactSection containsObject:indexPath]){
+//            
+//        }
         
         if(indexPath.section == 0)
         {
@@ -506,9 +507,9 @@ SOFriendsTableViewCellDelegate
         //So that the cell won't be highlighted when it's tapped
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
-        if([selectedCellIndexesOnFriendsSection containsObject:indexPath]){
-            [cell.buttonView setBackgroundColor:[UIColor redColor]];
-        }
+//        if([selectedCellIndexesOnFriendsSection containsObject:indexPath]){
+//            [cell.buttonView setBackgroundColor:[UIColor redColor]];
+//        }
         
         cell.nameLabel.text = self.currentUserContacts[indexPath.row];
         return cell;
@@ -556,6 +557,47 @@ SOFriendsTableViewCellDelegate
             [selectedCellIndexesOnFriendsSection removeObject:indexPath];
         }
     }
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if(self.isOnContact)
+    {
+        if(indexPath.section == 0)
+        {
+            SOContactsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            
+            [cell addButtonTapped:cell.addButton];
+            
+            if(cell.isHighlighted ){
+                [selectedCellIndexesOnContactSection addObject:indexPath];
+            }
+            else if(!cell.isHighlighted && [selectedCellIndexesOnContactSection containsObject:indexPath])
+            {
+                [selectedCellIndexesOnContactSection removeObject:indexPath];
+            }
+        }
+        else{
+            SOContactsFormatter *contact = [self.phoneBookDictionary objectForKey:@"Contacts Without Shoutout"][indexPath.row];
+            
+            [self sendSMSToPerson:contact.name andPhoneNumber:contact.phoneNumber];
+        }
+    }
+    else
+    {
+        SOFriendsTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell collaborateButtonTapped:cell.collaborateButton];
+        
+        if(cell.isHighlighted)
+        {
+            [selectedCellIndexesOnFriendsSection addObject:indexPath];
+        }
+        else if(!cell.isHighlighted && [selectedCellIndexesOnFriendsSection containsObject:indexPath])
+        {
+            [selectedCellIndexesOnFriendsSection removeObject:indexPath];
+        }
+    }
+    
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{

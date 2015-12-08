@@ -910,7 +910,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="V81-z0-z43">
-                                <rect key="frame" x="0.0" y="132" width="600" height="399"/>
+                                <rect key="frame" x="0.0" y="89" width="600" height="442"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.97663047039999995" green="0.98848647369999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ffa-IQ-crc">
@@ -937,7 +937,7 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="V81-z0-z43" firstAttribute="top" secondItem="yHv-vP-8Pg" secondAttribute="bottom" constant="68" id="4Bk-KD-OBt"/>
+                            <constraint firstItem="V81-z0-z43" firstAttribute="top" secondItem="yHv-vP-8Pg" secondAttribute="bottom" constant="25" id="4Bk-KD-OBt"/>
                             <constraint firstAttribute="trailing" secondItem="V81-z0-z43" secondAttribute="trailing" id="cOp-VB-Tnn"/>
                             <constraint firstItem="xsx-vg-pkh" firstAttribute="top" secondItem="V81-z0-z43" secondAttribute="bottom" constant="20" id="tjZ-L2-dbC"/>
                             <constraint firstItem="V81-z0-z43" firstAttribute="leading" secondItem="AX7-iP-U9p" secondAttribute="leading" id="zdg-TZ-XBI"/>
@@ -984,6 +984,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="6Y8-pB-eR9"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
                                 <state key="normal" title="Done"/>
                                 <connections>
                                     <action selector="doneButtonTapped:" destination="g6T-ts-4pw" eventType="touchUpInside" id="xZJ-2H-Wwu"/>
@@ -1274,7 +1275,7 @@
         <image name="notifications" width="25" height="25"/>
         <image name="notifications_stroked@2x" width="25" height="25"/>
         <image name="shoutout copy" width="25" height="25"/>
-        <image name="shoutoutFilled" width="50" height="50"/>
+        <image name="shoutoutFilled" width="72" height="74"/>
         <image name="upload@2x" width="25" height="25"/>
     </resources>
 </document>
