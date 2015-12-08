@@ -214,6 +214,19 @@
                 }];
             }
             else{
+
+                if ((cached.avassetsArray.count == 0 || cached.thumbnailsArray.count == 0) && cached.cachedProject.videos.count>0) {
+                    cached.avassetsArray = [NSMutableArray new];
+                    cached.thumbnailsArray = [NSMutableArray new];
+                    cached.collaboratorsArray = [self.videos valueForKey:@"username"];
+                    for (SOVideo *vid in cached.cachedProject.videos) {
+                        [cached.avassetsArray addObject:[vid assetFromVideoFile]];
+                        [cached.thumbnailsArray addObject:vid.thumbnail];
+                    }
+                    cached.cachedProject = self;
+                    [[SOCachedProjects sharedManager].cachedProjects removeObjectForKey:self.objectId];
+                    [[SOCachedProjects sharedManager].cachedProjects setObject:cached forKey:self.objectId];
+                }
                 onCompletion(self.videos, cached.avassetsArray, cached.collaboratorsArray, cached.thumbnailsArray);
             }
         }

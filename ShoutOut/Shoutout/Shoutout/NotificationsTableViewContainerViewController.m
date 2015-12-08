@@ -192,9 +192,12 @@ typedef enum hasFetched{
                 //                CGRect origFrame = notifTVC.frame;
                 //                origFrame.origin.y = 0;
                 //                notifTVC.frame = origFrame;
-                if (req.projectTitle) {
+                if (req.projectTitle && [req.projectTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0) {
 
                     notifTVC.mainLabel.text = [NSString stringWithFormat:@"Collaborate on %@",req.projectTitle];
+                }
+                else{
+                    notifTVC.mainLabel.text = @"Collaborate on an event";
                 }
                 notifTVC.indexValue = indexPath.row;
                 notifTVC.delegate = self;
