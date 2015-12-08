@@ -312,7 +312,7 @@ UISearchControllerDelegate
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"phoneContactCellID" forIndexPath:indexPath];
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [addButton setTag:indexPath.row];
-        addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
+        addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 30.0f, 30.0f);
         [addButton setImage:[UIImage imageNamed:@"plusButtonIcon"] forState:UIControlStateNormal];
         
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];

@@ -25,7 +25,7 @@
 #import "VideoViewController.h"
 #import "SOCameraOverlay.h"
 #import "SOCachedProjects.h"
-#import "SOContactsAndFriendsViewController.h"
+#import "SOContactsFriendsViewController.h"
 #import "SOContactsViewController.h"
 #import "SOExportHandler.h"
 #import "SOShareViewController.h"
@@ -174,9 +174,7 @@ UITextFieldDelegate
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     
-    
-    
-    
+
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
@@ -190,49 +188,7 @@ UITextFieldDelegate
     }
 }
 
--(void)fetch{
-    UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
-    UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    
-    activityIndicator.center= activityIndicatorView.center;
-    activityIndicator.color = [UIColor blackColor];
-    activityIndicatorView.backgroundColor = [UIColor whiteColor];
-    activityIndicatorView.alpha = 0.6;
-    
-    [activityIndicator startAnimating];
-    [activityIndicatorView addSubview:activityIndicator];
-    [self.view addSubview:activityIndicatorView];
-    [self.view bringSubviewToFront:activityIndicatorView];
-    if (![SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId]) {
-        
-        [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets,NSMutableArray *usernames , NSMutableArray<PFFile *> *thumbnails) {
-            
-            self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
-            self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
-            self.collaboratorUsernameArray = [NSMutableArray arrayWithArray:usernames];
-            NSLog(@"VIDEO THUMBNAILS ARRAY: %@",self.videoThumbnails);
-            
-            self.doneFetching = YES;
-            [collectionView reloadData];
-            [self collectionViewBatchReload];
-            [activityIndicator stopAnimating];
-            [activityIndicator removeFromSuperview];
-            [activityIndicatorView removeFromSuperview];
-        }];
-    }else{
-        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos,                              NSMutableArray<AVAsset *> *avAssets, NSMutableArray <NSString * > *usernames, NSMutableArray<PFFile *> *allThumbnails) {
-            self.videoThumbnails = allThumbnails;
-            self.videoAssetsArray = avAssets;
-            self.collaboratorUsernameArray = usernames;
-            self.doneFetching = YES;
-            [collectionView reloadData];
-            [self collectionViewBatchReload];
-            [activityIndicator stopAnimating];
-            [activityIndicator removeFromSuperview];
-            [activityIndicatorView removeFromSuperview];
-        }];
-    }
-}
+
 
 - (void)viewWillDisappear:(BOOL)animated{
     
@@ -263,17 +219,7 @@ UITextFieldDelegate
     self.tabBarController.tabBar.hidden = NO;
 }
 
-- (void)reload:(NSNotification *)notif{
-    
-    NSNumber *number = notif.object;
-    NSInteger numb = [number integerValue];
-    
-    if(numb == 0 || numb == 1|| numb == 2){
-        if (self.videoThumbnails.count>5) {
-            [collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0], [NSIndexPath indexPathForRow:4 inSection:0]]];
-        }
-    }
-}
+
 #pragma mark - video playing method
 
 - (IBAction)cancelButtonTapped:(UIButton *)sender {
@@ -295,9 +241,7 @@ UITextFieldDelegate
 - (IBAction)inviteButtonTapped:(UIButton *)sender {
     if([[[NSUserDefaults standardUserDefaults] objectForKey:@"signedUpAlready"]boolValue])
     {
-        SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] initWithNibName:@"SOContactsAndFriendsViewController" bundle:nil];
-        contactsAndFriendsVC.sortingProject = self.sortingProject;
-        [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
+        [self segueToInviteViewControllerWithUrl];
         
     }
     else
@@ -342,7 +286,6 @@ UITextFieldDelegate
             }];
         }
         else{
-            
             NSLog(@"Unsuccessful, must troubleshoot");
             [activityIndicator stopAnimating];
             [activityIndicator removeFromSuperview];
@@ -351,6 +294,35 @@ UITextFieldDelegate
     }];
     
 }
+
+- (void)segueToInviteViewControllerWithUrl {
+    
+    SOContactsFriendsViewController *inviteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ContactsFriendsID"];
+    
+    inviteVC.sortingProject = self.sortingProject;
+    inviteVC.projectTitle = self.sortingProject.title;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inviteVC];
+    
+    [self presentViewController :navigationController animated:YES completion:nil];
+}
+
+
+
+- (void)segueToShareViewControllerWithUrl:(NSString *)sharedUrl{
+    
+    SOShareViewController *shareVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
+    shareVC.shareUrl = sharedUrl;
+    shareVC.sharedProject = self.sortingProject;
+    shareVC.projectTitle = self.sortingProject.title;
+    
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareVC];
+    
+    // And now you want to present the view in a modal fashion
+    [self presentViewController :navigationController animated:YES completion:nil];
+    
+}
+
 
 -(void)mergeVideosInArray:(NSMutableArray<AVAsset *> *)videosArray{
     
@@ -371,22 +343,6 @@ UITextFieldDelegate
     //AVPlayerLayer *avPlayerLayer =[AVPlayerLayer playerLayerWithPlayer:player];
     
 }
-
-- (void)segueToShareViewControllerWithUrl:(NSString *)sharedUrl{
-    
-    SOShareViewController *shareVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ShareViewController"];
-    shareVC.shareUrl = sharedUrl;
-    shareVC.sharedProject = self.sortingProject;
-    shareVC.projectTitle = self.sortingProject.title;
-    
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareVC];
-    
-    // And now you want to present the view in a modal fashion
-    [self presentViewController :navigationController animated:YES completion:nil];
-    
-}
-
 
 # pragma mark - Video camera setup
 
@@ -723,6 +679,7 @@ UITextFieldDelegate
     
 }
 
+
 #pragma mark - TextField Delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -730,6 +687,63 @@ UITextFieldDelegate
     [textField endEditing:YES];
     self.sortingProject.title = textField.text;
     return YES;
+}
+
+#pragma mark - Methods
+-(void)fetch{
+    UIView *activityIndicatorView = [[UIView alloc] initWithFrame:self.view.bounds];
+    UIActivityIndicatorView *activityIndicator=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    activityIndicator.center= activityIndicatorView.center;
+    activityIndicator.color = [UIColor blackColor];
+    activityIndicatorView.backgroundColor = [UIColor whiteColor];
+    activityIndicatorView.alpha = 0.6;
+    
+    [activityIndicator startAnimating];
+    [activityIndicatorView addSubview:activityIndicator];
+    [self.view addSubview:activityIndicatorView];
+    [self.view bringSubviewToFront:activityIndicatorView];
+    if (![SOCachedProjects sharedManager].cachedProjects[self.sortingProject.objectId]) {
+        
+        [self.sortingProject fetchVideos:^(NSMutableArray<SOVideo *> *fetchedVideos, NSMutableArray<AVAsset *> *fetchedVideoAssets,NSMutableArray *usernames , NSMutableArray<PFFile *> *thumbnails) {
+            
+            self.videoThumbnails = [NSMutableArray arrayWithArray:thumbnails];
+            self.videoAssetsArray = [NSMutableArray arrayWithArray:fetchedVideoAssets];
+            self.collaboratorUsernameArray = [NSMutableArray arrayWithArray:usernames];
+            NSLog(@"VIDEO THUMBNAILS ARRAY: %@",self.videoThumbnails);
+            
+            self.doneFetching = YES;
+            [collectionView reloadData];
+            [self collectionViewBatchReload];
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            [activityIndicatorView removeFromSuperview];
+        }];
+    }else{
+        [self.sortingProject getNewVideosIfNeeded:^(NSMutableArray<SOVideo *> *fetchedVideos,                              NSMutableArray<AVAsset *> *avAssets, NSMutableArray <NSString * > *usernames, NSMutableArray<PFFile *> *allThumbnails) {
+            self.videoThumbnails = allThumbnails;
+            self.videoAssetsArray = avAssets;
+            self.collaboratorUsernameArray = usernames;
+            self.doneFetching = YES;
+            [collectionView reloadData];
+            [self collectionViewBatchReload];
+            [activityIndicator stopAnimating];
+            [activityIndicator removeFromSuperview];
+            [activityIndicatorView removeFromSuperview];
+        }];
+    }
+}
+
+- (void)reload:(NSNotification *)notif{
+    
+    NSNumber *number = notif.object;
+    NSInteger numb = [number integerValue];
+    
+    if(numb == 0 || numb == 1|| numb == 2){
+        if (self.videoThumbnails.count>5) {
+            [collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0], [NSIndexPath indexPathForRow:4 inSection:0]]];
+        }
+    }
 }
 
 @end

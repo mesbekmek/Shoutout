@@ -953,6 +953,82 @@
             </objects>
             <point key="canvasLocation" x="-1250" y="3884"/>
         </scene>
+        <!--Contacts Friends View Controller-->
+        <scene sceneID="1gS-yO-6Rj">
+            <objects>
+                <viewController storyboardIdentifier="ContactsFriendsID" id="g6T-ts-4pw" customClass="SOContactsFriendsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ra8-RE-9nJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="9IQ-Nu-EKo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Mj6-SE-BWC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jOA-E8-vfb">
+                                <rect key="frame" x="200" y="40" width="200" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="Lj0-Ye-bU0"/>
+                                    <constraint firstAttribute="width" constant="200" id="X8m-Ks-aDR"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Friends"/>
+                                    <segment title="Contacts"/>
+                                </segments>
+                                <connections>
+                                    <action selector="friendsAndContactsButton:" destination="g6T-ts-4pw" eventType="valueChanged" id="XkU-6Y-zBo"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5V7-d4-aXM">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="6Y8-pB-eR9"/>
+                                </constraints>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonTapped:" destination="g6T-ts-4pw" eventType="touchUpInside" id="xZJ-2H-Wwu"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="j8y-ag-rLX">
+                                <rect key="frame" x="0.0" y="70" width="600" height="440"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="g6T-ts-4pw" id="94r-v1-INF"/>
+                                    <outlet property="delegate" destination="g6T-ts-4pw" id="YSb-mj-HWw"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="j8y-ag-rLX" firstAttribute="leading" secondItem="Mj6-SE-BWC" secondAttribute="leading" id="0ch-iY-Gh7"/>
+                            <constraint firstAttribute="trailing" secondItem="j8y-ag-rLX" secondAttribute="trailing" id="3Eh-ZW-kE5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5V7-d4-aXM" secondAttribute="trailing" id="Ejq-rH-mHt"/>
+                            <constraint firstItem="j8y-ag-rLX" firstAttribute="top" secondItem="ra8-RE-9nJ" secondAttribute="bottom" constant="50" id="FKG-XW-VvK"/>
+                            <constraint firstAttribute="trailing" secondItem="5V7-d4-aXM" secondAttribute="trailing" id="Jgu-3N-kKt"/>
+                            <constraint firstItem="5V7-d4-aXM" firstAttribute="top" secondItem="j8y-ag-rLX" secondAttribute="bottom" constant="30" id="QEn-Ef-cMk"/>
+                            <constraint firstItem="5V7-d4-aXM" firstAttribute="leading" secondItem="Mj6-SE-BWC" secondAttribute="leadingMargin" id="Tgk-F8-GBw"/>
+                            <constraint firstItem="5V7-d4-aXM" firstAttribute="leading" secondItem="Mj6-SE-BWC" secondAttribute="leading" id="kK2-Uv-uO0"/>
+                            <constraint firstItem="jOA-E8-vfb" firstAttribute="top" secondItem="ra8-RE-9nJ" secondAttribute="bottom" constant="20" id="mmp-rl-WKJ"/>
+                            <constraint firstItem="9IQ-Nu-EKo" firstAttribute="top" secondItem="5V7-d4-aXM" secondAttribute="bottom" id="ooF-ao-RyL"/>
+                            <constraint firstItem="jOA-E8-vfb" firstAttribute="centerX" secondItem="Mj6-SE-BWC" secondAttribute="centerX" id="tfj-D9-icD"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ejq-rH-mHt"/>
+                                <exclude reference="Tgk-F8-GBw"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="doneButton" destination="5V7-d4-aXM" id="gUb-ig-NcX"/>
+                        <outlet property="segmentedControl" destination="jOA-E8-vfb" id="tWy-Zc-x0J"/>
+                        <outlet property="tableView" destination="j8y-ag-rLX" id="Wwl-Zy-aFI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="83l-aI-yxU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-782" y="4758"/>
+        </scene>
         <!--Contacts View Controller-->
         <scene sceneID="jwo-q5-JKY">
             <objects>
