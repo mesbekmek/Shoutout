@@ -63,15 +63,15 @@ UISearchControllerDelegate
     self.tableView.allowsSelection = NO;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
     self.searchBar.delegate = self;
     
     self.friendsByUsername = [NSMutableArray new];
+    self.currentUserContacts = [NSMutableArray new];
     
     self.refresh = [[UIRefreshControl alloc]init];
     [self.refresh addTarget:self action:@selector(refreshParsePhoneBook:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
-    self.currentUserContacts = [NSMutableArray new];
+
     [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
         [self fetchAcceptedRequestUsernames];
     }];
@@ -170,7 +170,7 @@ UISearchControllerDelegate
                 [self.tableView reloadData];
             }];
         } else {
-            NSLog(@"Error!!! == %@",error);
+            NSLog(@"addressBook query error!!! == %@",error);
         }
         
     }];
@@ -327,7 +327,7 @@ UISearchControllerDelegate
                 if (objects.count > 0) {
                     SOContacts *contact = objects[0];
                     self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
-//                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
+                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
                     self.isContactLoaded = YES;
                     [self.tableView reloadData];
                     fetchingStatus = FETCHINGCOMPLETED;
@@ -579,7 +579,7 @@ UISearchControllerDelegate
 }
 
 - (void)fetchAcceptedRequestUsernames{
-    
+    fetchingStatus = FETCHING;
     SORequest *req = [SORequest new];
     
     [req fetchAllFriendRequests:^(NSMutableArray<NSString *> *friendRequestsAcceptedUsernames) {
@@ -587,8 +587,10 @@ UISearchControllerDelegate
         [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
             if (success) {
                 [[User currentUser].contacts.contactsList addObjectsFromArray:friendRequestsAcceptedUsernames];
+                [User currentUser].contacts.contactsList = [[User currentUser].contacts.contactsList valueForKeyPath:@"@distinctUnionOfObjects.self"];
                 self.friendsByUsername = [User currentUser].contacts.contactsList;
                 [[User currentUser]saveInBackground];
+                fetchingStatus = FETCHINGCOMPLETED;
                 [self.tableView reloadData];
             }
         }];
