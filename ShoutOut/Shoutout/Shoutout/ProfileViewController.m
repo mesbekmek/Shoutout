@@ -77,13 +77,6 @@ UISearchControllerDelegate
     [self keyboardGestureRecognizer];
 }
 
--(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
-    if ([self.refresh isRefreshing]) {
-        [self fetchAcceptedRequestUsernames];
-        [self.refresh endRefreshing];
-    }
-}
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //UI color stuff
@@ -96,7 +89,6 @@ UISearchControllerDelegate
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,9 +96,14 @@ UISearchControllerDelegate
     NSLog(@"DID RECEIVE MEMORY WARNING!!!!");
 }
 
+-(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
+    if ([self.refresh isRefreshing]) {
+        [self fetchAcceptedRequestUsernames];
+        [self.refresh endRefreshing];
+    }
+}
+
 #pragma - mark IBAction
-
-
 -(IBAction)addButtonTapped:(UIButton *)sender{
     NSLog(@"%@", self.phoneBookUserName[sender.tag]);
     
@@ -122,7 +119,23 @@ UISearchControllerDelegate
             [self friendRequestSendSucceededAlertWithTitle:failedTitle andMessage:failedMessage];
         }
     }];
+}
+
+- (IBAction)addFriendsByUserButtonTapped:(UIButton *)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Search user" message:@"Enter username" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"username";
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    UIAlertAction *add = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self checkUsernameInParseWithName:alert.textFields[0].text];
+    }];
+    [alert addAction:cancel];
+    [alert addAction:add];
     
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)friendRequestSendSucceededAlertWithTitle:(NSString *)title  andMessage:(NSString *)message{
@@ -133,7 +146,6 @@ UISearchControllerDelegate
     [requestSendStatus addAction:ok];
     [self presentViewController:requestSendStatus animated:YES completion:nil];
 }
-
 
 -(void)queryPhoneBookContact{
     self.contactsFromPhoneBook  = [NSMutableArray new];
@@ -167,47 +179,14 @@ UISearchControllerDelegate
         } else {
             NSLog(@"addressBook query error!!! == %@",error);
         }
-        
     }];
     
-}
-
-
-- (IBAction)addFriendsByUserButtonTapped:(UIButton *)sender {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Search user" message:@"Enter username" preferredStyle:UIAlertControllerStyleAlert];
-    
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"username";
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [alert dismissViewControllerAnimated:YES completion:nil];
-    }];
-    
-    UIAlertAction *add = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self checkUsernameInParseWithName:alert.textFields[0].text];
-    }];
-    
-    [alert addAction:cancel];
-    [alert addAction:add];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
-
-- (void)callReload{
-    [self.tableView reloadData];
-    [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
 }
 
 #pragma mark - Pase Contact List
 -(void)checkUsernameInParseWithName:(NSString *)enteredName {
-    
     if ([enteredName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
-        
-        
         PFQuery *query = [User query];
-        
         [query whereKey:@"username" equalTo:enteredName];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
             if (objects.count == 0) {
@@ -228,7 +207,6 @@ UISearchControllerDelegate
 }
 
 -(void)confirmAddUser:(User *)user{
-    
     UIAlertController *confirmAdd = [UIAlertController alertControllerWithTitle:@"User Found" message:[NSString stringWithFormat:@"Add %@",user.username] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (![self checkDuplicateConctact:user.username]) {
@@ -237,24 +215,19 @@ UISearchControllerDelegate
         } else {
             [self contactDuplicateAlert];
         }
-        
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [confirmAdd addAction:ok];
     [confirmAdd addAction:cancel];
+    
     [self presentViewController:confirmAdd animated:YES completion:nil];
 }
 
-
 -(void)checkUsernameInParseWithPhoneNumber:(NSString *)phoneNumber {
-    
     if ([phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 10) {
-        
-        
         PFQuery *query = [User query];
-        
         [query whereKey:@"phoneNumber" equalTo:phoneNumber];
         [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
             if (objects.count == 0) {
@@ -278,13 +251,13 @@ UISearchControllerDelegate
     }
 }
 
-
 -(void)noUserFoundAlert {
     UIAlertController *noUserAlert = [UIAlertController alertControllerWithTitle:@"No User Found" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [noUserAlert addAction:ok];
+    
     [self presentViewController:noUserAlert animated:YES completion:nil];
 }
 
@@ -294,6 +267,7 @@ UISearchControllerDelegate
         [duplicateAlert dismissViewControllerAnimated:YES completion:nil];
     }];
     [duplicateAlert addAction:ok];
+    
     [self presentViewController:duplicateAlert animated:YES completion:nil];
 }
 
@@ -305,51 +279,6 @@ UISearchControllerDelegate
     }
     return 0;
 }
-
-
-//-(void)newRequestReceivedAlertWithSORequestObject: (SORequest *)parseObject{
-//    UIAlertController *newFriendRequest = [UIAlertController alertControllerWithTitle:@"New Request" message:[NSString stringWithFormat:@"%@ wants to add you",parseObject.requestSentFrom] preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"Ignore" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//        parseObject.isAccepted = NO;
-//        parseObject.hasDecided = YES;
-//        [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//            NSLog(@"saved reject BOOL value to parse");
-//        }];
-//        [newFriendRequest dismissViewControllerAnimated:YES completion:nil];
-//    }];
-//    UIAlertAction *accept = [UIAlertAction actionWithTitle:@"Accept" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        
-//        parseObject.isAccepted = YES;
-//        parseObject.hasDecided = YES;
-//        [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//            NSLog(@"friend saved accept BOOL value in parse");
-//            [self.currentUserContacts addObject:parseObject.requestSentFrom];
-//            [self pushContactListToParse];
-//        }];
-//        
-//    }];
-//    
-//    [newFriendRequest addAction:ignore];
-//    [newFriendRequest addAction:accept];
-//    
-//    [self presentViewController:newFriendRequest animated:YES completion:nil];
-//}
-//
-//-(void)pushContactListToParse{
-//    if (fetchingStatus == FETCHINGCOMPLETED) {
-//        fetchingStatus = FETCHING;
-//        
-//        //[User currentUser].contacts.contactsList = self.currentUserContacts;
-//        [[User currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//            NSLog(@"new contact list saved to parse");
-//        }];
-//        [self.tableView reloadData];
-//        fetchingStatus = FETCHINGCOMPLETED;
-//    }
-//    
-//    
-//}
-
 
 #pragma - mark UITableView Delegate and DataSource
 
@@ -363,7 +292,6 @@ UISearchControllerDelegate
     } else {
         return self.phoneBookName.count;
     }
-    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -374,34 +302,26 @@ UISearchControllerDelegate
     }
 }
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     if (indexPath.section == 0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendsListCellID" forIndexPath:indexPath];
         cell.textLabel.text = self.friendsByUsername[indexPath.row];
+        
         return cell;
     } else {
         PhoneContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"phoneContactCellID" forIndexPath:indexPath];
-        
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [addButton setTag:indexPath.row];
         addButton.frame = CGRectMake(cell.bounds.size.width - 45.0f, 5.0f, 40.0f, 40.0f);
         [addButton setImage:[UIImage imageNamed:@"plusButtonIcon"] forState:UIControlStateNormal];
         
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        //        if (self.isContactLoaded) {
-        //            if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
         [cell addSubview:addButton];
-        //            }
-        //        }
         cell.nameLabel.text = self.phoneBookName[indexPath.row];
         cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
         
         return cell;
     }
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;
@@ -418,17 +338,13 @@ UISearchControllerDelegate
         PFQuery *userQuery = [User query];
         [userQuery whereKey:@"username" equalTo:searchBar.text];
         [userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            
             if (objects.count == 0) {
-                
                 NSString *failedTitle = @"No User Found";
                 NSString *failedMessage = @"Please check your spelling";
                 [self friendRequestSendSucceededAlertWithTitle:failedTitle andMessage:failedMessage];
                 searchBar.text = @"";
-                
             } else {
                 // alert to user to add
-                
                 UIAlertController *addUser = [UIAlertController alertControllerWithTitle:@"User Found" message:[NSString stringWithFormat:@"Add user %@?",searchBar.text] preferredStyle:UIAlertControllerStyleAlert];
                 UIAlertAction *add = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     [SORequest sendRequestTo:searchBar.text withBlock:^(BOOL succeeded) {
@@ -441,25 +357,17 @@ UISearchControllerDelegate
                             NSString *failedMessage = [NSString stringWithFormat: @"Previous request still pending. Please wait until %@ to respond before sending another one",searchBar.text];
                             [self friendRequestSendSucceededAlertWithTitle:failedTitle andMessage:failedMessage];
                         }
-                        
                         searchBar.text = @"";
                     }];
                 }];
                 UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                     searchBar.text = @"";
                 }];
-                
                 [addUser addAction:add];
                 [addUser addAction:cancel];
                 [self presentViewController:addUser animated:YES completion:nil];
-                
-                
-                
             }
-            
-            
         }];
-        
     } else {
         NSString *failedTitle = [NSString stringWithFormat:@"%@ already in Friends List",searchBar.text];
         NSString *failedMessage = @"";
@@ -491,9 +399,7 @@ UISearchControllerDelegate
 
 - (void)fetchAcceptedRequestUsernames{
     SORequest *req = [SORequest new];
-    
     [req fetchAllFriendRequests:^(NSMutableArray<NSString *> *friendRequestsAcceptedUsernames) {
-        
         [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
             if (success) {
                 [[User currentUser].contacts.contactsList addObjectsFromArray:friendRequestsAcceptedUsernames];
@@ -503,7 +409,6 @@ UISearchControllerDelegate
                 [self queryPhoneBookContact];
             }
         }];
-        
     }];
 }
 
