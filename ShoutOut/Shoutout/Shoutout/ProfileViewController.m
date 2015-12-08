@@ -160,7 +160,7 @@ UISearchControllerDelegate
             [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
                 // remove the doublicate
                 for (User *user in users) {
-                    if (![self.friendsByUsername containsObject:user.username]) {
+                    if (![self.friendsByUsername containsObject:user.username] && ![[User currentUser].phoneNumber isEqualToString:user.phoneNumber]) {
                         NSString *phoneNumber = user.phoneNumber;
                         NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
                         [self.phoneBookUserName addObject:user.username];
@@ -313,88 +313,88 @@ UISearchControllerDelegate
 
 
 
--(void)queryCurrentUserContactsListOnParse{
-    if (fetchingStatus == FETCHINGCOMPLETED) {
-        fetchingStatus = FETCHING;
-        self.isContactLoaded = NO;
-        
-        User *currentUser = [User currentUser];
-        
-        if(currentUser.contacts != nil){
-            PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
-            [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
-            
-            [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-                if (objects.count > 0) {
-                    SOContacts *contact = objects[0];
-                    self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
-                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
-                    self.isContactLoaded = YES;
-                    [self.tableView reloadData];
-                    fetchingStatus = FETCHINGCOMPLETED;
-                } else {
-                    NSLog(@"query contacts ERROR == %@",error);
-                }
-            }];
-            [self checkSORequestStatus];
-        }
-    }
-    
-}
+//-(void)queryCurrentUserContactsListOnParse{
+//    if (fetchingStatus == FETCHINGCOMPLETED) {
+//        fetchingStatus = FETCHING;
+//        self.isContactLoaded = NO;
+//        
+//        User *currentUser = [User currentUser];
+//        
+//        if(currentUser.contacts != nil){
+//            PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
+//            [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
+//            
+//            [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//                if (objects.count > 0) {
+//                    SOContacts *contact = objects[0];
+//                    self.currentUserContacts = [[NSMutableArray alloc]initWithArray:contact.contactsList];
+//                    self.currentUserContacts = [self.currentUserContacts valueForKeyPath:@"@distinctUnionOfObjects.self"];
+//                    self.isContactLoaded = YES;
+//                    [self.tableView reloadData];
+//                    fetchingStatus = FETCHINGCOMPLETED;
+//                } else {
+//                    NSLog(@"query contacts ERROR == %@",error);
+//                }
+//            }];
+//            [self checkSORequestStatus];
+//        }
+//    }
+//    
+//}
 
--(void)checkSORequestStatus {
-    
-    if (fetchingStatus == FETCHINGCOMPLETED) {
-        fetchingStatus = FETCHING;
-        PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
-        [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
-        [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-        [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
-        [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
-        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-            NSLog(@"SORequest %@",objects);
-            for (SORequest *newRequest in objects){
-                
-                if (!newRequest.hasDecided && !newRequest.isAccepted && newRequest.isFriendRequest){
-                    
-                    for (NSString *friend in self.currentUserContacts) {
-                        if ([newRequest.requestSentFrom isEqualToString:friend]) {
-                            NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
-                        } else {
-                            [self newRequestReceivedAlertWithSORequestObject:newRequest];
-                        }
-                    }
-                    
-                }
-            }
-            fetchingStatus = FETCHINGCOMPLETED;
-        }];
-        
-        fetchingStatus = FETCHING;
-        if (fetchingStatus == FETCHINGCOMPLETED) {
-            fetchingStatus = FETCHING;
-            
-            PFQuery *queryRequestResponse = [PFQuery queryWithClassName:@"SORequest"];
-            [queryRequestResponse whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
-            [queryRequestResponse whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
-            [queryRequestResponse whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
-            [queryRequestResponse whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
-            [queryRequestResponse findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-                
-                for (SORequest *requestResult in objects) {
-                    for (NSString *username in self.currentUserContacts) {
-                        if (![requestResult.requestSentTo isEqualToString:username]) {
-                            [self.currentUserContacts addObject:requestResult.requestSentTo];
-                        }
-                    }
-                    
-                }
-                fetchingStatus = FETCHINGCOMPLETED;
-                [self pushContactListToParse];
-            }];
-        }
-    }
-}
+//-(void)checkSORequestStatus {
+//    
+//    if (fetchingStatus == FETCHINGCOMPLETED) {
+//        fetchingStatus = FETCHING;
+//        PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
+//        [query whereKey:@"requestSentTo" equalTo:[User currentUser].username];
+//        [query whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+//        [query whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:NO]];
+//        [query whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:NO]];
+//        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//            NSLog(@"SORequest %@",objects);
+//            for (SORequest *newRequest in objects){
+//                
+//                if (!newRequest.hasDecided && !newRequest.isAccepted && newRequest.isFriendRequest){
+//                    
+//                    for (NSString *friend in self.currentUserContacts) {
+//                        if ([newRequest.requestSentFrom isEqualToString:friend]) {
+//                            NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
+//                        } else {
+//                            [self newRequestReceivedAlertWithSORequestObject:newRequest];
+//                        }
+//                    }
+//                    
+//                }
+//            }
+//            fetchingStatus = FETCHINGCOMPLETED;
+//        }];
+//        
+//        fetchingStatus = FETCHING;
+//        if (fetchingStatus == FETCHINGCOMPLETED) {
+//            fetchingStatus = FETCHING;
+//            
+//            PFQuery *queryRequestResponse = [PFQuery queryWithClassName:@"SORequest"];
+//            [queryRequestResponse whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
+//            [queryRequestResponse whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
+//            [queryRequestResponse whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
+//            [queryRequestResponse whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
+//            [queryRequestResponse findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+//                
+//                for (SORequest *requestResult in objects) {
+//                    for (NSString *username in self.currentUserContacts) {
+//                        if (![requestResult.requestSentTo isEqualToString:username]) {
+//                            [self.currentUserContacts addObject:requestResult.requestSentTo];
+//                        }
+//                    }
+//                    
+//                }
+//                fetchingStatus = FETCHINGCOMPLETED;
+//                [self pushContactListToParse];
+//            }];
+//        }
+//    }
+//}
 
 
 -(void)newRequestReceivedAlertWithSORequestObject: (SORequest *)parseObject{
@@ -580,7 +580,7 @@ UISearchControllerDelegate
 }
 
 - (void)fetchAcceptedRequestUsernames{
-    fetchingStatus = FETCHING;
+//    fetchingStatus = FETCHING;
     SORequest *req = [SORequest new];
     
     [req fetchAllFriendRequests:^(NSMutableArray<NSString *> *friendRequestsAcceptedUsernames) {
@@ -591,7 +591,7 @@ UISearchControllerDelegate
                 [User currentUser].contacts.contactsList = [[User currentUser].contacts.contactsList valueForKeyPath:@"@distinctUnionOfObjects.self"];
                 self.friendsByUsername = [User currentUser].contacts.contactsList;
                 [[User currentUser]saveInBackground];
-                fetchingStatus = FETCHINGCOMPLETED;
+//                fetchingStatus = FETCHINGCOMPLETED;
                 [self queryPhoneBookContact];
 //                [self.tableView reloadData];
             }
