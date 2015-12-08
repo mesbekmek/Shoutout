@@ -170,7 +170,7 @@
         }
         if (!error)
         {
-            NSLog(@"phoneBook Query Object %u", objects.count);
+            NSLog(@"phoneBook Query Object %lu", objects.count);
             NSMutableArray <User *> *allUsers = [NSMutableArray new];
             allUsers =[NSMutableArray arrayWithArray: objects];
             
