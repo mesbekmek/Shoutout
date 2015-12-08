@@ -138,8 +138,7 @@ UITextFieldDelegate
     
     [collectionView registerNib:myNib forCellWithReuseIdentifier:@"sortingIdentifier"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reload:) name:@"ArrayReorderedMustReloadData" object:nil];
-    NSLog(@"sorting proj %@",self.sortingProject.objectId);
-    [self fetch];
+     [self fetch];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(popToProfile) name:@"SignUpComplete" object:nil];
     
