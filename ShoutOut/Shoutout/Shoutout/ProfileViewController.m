@@ -78,14 +78,11 @@ UISearchControllerDelegate
     fetchingStatus = FETCHINGCOMPLETED;
     self.isContactLoaded = NO;
     [self keyboardGestureRecognizer];
-    [self queryCurrentUserContactsListOnParse];
-    [self queryPhoneBookContact];
+    [self fetchAcceptedRequestUsernames];
 }
 
 -(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
-    [self queryCurrentUserContactsListOnParse];
     [self fetchAcceptedRequestUsernames];
-    //    [self queryPhoneBookContact];
     if ([self.refresh isRefreshing]) {
         [self.refresh endRefreshing];
     }
@@ -161,11 +158,14 @@ UISearchControllerDelegate
             self.phoneBookUserName = [NSMutableArray new];
             Contact *queryParse = [Contact new];
             [queryParse contactsQueryParseBaseOnPhoneBook: contacts withBlock:^(NSMutableDictionary *namesForNumbers, NSArray<User *> *users) {
+                // remove the doublicate
                 for (User *user in users) {
-                    NSString *phoneNumber = user.phoneNumber;
-                    NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
-                    [self.phoneBookUserName addObject:user.username];
-                    [self.phoneBookName addObject:phoneBookName];
+                    if (![self.friendsByUsername containsObject:user.username]) {
+                        NSString *phoneNumber = user.phoneNumber;
+                        NSString *phoneBookName = [namesForNumbers objectForKey:phoneNumber];
+                        [self.phoneBookUserName addObject:user.username];
+                        [self.phoneBookName addObject:phoneBookName];
+                    }
                 }
                 [self.tableView reloadData];
             }];
@@ -176,6 +176,7 @@ UISearchControllerDelegate
     }];
     
 }
+
 
 - (IBAction)addFriendsByUserButtonTapped:(UIButton *)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Search user" message:@"Enter username" preferredStyle:UIAlertControllerStyleAlert];
@@ -480,11 +481,11 @@ UISearchControllerDelegate
         [addButton setImage:[UIImage imageNamed:@"plusButtonIcon"] forState:UIControlStateNormal];
         
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        if (self.isContactLoaded) {
-            if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
+//        if (self.isContactLoaded) {
+//            if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
                 [cell addSubview:addButton];
-            }
-        }
+//            }
+//        }
         cell.nameLabel.text = self.phoneBookName[indexPath.row];
         cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
         
@@ -591,7 +592,8 @@ UISearchControllerDelegate
                 self.friendsByUsername = [User currentUser].contacts.contactsList;
                 [[User currentUser]saveInBackground];
                 fetchingStatus = FETCHINGCOMPLETED;
-                [self.tableView reloadData];
+                [self queryPhoneBookContact];
+//                [self.tableView reloadData];
             }
         }];
         
