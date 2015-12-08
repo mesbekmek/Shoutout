@@ -71,18 +71,21 @@ UISearchControllerDelegate
     self.refresh = [[UIRefreshControl alloc]init];
     [self.refresh addTarget:self action:@selector(refreshParsePhoneBook:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
-
+    
     [[User currentUser].contacts fetchAndReturn:^(BOOL success) {
         [self fetchAcceptedRequestUsernames];
     }];
     fetchingStatus = FETCHINGCOMPLETED;
     self.isContactLoaded = NO;
     [self keyboardGestureRecognizer];
-    [self fetchAcceptedRequestUsernames];
+//    [self fetchAcceptedRequestUsernames];
 }
 
 -(void)refreshParsePhoneBook:(UIRefreshControl *)refControl {
+    //    if (self.isContactLoaded == YES) {
     [self fetchAcceptedRequestUsernames];
+    //    }
+    
     if ([self.refresh isRefreshing]) {
         [self.refresh endRefreshing];
     }
@@ -98,7 +101,7 @@ UISearchControllerDelegate
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
     [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHexString:@"F07179"]];
     
-     [self.navigationController.navigationBar setTitleTextAttributes:
+    [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
     self.navigationItem.title = @"Friends";
@@ -167,6 +170,7 @@ UISearchControllerDelegate
                         [self.phoneBookName addObject:phoneBookName];
                     }
                 }
+                NSLog(@"Contact");
                 [self.tableView reloadData];
             }];
         } else {
@@ -317,13 +321,13 @@ UISearchControllerDelegate
 //    if (fetchingStatus == FETCHINGCOMPLETED) {
 //        fetchingStatus = FETCHING;
 //        self.isContactLoaded = NO;
-//        
+//
 //        User *currentUser = [User currentUser];
-//        
+//
 //        if(currentUser.contacts != nil){
 //            PFQuery *query1 = [PFQuery queryWithClassName:@"SOContacts"];
 //            [query1 whereKey:@"objectId" equalTo:currentUser.contacts.objectId];
-//            
+//
 //            [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
 //                if (objects.count > 0) {
 //                    SOContacts *contact = objects[0];
@@ -339,11 +343,11 @@ UISearchControllerDelegate
 //            [self checkSORequestStatus];
 //        }
 //    }
-//    
+//
 //}
 
 //-(void)checkSORequestStatus {
-//    
+//
 //    if (fetchingStatus == FETCHINGCOMPLETED) {
 //        fetchingStatus = FETCHING;
 //        PFQuery *query = [PFQuery queryWithClassName:@"SORequest"];
@@ -354,9 +358,9 @@ UISearchControllerDelegate
 //        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
 //            NSLog(@"SORequest %@",objects);
 //            for (SORequest *newRequest in objects){
-//                
+//
 //                if (!newRequest.hasDecided && !newRequest.isAccepted && newRequest.isFriendRequest){
-//                    
+//
 //                    for (NSString *friend in self.currentUserContacts) {
 //                        if ([newRequest.requestSentFrom isEqualToString:friend]) {
 //                            NSLog(@"you already have %@ on your list", newRequest.requestSentFrom);
@@ -364,30 +368,30 @@ UISearchControllerDelegate
 //                            [self newRequestReceivedAlertWithSORequestObject:newRequest];
 //                        }
 //                    }
-//                    
+//
 //                }
 //            }
 //            fetchingStatus = FETCHINGCOMPLETED;
 //        }];
-//        
+//
 //        fetchingStatus = FETCHING;
 //        if (fetchingStatus == FETCHINGCOMPLETED) {
 //            fetchingStatus = FETCHING;
-//            
+//
 //            PFQuery *queryRequestResponse = [PFQuery queryWithClassName:@"SORequest"];
 //            [queryRequestResponse whereKey:@"requestSentFrom" equalTo:[User currentUser].username];
 //            [queryRequestResponse whereKey:@"isFriendRequest" equalTo:[NSNumber numberWithBool:YES]];
 //            [queryRequestResponse whereKey:@"hasDecided" equalTo:[NSNumber numberWithBool:YES]];
 //            [queryRequestResponse whereKey:@"isAccepted" equalTo:[NSNumber numberWithBool:YES]];
 //            [queryRequestResponse findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//                
+//
 //                for (SORequest *requestResult in objects) {
 //                    for (NSString *username in self.currentUserContacts) {
 //                        if (![requestResult.requestSentTo isEqualToString:username]) {
 //                            [self.currentUserContacts addObject:requestResult.requestSentTo];
 //                        }
 //                    }
-//                    
+//
 //                }
 //                fetchingStatus = FETCHINGCOMPLETED;
 //                [self pushContactListToParse];
@@ -481,11 +485,11 @@ UISearchControllerDelegate
         [addButton setImage:[UIImage imageNamed:@"plusButtonIcon"] forState:UIControlStateNormal];
         
         [addButton addTarget:self action:@selector(addButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//        if (self.isContactLoaded) {
-//            if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
-                [cell addSubview:addButton];
-//            }
-//        }
+        //        if (self.isContactLoaded) {
+        //            if (![self.currentUserContacts containsObject:self.phoneBookUserName[indexPath.row]]) {
+        [cell addSubview:addButton];
+        //            }
+        //        }
         cell.nameLabel.text = self.phoneBookName[indexPath.row];
         cell.phoneNumberLabel.text = self.phoneBookUserName[indexPath.row];
         
@@ -580,7 +584,8 @@ UISearchControllerDelegate
 }
 
 - (void)fetchAcceptedRequestUsernames{
-//    fetchingStatus = FETCHING;
+    
+    //    fetchingStatus = FETCHING;
     SORequest *req = [SORequest new];
     
     [req fetchAllFriendRequests:^(NSMutableArray<NSString *> *friendRequestsAcceptedUsernames) {
@@ -591,14 +596,13 @@ UISearchControllerDelegate
                 [User currentUser].contacts.contactsList = [[User currentUser].contacts.contactsList valueForKeyPath:@"@distinctUnionOfObjects.self"];
                 self.friendsByUsername = [User currentUser].contacts.contactsList;
                 [[User currentUser]saveInBackground];
-//                fetchingStatus = FETCHINGCOMPLETED;
+                //                fetchingStatus = FETCHINGCOMPLETED;
                 [self queryPhoneBookContact];
-//                [self.tableView reloadData];
+                //                [self.tableView reloadData];
             }
         }];
         
     }];
-    
 }
 
 @end
