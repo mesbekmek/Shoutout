@@ -10,7 +10,7 @@
 #import "SOSignUpViewController.h"
 #import "SOProjectsViewController.h"
 #import "SOModel.h"
-#import "SOContactsAndFriendsViewController.h"
+#import "SOContactsFriendsViewController.h"
 
 @interface SOLoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;

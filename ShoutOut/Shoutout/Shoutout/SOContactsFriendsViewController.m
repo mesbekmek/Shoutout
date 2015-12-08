@@ -1,18 +1,18 @@
 //
-//  SOContactsAndFriendsViewController.m
+//  SOContactsFriendsViewController.m
 //  Shoutout
 //
 //  Created by Mesfin Bekele Mekonnen on 11/29/15.
 //  Copyright © 2015 Mesfin. All rights reserved.
 //
 
-#import "SOContactsAndFriendsViewController.h"
 #import "SOContactsTableViewCell.h"
 #import "SOFriendsTableViewCell.h"
 #import "APAddressBook.h"
 #import "APContact.h"
 #import "APPhone.h"
 #import "Contact.h"
+#import "SOContactsFriendsViewController.h"
 #import "SOContactsFormatter.h"
 #import <ChameleonFramework/Chameleon.h>
 #import <MessageUI/MessageUI.h>
@@ -25,7 +25,14 @@ typedef enum actionType{
 } ActionType;
 
 
-@interface SOContactsAndFriendsViewController ()<UITableViewDelegate, UITableViewDataSource,MFMessageComposeViewControllerDelegate,SOContactsTableViewCellDelegate,SOFriendsTableViewCellDelegate>
+@interface SOContactsFriendsViewController ()
+<
+UITableViewDelegate,
+UITableViewDataSource,
+MFMessageComposeViewControllerDelegate,
+SOContactsTableViewCellDelegate,
+SOFriendsTableViewCellDelegate
+>
 
 @property (nonatomic) BOOL isAnimating;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -36,8 +43,6 @@ typedef enum actionType{
 @property (nonatomic) NSMutableArray *phoneBookName;
 @property (nonatomic) BOOL isOnContact;
 @property (nonatomic) NSMutableArray *currentUserContacts;
-@property (weak, nonatomic) IBOutlet UITextField *projectTitleTextField;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @property (nonatomic) NSArray<APContact *> *phoneBookContacts;
 
@@ -51,7 +56,7 @@ typedef enum actionType{
 @property (nonatomic) NSMutableDictionary *usernamesForNames;
 @end
 
-@implementation SOContactsAndFriendsViewController
+@implementation SOContactsFriendsViewController
 {
     NSMutableSet<NSIndexPath *> *selectedCellIndexesOnContactSection;
     NSMutableSet<NSIndexPath *> *selectedCellIndexesOnFriendsSection;
@@ -74,61 +79,41 @@ typedef enum actionType{
     
     
     
+    //create Back Button Item
+    NSString *shareProjectTitle = [NSString stringWithFormat: @"%@",self.projectTitle];
+    UIButton* customBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [customBackButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
+    [customBackButton setTitle:shareProjectTitle forState:UIControlStateNormal];
+    [customBackButton sizeToFit];
+    
+    [customBackButton addTarget:self
+                         action:@selector(backBarButtonTapped)
+               forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customBackButton];
+    self.doneButton.backgroundColor = [UIColor colorWithHexString:@"F07179"];
+    self.doneButton.tintColor = [UIColor whiteColor];
+    
+    self.navigationItem.leftBarButtonItem = customBarButtonItem;
     
     
-//    //create Back Button Item
-//    NSString *shareProjectTitle = [NSString stringWithFormat: @"%@",self.projectTitle];
-//    UIButton* customBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [customBackButton setImage:[UIImage imageNamed:@"backButton"] forState:UIControlStateNormal];
-//    [customBackButton setTitle:shareProjectTitle forState:UIControlStateNormal];
-//    [customBackButton sizeToFit];
-//    
-//    [customBackButton addTarget:self
-//                         action:@selector(backBarButtonTapped)
-//               forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem* customBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customBackButton];
-//    self.navigationItem.leftBarButtonItem = customBarButtonItem;
-//    
-//    
-//    //create Email Button Item
-//    UIButton* customEmailButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [customEmailButton setImage:[UIImage imageNamed:@"email"] forState:UIControlStateNormal];
-//    [customEmailButton sizeToFit];
-//    
-//    [customEmailButton addTarget:self
-//                          action:@selector(sendAsEmailButtonTapped)
-//                forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem* customBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:customEmailButton];
-//    self.navigationItem.rightBarButtonItem = customBarButtonItem2;
-//    
-//    
-//    //UI Stuff
-//    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
-//    self.shareButton.backgroundColor = [UIColor colorWithHexString:@"F07179"];
-//    [self.navigationController.navigationBar setTitleTextAttributes:
-//     @{NSForegroundColorAttributeName:[UIColor whiteColor],
-//       NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
-//    
-//    self.navigationItem.title = @"Send to";
+ 
     
-    
-    
-    
-    //UI color stuff
+    //UI Stuff
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F07179"];
-    [self.navigationController.navigationBar setTitleTextAttributes:
+     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"futura-medium" size:25]}];
-    self.navigationItem.title = @"Shoutout";
     
-    [[UIView appearance] setTintColor:[UIColor colorWithHexString:@"F07179"]];
+//    self.navigationItem.title = @"Invite";
+    
+    
+    
+//    [[UIView appearance] setTintColor:[UIColor colorWithHexString:@"F07179"]];
     
     self.segmentedControl.tintColor = [UIColor colorWithHexString:@"F07179"];
-    [self.backButton setTitleColor:[UIColor colorWithHexString:@"F07179"] forState:UIControlStateNormal ]  ;
-//    self.doneButton.tintColor = [UIColor colorWithHexString:@"FFFFFF"];
     
-   
 }
 
 -(void)setup
@@ -155,6 +140,11 @@ typedef enum actionType{
     // Dispose of any resources that can be recreated.
 }
 
+-(void) backBarButtonTapped {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 - (IBAction)friendsAndContactsButton:(UISegmentedControl *)sender {
     
     if (sender.selectedSegmentIndex == 0)
@@ -170,26 +160,6 @@ typedef enum actionType{
 }
 
 
-#pragma mark Friends or Contacts Button Action
-- (IBAction)friendsAndContactsButtonTapped:(UIButton *)sender {
-    
-    if(sender.tag == 0)
-    {
-        [self queryCurrentUserContactsListOnParse];
-        self.isOnContact = NO;
-    }
-    else
-    {
-        self.isOnContact = YES;
-        [self queryPhoneBookContacts];
-    }
-//    
-//    if (self.isAnimating || (sender.tag == 0 && actionType == MY_FRIENDS) || (sender.tag == 1 && actionType == MY_CONTACTS)) {
-//        return;
-//    }
-//    
-//    [self animateUnderlineBar];
-}
 #pragma mark Phone Book Query
 -(void)queryPhoneBookContacts{
     self.addressBook = [[APAddressBook alloc]init];
@@ -341,27 +311,27 @@ typedef enum actionType{
 
 #pragma mark UnderLineBar Animation
 //- (void)animateUnderlineBar{
-//    
+//
 //    if (!self.isAnimating) {
-//        
+//
 //        CGFloat newX = actionType == MY_FRIENDS? self.underlineBar.bounds.size.width : 0;
 //        CGRect newFrame = CGRectMake(newX, self.underlineBar.frame.origin.y, self.underlineBar.bounds.size.width, self.underlineBar.bounds.size.height);
-//        
+//
 //        self.isAnimating = YES;
-//        
+//
 //        [UIView animateWithDuration:.25f animations:^{
-//            
+//
 //            self.underlineBar.frame = newFrame;
-//            
+//
 //        } completion:^(BOOL finished) {
-//            
+//
 //            self.isAnimating = NO;
 //            actionType = actionType == MY_FRIENDS? MY_CONTACTS : MY_FRIENDS;
-//            
+//
 //        }];
-//        
+//
 //    }
-//    
+//
 //}
 #pragma mark Navigation
 - (IBAction)backButtonTapped:(UIButton *)sender {
@@ -369,8 +339,6 @@ typedef enum actionType{
 }
 
 - (IBAction)doneButtonTapped:(UIButton *)sender {
-    NSString *title = [self.projectTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
     if(self.isOnContact)
     {
         if([selectedCellIndexesOnContactSection count] == 0){
@@ -382,16 +350,16 @@ typedef enum actionType{
             }]];
             [self presentViewController:alert animated:YES completion:nil];
         }
-//        else if(!(title && title.length))
-//        {
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
-//            
-//            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//                
-//                [alert dismissViewControllerAnimated:YES completion:nil];
-//            }]];
-//            [self presentViewController:alert animated:YES completion:nil];
-//        }
+        //        else if(!(title && title.length))
+        //        {
+        //            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
+        //
+        //            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        //
+        //                [alert dismissViewControllerAnimated:YES completion:nil];
+        //            }]];
+        //            [self presentViewController:alert animated:YES completion:nil];
+        //        }
         else
         {
             NSArray *selectedFriendsIndexPaths = [selectedCellIndexesOnContactSection allObjects];
@@ -441,22 +409,22 @@ typedef enum actionType{
             }]];
             [self presentViewController:alert animated:YES completion:nil];
         }
-//        else if(!(title && title.length))
-//        {
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
-//            
-//            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//                
-//                [alert dismissViewControllerAnimated:YES completion:nil];
-//            }]];
-//            [self presentViewController:alert animated:YES completion:nil];
-//        }
+        //        else if(!(title && title.length))
+        //        {
+        //            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Project Title!" message:@"Please title your event" preferredStyle:UIAlertControllerStyleAlert];
+        //
+        //            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        //
+        //                [alert dismissViewControllerAnimated:YES completion:nil];
+        //            }]];
+        //            [self presentViewController:alert animated:YES completion:nil];
+        //        }
         else{
             NSArray *selectedFriendsIndexPaths = [selectedCellIndexesOnFriendsSection allObjects];
             for(NSIndexPath *indexPath in selectedFriendsIndexPaths)
             {
                 NSString *username = (NSString *)self.currentUserContacts[indexPath.row];
-                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.projectTitleTextField.text];
+                [SORequest sendRequestTo:username forProjectId:self.sortingProject.objectId andTitle:self.sortingProject.title];
                 
                 if(![self.sortingProject.collaboratorsSentTo containsObject:username])
                 {
@@ -468,7 +436,7 @@ typedef enum actionType{
                 
             }
             [self dismissViewControllerAnimated:YES completion:nil];
-
+            
         }
     }
 }
@@ -598,12 +566,6 @@ typedef enum actionType{
     return nil;
 }
 
-#pragma mark - TextField Delegate
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    [self.projectTitleTextField endEditing:YES];
-}
-
 #pragma mark - Messaging
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
 {
@@ -672,13 +634,13 @@ typedef enum actionType{
 
 -(void)didTapButtonAtFriendRow:(NSInteger)row
 {
-        if(![selectedCellIndexesOnFriendsSection containsObject:[NSIndexPath indexPathForRow:row inSection:0]])
-        {
-            [selectedCellIndexesOnFriendsSection addObject:[NSIndexPath indexPathForRow:row inSection:0]];
-        }
-        else{
-            [selectedCellIndexesOnFriendsSection removeObject:[NSIndexPath indexPathForRow:row inSection:0]];
-        }
+    if(![selectedCellIndexesOnFriendsSection containsObject:[NSIndexPath indexPathForRow:row inSection:0]])
+    {
+        [selectedCellIndexesOnFriendsSection addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+    }
+    else{
+        [selectedCellIndexesOnFriendsSection removeObject:[NSIndexPath indexPathForRow:row inSection:0]];
+    }
 }
 
 @end
