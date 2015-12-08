@@ -143,7 +143,7 @@
     
     NSMutableArray <NSString*> *friendReq = [NSMutableArray new];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"requestSentFrom == %@", [User currentUser].username, [User currentUser].username] ;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"requestSentFrom == %@", [User currentUser].username];
     
     PFQuery *reqQuery = [PFQuery queryWithClassName:@"SORequest" predicate:predicate];
     [reqQuery orderByDescending:@"updatedAt"];
