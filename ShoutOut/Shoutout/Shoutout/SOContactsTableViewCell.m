@@ -24,10 +24,13 @@
     
     if(!self.isHighlighted){
         self.isHighlighted = YES;
-        [self.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
+        
+        UIImage *image = [UIImage imageNamed:@"checkmarkIcon"];
+        [self.addButton setBackgroundImage:image forState:UIControlStateNormal];
     }else{
-        [self.buttonView setBackgroundColor:[UIColor clearColor]];
+        
         self.isHighlighted = NO;
+        [self.addButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     }
     [self.delegate didTapButtonAtRow:self.indexValue];
 }

@@ -23,18 +23,30 @@
     
     // Configure the view for the selected state
 }
+
+
 - (IBAction)collaborateButtonTapped:(UIButton *)sender {
+    
+//     UIImage *image = [UIImage imageNamed:@"checkmarkIcon"];
+//    [self.collaborateButton setImage:image forState:UIControlStateNormal];
+//    [self.collaborateButton setImage:image forState:UIControlStateHighlighted];
+////    [self.collaborateButton setImage:image forState:UIControlStateSelected];
+    
+    
+   
     if(!self.isHighlighted){
         self.isHighlighted = YES;
-        [self.buttonView setBackgroundColor:[UIColor colorWithHexString:@"#F07179"]];
+        
+        UIImage *image = [UIImage imageNamed:@"checkmarkIcon"];
+        [self.collaborateButton setBackgroundImage:image forState:UIControlStateNormal];
     }else{
-        [self.buttonView setBackgroundColor:[UIColor clearColor]];
+        
         self.isHighlighted = NO;
+        [self.collaborateButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
     }
     [self.delegate didTapButtonAtFriendRow:self.indexValue];
 
 }
-
 
 
 

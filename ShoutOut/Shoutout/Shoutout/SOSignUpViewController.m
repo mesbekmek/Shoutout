@@ -15,7 +15,7 @@
 #import "SOCachedProjects.h"
 #import "SOLoginViewController.h"
 #import "SOContactsViewController.h"
-#import "SOContactsAndFriendsViewController.h"
+#import "SOContactsFriendsViewController.h"
 
 @interface SOSignUpViewController () <UITextFieldDelegate>
 
@@ -178,7 +178,9 @@
 //                contactsVC.sortingProject = self.sortingProject;
 //                [self presentViewController:contactsVC animated:YES completion:nil];
                 
-                SOContactsAndFriendsViewController *contactsAndFriendsVC = [[SOContactsAndFriendsViewController alloc] initWithNibName:@"SOContactsAndFriendsViewController" bundle:nil];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                SOContactsFriendsViewController *contactsAndFriendsVC = [storyboard instantiateViewControllerWithIdentifier:@"ContactsFriendsID"];
                 contactsAndFriendsVC.sortingProject = self.sortingProject;
                 [self presentViewController:contactsAndFriendsVC animated:YES completion:nil];
                 

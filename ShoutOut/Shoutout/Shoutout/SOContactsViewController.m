@@ -7,7 +7,6 @@
 //
 
 #import "SOContactsViewController.h"
-#import "PhoneBookContactTableViewController.h"
 #import "APAddressBook.h"
 #import "APContact.h"
 #import "APPhone.h"
