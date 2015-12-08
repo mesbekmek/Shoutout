@@ -85,8 +85,8 @@
     self.avPlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     
     self.avPlayerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
-    self.avPlayerLayer.frame = self.view.bounds;
-    self.avPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    //self.avPlayerLayer.frame = self.view.bounds;
+    self.avPlayerLayer.videoGravity = AVLayerVideoGravityResize;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playerItemDidReachEnd:)
@@ -94,15 +94,17 @@
                                                object:[self.avPlayer currentItem]];
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    screenRect = self.view.bounds;
-    self.avPlayerLayer.frame = screenRect;
+//    screenRect = self.view.bounds;
+    self.avPlayerLayer.frame = CGRectMake(0,
+                                          0, screenRect.size.width, screenRect.size.height);
     [self.view.layer addSublayer:self.avPlayerLayer];
     
     [self.cancelButton addTarget:self action:@selector(cancelButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    self.cancelButton.frame = CGRectMake(0, 20, 35, 35);
+
     [self.view addSubview:self.cancelButton];
     [self.cancelButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-    
+    self.cancelButton.frame = CGRectMake(0, 20, 35, 35);
+
     [self.avPlayer play];
     self.isPlaying = YES;
 }
